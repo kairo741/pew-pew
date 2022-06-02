@@ -1,18 +1,6 @@
-
 import pygame
-
-
-class GameObject:
-
-    def __init__(self, x, y, sizeX, sizeY):
-        self.x = x
-        self.y = y
-        self.sizeX = sizeX
-        self.sizeY = sizeY
-
-    def toRect(self):
-        return pygame.Rect(self.x, self.y, self.sizeX, self.sizeY)
-
+from object.GameObject import GameObject
+from object.Size import Size
 
 def render():
 
@@ -28,13 +16,12 @@ def render():
     clock = pygame.time.Clock()
     center = [resolution[0] // 2, resolution[1] // 2]
 
-    obj = GameObject(center[0], center[1], resolution[0]/75, resolution[0]/75)
+    obj = GameObject(center[0], center[1], Size(
+        resolution[0]/75, resolution[0]/75))
 
     pygame.key.set_repeat(1)
 
     while(True):
-        
-
         keys = pygame.key.get_pressed()
 
         if (keys[pygame.K_d]):
