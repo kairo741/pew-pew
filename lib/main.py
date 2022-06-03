@@ -1,9 +1,7 @@
 from copy import copy
 from os import path
-
 import pygame
-
-from lib.object.Fps import FPS
+from object.Fps import FPS
 from object.GameObject import GameObject
 from object.Size import Size
 
