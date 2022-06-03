@@ -6,7 +6,7 @@ from object.Size import Size
 
 
 def scaleImage(image, scale):
-    return pygame.transform.scale(
+    return pygame.transform.smoothscale(
         image, (image.get_width()*scale, image.get_height()*scale))
 
 
@@ -67,7 +67,12 @@ def mainLoop():
         if (keys[pygame.K_SPACE]):
             if (pygame.time.get_ticks() - lastBullet > 200):
                 newBullet = copy(baseBullet)
-                newBullet.x = player.getMiddle().x - newBullet.getMiddle().x
+                newBullet.x = player.getMiddle().x - newBullet.getMiddle().x+12
+                newBullet.y = player.y
+                bullets.append(newBullet)
+                
+                newBullet = copy(baseBullet)
+                newBullet.x = player.getMiddle().x - newBullet.getMiddle().x-12
                 newBullet.y = player.y
                 bullets.append(newBullet)
                 lastBullet = pygame.time.get_ticks()
