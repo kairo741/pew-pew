@@ -1,8 +1,7 @@
 from copy import copy
 from os import path
-
 import pygame
-
+from object.Fps import FPS
 from object.GameObject import GameObject
 from object.Size import Size
 
@@ -15,6 +14,7 @@ def scaleImage(image, scale):
 def mainLoop():
 
     pygame.display.init()
+    pygame.font.init()
 
     flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
     flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
@@ -30,12 +30,14 @@ def mainLoop():
     bg = GameObject(x=0, y=0, sprite=pygame.image.load(root+"\\assets\\images\\background.png") )
     bg.sprite = pygame.transform.smoothscale(bg.sprite,[resolution.x , resolution.y])
     bg.setSizeWithSprite()
-    
-    
-    
+
+
+
     bg2 = copy(bg)
     bg2.y = -resolution.y
     
+
+
     player = GameObject(x=resolution.x/2, y=resolution.y/2, sprite=pygame.image.load(root+"\\assets\\images\\ship.png").convert_alpha())
     player.sprite = scaleImage(player.sprite, 0.5)
     player.setSizeWithSprite()
@@ -52,18 +54,22 @@ def mainLoop():
     enemy.setSizeWithSprite()
     enemies = []
     enemies.append(enemy)
+    fps = FPS()
+    
     while(True):
         timePassed = clock.tick(60) / 10
-        
+
         screen.blit(bg.sprite, bg.toRect())
         screen.blit(bg2.sprite, bg2.toRect())
-        
-        bg.y+=8
-        bg2.y+=8
-        
-        if(bg2.y > -1):
+
+        bg.y += 8
+        bg2.y += 8
+
+        if bg2.y > -1:
             bg2.y = -resolution.y
             bg.y = 0
+
+        fps.render(display=screen, fps=clock.get_fps(), position=(resolution.x-30, 0))
 
         for bullet in bullets:
             screen.blit(bullet.sprite, bullet.toRect())
@@ -73,7 +79,7 @@ def mainLoop():
                     enemies.remove(e)
                 
 
-            if (bullet.y < -bullet.size.y):
+            if bullet.y < -bullet.size.y:
                 bullets.remove(bullet)
 
         screen.blit(player.sprite, player.toRect())
@@ -85,12 +91,12 @@ def mainLoop():
 
         keys = pygame.key.get_pressed()
 
-        if (keys[pygame.K_d]):
+        if keys[pygame.K_d]:
             if (player.x+player.size.x < resolution.x-1):
                 player.x += 10 * timePassed
 
-        if (keys[pygame.K_a]):
-            if (player.x > 2):
+        if keys[pygame.K_a]:
+            if player.x > 2:
                 player.x -= 10 * timePassed
 
         if (keys[pygame.K_w]):
