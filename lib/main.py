@@ -27,8 +27,16 @@ def mainLoop():
     pygame.display.set_caption("PewPew")
     clock = pygame.time.Clock()
 
-    bg = GameObject(x=0, y=0, size=Size(resolution.x, resolution.y))
+    bg = GameObject(x=0, y=0, sprite=pygame.image.load(root+"\\assets\\images\\background.png") )
+    bg.sprite = pygame.transform.smoothscale(bg.sprite,[resolution.x , resolution.y])
+    bg.setSizeWithSprite()
+    
+    
+    
+    bg2 = copy(bg)
+    bg2.y = -resolution.y
 
+    
     player = GameObject(x=resolution.x/2, y=resolution.y/2, sprite=pygame.image.load(root+"\\assets\\images\\ship.png").convert_alpha())
     player.sprite = scaleImage(player.sprite, 0.5)
     player.setSizeWithSprite()
@@ -42,8 +50,16 @@ def mainLoop():
 
     while(True):
         timePassed = clock.tick(60) / 10
-
-        pygame.draw.rect(screen, (50, 50, 50), bg.toRect())
+        
+        screen.blit(bg.sprite, bg.toRect())
+        screen.blit(bg2.sprite, bg2.toRect())
+        
+        bg.y+=8
+        bg2.y+=8
+        
+        if(bg2.y > -1):
+            bg2.y = -resolution.y
+            bg.y = 0
 
         for bullet in bullets:
             screen.blit(bullet.sprite, bullet.toRect())
