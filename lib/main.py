@@ -35,7 +35,6 @@ def mainLoop():
     
     bg2 = copy(bg)
     bg2.y = -resolution.y
-
     
     player = GameObject(x=resolution.x/2, y=resolution.y/2, sprite=pygame.image.load(root+"\\assets\\images\\ship.png").convert_alpha())
     player.sprite = scaleImage(player.sprite, 0.5)
@@ -47,7 +46,12 @@ def mainLoop():
 
     bullets = []
     lastBullet = 0
-
+    
+    enemy = GameObject(x=500, y=0, sprite=pygame.image.load(root+"\\assets\\images\\shipEnemy.png").convert_alpha())
+    enemy.sprite = scaleImage(enemy.sprite, 0.5)
+    enemy.setSizeWithSprite()
+    enemies = []
+    enemies.append(enemy)
     while(True):
         timePassed = clock.tick(60) / 10
         
@@ -64,11 +68,18 @@ def mainLoop():
         for bullet in bullets:
             screen.blit(bullet.sprite, bullet.toRect())
             bullet.y -= 20 * timePassed
+            for e in enemies:
+                if (bullet.toRect().colliderect(e.toRect())):
+                    enemies.remove(e)
+                
 
             if (bullet.y < -bullet.size.y):
                 bullets.remove(bullet)
 
         screen.blit(player.sprite, player.toRect())
+        
+        for e in enemies:
+            screen.blit(e.sprite, e.toRect())
 
         pygame.display.update()
 
