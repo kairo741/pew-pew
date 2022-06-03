@@ -3,6 +3,7 @@ from os import path
 
 import pygame
 
+from lib.object.Fps import FPS
 from object.GameObject import GameObject
 from object.Size import Size
 
@@ -15,6 +16,7 @@ def scaleImage(image, scale):
 def mainLoop():
 
     pygame.display.init()
+    pygame.font.init()
 
     flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
     flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
@@ -39,11 +41,12 @@ def mainLoop():
 
     bullets = []
     lastBullet = 0
-
+    fps = FPS()
     while(True):
         timePassed = clock.tick(60) / 10
 
         pygame.draw.rect(screen, (50, 50, 50), bg.toRect())
+        fps.render(display=screen, fps=clock.get_fps(), position=(resolution.x-30, 0))
 
         for bullet in bullets:
             screen.blit(bullet.sprite, bullet.toRect())
