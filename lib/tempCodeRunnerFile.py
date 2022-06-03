@@ -1,0 +1,1 @@
+0, 0, resolution[0], resolution[1]
