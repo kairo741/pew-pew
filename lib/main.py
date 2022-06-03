@@ -59,7 +59,7 @@ def mainLoop():
         bg.y += 8
         bg2.y += 8
 
-        if (bg2.y > -1):
+        if bg2.y > -1:
             bg2.y = -resolution.y
             bg.y = 0
 
@@ -69,7 +69,7 @@ def mainLoop():
             screen.blit(bullet.sprite, bullet.toRect())
             bullet.y -= 20 * timePassed
 
-            if (bullet.y < -bullet.size.y):
+            if bullet.y < -bullet.size.y:
                 bullets.remove(bullet)
 
         screen.blit(player.sprite, player.toRect())
@@ -78,12 +78,12 @@ def mainLoop():
 
         keys = pygame.key.get_pressed()
 
-        if (keys[pygame.K_d]):
+        if keys[pygame.K_d]:
             if (player.x+player.size.x < resolution.x-1):
                 player.x += 10 * timePassed
 
-        if (keys[pygame.K_a]):
-            if (player.x > 2):
+        if keys[pygame.K_a]:
+            if player.x > 2:
                 player.x -= 10 * timePassed
 
         if (keys[pygame.K_w]):
