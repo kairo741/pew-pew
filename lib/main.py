@@ -1,6 +1,8 @@
 from copy import copy
-import pygame
 from os import path
+
+import pygame
+
 from object.GameObject import GameObject
 from object.Size import Size
 
@@ -18,7 +20,8 @@ def mainLoop():
     flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
 
     get_res = pygame.display.Info()
-    resolution = Size(x=int(get_res.current_w*0.75), y=int(get_res.current_h * 0.75))
+    resolution = Size(x=int(get_res.current_w*0.75),
+                      y=int(get_res.current_h * 0.75))
     screen = pygame.display.set_mode([resolution.x, resolution.y], flags)
     root = path.abspath(path.join(path.dirname(__file__), '..', ''))
     pygame.display.set_caption("PewPew")
@@ -30,7 +33,7 @@ def mainLoop():
     player.sprite = scaleImage(player.sprite, 0.5)
     player.setSizeWithSprite()
 
-    baseBullet = GameObject(x=0,y=0, sprite=pygame.image.load(root+"\\assets\\images\\bullet.png").convert_alpha())
+    baseBullet = GameObject(x=0, y=0, sprite=pygame.image.load(root+"\\assets\\images\\bullet.png").convert_alpha())
     baseBullet.sprite = scaleImage(baseBullet.sprite, 0.2)
     baseBullet.setSizeWithSprite()
 
@@ -46,6 +49,9 @@ def mainLoop():
             screen.blit(bullet.sprite, bullet.toRect())
             bullet.y -= 20 * timePassed
 
+            if (bullet.y < -bullet.size.y):
+                bullets.remove(bullet)
+
         screen.blit(player.sprite, player.toRect())
 
         pygame.display.update()
@@ -53,16 +59,22 @@ def mainLoop():
         keys = pygame.key.get_pressed()
 
         if (keys[pygame.K_d]):
-            player.x += 10 * timePassed
+            if (player.x+player.size.x < resolution.x-1):
+                player.x += 10 * timePassed
 
         if (keys[pygame.K_a]):
-            player.x -= 10 * timePassed
+            if (player.x > 2):
+                player.x -= 10 * timePassed
 
         if (keys[pygame.K_w]):
-            player.y -= 7 * timePassed
+            if (player.y > 2):
+
+                player.y -= 7 * timePassed
 
         if (keys[pygame.K_s]):
-            player.y += 7 * timePassed
+            if (player.y+player.size.y < resolution.y-1):
+
+                player.y += 7 * timePassed
 
         if (keys[pygame.K_SPACE]):
             if (pygame.time.get_ticks() - lastBullet > 200):
@@ -70,7 +82,7 @@ def mainLoop():
                 newBullet.x = player.getMiddle().x - newBullet.getMiddle().x+12
                 newBullet.y = player.y
                 bullets.append(newBullet)
-                
+
                 newBullet = copy(baseBullet)
                 newBullet.x = player.getMiddle().x - newBullet.getMiddle().x-12
                 newBullet.y = player.y
