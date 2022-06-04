@@ -1,5 +1,6 @@
 from copy import copy
 from os import path
+from random import randint
 import pygame
 from object.Fps import FPS
 from object.GameObject import GameObject
@@ -29,8 +30,7 @@ def mainLoop():
 
     bg = GameObject(speed=Axis(0, 8), sprite=pygame.image.load(
         root+"\\assets\\images\\background.png"))
-    bg.sprite = pygame.transform.smoothscale(
-        bg.sprite, [resolution.x, resolution.y])
+    bg.sprite = pygame.transform.smoothscale(bg.sprite, [resolution.x, resolution.y])
     bg.setSizeWithSprite()
 
     bg2 = copy(bg)
@@ -40,20 +40,18 @@ def mainLoop():
     player.sprite = scaleImage(player.sprite, 0.5)
     player.setSizeWithSprite()
 
-    baseBullet = GameObject(speed=Axis(
-        0, -20), sprite=pygame.image.load(root+"\\assets\\images\\bullet.png").convert_alpha())
-    baseBullet.sprite = scaleImage(baseBullet.sprite, 0.2)
-    baseBullet.setSizeWithSprite()
+    bulletSprite = pygame.image.load(root+"\\assets\\images\\bullet.png").convert_alpha()
+    bulletSprite = scaleImage(bulletSprite, 0.2)
 
     bullets = []
     lastBullet = 0
+    
+    lastEnemy = 0
 
-    enemy = GameObject(x=500, y=0, sprite=pygame.image.load(
-        root+"\\assets\\images\\shipEnemy.png").convert_alpha())
-    enemy.sprite = scaleImage(enemy.sprite, 0.5)
-    enemy.setSizeWithSprite()
+    enemySprite = pygame.image.load(root+"\\assets\\images\\shipEnemy.png").convert_alpha()
+    enemySprite = scaleImage(enemySprite, 0.5)
     enemies = []
-    enemies.append(enemy)
+    # enemies.append(enemy)
     fps = FPS()
     
     explosionSfx = pygame.mixer.Sound(root+"\\assets\\sfx\\Explosion.mp3")
@@ -72,24 +70,37 @@ def mainLoop():
             bg2.y = -resolution.y
             bg.y = 0
 
-        fps.render(display=screen, fps=clock.get_fps(),
-                   position=(resolution.x-30, 0))
+        fps.render(display=screen, fps=clock.get_fps(), position=(resolution.x-30, 0))
 
         for bullet in bullets:
             screen.blit(bullet.sprite, bullet.toRect())
             bullet.y += bullet.speed.y * timePassed
+            
+            if bullet.y < -bullet.size.y:
+                bullets.remove(bullet)
+                    
             for e in enemies:
                 if (bullet.toRect().colliderect(e.toRect())):
                     pygame.mixer.Sound.play(explosionSfx)
                     enemies.remove(e)
-                    bullets.remove(bullet)
-
-            if bullet.y < -bullet.size.y:
-                bullets.remove(bullet)
+                    try:
+                        bullets.remove(bullet)
+                    except :
+                        print("err remove enemy")
+                    
 
         screen.blit(player.sprite, player.toRect())
 
+        if (pygame.time.get_ticks() - lastEnemy > 800):
+            newEnemy = GameObject(x=resolution.x/2, y=0, sprite=pygame.Surface.copy(enemySprite), speed=Axis(randint(-8, 8), randint(0, 4)))
+            newEnemy.setSizeWithSprite()
+            newEnemy.center()
+            enemies.append(newEnemy)
+            lastEnemy = pygame.time.get_ticks()
+
         for e in enemies:
+            e.x += e.speed.x
+            e.y += e.speed.y
             screen.blit(e.sprite, e.toRect())
 
         pygame.display.update()
@@ -114,12 +125,16 @@ def mainLoop():
 
         if (keys[pygame.K_SPACE]):
             if (pygame.time.get_ticks() - lastBullet > 200):
-                newBullet = copy(baseBullet)
+                
+                newBullet = GameObject(speed=Axis(0, -20), sprite=pygame.Surface.copy(bulletSprite))
+                newBullet.setSizeWithSprite()
                 newBullet.x = player.getMiddle().x - newBullet.getMiddle().x+12
                 newBullet.y = player.y
                 bullets.append(newBullet)
 
-                newBullet = copy(baseBullet)
+                newBullet = None
+                newBullet = GameObject(speed=Axis(0, -20), sprite=pygame.Surface.copy(bulletSprite))
+                newBullet.setSizeWithSprite()
                 newBullet.x = player.getMiddle().x - newBullet.getMiddle().x-12
                 newBullet.y = player.y
                 bullets.append(newBullet)

@@ -2,7 +2,7 @@ from pygame import Rect
 from object.Axis import Axis
 
 class GameObject:
-    def __init__(self, x=0, y=0, size=Axis.zero, speed=Axis.zero, sprite=""):
+    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite=""):
         self.x = x
         self.y = y
         self.size = size
@@ -17,3 +17,7 @@ class GameObject:
         
     def getMiddle(self):
         return Axis(self.x+self.size.x/2, self.y+self.size.y/2)
+    
+    def center(self):
+        self.x -= self.size.x/2
+        self.y -= self.size.y/2
