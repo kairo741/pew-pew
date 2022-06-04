@@ -1,5 +1,5 @@
 from pygame import Rect
-from object.Axis import Axis
+from .Axis import Axis
 
 class GameObject:
     def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite=""):

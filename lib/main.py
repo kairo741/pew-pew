@@ -1,9 +1,11 @@
 from copy import copy
 from os import path
 from random import randint
+
 import pygame
 from object.Fps import FPS
 from object.GameObject import GameObject
+from object.Player import Player
 from object.Axis import Axis
 
 
@@ -28,15 +30,16 @@ def mainLoop():
     pygame.display.set_caption("PewPew")
     clock = pygame.time.Clock()
 
-    bg = GameObject(speed=Axis(0, 8), sprite=pygame.image.load(
-        root+"\\assets\\images\\background.png"))
+    bg = GameObject(speed=Axis(0, 8), sprite=pygame.image.load(root+"\\assets\\images\\background.png"))
     bg.sprite = pygame.transform.smoothscale(bg.sprite, [resolution.x, resolution.y])
     bg.setSizeWithSprite()
 
     bg2 = copy(bg)
     bg2.y = -resolution.y
 
-    player = GameObject(x=resolution.x/2, y=resolution.y/2, speed=Axis(10, 7), sprite=pygame.image.load(root+"\\assets\\images\\ship.png").convert_alpha())
+    
+
+    player = Player(x=resolution.x/2, y=resolution.y/2, speed=Axis(10, 7), sprite=pygame.image.load(root+"\\assets\\images\\ship.png").convert_alpha())
     player.sprite = scaleImage(player.sprite, 0.5)
     player.setSizeWithSprite()
 
