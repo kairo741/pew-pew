@@ -13,6 +13,7 @@ def scaleImage(image, scale):
 def mainLoop():
 
     pygame.display.init()
+    pygame.mixer.init()
     pygame.font.init()
 
     flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
@@ -54,6 +55,9 @@ def mainLoop():
     enemies = []
     enemies.append(enemy)
     fps = FPS()
+    
+    explosionSfx = pygame.mixer.Sound(root+"\\assets\\sfx\\Explosion.mp3")
+    explosionSfx.set_volume(0.2)
 
     while(True):
         timePassed = clock.tick(60) / 10
@@ -76,7 +80,9 @@ def mainLoop():
             bullet.y += bullet.speed.y * timePassed
             for e in enemies:
                 if (bullet.toRect().colliderect(e.toRect())):
+                    pygame.mixer.Sound.play(explosionSfx)
                     enemies.remove(e)
+                    bullets.remove(bullet)
 
             if bullet.y < -bullet.size.y:
                 bullets.remove(bullet)
