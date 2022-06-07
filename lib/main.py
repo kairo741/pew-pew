@@ -63,8 +63,8 @@ def mainLoop():
     while(True):
         timePassed = clock.tick(60) / 10
 
-        screen.blit(bg.sprite, bg.toRect())
-        screen.blit(bg2.sprite, bg2.toRect())
+        bg.render(screen)
+        bg2.render(screen)
 
         bg.y += bg.speed.y
         bg2.y += bg2.speed.y
@@ -76,7 +76,7 @@ def mainLoop():
         fps.render(display=screen, fps=clock.get_fps(), position=(resolution.x-30, 0))
 
         for bullet in bullets:
-            screen.blit(bullet.sprite, bullet.toRect())
+            bullet.render(screen)
             bullet.y += bullet.speed.y * timePassed
             
             if bullet.y < -bullet.size.y:
@@ -92,7 +92,7 @@ def mainLoop():
                         print("err remove enemy")
                     
 
-        screen.blit(player.sprite, player.toRect())
+        player.render(screen)
 
         if (pygame.time.get_ticks() - lastEnemy > 800):
             newEnemy = GameObject(x=resolution.x/2, y=0, sprite=pygame.Surface.copy(enemySprite), speed=Axis(randint(-8, 8), randint(0, 4)))
@@ -104,7 +104,7 @@ def mainLoop():
         for e in enemies:
             e.x += e.speed.x
             e.y += e.speed.y
-            screen.blit(e.sprite, e.toRect())
+            e.render((screen))
 
         pygame.display.update()
 
