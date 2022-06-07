@@ -1,6 +1,7 @@
 from copy import copy
 from os import path
 from random import randint
+from Utils.Constants import Constants
 
 import pygame
 from object.Fps import FPS
@@ -25,7 +26,7 @@ def mainLoop():
     resolution = Axis(x=int(get_res.current_w * 0.75),
                       y=int(get_res.current_h * 0.75))
     screen = pygame.display.set_mode([resolution.x, resolution.y], flags)
-    root = path.abspath(path.join(path.dirname(__file__), '..', ''))
+    root = Constants.ROOT_PATH
     pygame.display.set_caption("PewPew")
     clock = pygame.time.Clock()
 
@@ -55,8 +56,8 @@ def mainLoop():
     # enemies.append(enemy)
     fps = FPS()
 
-    explosionSfx = pygame.mixer.Sound(root + "\\assets\\sfx\\Explosion.mp3")
-    explosionSfx.set_volume(0.2)
+    explosion_sfx = pygame.mixer.Sound(root + "\\assets\\sfx\\Explosion.mp3")
+    explosion_sfx.set_volume(0.2)
 
     while (True):
         timePassed = clock.tick(60) / 10
@@ -82,7 +83,7 @@ def mainLoop():
 
             for e in enemies:
                 if (bullet.toRect().colliderect(e.toRect())):
-                    pygame.mixer.Sound.play(explosionSfx)
+                    pygame.mixer.Sound.play(explosion_sfx)
                     enemies.remove(e)
                     try:
                         bullets.remove(bullet)
