@@ -7,6 +7,7 @@ import pygame
 from controller.BulletController import BulletController
 from object.Fps import FPS
 from object.GameObject import GameObject
+from object.Background import Background
 from object.Player import Player
 from object.Axis import Axis
 
@@ -31,12 +32,9 @@ def mainLoop():
     pygame.display.set_caption("PewPew")
     clock = pygame.time.Clock()
 
-    bg = GameObject(speed=Axis(0, 8), sprite=pygame.image.load(root + "\\assets\\images\\background.png"))
+    bg = Background(speed=Axis(0, 8), sprite=pygame.image.load(root + "\\assets\\images\\background.png"))
     bg.sprite = pygame.transform.smoothscale(bg.sprite, [resolution.x, resolution.y])
     bg.setSizeWithSprite()
-
-    bg2 = copy(bg)
-    bg2.y = -resolution.y
 
     player = Player(x=resolution.x / 2, y=resolution.y / 2, speed=Axis(10, 7),
                     sprite=pygame.image.load(root + "\\assets\\images\\ship.png").convert_alpha())
@@ -64,14 +62,6 @@ def mainLoop():
         timePassed = clock.tick(60) / 10
 
         bg.render(screen)
-        bg2.render(screen)
-
-        bg.y += bg.speed.y
-        bg2.y += bg2.speed.y
-
-        if bg2.y > -1:
-            bg2.y = -resolution.y
-            bg.y = 0
 
         fps.render(display=screen, fps=clock.get_fps(), position=(resolution.x - 30, 0))
         bullet_controller.render_bullets(screen)
