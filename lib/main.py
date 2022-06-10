@@ -4,6 +4,7 @@ from random import randint
 from Utils.Constants import Constants
 
 import pygame
+from controller.BulletController import BulletController
 from object.Fps import FPS
 from object.GameObject import GameObject
 from object.Player import Player
@@ -44,8 +45,8 @@ def mainLoop():
 
     bulletSprite = pygame.image.load(root + "\\assets\\images\\bullet.png").convert_alpha()
     bulletSprite = scaleImage(bulletSprite, 0.2)
+    bullet_controller = BulletController()
 
-    bullets = []
     lastBullet = 0
 
     lastEnemy = 0
@@ -53,7 +54,7 @@ def mainLoop():
     enemySprite = pygame.image.load(root + "\\assets\\images\\shipEnemy.png").convert_alpha()
     enemySprite = scaleImage(enemySprite, 0.5)
     enemies = []
-    # enemies.append(enemy)
+
     fps = FPS()
 
     explosion_sfx = pygame.mixer.Sound(root + "\\assets\\sfx\\Explosion.mp3")
@@ -73,22 +74,12 @@ def mainLoop():
             bg.y = 0
 
         fps.render(display=screen, fps=clock.get_fps(), position=(resolution.x - 30, 0))
+        bullet_controller.render_bullets(screen)
 
-        for bullet in bullets:
-            bullet.render(screen)
-            bullet.y += bullet.speed.y * timePassed
 
-            if bullet.y < -bullet.size.y:
-                bullets.remove(bullet)
+        for e in enemies:
+            bullet_controller.has_collided(e, lambda: enemies.remove(e) )
 
-            for e in enemies:
-                if (bullet.toRect().colliderect(e.toRect())):
-                    pygame.mixer.Sound.play(explosion_sfx)
-                    enemies.remove(e)
-                    try:
-                        bullets.remove(bullet)
-                    except:
-                        print("err remove enemy")
 
         player.render(screen)
 
@@ -131,15 +122,16 @@ def mainLoop():
                 newBullet.setSizeWithSprite()
                 newBullet.x = player.getMiddle().x - newBullet.getMiddle().x + 12
                 newBullet.y = player.y
-                bullets.append(newBullet)
+                bullet_controller.shoot(newBullet)
 
                 newBullet = None
                 newBullet = GameObject(speed=Axis(0, -20), sprite=pygame.Surface.copy(bulletSprite))
                 newBullet.setSizeWithSprite()
                 newBullet.x = player.getMiddle().x - newBullet.getMiddle().x - 12
                 newBullet.y = player.y
-                bullets.append(newBullet)
+                bullet_controller.shoot(newBullet)
                 lastBullet = pygame.time.get_ticks()
+
 
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):

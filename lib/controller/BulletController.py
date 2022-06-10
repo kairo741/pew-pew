@@ -1,11 +1,18 @@
 class BulletController:
-    def __init__(self, bullets):
-        super().__init__(bullets)
+    def __init__(self):
+        super().__init__()
         self.bullets = []
+        self.player_shot_bullet = 0
+        self.player_fire_rate = 200
 
-    def render_bullets(self):
+    def shoot(self, bullet):
+        self.bullets.append(bullet)
+
+    def render_bullets(self, screen):
         for bullet in self.bullets:
-            bullet.render()
+            bullet.render(screen)
+            bullet.x+=bullet.speed.x
+            bullet.y += bullet.speed.y
 
     def has_collided(self, object, action):
         for bullet in self.bullets:
