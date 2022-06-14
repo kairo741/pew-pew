@@ -17,7 +17,11 @@ class BulletController:
     def has_collided(self, object, action):
         for bullet in self.bullets:
             if bullet.toRect().colliderect(object.toRect()):
-                action()
+                try:
+                    action()
+                except:
+                    print("error in bullet colidor")
+                
                 try:
                     self.bullets.remove(bullet)
                 except:
