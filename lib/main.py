@@ -41,16 +41,16 @@ def mainLoop():
     player.sprite = scaleImage(player.sprite, 0.5)
     player.setSizeWithSprite()
 
-    bulletSprite = pygame.image.load(root + "\\assets\\images\\bullet.png").convert_alpha()
-    bulletSprite = scaleImage(bulletSprite, 0.2)
+    bullet_sprite = pygame.image.load(root + "\\assets\\images\\bullet.png").convert_alpha()
+    bullet_sprite = scaleImage(bullet_sprite, 0.2)
     bullet_controller = BulletController()
 
-    lastBullet = 0
+    last_bullet = 0
 
-    lastEnemy = 0
+    last_enemy = 0
 
-    enemySprite = pygame.image.load(root + "\\assets\\images\\shipEnemy.png").convert_alpha()
-    enemySprite = scaleImage(enemySprite, 0.5)
+    enemy_sprite = pygame.image.load(root + "\\assets\\images\\shipEnemy.png").convert_alpha()
+    enemy_sprite = scaleImage(enemy_sprite, 0.5)
     enemies = []
 
     fps = FPS()
@@ -58,73 +58,70 @@ def mainLoop():
     explosion_sfx = pygame.mixer.Sound(root + "\\assets\\sfx\\Explosion.mp3")
     explosion_sfx.set_volume(0.2)
 
-    while (True):
-        timePassed = clock.tick(60) / 10
+    while True:
+        time_passed = clock.tick(60) / 10
 
         bg.render(screen)
 
         fps.render(display=screen, fps=clock.get_fps(), position=(resolution.x - 30, 0))
         bullet_controller.render_bullets(screen)
 
-
         for e in enemies:
-            bullet_controller.has_collided(e, lambda: enemies.remove(e) )
-
+            bullet_controller.has_collided(e, lambda: enemies.remove(e))
 
         player.render(screen)
 
-        if (pygame.time.get_ticks() - lastEnemy > 800):
-            newEnemy = GameObject(x=resolution.x / 2, y=0, sprite=pygame.Surface.copy(enemySprite),
+        if pygame.time.get_ticks() - last_enemy > 800:
+            new_enemy = GameObject(x=resolution.x / 2, y=0, sprite=pygame.Surface.copy(enemy_sprite),
                                   speed=Axis(randint(-8, 8), randint(0, 4)))
-            newEnemy.setSizeWithSprite()
-            newEnemy.center()
-            enemies.append(newEnemy)
-            lastEnemy = pygame.time.get_ticks()
+            new_enemy.setSizeWithSprite()
+            new_enemy.center()
+            enemies.append(new_enemy)
+            last_enemy = pygame.time.get_ticks()
 
         for e in enemies:
             e.x += e.speed.x
             e.y += e.speed.y
-            e.render((screen))
+            e.render(screen)
 
         pygame.display.update()
 
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_d]:
-            if (player.x + player.size.x < resolution.x - 1):
-                player.x += player.speed.x * timePassed
+            if player.x + player.size.x < resolution.x - 1:
+                player.x += player.speed.x * time_passed
 
         if keys[pygame.K_a]:
             if player.x > 2:
-                player.x -= player.speed.x * timePassed
+                player.x -= player.speed.x * time_passed
 
-        if (keys[pygame.K_w]):
-            if (player.y > 2):
-                player.y -= player.speed.y * timePassed
+        if keys[pygame.K_w]:
+            if player.y > 2:
+                player.y -= player.speed.y * time_passed
 
-        if (keys[pygame.K_s]):
-            if (player.y + player.size.y < resolution.y - 1):
-                player.y += player.speed.y * timePassed
+        if keys[pygame.K_s]:
+            if player.y + player.size.y < resolution.y - 1:
+                player.y += player.speed.y * time_passed
 
-        if (keys[pygame.K_SPACE]):
-            if (pygame.time.get_ticks() - lastBullet > 200):
-                newBullet = GameObject(speed=Axis(0, -20), sprite=pygame.Surface.copy(bulletSprite))
-                newBullet.setSizeWithSprite()
-                newBullet.x = player.getMiddle().x - newBullet.getMiddle().x + 12
-                newBullet.y = player.y
-                bullet_controller.shoot(newBullet)
+        if keys[pygame.K_SPACE]:
+            if pygame.time.get_ticks() - last_bullet > 200:
+                new_bullet = GameObject(speed=Axis(0, -20), sprite=pygame.Surface.copy(bullet_sprite))
+                new_bullet.setSizeWithSprite()
+                new_bullet.x = player.getMiddle().x - new_bullet.getMiddle().x + 12
+                new_bullet.y = player.y
+                bullet_controller.shoot(new_bullet)
 
-                newBullet = None
-                newBullet = GameObject(speed=Axis(0, -20), sprite=pygame.Surface.copy(bulletSprite))
-                newBullet.setSizeWithSprite()
-                newBullet.x = player.getMiddle().x - newBullet.getMiddle().x - 12
-                newBullet.y = player.y
-                bullet_controller.shoot(newBullet)
-                lastBullet = pygame.time.get_ticks()
-
+                new_bullet = None
+                new_bullet = GameObject(speed=Axis(0, -20), sprite=pygame.Surface.copy(bullet_sprite))
+                new_bullet.setSizeWithSprite()
+                new_bullet.x = player.getMiddle().x - new_bullet.getMiddle().x - 12
+                new_bullet.y = player.y
+                bullet_controller.shoot(new_bullet)
+                last_bullet = pygame.time.get_ticks()
 
         for event in pygame.event.get():
-            if (event.type == pygame.QUIT):
+            if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
