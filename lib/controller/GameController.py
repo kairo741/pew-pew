@@ -19,12 +19,14 @@ class GameController:
         pygame.font.init()
 
         # flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
-        flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
+        self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
 
-        get_res = pygame.display.Info()
-        self.resolution = Axis(x=int(get_res.current_w * 0.75),
-                               y=int(get_res.current_h * 0.75))
-        self.screen = pygame.display.set_mode([self.resolution.x, self.resolution.y], flags)
+        self.is_fullscreen = False
+
+        self.get_res = pygame.display.Info()
+        self.resolution = Axis(x=int(self.get_res.current_w * 0.75),
+                               y=int(self.get_res.current_h * 0.75))
+        self.screen = pygame.display.set_mode([self.resolution.x, self.resolution.y], self.flags)
 
         pygame.display.set_caption("PewPew")
         self.clock = pygame.time.Clock()
@@ -126,7 +128,19 @@ class GameController:
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    # TODO - modo tela cheia
-                    DISPLAYSURF = pygame.display.set_mode(
-                        (0, 0), pygame.RESIZABLE)
+                if event.key == pygame.K_RETURN:
+                    if event.mod & pygame.KMOD_ALT:
+                        self.fullscreen_mode()
+
+    def fullscreen_mode(self):
+        if self.is_fullscreen:
+            self.resolution = Axis(x=int(self.get_res.current_w * 0.75),
+                                   y=int(self.get_res.current_h * 0.75))
+            self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
+        else:
+            self.resolution = Axis(x=int(self.get_res.current_w),
+                                   y=int(self.get_res.current_h))
+            self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
+
+        self.screen = pygame.display.set_mode([self.resolution.x, self.resolution.y], self.flags)
+        self.is_fullscreen = not self.is_fullscreen
