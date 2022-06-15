@@ -37,7 +37,9 @@ class GameController:
     def start(self):
         root = Constants.ROOT_PATH
         bg = Background()
-        bg.star_sprite = Utils.scale_image(Constants.SPRITE_STAR, 0.2)
+        star_sprite = Constants.SPRITE_STAR
+        star_sprite.set_alpha(50)
+        bg.star_sprite = Utils.scale_image(star_sprite, 0.2)
 
         player = Player(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
                         sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha())
