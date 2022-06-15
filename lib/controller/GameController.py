@@ -26,7 +26,8 @@ class GameController:
         self.get_res = pygame.display.Info()
         self.resolution = Axis(x=int(self.get_res.current_w * 0.75),
                                y=int(self.get_res.current_h * 0.75))
-        self.screen = pygame.display.set_mode([self.resolution.x, self.resolution.y], self.flags)
+        self.screen = pygame.display.set_mode(
+            [self.resolution.x, self.resolution.y], self.flags)
 
         pygame.display.set_caption("PewPew")
         self.clock = pygame.time.Clock()
@@ -35,18 +36,12 @@ class GameController:
         self.last_enemy = 0
 
     def start(self):
-        root = Constants.ROOT_PATH
         bg = Background()
-        star_sprite = Constants.SPRITE_STAR
-        star_sprite.set_alpha(50)
-        bg.star_sprite = Utils.scale_image(star_sprite, 0.2)
 
         player = Player(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
                         sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha())
         player.sprite = Utils.scale_image(player.sprite, 0.5)
         player.setSizeWithSprite()
-
-        bullet_sprite = Utils.scale_image(Constants.SPRITE_BULLET, 0.2)
 
         enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP, 0.5)
         enemies = []
@@ -57,15 +52,15 @@ class GameController:
         # explosion_sfx.set_volume(0.2)
 
         while True:
-
-            bg.render_background(self.screen)
+            bg.render_background(self.screen, self.resolution)
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
                        position=(self.resolution.x - 30, 0))
             self.bullet_controller.render_bullets(self.screen)
 
             for e in enemies:
-                self.bullet_controller.has_collided(e, lambda: enemies.remove(e))
+                self.bullet_controller.has_collided(
+                    e, lambda: enemies.remove(e))
 
             player.render(self.screen)
 
@@ -87,7 +82,8 @@ class GameController:
     def game_events(self, player):
         pygame.display.update()
         time_passed = self.clock.tick(60) / 10
-        bullet_sprite = Utils.scale_image(Constants.SPRITE_BULLET.convert_alpha(), 0.2)
+        bullet_sprite = Utils.scale_image(
+            Constants.SPRITE_BULLET.convert_alpha(), 0.2)
 
         keys = pygame.key.get_pressed()
 
@@ -143,5 +139,6 @@ class GameController:
                                    y=int(self.get_res.current_h))
             self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
 
-        self.screen = pygame.display.set_mode([self.resolution.x, self.resolution.y], self.flags)
+        self.screen = pygame.display.set_mode(
+            [self.resolution.x, self.resolution.y], self.flags)
         self.is_fullscreen = not self.is_fullscreen
