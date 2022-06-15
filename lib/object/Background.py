@@ -11,7 +11,7 @@ class Background(GameObject):
     def __init__(self, x=0, y=0, size=Axis.zero()):
         super().__init__(x, y, size)
         self.star_sprite = Utils.scale_image(Constants.SPRITE_STAR, 0.1)
-        self.star_sprite.set_alpha(50)
+        self.star_sprite.set_alpha(90)
 
     stars = []
     last_star_tick = 0
