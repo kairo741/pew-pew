@@ -7,8 +7,8 @@ from object.Background import Background
 from object.GameObject import GameObject
 from object.Player import Player
 from object.Axis import Axis
-from Utils.Constants import Constants
-from Utils.Utils import Utils
+from utils.Constants import Constants
+from utils.Utils import Utils
 
 
 class GameController:
