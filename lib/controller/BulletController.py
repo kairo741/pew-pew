@@ -12,6 +12,8 @@ class BulletController:
         for bullet in self.bullets:
             bullet.x += bullet.speed.x * render_time
             bullet.y += bullet.speed.y * render_time
+            if (bullet.y < -30):
+                self.bullets.remove(bullet)
 
     def render_bullets(self, screen):
         for bullet in self.bullets:
@@ -24,9 +26,9 @@ class BulletController:
                 try:
                     action()
                 except:
-                    print("error in bullet colidor")
+                    print("error in bullet collision action")
 
                 try:
                     self.bullets.remove(bullet)
                 except:
-                    print("err remove enemy")
+                    print("error removing bullet")

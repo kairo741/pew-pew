@@ -2,11 +2,12 @@ import pygame
 from random import randint
 
 from .BulletController import BulletController
-from object.Fps import FPS
 from object.Background import Background
+from object.Axis import Axis
+from object.Fps import FPS
 from object.GameObject import GameObject
 from object.Player import Player
-from object.Axis import Axis
+from object.Weapon import Weapon
 from utils.Constants import Constants
 from utils.Utils import Utils
 
@@ -43,7 +44,7 @@ class GameController:
         bg = Background()
 
         player = Player(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
-                        sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha())
+                        sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(), weapon=Weapon(shoot_delay=300, weapon_type="triple", bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)),)
         player.sprite = Utils.scale_image(player.sprite, 0.5)
         player.setSizeWithSprite()
 
@@ -87,9 +88,6 @@ class GameController:
     def game_events(self, player):
         pygame.display.update()
         self.bullet_controller.move_bullets(self.render_frame_time)
-        
-        bullet_sprite = Utils.scale_image(
-            Constants.SPRITE_BULLET.convert_alpha(), 0.2)
 
         keys = pygame.key.get_pressed()
 
@@ -110,21 +108,10 @@ class GameController:
                 player.y += player.speed.y * self.render_frame_time
 
         if keys[pygame.K_SPACE]:
-            if pygame.time.get_ticks() - player.last_bullet > 200:
-                new_bullet = GameObject(speed=Axis(
-                    0, -20), sprite=pygame.Surface.copy(bullet_sprite))
-                new_bullet.setSizeWithSprite()
-                new_bullet.x = player.getMiddle().x - new_bullet.getMiddle().x + 12
-                new_bullet.y = player.y
-                self.bullet_controller.shoot(new_bullet)
+            if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
-                new_bullet = None
-                new_bullet = GameObject(speed=Axis(
-                    0, -20), sprite=pygame.Surface.copy(bullet_sprite))
-                new_bullet.setSizeWithSprite()
-                new_bullet.x = player.getMiddle().x - new_bullet.getMiddle().x - 12
-                new_bullet.y = player.y
-                self.bullet_controller.shoot(new_bullet)
+                for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
+                    self.bullet_controller.shoot(generated_bullet)
                 player.last_bullet = pygame.time.get_ticks()
 
         for event in pygame.event.get():

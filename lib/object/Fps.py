@@ -1,10 +1,10 @@
-import pygame
+from pygame import font
 
 
 class FPS:
 
     def __init__(self):
-        self.font = pygame.font.SysFont("Verdana", 20)
+        self.font = font.SysFont("Consolas", 20)
 
     def render(self, display, fps, position):
         text = self.font.render(str(round(fps)), True, (255, 255, 255))

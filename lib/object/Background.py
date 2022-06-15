@@ -1,5 +1,4 @@
-from copy import deepcopy
-from random import randrange, randint
+from random import randrange
 
 from utils.Constants import Constants
 from utils.Utils import Utils
