@@ -8,11 +8,15 @@ class BulletController:
     def shoot(self, bullet):
         self.bullets.append(bullet)
 
+    def move_bullets(self, render_time):
+        for bullet in self.bullets:
+            bullet.x += bullet.speed.x * render_time
+            bullet.y += bullet.speed.y * render_time
+
     def render_bullets(self, screen):
         for bullet in self.bullets:
             bullet.render(screen)
-            bullet.x+=bullet.speed.x
-            bullet.y += bullet.speed.y
+            
 
     def has_collided(self, object, action):
         for bullet in self.bullets:
@@ -21,7 +25,7 @@ class BulletController:
                     action()
                 except:
                     print("error in bullet colidor")
-                
+
                 try:
                     self.bullets.remove(bullet)
                 except:
