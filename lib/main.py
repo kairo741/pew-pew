@@ -5,6 +5,7 @@ from Utils.Constants import Constants
 
 import pygame
 from controller.BulletController import BulletController
+from lib.controller.GameController import GameController
 from object.Fps import FPS
 from object.GameObject import GameObject
 from object.Background import Background
@@ -135,4 +136,6 @@ def main_loop():
                         (0, 0), pygame.RESIZABLE)
 
 
-main_loop()
+# main_loop()
+a = GameController()
+a.start()
