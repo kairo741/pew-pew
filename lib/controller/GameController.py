@@ -43,8 +43,6 @@ class GameController:
         player.setSizeWithSprite()
 
         bullet_sprite = Utils.scale_image(Constants.SPRITE_BULLET, 0.2)
-        bullet_controller = BulletController()
-
 
         enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP, 0.5)
         enemies = []
@@ -60,10 +58,10 @@ class GameController:
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
                        position=(self.resolution.x - 30, 0))
-            bullet_controller.render_bullets(self.screen)
+            self.bullet_controller.render_bullets(self.screen)
 
             for e in enemies:
-                bullet_controller.has_collided(e, lambda: enemies.remove(e))
+                self.bullet_controller.has_collided(e, lambda: enemies.remove(e))
 
             player.render(self.screen)
 
@@ -105,7 +103,6 @@ class GameController:
             if player.y + player.size.y < self.resolution.y - 1:
                 player.y += player.speed.y * time_passed
 
-        # TODO - arrumar balas
         if keys[pygame.K_SPACE]:
             if pygame.time.get_ticks() - self.last_bullet > 200:
                 new_bullet = GameObject(speed=Axis(
