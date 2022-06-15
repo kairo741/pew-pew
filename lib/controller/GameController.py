@@ -1,13 +1,14 @@
 import pygame
 from random import randint
-from ..controller.BulletController import BulletController
-from ..object.Fps import FPS
-from ..object.GameObject import GameObject
-from ..object.Background import Background
-from ..object.Player import Player
-from ..object.Axis import Axis
-from ..Utils.Constants import Constants
-from ..Utils.Utils import Utils
+
+from .BulletController import BulletController
+from object.Fps import FPS
+from object.Background import Background
+from object.GameObject import GameObject
+from object.Player import Player
+from object.Axis import Axis
+from Utils.Constants import Constants
+from Utils.Utils import Utils
 
 
 class GameController:
