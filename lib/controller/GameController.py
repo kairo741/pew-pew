@@ -32,7 +32,6 @@ class GameController:
         self.clock = pygame.time.Clock()
 
         self.bullet_controller = BulletController()
-        self.last_bullet = 0
         self.last_enemy = 0
 
     def start(self):
@@ -107,7 +106,7 @@ class GameController:
                 player.y += player.speed.y * time_passed
 
         if keys[pygame.K_SPACE]:
-            if pygame.time.get_ticks() - self.last_bullet > 200:
+            if pygame.time.get_ticks() - player.last_bullet > 200:
                 new_bullet = GameObject(speed=Axis(
                     0, -20), sprite=pygame.Surface.copy(bullet_sprite))
                 new_bullet.setSizeWithSprite()
@@ -122,7 +121,7 @@ class GameController:
                 new_bullet.x = player.getMiddle().x - new_bullet.getMiddle().x - 12
                 new_bullet.y = player.y
                 self.bullet_controller.shoot(new_bullet)
-                self.last_bullet = pygame.time.get_ticks()
+                player.last_bullet = pygame.time.get_ticks()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

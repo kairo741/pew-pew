@@ -8,3 +8,4 @@ class Player(GameObject):
 
         self.weapon = weapon
         self.health = health
+        self.last_bullet = 0
