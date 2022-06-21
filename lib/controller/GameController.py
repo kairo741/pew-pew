@@ -89,7 +89,7 @@ class GameController:
             self.game_events(player=player)
 
     def game_events(self, player):
-        self.bullet_controller.move_bullets(self.render_frame_time)
+        self.bullet_controller.move_bullets(self.render_frame_time, self.resolution)
 
         keys = pygame.key.get_pressed()
 
