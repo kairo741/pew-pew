@@ -58,7 +58,8 @@ class GameController:
 
         while True:
             self.tick_clock()
-            bg.render_background(self.screen, self.resolution)
+            bg.render_background(
+                self.screen, self.resolution, self.render_frame_time)
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
                        position=(self.resolution.x - 30, 0))
@@ -66,7 +67,8 @@ class GameController:
 
             for e in enemies:
                 self.bullet_controller.has_collided(
-                    e, lambda: enemies.remove(e))
+                    e, lambda: enemies.remove(e)
+                )
 
             player.render(self.screen)
 
@@ -83,10 +85,10 @@ class GameController:
                 e.y += e.speed.y * self.render_frame_time
                 e.render(self.screen)
 
+            pygame.display.update()
             self.game_events(player=player)
 
     def game_events(self, player):
-        pygame.display.update()
         self.bullet_controller.move_bullets(self.render_frame_time)
 
         keys = pygame.key.get_pressed()

@@ -32,14 +32,14 @@ class Background(GameObject):
 
             self.last_star_tick = time.get_ticks()
 
-    def render_background(self, screen, resolution):
+    def render_background(self, screen, resolution, render_frame_time):
         self.size = resolution
         self.make_stars()
 
         draw.rect(screen, (14, 6, 21), self.toRect())
 
         for star in self.stars:
-            star.y += star.speed.y
+            star.y += star.speed.y * render_frame_time
             star.render(screen)
             if (star.y > self.size.x):
                 try:
