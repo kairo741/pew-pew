@@ -40,7 +40,7 @@ class BulletController:
         for bullet in self.bullets:
             if bullet.toRect().colliderect(object.toRect()):
                 try:
-                    action()
+                    action(bullet)
                 except:
                     print("error in bullet collision action")
 

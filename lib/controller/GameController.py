@@ -6,7 +6,7 @@ from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
 from object.GameObject import GameObject
-from object.Player import Player
+from object.Ship import Ship
 from object.Weapon import Weapon
 from utils.Constants import Constants
 from utils.Utils import Utils
@@ -43,7 +43,7 @@ class GameController:
     def start(self):
         bg = Background()
 
-        player = Player(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
+        player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
                         sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(), weapon=Weapon(shoot_delay=300, weapon_type="triple", bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)),)
         player.sprite = Utils.scale_image(player.sprite, 0.5)
         player.setSizeWithSprite()
@@ -67,14 +67,16 @@ class GameController:
 
             for e in enemies:
                 self.bullet_controller.has_collided(
-                    e, lambda: enemies.remove(e)
+                    e, lambda bullet: e.take_damage(bullet.damage)
                 )
+                if (e.health < 0):
+                    enemies.remove(e)
 
             player.render(self.screen)
 
             if pygame.time.get_ticks() - self.last_enemy > 800:
-                new_enemy = GameObject(x=self.resolution.x / 2, y=0, sprite=pygame.Surface.copy(enemy_sprite),
-                                       speed=Axis(randint(-8, 8), randint(0, 4)))
+                new_enemy = Ship(x=self.resolution.x / 2, y=0, sprite=pygame.Surface.copy(enemy_sprite),
+                                       speed=Axis(randint(-2, 2), randint(0, 4)))
                 new_enemy.setSizeWithSprite()
                 new_enemy.center()
                 enemies.append(new_enemy)
