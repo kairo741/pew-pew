@@ -1,3 +1,4 @@
+from controller.MultiplayerGameControllerPrototype import MultiplayerGameControllerPrototype
 from controller.GameController import GameController
 
 if __name__ == '__main__':
