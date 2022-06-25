@@ -16,6 +16,7 @@ class GameController:
     def __init__(self):
         super().__init__()
         pygame.display.init()
+        pygame.joystick.init()
         pygame.mixer.init()
         pygame.font.init()
 
@@ -33,6 +34,8 @@ class GameController:
         pygame.display.set_caption("PewPew")
         self.clock = pygame.time.Clock()
         self.render_frame_time = 0
+        self.joystick = pygame.joystick.Joystick(0)
+        self.joystick.init()
 
         self.bullet_controller = BulletController()
         self.last_enemy = 0
@@ -112,6 +115,32 @@ class GameController:
                 player.y += player.speed.y * self.render_frame_time
 
         if keys[pygame.K_SPACE]:
+            if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
+
+                for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
+                    self.bullet_controller.shoot(generated_bullet)
+                player.last_bullet = pygame.time.get_ticks()
+
+
+        axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
+
+        if axis.x > 0.2:
+            if player.x + player.size.x < self.resolution.x - 1:
+                player.x += player.speed.x * self.render_frame_time
+
+        if axis.x < -0.2:
+            if player.x > 2:
+                player.x -= player.speed.x * self.render_frame_time
+
+        if axis.y < 0.2:
+            if player.y > 2:
+                player.y -= player.speed.y * self.render_frame_time
+
+        if axis.y > -0.2:
+            if player.y + player.size.y < self.resolution.y - 1:
+                player.y += player.speed.y * self.render_frame_time
+
+        if self.joystick.get_button(2):
             if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
                 for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
