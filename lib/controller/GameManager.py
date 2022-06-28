@@ -1,7 +1,7 @@
 import pygame
 from random import randint
 
-from .BulletController import BulletController
+from .BulletManager import BulletManager
 from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
@@ -12,7 +12,7 @@ from utils.Constants import Constants
 from utils.Utils import Utils
 
 
-class GameController:
+class GameManager:
     def __init__(self):
         super().__init__()
         pygame.display.init()
@@ -37,7 +37,7 @@ class GameController:
         # self.joystick = pygame.joystick.Joystick(0)
         # self.joystick.init()
 
-        self.bullet_controller = BulletController()
+        self.bullet_controller = BulletManager()
         self.last_enemy = 0
 
     def tick_clock(self):

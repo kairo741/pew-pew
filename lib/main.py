@@ -1,6 +1,6 @@
-from controller.MultiplayerGameControllerPrototype import MultiplayerGameControllerPrototype
-from controller.GameController import GameController
+from controller.MultiplayerGameManagerPrototype import MultiplayerGameManagerPrototype
+from controller.GameManager import GameManager
 
 if __name__ == '__main__':
-    game_controller = GameController()
+    game_controller = GameManager()
     game_controller.start()
