@@ -50,8 +50,8 @@ class GameManager:
                       sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
                       weapon=Weapon(shoot_delay=100, weapon_type="triple",
                                     bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)))
-        player.sprite = Utils.scale_image(player.sprite, 0.5)
-        player.setSizeWithSprite()
+        player.sprite = Utils.scale_image(player.sprite, 0.2)
+        player.set_size_with_sprite()
 
         enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP, 0.5)
         enemies = []
@@ -74,7 +74,7 @@ class GameManager:
                 self.bullet_controller.has_collided(
                     e, lambda bullet: e.take_damage(bullet.damage)
                 )
-                if (e.collided_with(player)):
+                if (e.collided_with(player, rect=player.get_hitbox_rect())):
                     player.take_damage(e.max_health * 0.15)
                     e.take_damage(e.health)
 
@@ -89,7 +89,7 @@ class GameManager:
             if pygame.time.get_ticks() - self.last_enemy > 800:
                 new_enemy = Ship(x=self.resolution.x / 2, y=0, sprite=pygame.Surface.copy(enemy_sprite),
                                  speed=Axis(Utils.random_int(-4, 4), randint(0, 4)))
-                new_enemy.setSizeWithSprite()
+                new_enemy.set_size_with_sprite()
                 new_enemy.center()
                 enemies.append(new_enemy)
                 self.last_enemy = pygame.time.get_ticks()
@@ -126,7 +126,7 @@ class GameManager:
         if keys[pygame.K_SPACE]:
             if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
-                for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
+                for generated_bullet in player.weapon.make_bullets(player.get_middle()):
                     self.bullet_controller.shoot(generated_bullet)
                 player.last_bullet = pygame.time.get_ticks()
 
