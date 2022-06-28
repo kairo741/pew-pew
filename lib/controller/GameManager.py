@@ -47,7 +47,9 @@ class GameManager:
         bg = Background()
 
         player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
-                        sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(), weapon=Weapon(shoot_delay=100, weapon_type="triple", bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)))
+                      sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
+                      weapon=Weapon(shoot_delay=100, weapon_type="triple",
+                                    bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)))
         player.sprite = Utils.scale_image(player.sprite, 0.5)
         player.setSizeWithSprite()
 
@@ -73,7 +75,7 @@ class GameManager:
                     e, lambda bullet: e.take_damage(bullet.damage)
                 )
                 if (e.collided_with(player)):
-                    player.take_damage(e.max_health*0.15)
+                    player.take_damage(e.max_health * 0.15)
                     e.take_damage(e.health)
 
                 if (e.health <= 0):
@@ -127,7 +129,6 @@ class GameManager:
                 for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
                     self.bullet_controller.shoot(generated_bullet)
                 player.last_bullet = pygame.time.get_ticks()
-
 
         # axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
 
