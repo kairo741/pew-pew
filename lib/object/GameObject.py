@@ -13,6 +13,9 @@ class GameObject:
     def toRect(self):
         return Rect(self.x, self.y, self.size.x, self.size.y)
 
+    def collided_with(self, object):
+        return self.toRect().colliderect(object.toRect())
+
     def setSizeWithSprite(self):
         self.size = Axis(self.sprite.get_width(), self.sprite.get_height())
         

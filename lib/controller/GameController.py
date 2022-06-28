@@ -26,16 +26,16 @@ class GameController:
         self.is_fullscreen = False
 
         self.get_res = pygame.display.Info()
-        self.resolution = Axis(x=int(self.get_res.current_w * 0.9),
-                               y=int(self.get_res.current_h * 0.9))
+        self.resolution = Axis(x=int(self.get_res.current_w * 0.7),
+                               y=int(self.get_res.current_h * 0.7))
         self.screen = pygame.display.set_mode(
             [self.resolution.x, self.resolution.y], self.flags)
 
         pygame.display.set_caption("PewPew")
         self.clock = pygame.time.Clock()
         self.render_frame_time = 0
-        self.joystick = pygame.joystick.Joystick(0)
-        self.joystick.init()
+        # self.joystick = pygame.joystick.Joystick(0)
+        # self.joystick.init()
 
         self.bullet_controller = BulletController()
         self.last_enemy = 0
@@ -72,8 +72,15 @@ class GameController:
                 self.bullet_controller.has_collided(
                     e, lambda bullet: e.take_damage(bullet.damage)
                 )
+                if (e.collided_with(player)):
+                    player.take_damage(e.max_health*0.15)
+                    e.take_damage(e.health)
+
                 if (e.health <= 0):
                     enemies.remove(e)
+
+            if (player.health <= 0):
+                pygame.quit()
 
             player.render(self.screen, is_player=True)
 
@@ -122,30 +129,30 @@ class GameController:
                 player.last_bullet = pygame.time.get_ticks()
 
 
-        axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
+        # axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
 
-        if axis.x > 0.2:
-            if player.x + player.size.x < self.resolution.x - 1:
-                player.x += player.speed.x * self.render_frame_time
+        # if axis.x > 0.2:
+        #     if player.x + player.size.x < self.resolution.x - 1:
+        #         player.x += player.speed.x * self.render_frame_time
 
-        if axis.x < -0.2:
-            if player.x > 2:
-                player.x -= player.speed.x * self.render_frame_time
+        # if axis.x < -0.2:
+        #     if player.x > 2:
+        #         player.x -= player.speed.x * self.render_frame_time
 
-        if axis.y < 0.2:
-            if player.y > 2:
-                player.y -= player.speed.y * self.render_frame_time
+        # if axis.y < 0.2:
+        #     if player.y > 2:
+        #         player.y -= player.speed.y * self.render_frame_time
 
-        if axis.y > -0.2:
-            if player.y + player.size.y < self.resolution.y - 1:
-                player.y += player.speed.y * self.render_frame_time
+        # if axis.y > -0.2:
+        #     if player.y + player.size.y < self.resolution.y - 1:
+        #         player.y += player.speed.y * self.render_frame_time
 
-        if self.joystick.get_button(2):
-            if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
+        # if self.joystick.get_button(2):
+        #     if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
-                for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
-                    self.bullet_controller.shoot(generated_bullet)
-                player.last_bullet = pygame.time.get_ticks()
+        #         for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
+        #             self.bullet_controller.shoot(generated_bullet)
+        #         player.last_bullet = pygame.time.get_ticks()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

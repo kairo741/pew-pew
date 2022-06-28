@@ -38,7 +38,7 @@ class BulletController:
 
     def has_collided(self, object, action):
         for bullet in self.bullets:
-            if bullet.toRect().colliderect(object.toRect()):
+            if bullet.collided_with(object):
                 try:
                     action(bullet)
                 except:

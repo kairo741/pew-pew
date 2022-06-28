@@ -10,7 +10,9 @@ class Ship(GameObject):
 
         self.weapon = weapon
         self.health = health
+        self.max_health = health
         self.last_bullet = 0
+
 
     def take_damage(self, value):
         self.health -= value
@@ -21,7 +23,7 @@ class Ship(GameObject):
             draw.rect(screen, (255, 100, 100),
                       (self.x, self.size.y+self.y+lifebar_size.y*2, lifebar_size.x, lifebar_size.y))
             draw.rect(screen, (100, 255, 100),
-                      (self.x*(self.health/100), self.size.y+self.y+lifebar_size.y*2, lifebar_size.x*(self.health/100), lifebar_size.y))
+                      (self.x, self.size.y+self.y+lifebar_size.y*2, lifebar_size.x*(self.health/100), lifebar_size.y))
         else:
             draw.rect(screen, (255, 100, 100), (self.x, self.y -
                       lifebar_size.y*2, lifebar_size.x, lifebar_size.y))
