@@ -40,6 +40,8 @@ class GameManager:
 
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
+
+        self.time_stop = False
         
 
     def tick_clock(self):
@@ -64,8 +66,7 @@ class GameManager:
             self.tick_clock()
             self.game_events(player=player)
             
-            bg.render_background(
-                    self.screen, self.resolution)
+            bg.render_background(self.screen, self.resolution)
             
             self.bullet_manager.render_bullets(self.screen)
             
@@ -85,18 +86,19 @@ class GameManager:
                 player.render(self.screen, is_player=True)
 
             if self.state == Constants.RUNNING:
-                self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
-                self.enemy_manager.move_enemies(self.render_frame_time)
-                
-                bg.manage_stars(self.render_frame_time)
-                
-                self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
-                for e in self.enemy_manager.enemies:
-                    self.bullet_manager.has_collided(
-                        e, lambda bullet: e.take_damage(bullet.damage)
-                    )
+                if not self.time_stop:
+                    self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
+                    self.enemy_manager.move_enemies(self.render_frame_time)
+                    
+                    bg.manage_stars(self.render_frame_time)
+                    
+                    self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
+                    for e in self.enemy_manager.enemies:
+                        self.bullet_manager.has_collided(
+                            e, lambda bullet: e.take_damage(bullet.damage)
+                        )
 
-                self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
+                    self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
 
                 
             elif self.state == Constants.PAUSE:
@@ -105,6 +107,7 @@ class GameManager:
 
             fps.render(display=self.screen, fps=self.clock.get_fps(), position=(self.resolution.x - 40, 0))
             pygame.display.update()
+
 
     def game_events(self, player):
         keys = pygame.key.get_pressed()
@@ -161,24 +164,32 @@ class GameManager:
                         player.last_bullet = pygame.time.get_ticks()
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                
-            self.controller_state(pygame.joystick.get_count() > 0)
+            self.controller_state(pygame.joystick.get_count() > 0)            
                 
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_x and self.time_stop == False:
+                    self.time_stop = True
+                    pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
+
+                if event.key == pygame.K_r and player.health <= 0:
+                    self.reset_game(player)
+
                 if event.key == pygame.K_ESCAPE:
                     if self.state == Constants.PAUSE:
                         self.state = Constants.RUNNING
                     else:
                         self.state = Constants.PAUSE
 
-                if player.health <= 0 and event.key == pygame.K_r:
-                    self.reset_game(player)
-
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()
+
+            if event.type == Constants.ULTIMATE_END:
+                self.time_stop = False
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
 
     def controller_state(self, enabled):
         if enabled:

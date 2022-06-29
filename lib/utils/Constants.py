@@ -1,5 +1,5 @@
 from os import path
-from pygame import image, mixer
+from pygame import image, mixer, USEREVENT
 from object.Weapon import Weapon
 from utils.Utils import Utils
 
@@ -27,3 +27,5 @@ class Constants:
     PLAYER_DEFAULT_SPEED = Axis(10, 7)
     PLAYER_DEFAULT_WEAPON = Weapon(shoot_delay=100, weapon_type="triple",
                                    bullet_sprite=Utils.scale_image(SPRITE_BULLET, 0.2))
+
+    ULTIMATE_END = USEREVENT+1
