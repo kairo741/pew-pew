@@ -34,5 +34,5 @@ class Ship(GameObject):
                                                 lifebar_size.y))
 
     def get_hitbox_rect(self):
-        middle = Axis(self.x + (self.size.x*0.91 / 2), self.y + (self.size.y*1.2 / 2))
+        middle = Axis(self.x + (self.size.x*0.93 / 2), self.y + (self.size.y*1.2 / 2))
         return [middle.x, middle.y, self.size.x * 0.1, self.size.x * 0.1]
