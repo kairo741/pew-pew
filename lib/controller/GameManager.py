@@ -2,6 +2,7 @@ import pygame
 from random import randint
 
 from .BulletManager import BulletManager
+from .EnemyManager import EnemyManager
 from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
@@ -38,7 +39,8 @@ class GameManager:
         # self.joystick.init()
 
         self.bullet_controller = BulletManager()
-        self.last_enemy = 0
+        self.enemy_manager = EnemyManager()
+        #self.last_enemy = 0
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -51,9 +53,7 @@ class GameManager:
         player.sprite = Utils.scale_image(player.sprite, 0.5)
         player.setSizeWithSprite()
 
-        enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP, 0.5)
-        enemies = []
-
+    
         fps = FPS()
 
         # explosion_sfx = Constants.SFX_EXPLOSION
@@ -68,40 +68,27 @@ class GameManager:
                        position=(self.resolution.x - 30, 0))
             self.bullet_controller.render_bullets(self.screen)
 
-            for e in enemies:
+            
+            self.enemy_manager.render_enemies(self.screen)
+            self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
+            for e in self.enemy_manager.enemies:
                 self.bullet_controller.has_collided(
                     e, lambda bullet: e.take_damage(bullet.damage)
                 )
-                if (e.collided_with(player)):
-                    player.take_damage(e.max_health*0.15)
-                    e.take_damage(e.health)
-
-                if (e.health <= 0):
-                    enemies.remove(e)
+            
+            self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health*0.15))
 
             if (player.health <= 0):
                 pygame.quit()
 
             player.render(self.screen, is_player=True)
 
-            if pygame.time.get_ticks() - self.last_enemy > 800:
-                new_enemy = Ship(x=self.resolution.x / 2, y=0, sprite=pygame.Surface.copy(enemy_sprite),
-                                 speed=Axis(Utils.random_int(-4, 4), randint(0, 4)))
-                new_enemy.setSizeWithSprite()
-                new_enemy.center()
-                enemies.append(new_enemy)
-                self.last_enemy = pygame.time.get_ticks()
-
-            for e in enemies:
-                e.x += e.speed.x * self.render_frame_time
-                e.y += e.speed.y * self.render_frame_time
-                e.render(self.screen)
-
             pygame.display.update()
             self.game_events(player=player)
 
     def game_events(self, player):
         self.bullet_controller.move_bullets(self.render_frame_time, self.resolution)
+        self.enemy_manager.move_enemies(self.render_frame_time)
 
         keys = pygame.key.get_pressed()
 
