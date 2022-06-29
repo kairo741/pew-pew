@@ -16,6 +16,7 @@ from utils.Utils import Utils
 class GameManager:
     def __init__(self):
         super().__init__()
+        pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
         pygame.display.init()
         pygame.joystick.init()
         pygame.mixer.init()
