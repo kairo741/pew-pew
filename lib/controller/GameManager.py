@@ -17,6 +17,7 @@ class GameManager:
     def __init__(self):
         super().__init__()
         pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
+        pygame.display.set_caption("PewPew")
         pygame.display.init()
         pygame.joystick.init()
         pygame.mixer.init()
@@ -32,13 +33,12 @@ class GameManager:
                                y=int(self.get_res.current_h * 0.7))
         self.screen = pygame.display.set_mode(
             [self.resolution.x, self.resolution.y], self.flags)
+        self.state = Constants.RUNNING
 
-        pygame.display.set_caption("PewPew")
         self.clock = pygame.time.Clock()
         self.render_frame_time = 0
         # self.joystick = pygame.joystick.Joystick(0)
         # self.joystick.init()
-
         self.bullet_controller = BulletManager()
         self.enemy_manager = EnemyManager()
         # self.last_enemy = 0
@@ -62,30 +62,35 @@ class GameManager:
         # explosion_sfx.set_volume(0.2)
 
         while True:
-            self.tick_clock()
-            bg.render_background(
-                self.screen, self.resolution, self.render_frame_time)
+            self.game_events(player=player)
 
-            fps.render(display=self.screen, fps=self.clock.get_fps(),
-                       position=(self.resolution.x - 40, 0))
-            self.bullet_controller.render_bullets(self.screen)
+            if self.state == Constants.RUNNING:
+                self.tick_clock()
+                bg.render_background(
+                    self.screen, self.resolution, self.render_frame_time)
 
-            self.enemy_manager.render_enemies(self.screen)
-            self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
-            for e in self.enemy_manager.enemies:
-                self.bullet_controller.has_collided(
-                    e, lambda bullet: e.take_damage(bullet.damage)
-                )
+                fps.render(display=self.screen, fps=self.clock.get_fps(),
+                           position=(self.resolution.x - 40, 0))
+                self.bullet_controller.render_bullets(self.screen)
 
-            self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
+                self.enemy_manager.render_enemies(self.screen)
+                self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
+                for e in self.enemy_manager.enemies:
+                    self.bullet_controller.has_collided(
+                        e, lambda bullet: e.take_damage(bullet.damage)
+                    )
 
-            if (player.health <= 0):
-                pygame.quit()
+                self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
 
-            player.render(self.screen, is_player=True)
+                if player.health <= 0:
+                    pygame.quit()
+                player.render(self.screen, is_player=True)
+
+            elif self.state == Constants.PAUSE:
+                pause_text = pygame.font.SysFont('Consolas', 40).render('Pause', True, pygame.color.Color('White'))
+                self.screen.blit(pause_text, (100, 100))
 
             pygame.display.update()
-            self.game_events(player=player)
 
     def game_events(self, player):
         self.bullet_controller.move_bullets(self.render_frame_time, self.resolution)
@@ -145,6 +150,12 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    if self.state == Constants.PAUSE:
+                        self.state = Constants.RUNNING
+                    else:
+                        self.state = Constants.PAUSE
+
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()

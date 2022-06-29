@@ -14,3 +14,6 @@ class Constants:
 
     # SFXs
     # SFX_EXPLOSION = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\Explosion.mp3")
+
+    # Game states
+    RUNNING, PAUSE = 0, 1
