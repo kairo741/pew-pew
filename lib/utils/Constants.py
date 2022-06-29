@@ -1,5 +1,9 @@
 from os import path
 from pygame import image, mixer
+from object.Weapon import Weapon
+from utils.Utils import Utils
+
+from object.Axis import Axis
 
 
 class Constants:
@@ -14,3 +18,12 @@ class Constants:
 
     # SFXs
     # SFX_EXPLOSION = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\Explosion.mp3")
+
+    # Game states
+    RUNNING, PAUSE = 0, 1
+
+    # Player attributes
+    PLAYER_DEFAULT_HEALTH = 100
+    PLAYER_DEFAULT_SPEED = Axis(10, 7)
+    PLAYER_DEFAULT_WEAPON = Weapon(shoot_delay=100, weapon_type="triple",
+                                   bullet_sprite=Utils.scale_image(SPRITE_BULLET, 0.2))
