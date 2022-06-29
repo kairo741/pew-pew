@@ -49,10 +49,10 @@ class GameManager:
     def start(self):
         bg = Background()
 
-        player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
+        player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
                       sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
-                      weapon=Weapon(shoot_delay=100, weapon_type="triple",
-                                    bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)))
+                      health=Constants.PLAYER_DEFAULT_HEALTH,
+                      weapon=Constants.PLAYER_DEFAULT_WEAPON)
         player.sprite = Utils.scale_image(player.sprite, 0.7)
         player.set_size_with_sprite()
 
@@ -65,6 +65,8 @@ class GameManager:
             self.game_events(player=player)
 
             if self.state == Constants.RUNNING:
+                self.bullet_controller.move_bullets(self.render_frame_time, self.resolution)
+                self.enemy_manager.move_enemies(self.render_frame_time)
                 self.tick_clock()
                 bg.render_background(
                     self.screen, self.resolution, self.render_frame_time)
@@ -83,8 +85,18 @@ class GameManager:
                 self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
 
                 if player.health <= 0:
-                    pygame.quit()
-                player.render(self.screen, is_player=True)
+                    death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
+                                                                            pygame.color.Color('White'))
+                    continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
+                                                                               pygame.color.Color('White'))
+                    self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
+                    self.screen.blit(continue_text, (self.resolution.x / 3, 240))
+                    player.x = 0  # todo - alterar método de tirar o player (mesmo que não renderizado)da tela
+                    player.y = 0  # todo - alterar método de tirar o player (mesmo que não renderizado) da tela
+
+                    # pygame.quit()
+                else:
+                    player.render(self.screen, is_player=True)
 
             elif self.state == Constants.PAUSE:
                 pause_text = pygame.font.SysFont('Consolas', 40).render('Pause', True, pygame.color.Color('White'))
@@ -93,33 +105,30 @@ class GameManager:
             pygame.display.update()
 
     def game_events(self, player):
-        self.bullet_controller.move_bullets(self.render_frame_time, self.resolution)
-        self.enemy_manager.move_enemies(self.render_frame_time)
-
         keys = pygame.key.get_pressed()
+        if player.health > 0:
+            if keys[pygame.K_d]:
+                if player.x + player.size.x < self.resolution.x - 1:
+                    player.x += player.speed.x * self.render_frame_time
 
-        if keys[pygame.K_d]:
-            if player.x + player.size.x < self.resolution.x - 1:
-                player.x += player.speed.x * self.render_frame_time
+            if keys[pygame.K_a]:
+                if player.x > 2:
+                    player.x -= player.speed.x * self.render_frame_time
 
-        if keys[pygame.K_a]:
-            if player.x > 2:
-                player.x -= player.speed.x * self.render_frame_time
+            if keys[pygame.K_w]:
+                if player.y > 2:
+                    player.y -= player.speed.y * self.render_frame_time
 
-        if keys[pygame.K_w]:
-            if player.y > 2:
-                player.y -= player.speed.y * self.render_frame_time
+            if keys[pygame.K_s]:
+                if player.y + player.size.y < self.resolution.y - 1:
+                    player.y += player.speed.y * self.render_frame_time
 
-        if keys[pygame.K_s]:
-            if player.y + player.size.y < self.resolution.y - 1:
-                player.y += player.speed.y * self.render_frame_time
+            if keys[pygame.K_SPACE]:
+                if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
-        if keys[pygame.K_SPACE]:
-            if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
-
-                for generated_bullet in player.weapon.make_bullets(player.get_middle()):
-                    self.bullet_controller.shoot(generated_bullet)
-                player.last_bullet = pygame.time.get_ticks()
+                    for generated_bullet in player.weapon.make_bullets(player.get_middle()):
+                        self.bullet_controller.shoot(generated_bullet)
+                    player.last_bullet = pygame.time.get_ticks()
 
         # axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
 
@@ -156,9 +165,20 @@ class GameManager:
                     else:
                         self.state = Constants.PAUSE
 
+                if player.health <= 0 and event.key == pygame.K_r:
+                    self.reset_game(player)
+
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()
+
+    def reset_game(self, player):
+        self.enemy_manager.enemies = []
+        player.health = Constants.PLAYER_DEFAULT_HEALTH
+        player.speed = Constants.PLAYER_DEFAULT_SPEED
+        player.weapon = Constants.PLAYER_DEFAULT_WEAPON
+        player.x = self.resolution.x / 2
+        player.y = self.resolution.y / 2
 
     def fullscreen_mode(self):
         if self.is_fullscreen:
