@@ -41,7 +41,7 @@ class EnemyManager:
 
     def has_collided(self, object, action):
         for enemy in self.enemies:
-            if enemy.collided_with(object):
+            if enemy.collided_with(object, object.get_hitbox_rect()):
                 try:
                     action()
                 except:

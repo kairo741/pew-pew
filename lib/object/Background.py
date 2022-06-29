@@ -32,17 +32,21 @@ class Background(GameObject):
 
             self.last_star_tick = time.get_ticks()
 
-    def render_background(self, screen, resolution, render_frame_time):
-        self.size = resolution
+    def manage_stars(self, render_frame_time):
         self.make_stars()
-
-        draw.rect(screen, (14, 6, 21), self.to_rect())
-
         for star in self.stars:
             star.y += star.speed.y * render_frame_time
-            star.render(screen)
             if (star.y > self.size.x):
                 try:
                     self.stars.remove(star)
                 except:
                     print("error removing star")
+    
+    def render_background(self, screen, resolution):
+        self.size = resolution
+
+        draw.rect(screen, (14, 6, 21), self.to_rect())
+
+        for star in self.stars:
+            star.render(screen)
+            

@@ -61,20 +61,35 @@ class GameManager:
         # explosion_sfx.set_volume(0.2)
 
         while True:
+            self.tick_clock()
             self.game_events(player=player)
+            
+            bg.render_background(
+                    self.screen, self.resolution)
+            
+            self.bullet_manager.render_bullets(self.screen)
+            
+            self.enemy_manager.render_enemies(self.screen)
+            
+            if player.health <= 0:
+                    death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
+                                                                            pygame.color.Color('White'))
+                    continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
+                                                                               pygame.color.Color('White'))
+                    self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
+                    self.screen.blit(continue_text, (self.resolution.x / 3, 240))
+                    player.size.x = 0  # todo - alterar método de tirar o player (mesmo que não renderizado)da tela
+                    player.size.y = 0  # todo - alterar método de tirar o player (mesmo que não renderizado) da tela
+
+            else:
+                player.render(self.screen, is_player=True)
 
             if self.state == Constants.RUNNING:
                 self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
                 self.enemy_manager.move_enemies(self.render_frame_time)
-                self.tick_clock()
-                bg.render_background(
-                    self.screen, self.resolution, self.render_frame_time)
-
-                fps.render(display=self.screen, fps=self.clock.get_fps(),
-                           position=(self.resolution.x - 40, 0))
-                self.bullet_manager.render_bullets(self.screen)
-
-                self.enemy_manager.render_enemies(self.screen)
+                
+                bg.manage_stars(self.render_frame_time)
+                
                 self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
                 for e in self.enemy_manager.enemies:
                     self.bullet_manager.has_collided(
@@ -83,29 +98,17 @@ class GameManager:
 
                 self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
 
-                if player.health <= 0:
-                    death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
-                                                                            pygame.color.Color('White'))
-                    continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
-                                                                               pygame.color.Color('White'))
-                    self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
-                    self.screen.blit(continue_text, (self.resolution.x / 3, 240))
-                    player.x = 0  # todo - alterar método de tirar o player (mesmo que não renderizado)da tela
-                    player.y = 0  # todo - alterar método de tirar o player (mesmo que não renderizado) da tela
-
-                    # pygame.quit()
-                else:
-                    player.render(self.screen, is_player=True)
-
+                
             elif self.state == Constants.PAUSE:
                 pause_text = pygame.font.SysFont('Consolas', 40).render('Pause', True, pygame.color.Color('White'))
                 self.screen.blit(pause_text, (100, 100))
 
+            fps.render(display=self.screen, fps=self.clock.get_fps(), position=(self.resolution.x - 40, 0))
             pygame.display.update()
 
     def game_events(self, player):
         keys = pygame.key.get_pressed()
-        if player.health > 0:
+        if player.health > 0 and self.state == Constants.RUNNING:
             if keys[pygame.K_d]:
                 if player.x + player.size.x < self.resolution.x - 1:
                     player.x += player.speed.x * self.render_frame_time
@@ -164,7 +167,7 @@ class GameManager:
             self.controller_state(pygame.joystick.get_count() > 0)
                 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
+                if event.key == pygame.K_ESCAPE:
                     if self.state == Constants.PAUSE:
                         self.state = Constants.RUNNING
                     else:
@@ -192,6 +195,7 @@ class GameManager:
         player.health = Constants.PLAYER_DEFAULT_HEALTH
         player.speed = Constants.PLAYER_DEFAULT_SPEED
         player.weapon = Constants.PLAYER_DEFAULT_WEAPON
+        player.set_size_with_sprite()
         player.x = self.resolution.x / 2
         player.y = self.resolution.y / 2
 
