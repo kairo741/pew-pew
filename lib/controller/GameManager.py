@@ -40,7 +40,7 @@ class GameManager:
 
         self.bullet_controller = BulletManager()
         self.enemy_manager = EnemyManager()
-        #self.last_enemy = 0
+        # self.last_enemy = 0
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -55,7 +55,6 @@ class GameManager:
         player.sprite = Utils.scale_image(player.sprite, 0.7)
         player.set_size_with_sprite()
 
-    
         fps = FPS()
 
         # explosion_sfx = Constants.SFX_EXPLOSION
@@ -67,18 +66,17 @@ class GameManager:
                 self.screen, self.resolution, self.render_frame_time)
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
-                       position=(self.resolution.x - 30, 0))
+                       position=(self.resolution.x - 40, 0))
             self.bullet_controller.render_bullets(self.screen)
 
-            
             self.enemy_manager.render_enemies(self.screen)
             self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
             for e in self.enemy_manager.enemies:
                 self.bullet_controller.has_collided(
                     e, lambda bullet: e.take_damage(bullet.damage)
                 )
-            
-            self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health*0.15))
+
+            self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
 
             if (player.health <= 0):
                 pygame.quit()
