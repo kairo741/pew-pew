@@ -1,5 +1,4 @@
 from random import randrange
-
 from utils.Constants import Constants
 from utils.Utils import Utils
 from .GameObject import GameObject
@@ -8,8 +7,9 @@ from pygame import time, draw
 
 
 class Background(GameObject):
-    def __init__(self, x=0, y=0, size=Axis.zero()):
+    def __init__(self, x=0, y=0, size=Axis.zero(), color=Constants.BACKGROUND_COLOR):
         super().__init__(x, y, size)
+        self.color = color
         self.star_sprite = Utils.scale_image(Constants.SPRITE_STAR, 0.1)
         self.star_sprite.set_alpha(90)
 
@@ -45,7 +45,7 @@ class Background(GameObject):
     def render_background(self, screen, resolution):
         self.size = resolution
 
-        draw.rect(screen, (14, 6, 21), self.to_rect())
+        draw.rect(screen, self.color, self.to_rect())
 
         for star in self.stars:
             star.render(screen)

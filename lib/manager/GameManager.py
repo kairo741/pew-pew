@@ -38,6 +38,7 @@ class GameManager:
         self.joystick = None
         self.controller_connected = False
 
+        self.bg = Background()
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
 
@@ -48,7 +49,7 @@ class GameManager:
         self.render_frame_time = self.clock.tick() / 10
 
     def start(self):
-        bg = Background()
+        
 
         player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
                       sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
@@ -66,7 +67,7 @@ class GameManager:
             self.tick_clock()
             self.game_events(player=player)
             
-            bg.render_background(self.screen, self.resolution)
+            self.bg.render_background(self.screen, self.resolution)
             
             self.bullet_manager.render_bullets(self.screen)
             
@@ -90,7 +91,7 @@ class GameManager:
                     self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
                     self.enemy_manager.move_enemies(self.render_frame_time)
                     
-                    bg.manage_stars(self.render_frame_time)
+                    self.bg.manage_stars(self.render_frame_time)
                     
                     self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
                     for e in self.enemy_manager.enemies:
@@ -102,7 +103,7 @@ class GameManager:
 
                 
             elif self.state == Constants.PAUSE:
-                pause_text = pygame.font.SysFont('Consolas', 40).render('Pause', True, pygame.color.Color('White'))
+                pause_text = pygame.font.SysFont('Consolas', 40).render('Pause', True, pygame.color.Color('Red'))
                 self.screen.blit(pause_text, (100, 100))
 
             fps.render(display=self.screen, fps=self.clock.get_fps(), position=(self.resolution.x - 40, 0))
@@ -168,6 +169,8 @@ class GameManager:
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_x and self.time_stop == False:
+                    self.bg.color = [code + 50 for code in self.bg.color]
+                        
                     self.time_stop = True
                     pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
 
@@ -185,6 +188,7 @@ class GameManager:
                         self.fullscreen_mode()
 
             if event.type == Constants.ULTIMATE_END:
+                self.bg.color = Constants.BACKGROUND_COLOR
                 self.time_stop = False
 
             if event.type == pygame.QUIT:

@@ -16,8 +16,12 @@ class Constants:
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\shipEnemy.png")
 
+
     # SFXs
     # SFX_EXPLOSION = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\Explosion.mp3")
+
+    # Colors
+    BACKGROUND_COLOR = (14, 6, 21)
 
     # Game states
     RUNNING, PAUSE = 0, 1
@@ -29,3 +33,5 @@ class Constants:
                                    bullet_sprite=Utils.scale_image(SPRITE_BULLET, 0.2))
 
     ULTIMATE_END = USEREVENT+1
+
+
