@@ -6,3 +6,6 @@ class Axis:
     @staticmethod
     def zero():
         return Axis(0, 0)
+    
+    def to_list(self):
+        return [self.x, self.y]

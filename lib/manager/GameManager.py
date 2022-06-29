@@ -1,12 +1,10 @@
 import pygame
-from random import randint
 
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
 from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
-from object.GameObject import GameObject
 from object.Ship import Ship
 from object.Weapon import Weapon
 from utils.Constants import Constants
@@ -28,18 +26,17 @@ class GameManager:
         self.is_fullscreen = False
 
         self.get_res = pygame.display.Info()
-        self.resolution = Axis(x=int(self.get_res.current_w * 0.7),
-                               y=int(self.get_res.current_h * 0.7))
-        self.screen = pygame.display.set_mode(
-            [self.resolution.x, self.resolution.y], self.flags)
-
+        self.resolution = Axis(x=int(self.get_res.current_w * 0.7), y=int(self.get_res.current_h * 0.7))
+        self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
         pygame.display.set_caption("PewPew")
+
         self.clock = pygame.time.Clock()
         self.render_frame_time = 0
-        # self.joystick = pygame.joystick.Joystick(0)
-        # self.joystick.init()
+        
+        self.joystick = None
+        self.controller_connected = False
 
-        self.bullet_controller = BulletManager()
+        self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         # self.last_enemy = 0
 
@@ -68,12 +65,12 @@ class GameManager:
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
                        position=(self.resolution.x - 40, 0))
-            self.bullet_controller.render_bullets(self.screen)
+            self.bullet_manager.render_bullets(self.screen)
 
             self.enemy_manager.render_enemies(self.screen)
             self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
             for e in self.enemy_manager.enemies:
-                self.bullet_controller.has_collided(
+                self.bullet_manager.has_collided(
                     e, lambda bullet: e.take_damage(bullet.damage)
                 )
 
@@ -88,7 +85,7 @@ class GameManager:
             self.game_events(player=player)
 
     def game_events(self, player):
-        self.bullet_controller.move_bullets(self.render_frame_time, self.resolution)
+        self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
         self.enemy_manager.move_enemies(self.render_frame_time)
 
         keys = pygame.key.get_pressed()
@@ -113,41 +110,54 @@ class GameManager:
             if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
                 for generated_bullet in player.weapon.make_bullets(player.get_middle()):
-                    self.bullet_controller.shoot(generated_bullet)
+                    self.bullet_manager.shoot(generated_bullet)
                 player.last_bullet = pygame.time.get_ticks()
 
-        # axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
+        if self.controller_connected:
+            axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
 
-        # if axis.x > 0.2:
-        #     if player.x + player.size.x < self.resolution.x - 1:
-        #         player.x += player.speed.x * self.render_frame_time
+            if axis.x > 0.2:
+                if player.x + player.size.x < self.resolution.x - 1:
+                    player.x += player.speed.x * self.render_frame_time
 
-        # if axis.x < -0.2:
-        #     if player.x > 2:
-        #         player.x -= player.speed.x * self.render_frame_time
+            if axis.x < -0.2:
+                if player.x > 2:
+                    player.x -= player.speed.x * self.render_frame_time
 
-        # if axis.y < 0.2:
-        #     if player.y > 2:
-        #         player.y -= player.speed.y * self.render_frame_time
+            if axis.y < 0.2:
+                if player.y > 2:
+                    player.y -= player.speed.y * self.render_frame_time
 
-        # if axis.y > -0.2:
-        #     if player.y + player.size.y < self.resolution.y - 1:
-        #         player.y += player.speed.y * self.render_frame_time
+            if axis.y > -0.2:
+                if player.y + player.size.y < self.resolution.y - 1:
+                    player.y += player.speed.y * self.render_frame_time
 
-        # if self.joystick.get_button(2):
-        #     if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
+            if self.joystick.get_button(2):
+                if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
-        #         for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
-        #             self.bullet_controller.shoot(generated_bullet)
-        #         player.last_bullet = pygame.time.get_ticks()
+                    for generated_bullet in player.weapon.make_bullets(player.get_middle()):
+                        self.bullet_manager.shoot(generated_bullet)
+                    player.last_bullet = pygame.time.get_ticks()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                
+            self.controller_state(pygame.joystick.get_count() > 0)
+                
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()
+
+    def controller_state(self, enabled):
+        if enabled:
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
+            self.controller_connected = True
+        else:
+            self.joystick = None
+            self.controller_connected = False
 
     def fullscreen_mode(self):
         if self.is_fullscreen:
@@ -160,5 +170,5 @@ class GameManager:
             self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
 
         self.screen = pygame.display.set_mode(
-            [self.resolution.x, self.resolution.y], self.flags)
+            self.resolution.to_list(), self.flags)
         self.is_fullscreen = not self.is_fullscreen

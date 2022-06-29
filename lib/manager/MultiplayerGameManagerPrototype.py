@@ -34,7 +34,7 @@ class MultiplayerGameManagerPrototype:
         self.clock = pygame.time.Clock()
         self.render_frame_time = 0
 
-        self.bullet_controller = BulletManager()
+        self.bullet_manager = BulletManager()
         self.last_enemy = 0
 
     def tick_clock(self):
@@ -77,10 +77,10 @@ class MultiplayerGameManagerPrototype:
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
                        position=(self.resolution.x - 30, 0))
-            self.bullet_controller.render_bullets(self.screen)
+            self.bullet_manager.render_bullets(self.screen)
 
             for e in enemies:
-                self.bullet_controller.has_collided(
+                self.bullet_manager.has_collided(
                     e, lambda bullet: e.take_damage(bullet.damage)
                 )
                 if (e.health < 0):
@@ -106,7 +106,7 @@ class MultiplayerGameManagerPrototype:
             self.game_events(players=players)
 
     def game_events(self, players):
-        self.bullet_controller.move_bullets(self.render_frame_time, self.resolution)
+        self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
 
         keys = pygame.key.get_pressed()
 
@@ -135,7 +135,7 @@ class MultiplayerGameManagerPrototype:
                         if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
                             for generated_bullet in player.weapon.make_bullets(player.get_middle()):
-                                self.bullet_controller.shoot(generated_bullet)
+                                self.bullet_manager.shoot(generated_bullet)
                             player.last_bullet = pygame.time.get_ticks()
 
             else:
@@ -158,7 +158,7 @@ class MultiplayerGameManagerPrototype:
                 if keys[pygame.K_RETURN]:
                     if pygame.time.get_ticks() - player.last_bullet > 200:
                         for generated_bullet in player.weapon.make_bullets(player.get_middle()):
-                            self.bullet_controller.shoot(generated_bullet)
+                            self.bullet_manager.shoot(generated_bullet)
                             player.last_bullet = pygame.time.get_ticks()
 
         for event in pygame.event.get():
