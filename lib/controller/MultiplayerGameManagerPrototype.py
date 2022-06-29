@@ -46,14 +46,19 @@ class MultiplayerGameManagerPrototype:
         player_colors = [(255, 100, 100, 255), (100, 100, 255, 255)]
 
         players = [Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
-                          sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(), weapon=Weapon(shoot_delay=300, weapon_type="triple", bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2))), Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
-                                                                                                                                                                                                            sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(), weapon=Weapon(shoot_delay=200, weapon_type="double", bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)),)]
+                        sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
+                        weapon=Weapon(shoot_delay=300, weapon_type="triple",
+                                      bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2))),
+                   Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
+                        sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
+                        weapon=Weapon(shoot_delay=200, weapon_type="double",
+                                      bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)), )]
 
         for i in range(0, len(players)):
             mask = pygame.Surface(Constants.SPRITE_PLAYER_SHIP.get_size())
             mask.fill(player_colors[i])
             players[i].sprite = Utils.scale_image(players[i].sprite, 0.5)
-            players[i].setSizeWithSprite()
+            players[i].set_size_with_sprite()
             players[i].sprite.blit(
                 mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
@@ -86,8 +91,8 @@ class MultiplayerGameManagerPrototype:
 
             if pygame.time.get_ticks() - self.last_enemy > 800:
                 new_enemy = Ship(x=self.resolution.x / 2, y=0, sprite=pygame.Surface.copy(enemy_sprite),
-                                       speed=Axis(randint(-2, 2), randint(0, 4)))
-                new_enemy.setSizeWithSprite()
+                                 speed=Axis(randint(-2, 2), randint(0, 4)))
+                new_enemy.set_size_with_sprite()
                 new_enemy.center()
                 enemies.append(new_enemy)
                 self.last_enemy = pygame.time.get_ticks()
@@ -107,55 +112,54 @@ class MultiplayerGameManagerPrototype:
 
         for i in range(0, len(players)):
             player = players[i]
-            if (i == 0):
- 
+            if i == 0:
+
                 if keys[pygame.K_d]:
                     if player.x + player.size.x < self.resolution.x - 1:
                         player.x += player.speed.x * self.render_frame_time
- 
+
                 if keys[pygame.K_a]:
                     if player.x > 2:
                         player.x -= player.speed.x * self.render_frame_time
- 
+
                 if keys[pygame.K_w]:
                     if player.y > 2:
                         player.y -= player.speed.y * self.render_frame_time
- 
+
                 if keys[pygame.K_s]:
                     if player.y + player.size.y < self.resolution.y - 1:
                         player.y += player.speed.y * self.render_frame_time
- 
+
                 if keys[pygame.K_SPACE]:
                     if pygame.time.get_ticks() - player.last_bullet > 200:
                         if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
- 
-                            for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
+
+                            for generated_bullet in player.weapon.make_bullets(player.get_middle()):
                                 self.bullet_controller.shoot(generated_bullet)
                             player.last_bullet = pygame.time.get_ticks()
- 
+
             else:
                 if keys[pygame.K_RIGHT]:
                     if player.x + player.size.x < self.resolution.x - 1:
                         player.x += player.speed.x * self.render_frame_time
- 
+
                 if keys[pygame.K_LEFT]:
                     if player.x > 2:
                         player.x -= player.speed.x * self.render_frame_time
- 
+
                 if keys[pygame.K_UP]:
                     if player.y > 2:
                         player.y -= player.speed.y * self.render_frame_time
- 
+
                 if keys[pygame.K_DOWN]:
                     if player.y + player.size.y < self.resolution.y - 1:
                         player.y += player.speed.y * self.render_frame_time
- 
+
                 if keys[pygame.K_RETURN]:
                     if pygame.time.get_ticks() - player.last_bullet > 200:
-                        for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
+                        for generated_bullet in player.weapon.make_bullets(player.get_middle()):
                             self.bullet_controller.shoot(generated_bullet)
                             player.last_bullet = pygame.time.get_ticks()
- 
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

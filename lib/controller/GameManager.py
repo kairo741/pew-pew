@@ -49,9 +49,11 @@ class GameManager:
         bg = Background()
 
         player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Axis(10, 7),
-                        sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(), weapon=Weapon(shoot_delay=100, weapon_type="triple", bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)))
-        player.sprite = Utils.scale_image(player.sprite, 0.5)
-        player.setSizeWithSprite()
+                      sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
+                      weapon=Weapon(shoot_delay=100, weapon_type="triple",
+                                    bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2)))
+        player.sprite = Utils.scale_image(player.sprite, 0.7)
+        player.set_size_with_sprite()
 
     
         fps = FPS()
@@ -111,10 +113,9 @@ class GameManager:
         if keys[pygame.K_SPACE]:
             if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
 
-                for generated_bullet in player.weapon.make_bullets(player.getMiddle()):
+                for generated_bullet in player.weapon.make_bullets(player.get_middle()):
                     self.bullet_controller.shoot(generated_bullet)
                 player.last_bullet = pygame.time.get_ticks()
-
 
         # axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
 

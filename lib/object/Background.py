@@ -36,7 +36,7 @@ class Background(GameObject):
         self.size = resolution
         self.make_stars()
 
-        draw.rect(screen, (14, 6, 21), self.toRect())
+        draw.rect(screen, (14, 6, 21), self.to_rect())
 
         for star in self.stars:
             star.y += star.speed.y * render_frame_time
