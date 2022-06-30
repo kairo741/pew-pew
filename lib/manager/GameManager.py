@@ -164,15 +164,22 @@ class GameManager:
                             self.bullet_manager.shoot(generated_bullet)
                         player.last_bullet = pygame.time.get_ticks()
 
+                if self.joystick.get_button(10) and self.time_stop == False:
+                    self.activate_time_stop(True)
+
+                if self.joystick.get_button(6):
+                    if self.state == Constants.PAUSE:
+                        self.state = Constants.RUNNING
+                    else:
+                        self.state = Constants.PAUSE
+
+
         for event in pygame.event.get():
             self.controller_state(pygame.joystick.get_count() > 0)            
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_x and self.time_stop == False:
-                    self.bg.color = [code + 50 for code in self.bg.color]
-                        
-                    self.time_stop = True
-                    pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
+                   self.activate_time_stop(True)
 
                 if event.key == pygame.K_r and player.health <= 0:
                     self.reset_game(player)
@@ -188,11 +195,20 @@ class GameManager:
                         self.fullscreen_mode()
 
             if event.type == Constants.ULTIMATE_END:
-                self.bg.color = Constants.BACKGROUND_COLOR
-                self.time_stop = False
+                self.activate_time_stop(False)
 
             if event.type == pygame.QUIT:
                 pygame.quit()
+
+    def activate_time_stop(self, enable):
+        if enable:
+            self.bg.color = [code + 50 for code in self.bg.color]          
+            self.time_stop = True
+            pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
+
+        else:
+            self.bg.color = Constants.BACKGROUND_COLOR
+            self.time_stop = False
 
 
     def controller_state(self, enabled):
