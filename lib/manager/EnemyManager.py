@@ -52,6 +52,7 @@ class EnemyManager:
             e.render(screen)
             if (e.health < 1):
                 try:
+                    Constants.SFX_EXPLOSION.play()
                     self.enemies.remove(e)
                 except:
                     print("error removing enemy")

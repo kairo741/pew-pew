@@ -18,7 +18,6 @@ class GameManager:
         pygame.display.set_caption("PewPew")
         pygame.display.init()
         pygame.joystick.init()
-        pygame.mixer.init()
         pygame.font.init()
 
         # flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
@@ -30,6 +29,10 @@ class GameManager:
         self.resolution = Axis(x=int(self.get_res.current_w * 0.7), y=int(self.get_res.current_h * 0.7))
         self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
         pygame.display.set_caption("PewPew")
+
+        pygame.mixer.music.set_volume(Constants.BGM_VOLUME)
+        pygame.mixer.music.load(Constants.BGM_INDIGO)
+        pygame.mixer.music.play(-1)
 
         self.state = Constants.RUNNING
         self.clock = pygame.time.Clock()
@@ -43,6 +46,7 @@ class GameManager:
         self.enemy_manager = EnemyManager()
 
         self.time_stop = False
+        self.game_over = False
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -58,9 +62,6 @@ class GameManager:
 
         fps = FPS()
 
-        # explosion_sfx = Constants.SFX_EXPLOSION
-        # explosion_sfx.set_volume(0.2)
-
         while True:
             self.tick_clock()
             self.game_events(player=player)
@@ -68,6 +69,10 @@ class GameManager:
             self.bg.render_background(self.screen, self.resolution)
             self.bullet_manager.render_bullets(self.screen)
             self.enemy_manager.render_enemies(self.screen)
+            
+            if self.game_over == False and player.health <= 0:
+                Constants.SFX_DEATH.play()
+                self.game_over = True
 
             if player.health <= 0:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
@@ -130,6 +135,8 @@ class GameManager:
 
                     for generated_bullet in player.weapon.make_bullets(player.get_middle()):
                         self.bullet_manager.shoot(generated_bullet)
+                        
+                    Constants.SFX_LASER.play()
 
                     player.last_bullet = pygame.time.get_ticks()
 
@@ -157,6 +164,9 @@ class GameManager:
 
                         for generated_bullet in player.weapon.make_bullets(player.get_middle()):
                             self.bullet_manager.shoot(generated_bullet)
+                            
+                        Constants.SFX_LASER.play()
+                        
                         player.last_bullet = pygame.time.get_ticks()
 
                 if self.joystick.get_button(10) and self.time_stop is False:
@@ -196,6 +206,7 @@ class GameManager:
 
     def activate_time_stop(self, enable):
         if enable:
+            Constants.SFX_TIME_STOP.play()
             self.bg.color = [code + 50 for code in self.bg.color]
             self.time_stop = True
             pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
