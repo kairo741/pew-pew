@@ -24,10 +24,28 @@ class EnemyManager:
             self.enemies.append(new_enemy)
             self.last_enemy = time.get_ticks()
             
-    def move_enemies(self, render_frame_time):
+    def move_enemies(self, render_frame_time, screen_size):
         for e in self.enemies:
             e.x += e.speed.x * render_frame_time
             e.y += e.speed.y * render_frame_time
+            
+            if (self.check_enemy(screen_size, e)):
+                self.enemies.remove(e)
+
+    def check_enemy(self, screen_size, enemy):
+        if (enemy.y < -enemy.size.y):
+            return True
+
+        elif (enemy.x < -enemy.size.x):
+            return True
+
+        elif (enemy.x > screen_size.x):
+            return True
+
+        elif (enemy.y > screen_size.y):
+            return True
+
+        return False
 
     def render_enemies(self, screen):
         for e in self.enemies:

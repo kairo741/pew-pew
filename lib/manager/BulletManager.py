@@ -41,7 +41,8 @@ class BulletManager:
                 except:
                     print("error in bullet collision action")
 
-                try:
-                    self.bullets.remove(bullet)
-                except:
-                    print("error removing bullet")
+                if (bullet.pierce == False):
+                    try:
+                        self.bullets.remove(bullet)
+                    except:
+                        print("error removing bullet")

@@ -66,9 +66,7 @@ class GameManager:
             self.game_events(player=player)
 
             self.bg.render_background(self.screen, self.resolution)
-
             self.bullet_manager.render_bullets(self.screen)
-
             self.enemy_manager.render_enemies(self.screen)
 
             if player.health <= 0:
@@ -85,20 +83,21 @@ class GameManager:
                 player.render(self.screen, is_player=True)
 
             if self.state == Constants.RUNNING:
-                if not self.time_stop:
-                    self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
-                    self.enemy_manager.move_enemies(self.render_frame_time)
+                normal_frame_time = self.render_frame_time
+                if self.time_stop:
+                    self.render_frame_time = 0.01
+                    
+                self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
+                self.enemy_manager.move_enemies(self.render_frame_time, self.resolution)
+                self.bg.manage_stars(self.render_frame_time)
 
-                    self.bg.manage_stars(self.render_frame_time)
+                self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
+                for e in self.enemy_manager.enemies:
+                    self.bullet_manager.has_collided(e, lambda bullet: e.take_damage(bullet.damage))
 
-                    self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
-                    for e in self.enemy_manager.enemies:
-                        self.bullet_manager.has_collided(
-                            e, lambda bullet: e.take_damage(bullet.damage)
-                        )
+                self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
 
-                    self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
-
+                self.render_frame_time = normal_frame_time
 
             elif self.state == Constants.PAUSE:
                 pause_text = pygame.font.SysFont('Consolas', 40).render('Pause', True, pygame.color.Color('Red'))
