@@ -45,6 +45,13 @@ class GameManager:
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
 
+        self.player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
+                           sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
+                           health=Constants.PLAYER_DEFAULT_HEALTH,
+                           weapon=Constants.PLAYER_DEFAULT_WEAPON)
+        self.player.sprite = Utils.scale_image(self.player.sprite, 0.7)
+        self.player.set_size_with_sprite()
+
         self.time_stop = False
         self.game_over = False
 
@@ -53,39 +60,32 @@ class GameManager:
 
     def start(self):
 
-        player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
-                      sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
-                      health=Constants.PLAYER_DEFAULT_HEALTH,
-                      weapon=Constants.PLAYER_DEFAULT_WEAPON)
-        player.sprite = Utils.scale_image(player.sprite, 0.7)
-        player.set_size_with_sprite()
-
         fps = FPS()
 
         while True:
             self.tick_clock()
-            self.game_events(player=player)
+            self.game_events()
 
             self.bg.render_background(self.screen, self.resolution)
             self.bullet_manager.render_bullets(self.screen)
             self.enemy_manager.render_enemies(self.screen)
             
-            if self.game_over == False and player.health <= 0:
+            if self.game_over == False and self.player.health <= 0:
                 Constants.SFX_DEATH.play()
                 self.game_over = True
 
-            if player.health <= 0:
+            if self.player.health <= 0:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
                                                                         pygame.color.Color('White'))
                 continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
                                                                            pygame.color.Color('White'))
                 self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
-                player.size.x = 0
-                player.size.y = 0
+                self.player.size.x = 0
+                self.player.size.y = 0
 
             else:
-                player.render(self.screen, is_player=True)
+                self.player.render(self.screen, is_player=True)
 
             if self.state == Constants.RUNNING:
                 normal_frame_time = self.render_frame_time
@@ -100,7 +100,7 @@ class GameManager:
                 for e in self.enemy_manager.enemies:
                     self.bullet_manager.has_collided(e, lambda bullet: e.take_damage(bullet.damage))
 
-                self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
+                self.enemy_manager.has_collided(self.player, lambda: self.player.take_damage(e.max_health * 0.15))
 
                 self.render_frame_time = normal_frame_time
 
@@ -111,63 +111,63 @@ class GameManager:
             fps.render(display=self.screen, fps=self.clock.get_fps(), position=(self.resolution.x - 40, 0))
             pygame.display.update()
 
-    def game_events(self, player):
+    def game_events(self):
         keys = pygame.key.get_pressed()
-        if player.health > 0 and self.state == Constants.RUNNING:
+        if self.player.health > 0 and self.state == Constants.RUNNING:
             if keys[pygame.K_d]:
-                if player.x + player.size.x < self.resolution.x - 1:
-                    player.x += player.speed.x * self.render_frame_time
+                if self.player.x + self.player.size.x < self.resolution.x - 1:
+                    self.player.x += self.player.speed.x * self.render_frame_time
 
             if keys[pygame.K_a]:
-                if player.x > 2:
-                    player.x -= player.speed.x * self.render_frame_time
+                if self.player.x > 2:
+                    self.player.x -= self.player.speed.x * self.render_frame_time
 
             if keys[pygame.K_w]:
-                if player.y > 2:
-                    player.y -= player.speed.y * self.render_frame_time
+                if self.player.y > 2:
+                    self.player.y -= self.player.speed.y * self.render_frame_time
 
             if keys[pygame.K_s]:
-                if player.y + player.size.y < self.resolution.y - 1:
-                    player.y += player.speed.y * self.render_frame_time
+                if self.player.y + self.player.size.y < self.resolution.y - 1:
+                    self.player.y += self.player.speed.y * self.render_frame_time
 
             if keys[pygame.K_SPACE]:
-                if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
+                if pygame.time.get_ticks() - self.player.last_bullet > self.player.weapon.shoot_delay:
 
-                    for generated_bullet in player.weapon.make_bullets(player.get_middle()):
+                    for generated_bullet in self.player.weapon.make_bullets(self.player.get_middle()):
                         self.bullet_manager.shoot(generated_bullet)
                         
                     Constants.SFX_LASER.play()
 
-                    player.last_bullet = pygame.time.get_ticks()
+                    self.player.last_bullet = pygame.time.get_ticks()
 
             if self.controller_connected:
                 axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
 
                 if axis.x > 0.2:
-                    if player.x + player.size.x < self.resolution.x - 1:
-                        player.x += player.speed.x * self.render_frame_time
+                    if self.player.x + self.player.size.x < self.resolution.x - 1:
+                        self.player.x += self.player.speed.x * self.render_frame_time
 
                 if axis.x < -0.2:
-                    if player.x > 2:
-                        player.x -= player.speed.x * self.render_frame_time
+                    if self.player.x > 2:
+                        self.player.x -= self.player.speed.x * self.render_frame_time
 
                 if axis.y < 0.2:
-                    if player.y > 2:
-                        player.y -= player.speed.y * self.render_frame_time
+                    if self.player.y > 2:
+                        self.player.y -= self.player.speed.y * self.render_frame_time
 
                 if axis.y > -0.2:
-                    if player.y + player.size.y < self.resolution.y - 1:
-                        player.y += player.speed.y * self.render_frame_time
+                    if self.player.y + self.player.size.y < self.resolution.y - 1:
+                        self.player.y += self.player.speed.y * self.render_frame_time
 
                 if self.joystick.get_button(2):
-                    if pygame.time.get_ticks() - player.last_bullet > player.weapon.shoot_delay:
+                    if pygame.time.get_ticks() - self.player.last_bullet > self.player.weapon.shoot_delay:
 
-                        for generated_bullet in player.weapon.make_bullets(player.get_middle()):
+                        for generated_bullet in self.player.weapon.make_bullets(self.player.get_middle()):
                             self.bullet_manager.shoot(generated_bullet)
                             
                         Constants.SFX_LASER.play()
                         
-                        player.last_bullet = pygame.time.get_ticks()
+                        self.player.last_bullet = pygame.time.get_ticks()
 
                 if self.joystick.get_button(10) and self.time_stop is False:
                     self.activate_time_stop(True)
@@ -185,8 +185,8 @@ class GameManager:
                 if event.key == pygame.K_x and self.time_stop is False:
                     self.activate_time_stop(True)
 
-                if event.key == pygame.K_r and player.health <= 0:
-                    self.reset_game(player)
+                if event.key == pygame.K_r and self.player.health <= 0:
+                    self.reset_game()
 
                 if event.key == pygame.K_ESCAPE:
                     if self.state == Constants.PAUSE:
@@ -224,14 +224,14 @@ class GameManager:
             self.joystick = None
             self.controller_connected = False
 
-    def reset_game(self, player):
+    def reset_game(self):
         self.enemy_manager.enemies = []
-        player.health = Constants.PLAYER_DEFAULT_HEALTH
-        player.speed = Constants.PLAYER_DEFAULT_SPEED
-        player.weapon = Constants.PLAYER_DEFAULT_WEAPON
-        player.set_size_with_sprite()
-        player.x = self.resolution.x / 2
-        player.y = self.resolution.y / 2
+        self.player.health = Constants.PLAYER_DEFAULT_HEALTH
+        self.player.speed = Constants.PLAYER_DEFAULT_SPEED
+        self.player.weapon = Constants.PLAYER_DEFAULT_WEAPON
+        self.player.set_size_with_sprite()
+        self.player.x = self.resolution.x / 2
+        self.player.y = self.resolution.y / 2
 
     def fullscreen_mode(self):
         if self.is_fullscreen:
