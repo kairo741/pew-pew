@@ -34,7 +34,7 @@ class GameManager:
         self.state = Constants.RUNNING
         self.clock = pygame.time.Clock()
         self.render_frame_time = 0
-        
+
         self.joystick = None
         self.controller_connected = False
 
@@ -43,13 +43,11 @@ class GameManager:
         self.enemy_manager = EnemyManager()
 
         self.time_stop = False
-        
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
 
     def start(self):
-        
 
         player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
                       sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
@@ -66,22 +64,22 @@ class GameManager:
         while True:
             self.tick_clock()
             self.game_events(player=player)
-            
+
             self.bg.render_background(self.screen, self.resolution)
-            
+
             self.bullet_manager.render_bullets(self.screen)
-            
+
             self.enemy_manager.render_enemies(self.screen)
-            
+
             if player.health <= 0:
-                    death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
-                                                                            pygame.color.Color('White'))
-                    continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
-                                                                               pygame.color.Color('White'))
-                    self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
-                    self.screen.blit(continue_text, (self.resolution.x / 3, 240))
-                    player.size.x = 0  # todo - alterar método de tirar o player (mesmo que não renderizado)da tela
-                    player.size.y = 0  # todo - alterar método de tirar o player (mesmo que não renderizado) da tela
+                death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
+                                                                        pygame.color.Color('White'))
+                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
+                                                                           pygame.color.Color('White'))
+                self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
+                self.screen.blit(continue_text, (self.resolution.x / 3, 240))
+                player.size.x = 0
+                player.size.y = 0
 
             else:
                 player.render(self.screen, is_player=True)
@@ -90,9 +88,9 @@ class GameManager:
                 if not self.time_stop:
                     self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
                     self.enemy_manager.move_enemies(self.render_frame_time)
-                    
+
                     self.bg.manage_stars(self.render_frame_time)
-                    
+
                     self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
                     for e in self.enemy_manager.enemies:
                         self.bullet_manager.has_collided(
@@ -101,14 +99,13 @@ class GameManager:
 
                     self.enemy_manager.has_collided(player, lambda: player.take_damage(e.max_health * 0.15))
 
-                
+
             elif self.state == Constants.PAUSE:
                 pause_text = pygame.font.SysFont('Consolas', 40).render('Pause', True, pygame.color.Color('Red'))
                 self.screen.blit(pause_text, (100, 100))
 
             fps.render(display=self.screen, fps=self.clock.get_fps(), position=(self.resolution.x - 40, 0))
             pygame.display.update()
-
 
     def game_events(self, player):
         keys = pygame.key.get_pressed()
@@ -134,9 +131,8 @@ class GameManager:
 
                     for generated_bullet in player.weapon.make_bullets(player.get_middle()):
                         self.bullet_manager.shoot(generated_bullet)
-                        
-                    player.last_bullet = pygame.time.get_ticks()
 
+                    player.last_bullet = pygame.time.get_ticks()
 
             if self.controller_connected:
                 axis = Axis(self.joystick.get_axis(0), self.joystick.get_axis(1))
@@ -164,22 +160,21 @@ class GameManager:
                             self.bullet_manager.shoot(generated_bullet)
                         player.last_bullet = pygame.time.get_ticks()
 
-                if self.joystick.get_button(10) and self.time_stop == False:
+                if self.joystick.get_button(10) and self.time_stop is False:
                     self.activate_time_stop(True)
 
+        for event in pygame.event.get():
+            self.controller_state(pygame.joystick.get_count() > 0)
+            if event.type == pygame.JOYBUTTONDOWN:
                 if self.joystick.get_button(6):
                     if self.state == Constants.PAUSE:
                         self.state = Constants.RUNNING
                     else:
                         self.state = Constants.PAUSE
 
-
-        for event in pygame.event.get():
-            self.controller_state(pygame.joystick.get_count() > 0)            
-                
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_x and self.time_stop == False:
-                   self.activate_time_stop(True)
+                if event.key == pygame.K_x and self.time_stop is False:
+                    self.activate_time_stop(True)
 
                 if event.key == pygame.K_r and player.health <= 0:
                     self.reset_game(player)
@@ -202,14 +197,13 @@ class GameManager:
 
     def activate_time_stop(self, enable):
         if enable:
-            self.bg.color = [code + 50 for code in self.bg.color]          
+            self.bg.color = [code + 50 for code in self.bg.color]
             self.time_stop = True
             pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
 
         else:
             self.bg.color = Constants.BACKGROUND_COLOR
             self.time_stop = False
-
 
     def controller_state(self, enabled):
         if enabled:
@@ -219,8 +213,7 @@ class GameManager:
         else:
             self.joystick = None
             self.controller_connected = False
-            
-            
+
     def reset_game(self, player):
         self.enemy_manager.enemies = []
         player.health = Constants.PLAYER_DEFAULT_HEALTH
