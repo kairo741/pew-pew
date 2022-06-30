@@ -14,11 +14,14 @@ class EnemyManager:
         self.enemies = []
         self.last_enemy = 0
 
+    def reset(self):
+        self.enemies = []
+        self.last_enemy = 0
+
     def spawn_enemy(self, x, y):
         
         if time.get_ticks() - self.last_enemy > 800:
-            new_enemy = Ship(x=x, y=y, sprite=Surface.copy(self.enemy_sprite),
-                speed=Axis(Utils.random_int(-4, 4), randint(0, 4)))
+            new_enemy = Ship(x=x, y=y, sprite=Surface.copy(self.enemy_sprite), speed=Axis(Utils.random_int(-4, 4), randint(0, 4)))
             new_enemy.set_size_with_sprite()
             new_enemy.center()
             self.enemies.append(new_enemy)

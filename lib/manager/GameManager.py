@@ -6,7 +6,6 @@ from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
 from object.Ship import Ship
-from object.Weapon import Weapon
 from utils.Constants import Constants
 from utils.Utils import Utils
 
@@ -46,10 +45,10 @@ class GameManager:
         self.enemy_manager = EnemyManager()
 
         self.player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
-                           sprite=Constants.SPRITE_PLAYER_SHIP.convert_alpha(),
+                           sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
                            health=Constants.PLAYER_DEFAULT_HEALTH,
                            weapon=Constants.PLAYER_DEFAULT_WEAPON)
-        self.player.sprite = Utils.scale_image(self.player.sprite, 0.7)
+
         self.player.set_size_with_sprite()
 
         self.time_stop = False
@@ -68,21 +67,16 @@ class GameManager:
 
             self.bg.render_background(self.screen, self.resolution)
             self.bullet_manager.render_bullets(self.screen)
-            self.enemy_manager.render_enemies(self.screen)
-            
-            if self.game_over == False and self.player.health <= 0:
-                Constants.SFX_DEATH.play()
-                self.game_over = True
 
-            if self.player.health <= 0:
+            self.enemy_manager.render_enemies(self.screen)
+            if self.game_over:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True,
                                                                         pygame.color.Color('White'))
                 continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
                                                                            pygame.color.Color('White'))
                 self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
-                self.player.size.x = 0
-                self.player.size.y = 0
+                self.player.disable()
 
             else:
                 self.player.render(self.screen, is_player=True)
@@ -91,17 +85,18 @@ class GameManager:
                 normal_frame_time = self.render_frame_time
                 if self.time_stop:
                     self.render_frame_time = 0.01
-                    
+
                 self.bullet_manager.move_bullets(self.render_frame_time, self.resolution)
                 self.enemy_manager.move_enemies(self.render_frame_time, self.resolution)
                 self.bg.manage_stars(self.render_frame_time)
 
-                self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
                 for e in self.enemy_manager.enemies:
                     self.bullet_manager.has_collided(e, lambda bullet: e.take_damage(bullet.damage))
 
                 self.enemy_manager.has_collided(self.player, lambda: self.player.take_damage(e.max_health * 0.15))
 
+                if self.render_frame_time != 0.01:
+                    self.enemy_manager.spawn_enemy(self.resolution.x / 2, 0)
                 self.render_frame_time = normal_frame_time
 
             elif self.state == Constants.PAUSE:
@@ -112,6 +107,8 @@ class GameManager:
             pygame.display.update()
 
     def game_events(self):
+        self.check_game_over()
+
         keys = pygame.key.get_pressed()
         if self.player.health > 0 and self.state == Constants.RUNNING:
             if keys[pygame.K_d]:
@@ -185,7 +182,7 @@ class GameManager:
                 if event.key == pygame.K_x and self.time_stop is False:
                     self.activate_time_stop(True)
 
-                if event.key == pygame.K_r and self.player.health <= 0:
+                if event.key == pygame.K_r and self.game_over:
                     self.reset_game()
 
                 if event.key == pygame.K_ESCAPE:
@@ -204,8 +201,13 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
 
-    def activate_time_stop(self, enable):
-        if enable:
+    def check_game_over(self):
+        if self.player.is_dead():
+            Constants.SFX_DEATH.play()
+            self.game_over = True
+
+    def activate_time_stop(self, activate):
+        if activate:
             Constants.SFX_TIME_STOP.play()
             self.bg.color = [code + 50 for code in self.bg.color]
             self.time_stop = True
@@ -225,13 +227,10 @@ class GameManager:
             self.controller_connected = False
 
     def reset_game(self):
-        self.enemy_manager.enemies = []
-        self.player.health = Constants.PLAYER_DEFAULT_HEALTH
-        self.player.speed = Constants.PLAYER_DEFAULT_SPEED
-        self.player.weapon = Constants.PLAYER_DEFAULT_WEAPON
-        self.player.set_size_with_sprite()
-        self.player.x = self.resolution.x / 2
-        self.player.y = self.resolution.y / 2
+        self.enemy_manager.reset()
+        self.bullet_manager.reset()
+        self.player.reset()
+        self.game_over = False
 
     def fullscreen_mode(self):
         if self.is_fullscreen:

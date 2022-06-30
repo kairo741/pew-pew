@@ -3,6 +3,9 @@ class BulletManager:
         super().__init__()
         self.bullets = []
 
+    def reset(self):
+        self.bullets = []
+
     def shoot(self, bullet):
         self.bullets.append(bullet)
 

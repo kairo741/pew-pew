@@ -1,7 +1,6 @@
-from turtle import width
 from .GameObject import GameObject
 from .Axis import Axis
-from pygame import draw
+from pygame import draw, Surface
 
 
 class Ship(GameObject):
@@ -12,6 +11,23 @@ class Ship(GameObject):
         self.health = health
         self.max_health = health
         self.last_bullet = 0
+        self.initial_position = Axis(x, y)
+        self.initial_sprite = sprite
+
+    def reset(self):
+        self.health = self.max_health
+        self.last_bullet = 0
+        self.x = self.initial_position.x
+        self.y = self.initial_position.y
+        self.sprite = self.initial_sprite
+        self.set_size_with_sprite()
+
+    def disable(self):
+        self.sprite = Surface((0, 0))
+        self.size = Axis(0, 0)
+
+    def is_dead(self):
+        return self.health <= 0
 
     def take_damage(self, value):
         self.health -= value

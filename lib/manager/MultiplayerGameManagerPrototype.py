@@ -5,7 +5,6 @@ from .BulletManager import BulletManager
 from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
-from object.GameObject import GameObject
 from object.Ship import Ship
 from object.Weapon import Weapon
 from utils.Constants import Constants
