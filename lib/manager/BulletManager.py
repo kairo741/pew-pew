@@ -9,38 +9,36 @@ class BulletManager:
     def shoot(self, bullet):
         self.bullets.append(bullet)
 
-    def move_bullets(self, render_time, screen_size):
+    def manage_bullets(self, *actions):
         for bullet in self.bullets:
-            bullet.x += bullet.speed.x * render_time
-            bullet.y += bullet.speed.y * render_time
+            for action in actions:
+                action(bullet)
 
-            if (self.check_bullet(screen_size, bullet)):
-                self.bullets.remove(bullet)
-
-    def check_bullet(self, screen_size, bullet):
+    def move_bullet(self, bullet, render_time):
+        bullet.x += bullet.speed.x * render_time
+        bullet.y += bullet.speed.y * render_time
+        
+    def check_bullet(self, bullet, screen_size):
         if (bullet.y < -bullet.size.y):
-            return True
+            self.bullets.remove(bullet)
 
         elif (bullet.x < -bullet.size.x):
-            return True
+            self.bullets.remove(bullet)
 
         elif (bullet.x > screen_size.x):
-            return True
+            self.bullets.remove(bullet)
 
         elif (bullet.y > screen_size.y):
-            return True
+            self.bullets.remove(bullet)
 
-        return False
+            
 
-    def render_bullets(self, screen):
-        for bullet in self.bullets:
-            bullet.render(screen)
-
-    def has_collided(self, object, action):
+    def has_collided(self, object, *actions):
         for bullet in self.bullets:
             if bullet.collided_with(object):
                 try:
-                    action(bullet)
+                    for action in actions:
+                        action(bullet)
                 except:
                     print("error in bullet collision action")
 

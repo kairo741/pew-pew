@@ -12,7 +12,6 @@ class Constants:
     # Colors
     BACKGROUND_COLOR = (14, 6, 21)
 
-
     # Game states
     RUNNING, PAUSE = 0, 1
 
@@ -36,7 +35,7 @@ class Constants:
     SFX_EXPLOSION.set_volume(SFX_VOLUME*0.2)
     SFX_TIME_STOP.set_volume(SFX_VOLUME)
     SFX_LASER.set_volume(SFX_VOLUME*0.1)
-    SFX_DEATH.set_volume(SFX_VOLUME)
+    SFX_DEATH.set_volume(SFX_VOLUME*0.2)
     
     BGM_VOLUME = 0.1
     # BGMs
