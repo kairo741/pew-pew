@@ -57,7 +57,7 @@ class GameManager:
 
         self.player.set_size_with_sprite()
         
-        self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         
 
     def tick_clock(self):
@@ -113,13 +113,10 @@ class GameManager:
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
                 self.player.disable()
             else:
-                if self.time_stop:
-                    self.player.render(self.trail, is_player=True)
-                else:
-                    self.player.render(self.screen, is_player=True)
-                
-            self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
-            self.screen.blit(self.trail, (0, 0))
+                self.player.render(self.screen, is_player=True)
+
+            # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
+            # self.screen.blit(self.trail, (0, 0))
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
                        position=(self.resolution.x - 40, 0))
