@@ -1,9 +1,10 @@
 from pygame import time, Surface
 from random import randint, uniform
 from object.Axis import Axis
-from object.Ship import Ship
 from utils.Constants import Constants
 from utils.Utils import Utils
+
+from object.Enemy import Enemy
 
 
 class EnemyManager:
@@ -23,7 +24,7 @@ class EnemyManager:
         
         if time.get_ticks() - self.last_enemy > 300:
             sprite_size = self.enemy_sprite.get_size()
-            new_enemy = Ship(x=uniform(screen_size.x/4, screen_size.x/1.8), y=-sprite_size[1], sprite=Surface.copy(self.enemy_sprite), speed=Axis(uniform(-2, 2), randint(2, 5)))
+            new_enemy = Enemy(x=uniform(screen_size.x/4, screen_size.x/1.8), y=-sprite_size[1], sprite=Surface.copy(self.enemy_sprite), speed=Axis(uniform(-2, 2), randint(2, 5)))
             new_enemy.set_size_with_sprite()
             new_enemy.center()
             self.enemies.append(new_enemy)

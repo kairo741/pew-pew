@@ -5,9 +5,10 @@ from .EnemyManager import EnemyManager
 from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
-from object.Ship import Ship
 from utils.Constants import Constants
 from utils.Utils import Utils
+
+from object.Player import Player
 
 
 class GameManager:
@@ -49,7 +50,7 @@ class GameManager:
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         
-        self.player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
+        self.player = Player(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
                            sprite=Utils.scale_image(
                                Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
                            health=Constants.PLAYER_DEFAULT_HEALTH,
@@ -113,7 +114,7 @@ class GameManager:
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
                 self.player.disable()
             else:
-                self.player.render(self.screen, is_player=True)
+                self.player.render(self.screen)
 
             # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
             # self.screen.blit(self.trail, (0, 0))
