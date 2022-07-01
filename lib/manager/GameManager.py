@@ -42,10 +42,13 @@ class GameManager:
         self.joystick = None
         self.controller_connected = False
 
+        self.time_stop = False
+        self.game_over = False
+        
         self.bg = Background()
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
-
+        
         self.player = Ship(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
                            sprite=Utils.scale_image(
                                Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
@@ -53,9 +56,9 @@ class GameManager:
                            weapon=Constants.PLAYER_DEFAULT_WEAPON, )
 
         self.player.set_size_with_sprite()
-
-        self.time_stop = False
-        self.game_over = False
+        
+        self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -110,7 +113,13 @@ class GameManager:
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
                 self.player.disable()
             else:
-                self.player.render(self.screen, is_player=True)
+                if self.time_stop:
+                    self.player.render(self.trail, is_player=True)
+                else:
+                    self.player.render(self.screen, is_player=True)
+                
+            self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
+            self.screen.blit(self.trail, (0, 0))
 
             fps.render(display=self.screen, fps=self.clock.get_fps(),
                        position=(self.resolution.x - 40, 0))
@@ -229,8 +238,8 @@ class GameManager:
             self.bg.color = Constants.BACKGROUND_COLOR
             self.time_stop = False
 
-    def controller_state(self, enabled):
-        if enabled:
+    def controller_state(self, is_enabled):
+        if is_enabled:
             self.joystick = pygame.joystick.Joystick(0)
             self.joystick.init()
             self.controller_connected = True
