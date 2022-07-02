@@ -17,23 +17,35 @@ class BulletManager:
     def move_bullet(self, bullet, render_time):
         bullet.x += bullet.speed.x * render_time
         bullet.y += bullet.speed.y * render_time
-        
+
     def check_bullet(self, bullet, screen_size):
-        if (bullet.y < -bullet.size.y):
+        if bullet.y < -bullet.size.y:
             self.bullets.remove(bullet)
 
-        elif (bullet.x < -bullet.size.x):
+        elif bullet.x < -bullet.size.x:
             self.bullets.remove(bullet)
 
-        elif (bullet.x > screen_size.x):
+        elif bullet.x > screen_size.x:
             self.bullets.remove(bullet)
 
-        elif (bullet.y > screen_size.y):
+        elif bullet.y > screen_size.y:
             self.bullets.remove(bullet)
 
-            
+    def has_collided(self, bullet, object, *actions):
+        if bullet.collided_with(object):
+            try:
+                for action in actions:
+                    action(bullet)
+            except:
+                print("error in bullet collision action")
 
-    def has_collided(self, object, *actions):
+            if bullet.pierce == False:
+                try:
+                    self.bullets.remove(bullet)
+                except:
+                    print("error removing bullet")
+
+    def has_collided_any(self, object, *actions):
         for bullet in self.bullets:
             if bullet.collided_with(object):
                 try:
@@ -42,7 +54,7 @@ class BulletManager:
                 except:
                     print("error in bullet collision action")
 
-                if (bullet.pierce == False):
+                if bullet.pierce == False:
                     try:
                         self.bullets.remove(bullet)
                     except:

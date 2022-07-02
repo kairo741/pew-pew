@@ -1,14 +1,15 @@
 import pygame
 
-from .BulletManager import BulletManager
-from .EnemyManager import EnemyManager
+from utils.Presets import Presets
+from utils.Constants import Constants
+from utils.Utils import Utils
 from object.Background import Background
 from object.Axis import Axis
 from object.Fps import FPS
-from utils.Constants import Constants
-from utils.Utils import Utils
-
 from object.Player import Player
+from .BulletManager import BulletManager
+from .EnemyManager import EnemyManager
+
 
 
 class GameManager:
@@ -50,11 +51,12 @@ class GameManager:
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         
-        self.player = Player(x=self.resolution.x / 2, y=self.resolution.y / 2, speed=Constants.PLAYER_DEFAULT_SPEED,
-                           sprite=Utils.scale_image(
-                               Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
-                           health=Constants.PLAYER_DEFAULT_HEALTH,
-                           weapon=Constants.PLAYER_DEFAULT_WEAPON, )
+        self.player = Player(x=self.resolution.x / 2, y=self.resolution.y / 2, 
+            speed=Presets.PLAYER_DEFAULT_SPEED,
+            sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
+            health=Presets.PLAYER_DEFAULT_HEALTH,
+            weapon=Presets.PLAYER_DEFAULT_WEAPON, 
+        )
 
         self.player.set_size_with_sprite()
         
@@ -84,17 +86,22 @@ class GameManager:
                 self.bullet_manager.manage_bullets(
                     lambda bullet: self.bullet_manager.move_bullet(bullet, self.render_frame_time),
                     lambda bullet: self.bullet_manager.check_bullet(bullet, self.resolution), 
+                    # lambda bullet: self.bullet_manager.has_collided(bullet, self.player, 
+                    #     lambda bullet: self.player.take_damage(bullet.damage),
+                    # ),
                     lambda bullet: bullet.render(self.screen)
                 )
 
                 self.enemy_manager.manage_enemies(
                     lambda enemy: self.enemy_manager.move_enemy(enemy, self.render_frame_time),
                     lambda enemy: self.enemy_manager.check_enemy(enemy, self.resolution),
-                    lambda enemy: enemy.render(self.screen),
-                    lambda enemy: self.bullet_manager.has_collided(enemy, lambda bullet: enemy.take_damage(bullet.damage)),
+                    lambda enemy: self.bullet_manager.has_collided_any(enemy, lambda bullet: enemy.take_damage(bullet.damage)),
                     lambda enemy: self.enemy_manager.has_collided(enemy, self.player, 
                         lambda enemy: self.player.take_damage(self.player.max_health * 0.15),
-                        lambda enemy: self.enemy_manager.enemies.remove(enemy))
+                        lambda enemy: self.enemy_manager.enemies.remove(enemy)
+                    ),
+                    lambda enemy: enemy.shoot(self.bullet_manager) if self.time_stop is False else None,
+                    lambda enemy: enemy.render(self.screen)
                 )
             
                 if self.render_frame_time != 0.01:

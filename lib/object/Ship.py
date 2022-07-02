@@ -1,10 +1,20 @@
 from .GameObject import GameObject
 from .Axis import Axis
-from pygame import draw, Surface
+from utils.Constants import Constants
+from pygame import Surface
 
 
 class Ship(GameObject):
-    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100):
+    def __init__(
+        self,
+        x=0,
+        y=0,
+        size=Axis.zero(),
+        speed=Axis.zero(),
+        sprite="",
+        weapon="",
+        health=100,
+    ):
         super().__init__(x, y, size, speed, sprite)
 
         self.weapon = weapon
@@ -32,7 +42,9 @@ class Ship(GameObject):
     def take_damage(self, value):
         self.health -= value
 
-
     def get_hitbox_rect(self):
-        middle = Axis(self.x + (self.size.x*0.93 / 2), self.y + (self.size.y*1.2 / 2))
+        middle = Axis(
+            self.x + (self.size.x * 0.93 / 2),
+            self.y + (self.size.y * 1.2 / 2),
+        )
         return [middle.x, middle.y, self.size.x * 0.1, self.size.x * 0.1]
