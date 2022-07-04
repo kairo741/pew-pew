@@ -1,4 +1,4 @@
-# PewPew ![](https://i.imgur.com/D7v970O.png)
+# PewPew ![pew_pew_icon](https://i.imgur.com/D7v970O.png)
 
 
 Projeto criado utilizando o framework [Pygame](https://www.pygame.org/) para [Python](https://www.python.org/) para desenvolver um jogo do gênero [Bullet Hell](https://powerlisting.fandom.com/wiki/Bullet_Hell).
