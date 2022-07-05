@@ -41,8 +41,7 @@ class GameManager:
         self.clock = pygame.time.Clock()
         self.render_frame_time = 0
 
-        self.joystick = None
-        self.controller_connected = False
+        self.joysticks = []
 
         self.time_stop = False
         self.game_over = False
@@ -148,12 +147,21 @@ class GameManager:
     def game_events(self):
         self.check_game_over()
 
-        keys = pygame.key.get_pressed()
         if self.player_manager.is_alive() and self.state == Constants.RUNNING:
-            for player in self.player_manager.players:
-                player.control_ship(keys, self.render_frame_time, limit=Axis(self.resolution.x-1, self.resolution.y-1))
-                player.control_shoot(keys, self.bullet_manager)
-                player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
+            for index, player in enumerate(self.player_manager.players):
+                if len(self.joysticks) >= index+1:
+                    joy = self.joysticks[index]
+                    player.layout = Presets.CONTROLLER_LAYOUT
+                    player.control_ship_joystick(joy, self.render_frame_time, limit=Axis(self.resolution.x-1, self.resolution.y-1))
+                    player.control_shoot_joystick(joy, self.bullet_manager)
+                    player.control_ultimate_joystick(joy, self.time_stop is False, action=lambda: self.activate_time_stop(True))
+
+                else:
+                    keys = pygame.key.get_pressed()
+                    player.layout = Presets.KEYBOARD_LAYOUTS[index]
+                    player.control_ship(keys, self.render_frame_time, limit=Axis(self.resolution.x-1, self.resolution.y-1))
+                    player.control_shoot(keys, self.bullet_manager)
+                    player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
                     
 
             # if self.controller_connected:
@@ -176,7 +184,7 @@ class GameManager:
             #         if self.player.y + self.player.size.y < self.resolution.y - 1:
             #             self.player.y += self.player.speed.y * self.render_frame_time
 
-            #     if self.joystick.get_button(2):
+                # if self.joystick.get_button(2):
             #         if pygame.time.get_ticks() - self.player.last_bullet > self.player.weapon.shoot_delay:
 
             #             for generated_bullet in self.player.weapon.make_bullets(self.player.get_middle()):
@@ -190,13 +198,7 @@ class GameManager:
             #         self.activate_time_stop(True)
 
         for event in pygame.event.get():
-            self.controller_state(pygame.joystick.get_count() > 0)
-            if event.type == pygame.JOYBUTTONDOWN:
-                if self.joystick.get_button(6):
-                    if self.state == Constants.PAUSE:
-                        self.state = Constants.RUNNING
-                    else:
-                        self.state = Constants.PAUSE
+            self.update_controller_state()
 
             if event.type == pygame.KEYDOWN:
 
@@ -235,14 +237,14 @@ class GameManager:
             self.bg.color = Constants.BACKGROUND_COLOR
             self.time_stop = False
 
-    def controller_state(self, is_enabled):
-        if is_enabled:
-            self.joystick = pygame.joystick.Joystick(0)
-            self.joystick.init()
-            self.controller_connected = True
-        else:
-            self.joystick = None
-            self.controller_connected = False
+    def update_controller_state(self):
+        joy_count = pygame.joystick.get_count()
+        if joy_count != len(self.joysticks):
+            self.joysticks = []
+            for index in range(0, joy_count):
+                self.joysticks.append(pygame.joystick.Joystick(index))
+                self.joysticks[index].init()
+        
 
     def reset_game(self):
         self.enemy_manager.reset()

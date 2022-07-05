@@ -16,40 +16,89 @@ class Player(Ship):
         if not self.is_alive():
             self.disable()
 
-    def control_ship(self, keys, render_frame_time, limit):
+
+    def move(self, direction, render_frame_time, limit):
         if self.is_alive():
-            if keys[self.layout.right]:
+            if direction == "r":
                 if self.x + self.size.x < limit.x:
                     self.x += self.speed.x * render_frame_time
 
-            if keys[self.layout.left]:
+            if direction == "l":
                 if self.x > 2:
                     self.x -= self.speed.x * render_frame_time
 
-            if keys[self.layout.up]:
+            if direction == "u":
                 if self.y > 2:
                     self.y -= self.speed.y * render_frame_time
 
-            if keys[self.layout.down]:
+            if direction == "d":
                 if self.y + self.size.y < limit.y:
                     self.y += self.speed.y * render_frame_time
 
+    def shoot(self, bullet_manager):
+        if self.is_alive():
+            if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay:
+                for generated_bullet in self.weapon.make_bullets(self.get_middle()):
+                    bullet_manager.shoot(generated_bullet)
+
+                Constants.SFX_LASER.play()
+                self.last_bullet = time.get_ticks()
+
+
+    def ult(self, *conditions, action):
+        if self.is_alive():
+            if all(conditions[0]):
+                action()
+
+
+    def control_ship(self, keys, render_frame_time, limit):
+        if self.is_alive():
+            if keys[self.layout.right]:
+                self.move("r", render_frame_time, limit)
+
+            if keys[self.layout.left]:
+                self.move("l", render_frame_time, limit)
+
+            if keys[self.layout.up]:
+                self.move("u", render_frame_time, limit)
+
+            if keys[self.layout.down]:
+                self.move("d", render_frame_time, limit)
+
 
     def control_shoot(self, keys, bullet_manager):
-        if self.is_alive():
-            if keys[self.layout.shoot]:
-                if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay:
-                    for generated_bullet in self.weapon.make_bullets(self.get_middle()):
-                        bullet_manager.shoot(generated_bullet)
-
-                    Constants.SFX_LASER.play()
-                    self.last_bullet = time.get_ticks()
+        if keys[self.layout.shoot]:
+            self.shoot(bullet_manager)
+                
 
     def control_ultimate(self, keys, *conditions, action):
-        if self.is_alive():
-            if keys[self.layout.ultimate]:
-                if all(conditions):
-                    action()
+        if keys[self.layout.ultimate]:
+            self.ult(conditions, action=action)
+
+    
+    def control_ship_joystick(self, joystick, render_frame_time, limit):
+        axis = Axis(joystick.get_axis(0), joystick.get_axis(1))
+
+        if axis.x > self.layout.right:
+            self.move("r", render_frame_time, limit)
+
+        if axis.x < self.layout.left:
+            self.move("l", render_frame_time, limit)
+
+        if axis.y < self.layout.up:
+            self.move("u", render_frame_time, limit)
+
+        if axis.y > self.layout.down:
+            self.move("d", render_frame_time, limit)
+
+    def control_shoot_joystick(self, joystick, bullet_manager):
+        if joystick.get_button(self.layout.shoot):
+            self.shoot(bullet_manager)
+
+    def control_ultimate_joystick(self, joystick, *conditions, action):
+        if joystick.get_button(self.layout.ultimate):
+            self.ult(conditions, action)
+
 
 
     def render(self, screen):
