@@ -45,29 +45,27 @@ class GameManager:
 
         self.time_stop = False
         self.game_over = False
-        
+
         self.bg = Background()
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         self.player_manager = PlayerManager()
 
+        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
+                                       speed=Presets.PLAYER_DEFAULT_SPEED,
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
+                                       health=Presets.PLAYER_DEFAULT_HEALTH,
+                                       weapon=Presets.PLAYER_DEFAULT_WEAPON,
+                                       ))
+        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
+                                       speed=Presets.PLAYER_DEFAULT_SPEED,
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
+                                       health=Presets.PLAYER_DEFAULT_HEALTH,
+                                       weapon=Presets.PLAYER_DEFAULT_WEAPON,
+                                       layout=Presets.SECONDARY_KB_LAYOUT
+                                       ))
 
-        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2, 
-            speed=Presets.PLAYER_DEFAULT_SPEED,
-            sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
-            health=Presets.PLAYER_DEFAULT_HEALTH,
-            weapon=Presets.PLAYER_DEFAULT_WEAPON,
-        ))
-        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2, 
-            speed=Presets.PLAYER_DEFAULT_SPEED,
-            sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
-            health=Presets.PLAYER_DEFAULT_HEALTH,
-            weapon=Presets.PLAYER_DEFAULT_WEAPON,
-            layout=Presets.SECONDARY_KB_LAYOUT
-        ))
-        
         # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
-        
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -91,14 +89,14 @@ class GameManager:
 
                 self.bullet_manager.manage_bullets(
                     lambda bullet: self.bullet_manager.move_bullet(bullet, self.render_frame_time),
-                    lambda bullet: self.bullet_manager.check_bullet(bullet, self.resolution), 
+                    lambda bullet: self.bullet_manager.check_bullet(bullet, self.resolution),
                     lambda bullet: [
                         self.bullet_manager.has_collided(
-                            bullet, 
+                            bullet,
                             player,
                             lambda bullet: player.take_damage(bullet.damage),
                             use_hitbox=True,
-                        ) 
+                        )
                         for player in self.player_manager.players],
                     lambda bullet: bullet.render(self.screen)
                 )
@@ -106,18 +104,19 @@ class GameManager:
                 self.enemy_manager.manage_enemies(
                     lambda enemy: self.enemy_manager.move_enemy(enemy, self.render_frame_time),
                     lambda enemy: self.enemy_manager.check_enemy(enemy, self.resolution),
-                    lambda enemy: self.bullet_manager.has_collided_any(enemy, lambda bullet: enemy.take_damage(bullet.damage)),
+                    lambda enemy: self.bullet_manager.has_collided_any(enemy,
+                                                                       lambda bullet: enemy.take_damage(bullet.damage)),
                     lambda enemy: [
                         self.enemy_manager.has_collided(
-                            enemy, 
-                            player, 
+                            enemy,
+                            player,
                             lambda enemy: player.take_damage(player.max_health * 0.15),
                             lambda enemy: self.enemy_manager.enemies.remove(enemy)
-                    ) for player in self.player_manager.players],
+                        ) for player in self.player_manager.players],
                     lambda enemy: enemy.shoot(self.bullet_manager) if self.time_stop is False else None,
                     lambda enemy: enemy.render(self.screen)
                 )
-            
+
                 if self.render_frame_time != 0.01:
                     self.enemy_manager.spawn_enemy_random(self.resolution)
 
@@ -128,10 +127,10 @@ class GameManager:
                     'Pause', True, pygame.color.Color('Red'))
                 self.screen.blit(pause_text, (100, 100))
 
-            
             if self.game_over:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
-                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True, pygame.color.Color('White'))
+                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
+                                                                           pygame.color.Color('White'))
                 self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
             else:
@@ -149,53 +148,22 @@ class GameManager:
 
         if self.player_manager.is_alive() and self.state == Constants.RUNNING:
             for index, player in enumerate(self.player_manager.players):
-                if len(self.joysticks) >= index+1:
+                if len(self.joysticks) >= index + 1:
                     joy = self.joysticks[index]
                     player.layout = Presets.CONTROLLER_LAYOUT
-                    player.control_ship_joystick(joy, self.render_frame_time, limit=Axis(self.resolution.x-1, self.resolution.y-1))
+                    player.control_ship_joystick(joy, self.render_frame_time,
+                                                 limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot_joystick(joy, self.bullet_manager)
-                    player.control_ultimate_joystick(joy, self.time_stop is False, action=lambda: self.activate_time_stop(True))
+                    player.control_ultimate_joystick(joy, self.time_stop is False,
+                                                     action=lambda: self.activate_time_stop(True))
 
                 else:
                     keys = pygame.key.get_pressed()
                     player.layout = Presets.KEYBOARD_LAYOUTS[index]
-                    player.control_ship(keys, self.render_frame_time, limit=Axis(self.resolution.x-1, self.resolution.y-1))
+                    player.control_ship(keys, self.render_frame_time,
+                                        limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)
                     player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
-                    
-
-            # if self.controller_connected:
-            #     axis = Axis(self.joystick.get_axis(0),
-            #                 self.joystick.get_axis(1))
-
-            #     if axis.x > 0.2:
-            #         if self.player.x + self.player.size.x < self.resolution.x - 1:
-            #             self.player.x += self.player.speed.x * self.render_frame_time
-
-            #     if axis.x < -0.2:
-            #         if self.player.x > 2:
-            #             self.player.x -= self.player.speed.x * self.render_frame_time
-
-            #     if axis.y < 0.2:
-            #         if self.player.y > 2:
-            #             self.player.y -= self.player.speed.y * self.render_frame_time
-
-            #     if axis.y > -0.2:
-            #         if self.player.y + self.player.size.y < self.resolution.y - 1:
-            #             self.player.y += self.player.speed.y * self.render_frame_time
-
-                # if self.joystick.get_button(2):
-            #         if pygame.time.get_ticks() - self.player.last_bullet > self.player.weapon.shoot_delay:
-
-            #             for generated_bullet in self.player.weapon.make_bullets(self.player.get_middle()):
-            #                 self.bullet_manager.shoot(generated_bullet)
-
-            #             Constants.SFX_LASER.play()
-
-            #             self.player.last_bullet = pygame.time.get_ticks()
-
-            #     if self.joystick.get_button(10) and self.time_stop is False:
-            #         self.activate_time_stop(True)
 
         for event in pygame.event.get():
             self.update_controller_state()
@@ -244,7 +212,6 @@ class GameManager:
             for index in range(0, joy_count):
                 self.joysticks.append(pygame.joystick.Joystick(index))
                 self.joysticks[index].init()
-        
 
     def reset_game(self):
         self.enemy_manager.reset()
