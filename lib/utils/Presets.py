@@ -8,7 +8,7 @@ from utils.Constants import Constants
 from utils.Utils import Utils
 
 
-class Presets:    
+class Presets:
     # Player attributes
     PLAYER_DEFAULT_HEALTH = 100
     PLAYER_DEFAULT_SPEED = Axis(7, 5)
@@ -19,5 +19,7 @@ class Presets:
         tag=Constants.TAG_PLAYER
     )
 
-    PRIMARY_KB_LAYOUT= Layout(K_w, K_s, K_a, K_d, K_SPACE, K_x)
-    SECONDARY_KB_LAYOUT= Layout(K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RSHIFT, K_RETURN)
+    PRIMARY_KB_LAYOUT = Layout(K_w, K_s, K_a, K_d, K_SPACE, K_x)
+    SECONDARY_KB_LAYOUT = Layout(K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RSHIFT, K_RETURN)
+
+    CONTROLLER_LAYOUT = Layout(0.2, -0.2, 0.2, -0.2, 2, 10)

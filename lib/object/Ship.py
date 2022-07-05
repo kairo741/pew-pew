@@ -38,15 +38,13 @@ class Ship(GameObject):
         self.sprite = Surface((0, 0))
         self.size = Axis(0, 0)
 
-    def is_dead(self):
-        return self.health <= 0
+    def is_alive(self):
+        return self.health > 0
 
     def take_damage(self, value):
         self.health -= value
 
     def get_hitbox_rect(self):
-        middle = Axis(
-            self.x + (self.size.x * 0.93 / 2),
-            self.y + (self.size.y * 1.2 / 2),
-        )
-        return [middle.x, middle.y, self.size.x * 0.1, self.size.x * 0.1]
+        hitbox_size = Axis(self.size.x * 0.1, self.size.x * 0.1)
+        middle = self.get_middle()
+        return [middle.x-hitbox_size.x/2, middle.y-hitbox_size.y/2, hitbox_size.x, hitbox_size.y]
