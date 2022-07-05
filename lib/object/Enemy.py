@@ -16,8 +16,9 @@ class Enemy(Ship):
         sprite="",
         weapon="",
         health=100,
+        tag=Constants.TAG_ENEMY
     ):
-        super().__init__(x, y, size, speed, sprite, weapon, health)
+        super().__init__(x, y, size, speed, sprite, weapon, health, tag)
 
     def shoot(self, bullet_manager):
         if time.get_ticks() - self.last_bullet > randint(

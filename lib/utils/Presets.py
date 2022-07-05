@@ -12,4 +12,5 @@ class Presets:
         shoot_delay=100,
         weapon_type="triple",
         bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2),
+        tag=Constants.TAG_PLAYER
     )

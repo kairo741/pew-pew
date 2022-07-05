@@ -31,23 +31,14 @@ class BulletManager:
         elif bullet.y > screen_size.y:
             self.bullets.remove(bullet)
 
-    def has_collided(self, bullet, object, *actions):
-        if bullet.collided_with(object):
-            try:
-                for action in actions:
-                    action(bullet)
-            except:
-                print("error in bullet collision action")
+    def has_collided(self, bullet, object, *actions, use_hitbox=False):
+        if bullet.tag != object.tag:
+            if use_hitbox:
+                collided = bullet.collided_with(object, object.get_hitbox_rect())
+            else:
+                collided = bullet.collided_with(object)
 
-            if bullet.pierce == False:
-                try:
-                    self.bullets.remove(bullet)
-                except:
-                    print("error removing bullet")
-
-    def has_collided_any(self, object, *actions):
-        for bullet in self.bullets:
-            if bullet.collided_with(object):
+            if collided:
                 try:
                     for action in actions:
                         action(bullet)
@@ -59,3 +50,24 @@ class BulletManager:
                         self.bullets.remove(bullet)
                     except:
                         print("error removing bullet")
+
+    def has_collided_any(self, object, *actions, use_hitbox=False):
+        for bullet in self.bullets:
+            if bullet.tag != object.tag:
+                if use_hitbox:
+                    collided = bullet.collided_with(object, object.get_hitbox_rect())
+                else:
+                    collided = bullet.collided_with(object)
+
+                if collided:
+                    try:
+                        for action in actions:
+                            action(bullet)
+                    except:
+                        print("error in bullet collision action")
+
+                    if bullet.pierce == False:
+                        try:
+                            self.bullets.remove(bullet)
+                        except:
+                            print("error removing bullet")

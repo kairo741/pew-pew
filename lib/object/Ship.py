@@ -14,6 +14,7 @@ class Ship(GameObject):
         sprite="",
         weapon="",
         health=100,
+        tag=Constants.TAG_PLAYER
     ):
         super().__init__(x, y, size, speed, sprite)
 
@@ -23,6 +24,7 @@ class Ship(GameObject):
         self.last_bullet = 0
         self.initial_position = Axis(x, y)
         self.initial_sprite = sprite
+        self.tag = tag
 
     def reset(self):
         self.health = self.max_health

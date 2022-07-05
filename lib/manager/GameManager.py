@@ -76,6 +76,15 @@ class GameManager:
 
             self.bg.render_background(self.screen, self.resolution)
 
+            if self.game_over:
+                death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
+                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True, pygame.color.Color('White'))
+                self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
+                self.screen.blit(continue_text, (self.resolution.x / 3, 240))
+                self.player.disable()
+            else:
+                self.player.render(self.screen)
+
             if self.state == Constants.RUNNING:
                 normal_frame_time = self.render_frame_time
                 if self.time_stop:
@@ -86,9 +95,10 @@ class GameManager:
                 self.bullet_manager.manage_bullets(
                     lambda bullet: self.bullet_manager.move_bullet(bullet, self.render_frame_time),
                     lambda bullet: self.bullet_manager.check_bullet(bullet, self.resolution), 
-                    # lambda bullet: self.bullet_manager.has_collided(bullet, self.player, 
-                    #     lambda bullet: self.player.take_damage(bullet.damage),
-                    # ),
+                    lambda bullet: self.bullet_manager.has_collided(bullet, self.player,
+                        lambda bullet: self.player.take_damage(bullet.damage),
+                        use_hitbox=True,
+                    ),
                     lambda bullet: bullet.render(self.screen)
                 )
 
@@ -114,14 +124,6 @@ class GameManager:
                     'Pause', True, pygame.color.Color('Red'))
                 self.screen.blit(pause_text, (100, 100))
 
-            if self.game_over:
-                death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
-                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True, pygame.color.Color('White'))
-                self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
-                self.screen.blit(continue_text, (self.resolution.x / 3, 240))
-                self.player.disable()
-            else:
-                self.player.render(self.screen)
 
             # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
             # self.screen.blit(self.trail, (0, 0))

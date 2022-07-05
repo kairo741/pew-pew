@@ -11,6 +11,9 @@ class Constants:
     # Game states
     RUNNING, PAUSE = 0, 1
 
+    TAG_PLAYER = 0
+    TAG_ENEMY = 1
+
     # Events
     ULTIMATE_END = USEREVENT + 1
 

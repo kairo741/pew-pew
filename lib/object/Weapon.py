@@ -5,13 +5,14 @@ from pygame import Surface
 
 
 class Weapon:
-    def __init__(self, shoot_delay, bullet_sprite, weapon_type):
+    def __init__(self, shoot_delay, bullet_sprite, weapon_type, tag):
         self.shoot_delay = shoot_delay
         self.bullet_sprite = bullet_sprite
         self.weapon_type = weapon_type
+        self.tag = tag
 
     def create_bullet(self, x, y, speed=Axis(0, -20)):
-        new_bullet = Bullet(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet_sprite))
+        new_bullet = Bullet(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet_sprite), tag=self.tag)
         new_bullet.set_size_with_sprite()
         new_bullet.center()
         return new_bullet

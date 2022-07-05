@@ -29,7 +29,9 @@ class EnemyManager:
                 shoot_delay=500,
                 weapon_type="single",
                 bullet_sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
+                tag=Constants.TAG_ENEMY,
             ),
+            
         )
         new_enemy.set_size_with_sprite()
         new_enemy.center()
