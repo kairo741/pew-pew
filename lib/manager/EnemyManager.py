@@ -1,9 +1,9 @@
-from pygame import time, Surface
 from random import randint, uniform
 
-from object.Weapon import Weapon
 from object.Axis import Axis
 from object.Enemy import Enemy
+from object.Weapon import Weapon
+from pygame import Surface, time
 from utils.Constants import Constants
 from utils.Utils import Utils
 
@@ -26,7 +26,7 @@ class EnemyManager:
             sprite=Surface.copy(self.enemy_sprite),
             speed=Axis(uniform(-2, 2), randint(1, 3)),
             weapon=Weapon(
-                shoot_delay=500,
+                shoot_delay=350,
                 weapon_type="single",
                 bullet_sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
                 tag=Constants.TAG_ENEMY,
@@ -38,7 +38,7 @@ class EnemyManager:
         return new_enemy
 
     def spawn_enemy_random(self, screen_size):
-        if time.get_ticks() - self.last_enemy > 800:
+        if time.get_ticks() - self.last_enemy > randint(500, 1200):
             sprite_size = self.enemy_sprite.get_size()
             self.enemies.append(
                 self.create_enemy(

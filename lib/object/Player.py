@@ -1,11 +1,44 @@
+from pygame import draw, time
+from utils.Constants import Constants
+from utils.Presets import Presets
+
 from .Axis import Axis
 from .Ship import Ship
-from pygame import draw
 
 
 class Player(Ship):
-    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100):
+    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout=Presets.PRIMARY_KB_LAYOUT):
         super().__init__(x, y, size, speed, sprite, weapon, health)
+        self.layout = layout
+
+
+    def control_ship(self, keys, render_frame_time, limit):
+        if keys[self.layout.right]:
+            if self.x + self.size.x < limit.x:
+                self.x += self.speed.x * render_frame_time
+
+        if keys[self.layout.left]:
+            if self.x > 2:
+                self.x -= self.speed.x * render_frame_time
+
+        if keys[self.layout.up]:
+            if self.y > 2:
+                self.y -= self.speed.y * render_frame_time
+
+        if keys[self.layout.down]:
+            if self.y + self.size.y < limit.y:
+                self.y += self.speed.y * render_frame_time
+
+
+    def control_shoot(self, keys, bullet_manager):
+        if keys[self.layout.shoot]:
+            if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay:
+                for generated_bullet in self.weapon.make_bullets(self.get_middle()):
+                    bullet_manager.shoot(generated_bullet)
+
+                Constants.SFX_LASER.play()
+                self.last_bullet = time.get_ticks()
+
 
     def render(self, screen):
         super().render(screen)

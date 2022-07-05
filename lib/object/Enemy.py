@@ -1,7 +1,8 @@
 from random import randint
-from pygame import draw, time
 
+from pygame import draw, time
 from utils.Constants import Constants
+
 from .Axis import Axis
 from .Ship import Ship
 
@@ -16,21 +17,23 @@ class Enemy(Ship):
         sprite="",
         weapon="",
         health=100,
-        tag=Constants.TAG_ENEMY
+        tag=Constants.TAG_ENEMY,
     ):
         super().__init__(x, y, size, speed, sprite, weapon, health, tag)
+        self.next_shot = self.get_random_time()
+
+    def get_random_time(self):
+        return time.get_ticks()+randint(self.weapon.shoot_delay, self.weapon.shoot_delay*2)
 
     def shoot(self, bullet_manager):
-        if time.get_ticks() - self.last_bullet > randint(
-            self.weapon.shoot_delay, self.weapon.shoot_delay * 5
-        ):
+        if time.get_ticks() > self.next_shot:
             for generated_bullet in self.weapon.make_bullets(
-                Axis(self.get_middle().x, self.y + self.size.y * 2), speed=Axis(0, 4)
+                Axis(self.get_middle().x, self.y + self.size.y), speed=Axis(randint(-2, 2), randint(4, 6))
             ):
                 bullet_manager.shoot(generated_bullet)
 
             Constants.SFX_LASER_2.play()
-            self.last_bullet = time.get_ticks()
+            self.next_shot = self.get_random_time()
 
     def render(self, screen):
         super().render(screen)

@@ -1,15 +1,14 @@
 import pygame
-
-from utils.Presets import Presets
-from utils.Constants import Constants
-from utils.Utils import Utils
-from object.Background import Background
 from object.Axis import Axis
+from object.Background import Background
 from object.Fps import FPS
 from object.Player import Player
+from utils.Constants import Constants
+from utils.Presets import Presets
+from utils.Utils import Utils
+
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
-
 
 
 class GameManager:
@@ -55,7 +54,7 @@ class GameManager:
             speed=Presets.PLAYER_DEFAULT_SPEED,
             sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
             health=Presets.PLAYER_DEFAULT_HEALTH,
-            weapon=Presets.PLAYER_DEFAULT_WEAPON, 
+            weapon=Presets.PLAYER_DEFAULT_WEAPON,
         )
 
         self.player.set_size_with_sprite()
@@ -137,33 +136,10 @@ class GameManager:
 
         keys = pygame.key.get_pressed()
         if self.player.health > 0 and self.state == Constants.RUNNING:
-            if keys[pygame.K_d]:
-                if self.player.x + self.player.size.x < self.resolution.x - 1:
-                    self.player.x += self.player.speed.x * self.render_frame_time
-
-            if keys[pygame.K_a]:
-                if self.player.x > 2:
-                    self.player.x -= self.player.speed.x * self.render_frame_time
-
-            if keys[pygame.K_w]:
-                if self.player.y > 2:
-                    self.player.y -= self.player.speed.y * self.render_frame_time
-
-            if keys[pygame.K_s]:
-                if self.player.y + self.player.size.y < self.resolution.y - 1:
-                    self.player.y += self.player.speed.y * self.render_frame_time
-
-            if keys[pygame.K_SPACE]:
-                if pygame.time.get_ticks() - self.player.last_bullet > self.player.weapon.shoot_delay:
-
-                    for generated_bullet in self.player.weapon.make_bullets(self.player.get_middle()):
-                        self.bullet_manager.shoot(generated_bullet)
-
-                    Constants.SFX_LASER.play()
-
-                    self.player.last_bullet = pygame.time.get_ticks()
-
-            if keys[pygame.K_x] and self.time_stop is False:
+            self.player.control_ship(keys, self.render_frame_time, limit=Axis(self.resolution.x-1, self.resolution.y-1))
+            self.player.control_shoot(keys, self.bullet_manager)
+            
+            if keys[self.player.layout.ultimate] and self.time_stop is False:
                 self.activate_time_stop(True)
 
             if self.controller_connected:
