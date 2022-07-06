@@ -90,37 +90,33 @@ class GameManager:
 
                 self.bg.manage_stars(self.render_frame_time)
 
-                self.bullet_manager.manage_bullets(
-                    lambda bullet: self.bullet_manager.move_bullet(bullet, self.render_frame_time),
-                    lambda bullet: self.bullet_manager.check_bullet(bullet, self.resolution),
-                    lambda bullet: [
-                        self.bullet_manager.has_collided(
-                            bullet,
-                            player,
-                            lambda bullet: player.take_damage(bullet.damage),
-                            use_hitbox=True,
-                        )
-                        for player in self.player_manager.players],
-                    lambda bullet: bullet.render(self.screen)
-                )
+                for bullet in self.bullet_manager.bullets:
+                    self.bullet_manager.move_bullet(bullet, self.render_frame_time),
+                    self.bullet_manager.check_bullet(bullet, self.resolution),
 
-                self.enemy_manager.manage_enemies(
-                    lambda enemy: self.enemy_manager.move_enemy(enemy, self.render_frame_time),
-                    lambda enemy: self.enemy_manager.check_enemy(enemy, self.resolution),
-                    lambda enemy: self.bullet_manager.has_collided_any(enemy, 
+                    bullet.render(self.screen)
+
+                    for player in self.player_manager.players:
+                        self.bullet_manager.has_collided(bullet, player,
+                            lambda bullet: player.take_damage(bullet.damage), 
+                            use_hitbox=True
+                        )
+
+                for enemy in self.enemy_manager.enemies:
+                    self.enemy_manager.move_enemy(enemy, self.render_frame_time)
+                    self.enemy_manager.check_enemy(enemy, self.resolution)
+                    self.bullet_manager.has_collided_any(enemy, 
                         lambda bullet: enemy.take_damage(bullet.damage),
                         lambda bullet: self.score.add(173)
-                    ),
-                    lambda enemy: [
-                        self.enemy_manager.has_collided(
-                            enemy,
-                            player,
+                    )
+                    for player in self.player_manager.players:
+                        self.enemy_manager.has_collided(enemy, player,
                             lambda enemy: player.take_damage(player.max_health * 0.15),
                             lambda enemy: self.enemy_manager.enemies.remove(enemy)
-                        ) for player in self.player_manager.players],
-                    lambda enemy: enemy.shoot(self.bullet_manager) if self.time_stop is False else None,
-                    lambda enemy: enemy.render(self.screen)
-                )
+                        )
+
+                    enemy.shoot(self.bullet_manager) if self.time_stop is False else None
+                    enemy.render(self.screen)
 
                 if self.render_frame_time != 0.01:
                     self.enemy_manager.spawn_enemy_random(self.resolution)
@@ -143,9 +139,8 @@ class GameManager:
             # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
             # self.screen.blit(self.trail, (0, 0))
 
-            self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=(self.resolution.x - 40, 0))
-            
-            self.score.render(display=self.screen, position=(50, 25))
+            self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
+            self.score.render(display=self.screen, position=Axis(0, 0))
                 
             pygame.display.update()
             
@@ -224,6 +219,7 @@ class GameManager:
         self.enemy_manager.reset()
         self.bullet_manager.reset()
         self.player_manager.reset()
+        self.score.reset()
         self.game_over = False
 
     def fullscreen_mode(self):
