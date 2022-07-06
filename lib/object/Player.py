@@ -97,7 +97,7 @@ class Player(Ship):
 
     def control_ultimate_joystick(self, joystick, *conditions, action):
         if joystick.get_button(self.layout.ultimate):
-            self.ult(conditions, action)
+            self.ult(conditions, action=action)
 
 
 
