@@ -2,6 +2,7 @@ import pygame
 from object.Axis import Axis
 from object.Background import Background
 from object.Fps import FPS
+from object.Score import Score
 from object.Player import Player
 from utils.Constants import Constants
 from utils.Presets import Presets
@@ -50,6 +51,10 @@ class GameManager:
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         self.player_manager = PlayerManager()
+        
+        self.fps = FPS()
+        self.score = Score()
+
 
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
@@ -71,8 +76,6 @@ class GameManager:
         self.render_frame_time = self.clock.tick() / 10
 
     def start(self):
-
-        fps = FPS()
 
         while True:
             self.tick_clock()
@@ -104,8 +107,10 @@ class GameManager:
                 self.enemy_manager.manage_enemies(
                     lambda enemy: self.enemy_manager.move_enemy(enemy, self.render_frame_time),
                     lambda enemy: self.enemy_manager.check_enemy(enemy, self.resolution),
-                    lambda enemy: self.bullet_manager.has_collided_any(enemy,
-                                                                       lambda bullet: enemy.take_damage(bullet.damage)),
+                    lambda enemy: self.bullet_manager.has_collided_any(enemy, 
+                        lambda bullet: enemy.take_damage(bullet.damage),
+                        lambda bullet: self.score.add(173)
+                    ),
                     lambda enemy: [
                         self.enemy_manager.has_collided(
                             enemy,
@@ -129,8 +134,7 @@ class GameManager:
 
             if self.game_over:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
-                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
-                                                                           pygame.color.Color('White'))
+                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True, pygame.color.Color('White'))
                 self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
             else:
@@ -139,10 +143,13 @@ class GameManager:
             # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
             # self.screen.blit(self.trail, (0, 0))
 
-            fps.render(display=self.screen, fps=self.clock.get_fps(),
-                       position=(self.resolution.x - 40, 0))
+            self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=(self.resolution.x - 40, 0))
+            
+            self.score.render(display=self.screen, position=(50, 25))
+                
             pygame.display.update()
-
+            
+            
     def game_events(self):
         self.check_game_over()
 
