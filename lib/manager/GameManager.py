@@ -67,7 +67,15 @@ class GameManager:
                                        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_DEFAULT_WEAPON,
-                                       layout=Presets.SECONDARY_KB_LAYOUT
+
+                                       ))
+        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
+                                       speed=Presets.PLAYER_DEFAULT_SPEED,
+                                       sprite=Utils.scale_image(
+                                           Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
+                                       health=Presets.PLAYER_DEFAULT_HEALTH,
+                                       weapon=Presets.PLAYER_DEFAULT_WEAPON,
+                                       
                                        ))
 
         # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
@@ -161,7 +169,7 @@ class GameManager:
 
                 else:
                     keys = pygame.key.get_pressed()
-                    player.layout = Presets.KEYBOARD_LAYOUTS[index]
+                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks)-1]
                     player.control_ship(keys, self.render_frame_time,
                                         limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)
