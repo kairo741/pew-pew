@@ -2,6 +2,7 @@ from random import randint, uniform
 
 from object.Axis import Axis
 from object.Enemy import Enemy
+from object.Item import Item
 from object.Weapon import Weapon
 from pygame import Surface, time
 from utils.Constants import Constants
@@ -31,7 +32,7 @@ class EnemyManager:
                 bullet_sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
                 tag=Constants.TAG_ENEMY,
             ),
-            
+
         )
         new_enemy.set_size_with_sprite()
         new_enemy.center()
@@ -72,6 +73,7 @@ class EnemyManager:
         elif enemy.health < 1:
             try:
                 self.enemies.remove(enemy)
+                item = Item(y=enemy.y, x=enemy.x, sprite="")
             except:
                 print("error removing enemy")
 
