@@ -41,6 +41,7 @@ class Player(Ship):
                 for generated_bullet in self.weapon.make_bullets(self.get_middle()):
                     bullet_manager.shoot(generated_bullet)
 
+                Constants.SFX_LASER.stop()
                 Constants.SFX_LASER.play()
                 self.last_bullet = time.get_ticks()
 

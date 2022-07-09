@@ -3,7 +3,6 @@ from random import randint
 from pygame import Surface
 
 from object.Axis import Axis
-from object.Bullet import Bullet
 
 
 class Weapon:
@@ -17,9 +16,9 @@ class Weapon:
         if override_speed:
             speed = override_speed
 
-        new_bullet = Bullet(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite), 
+        
+        new_bullet = type(self.bullet)(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite), 
             tag=self.bullet.tag, 
-            pierce=self.bullet.pierce, 
             damage=self.bullet.damage
         )
         new_bullet.set_size_with_sprite()

@@ -1,4 +1,5 @@
 
+from object.BulletPierce import BulletPierce
 from object.Bullet import Bullet
 from object.Axis import Axis
 from object.Layout import Layout
@@ -22,19 +23,19 @@ class Presets:
     PLAYER_PIERCE_WEAPON = Weapon(
         shoot_delay=300,
         weapon_type="single",
-        bullet=Bullet(speed=Axis(0, -60), sprite=Utils.scale_image(Constants.SPRITE_BULLET_LIGHTBLUE, 0.2), damage=10, pierce=True)
+        bullet=BulletPierce(speed=Axis(0, -75), sprite=Utils.scale_image(Constants.SPRITE_BULLET_LIGHTBLUE_LONG, 0.2), damage=45)
     )
 
     PLAYER_FROG_WEAPON = Weapon(
         shoot_delay=200,
         weapon_type="spread",
-        bullet=Bullet(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_GREEN, 0.2), damage=14)
+        bullet=Bullet(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_GREEN, 0.2), damage=16)
     )
 
     PLAYER_SPEED_WEAPON = Weapon(
         shoot_delay=50,
         weapon_type="double",
-        bullet=Bullet(speed=Axis(0, -25), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.2), damage=7)
+        bullet=Bullet(speed=Axis(0, -25), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.2), damage=8)
     )
 
     ENEMY_WEAPON = Weapon(

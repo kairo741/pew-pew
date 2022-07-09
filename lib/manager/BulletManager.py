@@ -1,3 +1,5 @@
+from object.BulletPierce import BulletPierce
+
 class BulletManager:
     def __init__(self):
         super().__init__()
@@ -45,7 +47,7 @@ class BulletManager:
                 except:
                     print("error in bullet collision action")
 
-                if bullet.pierce == False:
+                if type(bullet) is not BulletPierce:
                     try:
                         self.bullets.remove(bullet)
                     except:
@@ -66,7 +68,7 @@ class BulletManager:
                     except:
                         print("error in bullet collision action")
 
-                    if bullet.pierce == False:
+                    if type(bullet) is not BulletPierce:
                         try:
                             self.bullets.remove(bullet)
                         except:

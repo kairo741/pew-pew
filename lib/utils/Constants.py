@@ -31,6 +31,7 @@ class Constants:
 
     SPRITE_PLAYER_SHIP_PIERCE = image.load(ROOT_PATH + "\\assets\\images\\ship_pierce.png")
     SPRITE_BULLET_LIGHTBLUE = image.load(ROOT_PATH + "\\assets\\images\\bullet_lightblue.png")
+    SPRITE_BULLET_LIGHTBLUE_LONG = image.load(ROOT_PATH + "\\assets\\images\\bullet_lightblue_long.png")
 
     SPRITE_PLAYER_SHIP_SPEED = image.load(ROOT_PATH + "\\assets\\images\\ship_speed.png")
     SPRITE_BULLET_RED = image.load(ROOT_PATH + "\\assets\\images\\bullet_red.png")
@@ -57,9 +58,9 @@ class Constants:
 
     # Audio
     mixer.init()
-    GLOBAL_VOLUME = 0
+    GLOBAL_VOLUME = 0.25
     SFX_VOLUME = GLOBAL_VOLUME * 1
-    BGM_VOLUME = GLOBAL_VOLUME * 0.15
+    BGM_VOLUME = GLOBAL_VOLUME * 0.2
 
     # SFXs
     SFX_LASER = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\laser.ogg")
@@ -68,8 +69,8 @@ class Constants:
     SFX_DEATH = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\death.ogg")
     SFX_TIME_STOP = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\time_stop.mp3")
 
-    SFX_LASER.set_volume(SFX_VOLUME * 0.1)
-    SFX_LASER_2.set_volume(SFX_VOLUME * 0.1)
+    SFX_LASER.set_volume(SFX_VOLUME * 0.3)
+    SFX_LASER_2.set_volume(SFX_VOLUME * 0.3)
     SFX_EXPLOSION.set_volume(SFX_VOLUME * 0.2)
     SFX_DEATH.set_volume(SFX_VOLUME * 0.2)
     SFX_TIME_STOP.set_volume(SFX_VOLUME)

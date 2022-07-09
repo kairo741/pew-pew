@@ -18,7 +18,6 @@ class NumberManager:
     def render(self, screen):
         for number in self.numbers:
             time_left = (number.start_time + number.duration) - time.get_ticks()
-            print(time_left)
             if time_left <= 0:
                 self.numbers.remove(number)
             else:
