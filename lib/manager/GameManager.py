@@ -7,11 +7,11 @@ from object.Player import Player
 from utils.Constants import Constants
 from utils.Presets import Presets
 from utils.Utils import Utils
-
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
 from .PlayerManager import PlayerManager
 from .ItemManager import ItemManager
+from random import randint
 
 
 class GameManager:
@@ -142,9 +142,12 @@ class GameManager:
                 # Items
                 for item in self.item_manager.items:
                     self.item_manager.move_item(item, self.render_frame_time)
+
                     for player in self.player_manager.players:
+                        item.random_effect(player)
                         self.item_manager.has_collided(item, player,
-                                                       lambda item: self.item_manager.items.remove(item))
+                                                       lambda item: self.item_manager.items.remove(item),
+                                                       lambda effect: item.effect(randint(1, 10)))
 
                     item.render(self.screen)
 

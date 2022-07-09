@@ -6,15 +6,15 @@ from pygame import Surface
 
 class Ship(GameObject):
     def __init__(
-        self,
-        x=0,
-        y=0,
-        size=Axis.zero(),
-        speed=Axis.zero(),
-        sprite="",
-        weapon="",
-        health=100,
-        tag=Constants.TAG_PLAYER
+            self,
+            x=0,
+            y=0,
+            size=Axis.zero(),
+            speed=Axis.zero(),
+            sprite="",
+            weapon="",
+            health=100,
+            tag=Constants.TAG_PLAYER
     ):
         super().__init__(x, y, size, speed, sprite)
 
@@ -44,7 +44,14 @@ class Ship(GameObject):
     def take_damage(self, value):
         self.health -= value
 
+    def heal(self, value):
+        if self.health < self.max_health:
+            if value + self.health > self.max_health:
+                self.health = self.max_health
+            else:
+                self.health += value
+
     def get_hitbox_rect(self):
         hitbox_size = Axis(self.size.x * 0.1, self.size.x * 0.1)
         middle = self.get_middle()
-        return [middle.x-hitbox_size.x/2, middle.y-hitbox_size.y/2, hitbox_size.x, hitbox_size.y]
+        return [middle.x - hitbox_size.x / 2, middle.y - hitbox_size.y / 2, hitbox_size.x, hitbox_size.y]

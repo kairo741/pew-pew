@@ -2,8 +2,7 @@ from utils.Constants import Constants
 from utils.Utils import Utils
 from object.Item import Item
 from object.Axis import Axis
-from random import randint, uniform
-from random import choice
+from random import randint, uniform, choice
 
 
 class ItemManager:
