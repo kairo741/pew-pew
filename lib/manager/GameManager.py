@@ -2,16 +2,18 @@ import pygame
 from object.Axis import Axis
 from object.Background import Background
 from object.Fps import FPS
-from object.Score import Score
 from object.Player import Player
+from object.Score import Score
 from utils.Constants import Constants
 from utils.Presets import Presets
 from utils.Utils import Utils
+
+from manager.NumberManager import NumberManager
+
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
-from .PlayerManager import PlayerManager
 from .ItemManager import ItemManager
-from random import randint
+from .PlayerManager import PlayerManager
 
 
 class GameManager:
@@ -30,7 +32,7 @@ class GameManager:
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
-            x=int(self.get_res.current_w * 0.85), y=int(self.get_res.current_h * 0.85))
+            x=int(self.get_res.current_w * 0.9), y=int(self.get_res.current_h * 0.9))
         self.screen = pygame.display.set_mode(
             self.resolution.to_list(), self.flags)
         pygame.display.set_caption("PewPew")
@@ -53,41 +55,22 @@ class GameManager:
         self.enemy_manager = EnemyManager()
         self.player_manager = PlayerManager()
         self.item_manager = ItemManager()
+        self.number_manager = NumberManager()
 
         self.fps = FPS()
         self.score = Score()
 
-        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
-                                       speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BALANCE,
-                                                                0.6).convert_alpha(),
-                                       health=Presets.PLAYER_DEFAULT_HEALTH,
-                                       weapon=Presets.PLAYER_BALANCE_WEAPON,
-                                       ))
+        for i in range(0, 4):
+            base_pos = (self.resolution.x)/5
+            self.player_manager.add(Player(
+                x=base_pos*(i+1),
+                y=self.resolution.y*0.65,
+                speed=Presets.PLAYER_DEFAULT_SPEED,
+                sprite=Utils.scale_image(Constants.SPRITE_PLAYERS[i],0.6).convert_alpha(),
+                health=Presets.PLAYER_DEFAULT_HEALTH,
+                weapon=Presets.PLAYER_WEAPONS[i],
+            ))
 
-        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
-                                       speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_SPEED,
-                                                                0.6).convert_alpha(),
-                                       health=Presets.PLAYER_DEFAULT_HEALTH,
-                                       weapon=Presets.PLAYER_SPEED_WEAPON,
-                                       ))
-
-        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
-                                       speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE,
-                                                                0.6).convert_alpha(),
-                                       health=Presets.PLAYER_DEFAULT_HEALTH,
-                                       weapon=Presets.PLAYER_PIERCE_WEAPON,
-                                       ))
-
-        self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
-                                       speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_FROGGERS,
-                                                                0.6).convert_alpha(),
-                                       health=Presets.PLAYER_DEFAULT_HEALTH,
-                                       weapon=Presets.PLAYER_FROG_WEAPON,
-                                       ))
 
         # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
 
@@ -137,6 +120,7 @@ class GameManager:
 
             self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
             self.score.render(display=self.screen, position=Axis(0, 0))
+            self.number_manager.render(self.screen)
 
             pygame.display.update()
 
@@ -156,7 +140,7 @@ class GameManager:
 
                 else:
                     keys = pygame.key.get_pressed()
-                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks) - 1]
+                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks)]
                     player.control_ship(keys, self.render_frame_time,
                                         limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)
@@ -205,13 +189,17 @@ class GameManager:
             self.enemy_manager.move_enemy(enemy, self.render_frame_time)
             self.enemy_manager.check_enemy(enemy, self.resolution)
             self.bullet_manager.has_collided_any(enemy,
-                                                 lambda bullet: enemy.take_damage(bullet.damage),
-                                                 lambda bullet: self.score.add(173))
+                                                lambda bullet: enemy.take_damage(bullet.damage),
+                                                lambda bullet: self.score.add(173), 
+                                                lambda bullet: self.number_manager.add_damage_number(bullet.x, bullet.y, bullet.damage),
+                                                )
+                                                
             self.enemy_manager.check_death(enemy,
                                            lambda item: self.item_manager.random_item(enemy.x, enemy.y))
             for player in self.player_manager.players:
                 self.enemy_manager.has_collided(enemy, player,
                                                 lambda enemy: player.take_damage(player.max_health * 0.15),
+                                                lambda enemy: self.number_manager.add_take_damage_number(enemy.x, enemy.y, player.max_health * 0.15),
                                                 lambda enemy: self.enemy_manager.enemies.remove(enemy)
                                                 )
 
@@ -228,6 +216,7 @@ class GameManager:
             for player in self.player_manager.players:
                 self.bullet_manager.has_collided(bullet, player,
                                                  lambda bullet: player.take_damage(bullet.damage),
+                                                 lambda bullet: self.number_manager.add_take_damage_number(bullet.x, bullet.y, bullet.damage),
                                                  use_hitbox=True)
 
     def check_game_over(self):

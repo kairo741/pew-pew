@@ -1,25 +1,29 @@
 from os import path
-from pygame import image, mixer, USEREVENT
-
+from pygame import image, mixer, font, USEREVENT
 
 class Constants:
     ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "..\..", ""))
 
     # Colors
     BACKGROUND_COLOR = (14, 6, 21)
+    COLOR_RED = (255, 50, 50)
+    COLOR_GREY = (200, 200, 200)
 
     # Game states
     RUNNING, PAUSE = 0, 1
 
+    # Object Tags
     TAG_PLAYER = 0
     TAG_ENEMY = 1
 
     # Events
     ULTIMATE_END = USEREVENT + 1
 
+
+
+    # ASSETS
     # Sprites
     SPRITE_STAR = image.load(ROOT_PATH + "\\assets\\images\\star.png")
-    SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\enemy_bullet.png")
 
 
     SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ship.png")
@@ -37,12 +41,19 @@ class Constants:
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
 
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\shipEnemy.png")
+    SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\enemy_bullet.png")
+
     POWER_UP_1 = image.load(ROOT_PATH + "\\assets\\images\\pwup-1.png")
     POWER_UP_2 = image.load(ROOT_PATH + "\\assets\\images\\pwup-2.png")
     POWER_UP_3 = image.load(ROOT_PATH + "\\assets\\images\\pwup-3.png")
     POWER_UP_4 = image.load(ROOT_PATH + "\\assets\\images\\pwup-4.png")
     POWER_UP_5 = image.load(ROOT_PATH + "\\assets\\images\\pwup-5.png")
     POWER_UP_6 = image.load(ROOT_PATH + "\\assets\\images\\pwup-6.png")
+
+    SPRITE_PLAYERS = [SPRITE_PLAYER_SHIP_BALANCE, SPRITE_PLAYER_SHIP_PIERCE, SPRITE_PLAYER_SHIP_SPEED, SPRITE_PLAYER_SHIP_FROGGERS]
+
+    # Fonts
+    FONT_NUMBER = ROOT_PATH+"\\assets\\fonts\\Montserrat-Regular.ttf"
 
     # Audio
     mixer.init()
