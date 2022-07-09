@@ -109,46 +109,9 @@ class GameManager:
 
                 self.bg.manage_stars(self.render_frame_time)
 
-                for bullet in self.bullet_manager.bullets:
-                    self.bullet_manager.move_bullet(bullet, self.render_frame_time),
-                    self.bullet_manager.check_bullet(bullet, self.resolution),
-
-                    bullet.render(self.screen)
-
-                    for player in self.player_manager.players:
-                        self.bullet_manager.has_collided(bullet, player,
-                                                         lambda bullet: player.take_damage(bullet.damage),
-                                                         use_hitbox=True
-                                                         )
-
-                for enemy in self.enemy_manager.enemies:
-                    self.enemy_manager.move_enemy(enemy, self.render_frame_time)
-                    self.enemy_manager.check_enemy(enemy, self.resolution)
-                    self.bullet_manager.has_collided_any(enemy,
-                                                         lambda bullet: enemy.take_damage(bullet.damage),
-                                                         lambda bullet: self.score.add(173)
-                                                         )
-                    self.enemy_manager.check_death(enemy,
-                                                   lambda item: self.item_manager.random_item(enemy.x, enemy.y))
-                    for player in self.player_manager.players:
-                        self.enemy_manager.has_collided(enemy, player,
-                                                        lambda enemy: player.take_damage(player.max_health * 0.15),
-                                                        lambda enemy: self.enemy_manager.enemies.remove(enemy)
-                                                        )
-
-                    enemy.shoot(self.bullet_manager) if self.time_stop is False else None
-                    enemy.render(self.screen)
-
-                # Items
-                for item in self.item_manager.items:
-                    self.item_manager.move_item(item, self.render_frame_time)
-
-                    for player in self.player_manager.players:
-                        self.item_manager.has_collided(item, player,
-                                                       lambda item: self.item_manager.items.remove(item),
-                                                       lambda effect: item.effect(player))
-
-                    item.render(self.screen)
+                self.manage_bullets()
+                self.manage_enemies()
+                self.manage_items()
 
                 if self.render_frame_time != 0.01:
                     self.enemy_manager.spawn_enemy_random(self.resolution)
@@ -226,6 +189,47 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
 
+    def manage_items(self):
+        for item in self.item_manager.items:
+            self.item_manager.move_item(item, self.render_frame_time)
+            self.item_manager.check_item(item, self.resolution)
+            for player in self.player_manager.players:
+                self.item_manager.has_collided(item, player,
+                                               lambda item: self.item_manager.items.remove(item),
+                                               lambda effect: item.effect(player))
+
+            item.render(self.screen)
+
+    def manage_enemies(self):
+        for enemy in self.enemy_manager.enemies:
+            self.enemy_manager.move_enemy(enemy, self.render_frame_time)
+            self.enemy_manager.check_enemy(enemy, self.resolution)
+            self.bullet_manager.has_collided_any(enemy,
+                                                 lambda bullet: enemy.take_damage(bullet.damage),
+                                                 lambda bullet: self.score.add(173))
+            self.enemy_manager.check_death(enemy,
+                                           lambda item: self.item_manager.random_item(enemy.x, enemy.y))
+            for player in self.player_manager.players:
+                self.enemy_manager.has_collided(enemy, player,
+                                                lambda enemy: player.take_damage(player.max_health * 0.15),
+                                                lambda enemy: self.enemy_manager.enemies.remove(enemy)
+                                                )
+
+            enemy.shoot(self.bullet_manager) if self.time_stop is False else None
+            enemy.render(self.screen)
+
+    def manage_bullets(self):
+        for bullet in self.bullet_manager.bullets:
+            self.bullet_manager.move_bullet(bullet, self.render_frame_time),
+            self.bullet_manager.check_bullet(bullet, self.resolution),
+
+            bullet.render(self.screen)
+
+            for player in self.player_manager.players:
+                self.bullet_manager.has_collided(bullet, player,
+                                                 lambda bullet: player.take_damage(bullet.damage),
+                                                 use_hitbox=True)
+
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:
             Constants.SFX_DEATH.play()
@@ -256,6 +260,7 @@ class GameManager:
         self.player_manager.reset()
         self.item_manager.reset()
         self.score.reset()
+        self.activate_time_stop(False)
         self.game_over = False
 
     def fullscreen_mode(self):

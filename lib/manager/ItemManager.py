@@ -44,8 +44,18 @@ class ItemManager:
             except:
                 print("error in item collision action")
 
+    def check_item(self, item, screen_size):
+        if item.y < -(item.size.y * 2):
+            self.items.remove(item)
+        elif item.x < -(item.size.x * 2):
+            self.items.remove(item)
+        elif item.x > screen_size.x:
+            self.items.remove(item)
+        elif item.y > screen_size.y:
+            self.items.remove(item)
+
     def heal(self, player):
-        value = uniform(player.max_health*0.05, player.max_health*0.15)
+        value = uniform(player.max_health * 0.05, player.max_health * 0.15)
         if player.health < player.max_health:
             if value + player.health > player.max_health:
                 player.health = player.max_health
