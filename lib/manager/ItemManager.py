@@ -12,6 +12,9 @@ class ItemManager:
         self.item_sprites = [Constants.POWER_UP_1, Constants.POWER_UP_2, Constants.POWER_UP_3, Constants.POWER_UP_4,
                              Constants.POWER_UP_5, Constants.POWER_UP_5, Constants.POWER_UP_6]
 
+    def reset(self):
+        self.items = []
+
     def create_item(self, x, y):
         item_sprite = Utils.scale_image(choice(self.item_sprites), 0.5)
         new_item = Item(
@@ -22,3 +25,11 @@ class ItemManager:
         new_item.set_size_with_sprite()
         new_item.center()
         self.items.append(new_item)
+
+    def has_collided(self, item, object, *actions):
+        if item.collided_with(object, object.get_hitbox_rect()):
+            try:
+                for action in actions:
+                    action(item)
+            except:
+                print("error in item collision action")

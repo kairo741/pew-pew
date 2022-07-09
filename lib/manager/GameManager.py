@@ -129,7 +129,12 @@ class GameManager:
                     enemy.shoot(self.bullet_manager) if self.time_stop is False else None
                     enemy.render(self.screen)
 
+                # Items
                 for item in self.item_manager.items:
+                    for player in self.player_manager.players:
+                        self.item_manager.has_collided(item, player,
+                                                       lambda item: self.item_manager.items.remove(item))
+
                     item.render(self.screen)
 
                 if self.render_frame_time != 0.01:
@@ -233,6 +238,7 @@ class GameManager:
         self.enemy_manager.reset()
         self.bullet_manager.reset()
         self.player_manager.reset()
+        self.item_manager.reset()
         self.score.reset()
         self.game_over = False
 
