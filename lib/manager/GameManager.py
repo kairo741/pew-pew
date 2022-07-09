@@ -129,6 +129,7 @@ class GameManager:
 
                 # Items
                 for item in self.item_manager.items:
+                    self.item_manager.move_item(item, self.render_frame_time)
                     for player in self.player_manager.players:
                         self.item_manager.has_collided(item, player,
                                                        lambda item: self.item_manager.items.remove(item))
