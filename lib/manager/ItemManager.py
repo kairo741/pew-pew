@@ -16,6 +16,10 @@ class ItemManager:
     def reset(self):
         self.items = []
 
+    def random_item(self, x, y):
+        if randint(1, 3) == 1:
+            self.create_item(x, y)
+
     def create_item(self, x, y):
         item_sprite = Utils.scale_image(choice(self.item_sprites), 0.3)
         new_item = Item(

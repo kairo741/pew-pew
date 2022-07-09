@@ -19,12 +19,21 @@ class Constants:
 
     # Sprites
     SPRITE_STAR = image.load(ROOT_PATH + "\\assets\\images\\star.png")
-    SPRITE_BULLET = image.load(ROOT_PATH + "\\assets\\images\\bullet.png")
     SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\enemy_bullet.png")
+
+
     SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ship.png")
+    SPRITE_BULLET_BLUE = image.load(ROOT_PATH + "\\assets\\images\\bullet_blue.png")
+
     SPRITE_PLAYER_SHIP_PIERCE = image.load(ROOT_PATH + "\\assets\\images\\ship_pierce.png")
+    SPRITE_BULLET_LIGHTBLUE = image.load(ROOT_PATH + "\\assets\\images\\bullet_lightblue.png")
+
     SPRITE_PLAYER_SHIP_SPEED = image.load(ROOT_PATH + "\\assets\\images\\ship_speed.png")
+    SPRITE_BULLET_RED = image.load(ROOT_PATH + "\\assets\\images\\bullet_red.png")
+    
     SPRITE_PLAYER_SHIP_FROGGERS = image.load(ROOT_PATH + "\\assets\\images\\ship_froggers.png")
+    SPRITE_BULLET_GREEN = image.load(ROOT_PATH + "\\assets\\images\\bullet_green.png")
+
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
 
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\shipEnemy.png")
@@ -37,7 +46,7 @@ class Constants:
 
     # Audio
     mixer.init()
-    GLOBAL_VOLUME = 1
+    GLOBAL_VOLUME = 0
     SFX_VOLUME = GLOBAL_VOLUME * 1
     BGM_VOLUME = GLOBAL_VOLUME * 0.15
 
