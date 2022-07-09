@@ -1,4 +1,5 @@
 from random import randint, uniform
+from utils.Presets import Presets
 
 from object.Axis import Axis
 from object.Enemy import Enemy
@@ -25,13 +26,7 @@ class EnemyManager:
             y=y,
             sprite=Surface.copy(self.enemy_sprite),
             speed=Axis(uniform(-2, 2), randint(1, 3)),
-            weapon=Weapon(
-                shoot_delay=350,
-                weapon_type="single",
-                bullet_sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
-                tag=Constants.TAG_ENEMY,
-            ),
-
+            weapon=Presets.ENEMY_WEAPON
         )
         new_enemy.set_size_with_sprite()
         new_enemy.center()
