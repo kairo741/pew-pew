@@ -19,6 +19,14 @@ class Presets:
         tag=Constants.TAG_PLAYER
     )
 
+    PLAYER_PIERCE_WEAPON = Weapon(
+        shoot_delay=250,
+        weapon_type="single",
+        bullet_sprite=Utils.scale_image(Constants.SPRITE_BULLET, 0.2),
+        tag=Constants.TAG_PLAYER,
+        pierce=True
+    )
+
     PRIMARY_KB_LAYOUT = Layout(K_w, K_s, K_a, K_d, K_SPACE, K_x)
     SECONDARY_KB_LAYOUT = Layout(K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RSHIFT, K_RETURN)
 

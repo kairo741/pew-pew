@@ -5,14 +5,15 @@ from pygame import Surface
 
 
 class Weapon:
-    def __init__(self, shoot_delay, bullet_sprite, weapon_type, tag):
+    def __init__(self, shoot_delay, bullet_sprite, weapon_type, tag, pierce=False):
         self.shoot_delay = shoot_delay
         self.bullet_sprite = bullet_sprite
         self.weapon_type = weapon_type
         self.tag = tag
+        self.pierce = pierce
 
     def create_bullet(self, x, y, speed=Axis(0, -20)):
-        new_bullet = Bullet(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet_sprite), tag=self.tag)
+        new_bullet = Bullet(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet_sprite), tag=self.tag, pierce=self.pierce)
         new_bullet.set_size_with_sprite()
         new_bullet.center()
         return new_bullet
