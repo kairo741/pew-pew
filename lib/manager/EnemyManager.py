@@ -2,7 +2,6 @@ from random import randint, uniform
 
 from object.Axis import Axis
 from object.Enemy import Enemy
-from object.Item import Item
 from object.Weapon import Weapon
 from pygame import Surface, time
 from utils.Constants import Constants
@@ -70,10 +69,12 @@ class EnemyManager:
         elif enemy.y > screen_size.y:
             self.enemies.remove(enemy)
 
-        elif enemy.health < 1:
+    def check_death(self, enemy, *actions):
+        if enemy.health < 1:
             try:
                 self.enemies.remove(enemy)
-                item = Item(y=enemy.y, x=enemy.x, sprite="")
+                for action in actions:
+                    action(enemy)
             except:
                 print("error removing enemy")
 

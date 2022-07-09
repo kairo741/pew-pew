@@ -11,6 +11,7 @@ from utils.Utils import Utils
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
 from .PlayerManager import PlayerManager
+from .ItemManager import ItemManager
 
 
 class GameManager:
@@ -51,10 +52,10 @@ class GameManager:
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         self.player_manager = PlayerManager()
-        
+        self.item_manager = ItemManager()
+
         self.fps = FPS()
         self.score = Score()
-
 
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
@@ -75,7 +76,7 @@ class GameManager:
                                            Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_DEFAULT_WEAPON,
-                                       
+
                                        ))
 
         # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
@@ -106,25 +107,30 @@ class GameManager:
 
                     for player in self.player_manager.players:
                         self.bullet_manager.has_collided(bullet, player,
-                            lambda bullet: player.take_damage(bullet.damage), 
-                            use_hitbox=True
-                        )
+                                                         lambda bullet: player.take_damage(bullet.damage),
+                                                         use_hitbox=True
+                                                         )
 
                 for enemy in self.enemy_manager.enemies:
                     self.enemy_manager.move_enemy(enemy, self.render_frame_time)
                     self.enemy_manager.check_enemy(enemy, self.resolution)
-                    self.bullet_manager.has_collided_any(enemy, 
-                        lambda bullet: enemy.take_damage(bullet.damage),
-                        lambda bullet: self.score.add(173)
-                    )
+                    self.bullet_manager.has_collided_any(enemy,
+                                                         lambda bullet: enemy.take_damage(bullet.damage),
+                                                         lambda bullet: self.score.add(173)
+                                                         )
+                    self.enemy_manager.check_death(enemy,
+                                                   lambda item: self.item_manager.create_item(enemy.x, enemy.y))
                     for player in self.player_manager.players:
                         self.enemy_manager.has_collided(enemy, player,
-                            lambda enemy: player.take_damage(player.max_health * 0.15),
-                            lambda enemy: self.enemy_manager.enemies.remove(enemy)
-                        )
+                                                        lambda enemy: player.take_damage(player.max_health * 0.15),
+                                                        lambda enemy: self.enemy_manager.enemies.remove(enemy)
+                                                        )
 
                     enemy.shoot(self.bullet_manager) if self.time_stop is False else None
                     enemy.render(self.screen)
+
+                for item in self.item_manager.items:
+                    item.render(self.screen)
 
                 if self.render_frame_time != 0.01:
                     self.enemy_manager.spawn_enemy_random(self.resolution)
@@ -138,7 +144,8 @@ class GameManager:
 
             if self.game_over:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
-                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True, pygame.color.Color('White'))
+                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
+                                                                           pygame.color.Color('White'))
                 self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
             else:
@@ -149,10 +156,9 @@ class GameManager:
 
             self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
             self.score.render(display=self.screen, position=Axis(0, 0))
-                
+
             pygame.display.update()
-            
-            
+
     def game_events(self):
         self.check_game_over()
 
@@ -169,7 +175,7 @@ class GameManager:
 
                 else:
                     keys = pygame.key.get_pressed()
-                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks)-1]
+                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks) - 1]
                     player.control_ship(keys, self.render_frame_time,
                                         limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)

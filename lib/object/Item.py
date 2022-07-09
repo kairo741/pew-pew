@@ -1,8 +1,8 @@
 from .Axis import Axis
-from .Ship import Ship
+from .GameObject import GameObject
 
 
-class Item(Ship):
+class Item(GameObject):
     def __init__(
             self,
             x=0,

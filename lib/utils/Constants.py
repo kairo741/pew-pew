@@ -26,6 +26,12 @@ class Constants:
         ROOT_PATH + "\\assets\\images\\ship_32x32.png"
     )
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\shipEnemy.png")
+    POWER_UP_1 = image.load(ROOT_PATH + "\\assets\\images\\pwup-1.png")
+    POWER_UP_2 = image.load(ROOT_PATH + "\\assets\\images\\pwup-2.png")
+    POWER_UP_3 = image.load(ROOT_PATH + "\\assets\\images\\pwup-3.png")
+    POWER_UP_4 = image.load(ROOT_PATH + "\\assets\\images\\pwup-4.png")
+    POWER_UP_5 = image.load(ROOT_PATH + "\\assets\\images\\pwup-5.png")
+    POWER_UP_6 = image.load(ROOT_PATH + "\\assets\\images\\pwup-6.png")
 
     # Audio
     mixer.init()
