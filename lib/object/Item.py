@@ -1,6 +1,15 @@
 from .Axis import Axis
 from .GameObject import GameObject
 from random import choice
+from utils.Constants import Constants
+from utils.Utils import Utils
+
+
+def get_random_effect(item_manager):
+    heal = {"effect": item_manager.heal, "sprite": Constants.POWER_UP_6}
+    # damage = {"effect": player.take_damage, "sprite": Constants.POWER_UP_1}  # teste
+    effects = [heal, heal, heal]  # TODO - more effects
+    return choice(effects)
 
 
 class Item(GameObject):
@@ -10,13 +19,10 @@ class Item(GameObject):
             y=0,
             size=Axis.zero(),
             speed=Axis.zero(),
-            sprite=""):
+            sprite="",
+            effect=None):
         super().__init__(x, y, size, speed, sprite)
-        self.effect = None
+        self.effect = effect
 
     def render(self, screen):
         super().render(screen)
-
-    def random_effect(self, player):
-        effects = [player.heal, player.heal, player.heal]  # TODO - more effects
-        self.effect = choice(effects)

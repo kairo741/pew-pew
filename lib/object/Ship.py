@@ -44,13 +44,6 @@ class Ship(GameObject):
     def take_damage(self, value):
         self.health -= value
 
-    def heal(self, value):
-        if self.health < self.max_health:
-            if value + self.health > self.max_health:
-                self.health = self.max_health
-            else:
-                self.health += value
-
     def get_hitbox_rect(self):
         hitbox_size = Axis(self.size.x * 0.1, self.size.x * 0.1)
         middle = self.get_middle()

@@ -1,6 +1,6 @@
 from utils.Constants import Constants
 from utils.Utils import Utils
-from object.Item import Item
+from object.Item import Item, get_random_effect
 from object.Axis import Axis
 from random import randint, uniform, choice
 
@@ -20,12 +20,13 @@ class ItemManager:
             self.create_item(x, y)
 
     def create_item(self, x, y):
-        item_sprite = Utils.scale_image(choice(self.item_sprites), 0.3)
+        effect = get_random_effect(self)
         new_item = Item(
             x=x,
             y=y,
             speed=Axis(uniform(-2, 2), randint(1, 3)),
-            sprite=item_sprite,
+            sprite=Utils.scale_image(effect['sprite'], 0.3),
+            effect=effect['effect'],
         )
         new_item.set_size_with_sprite()
         new_item.center()
@@ -42,3 +43,11 @@ class ItemManager:
                     action(item)
             except:
                 print("error in item collision action")
+
+    def heal(self, player):
+        value = uniform(player.max_health*0.05, player.max_health*0.15)
+        if player.health < player.max_health:
+            if value + player.health > player.max_health:
+                player.health = player.max_health
+            else:
+                player.health += value

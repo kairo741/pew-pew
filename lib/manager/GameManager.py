@@ -144,10 +144,9 @@ class GameManager:
                     self.item_manager.move_item(item, self.render_frame_time)
 
                     for player in self.player_manager.players:
-                        item.random_effect(player)
                         self.item_manager.has_collided(item, player,
                                                        lambda item: self.item_manager.items.remove(item),
-                                                       lambda effect: item.effect(randint(1, 10)))
+                                                       lambda effect: item.effect(player))
 
                     item.render(self.screen)
 
