@@ -27,9 +27,8 @@ class Enemy(Ship):
 
     def shoot(self, bullet_manager):
         if time.get_ticks() > self.next_shot:
-            for generated_bullet in self.weapon.make_bullets(
-                Axis(self.get_middle().x, self.y + self.size.y), speed=Axis(randint(-2, 2), randint(4, 6))
-            ):
+            bullets = self.weapon.make_bullets(Axis(self.get_middle().x, self.y + self.size.y))
+            for generated_bullet in bullets:
                 bullet_manager.shoot(generated_bullet)
 
             Constants.SFX_LASER_2.play()
