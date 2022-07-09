@@ -21,10 +21,10 @@ class Constants:
     SPRITE_STAR = image.load(ROOT_PATH + "\\assets\\images\\star.png")
     SPRITE_BULLET = image.load(ROOT_PATH + "\\assets\\images\\bullet.png")
     SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\enemy_bullet.png")
-    SPRITE_PLAYER_SHIP = image.load(ROOT_PATH + "\\assets\\images\\ship.png")
-    SPRITE_PLAYER_SHIP_32x32 = image.load(
-        ROOT_PATH + "\\assets\\images\\ship_32x32.png"
-    )
+    SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ship.png")
+    SPRITE_PLAYER_SHIP_PIERCE = image.load(ROOT_PATH + "\\assets\\images\\ship_pierce.png")
+    SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
+
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\shipEnemy.png")
     POWER_UP_1 = image.load(ROOT_PATH + "\\assets\\images\\pwup-1.png")
     POWER_UP_2 = image.load(ROOT_PATH + "\\assets\\images\\pwup-2.png")

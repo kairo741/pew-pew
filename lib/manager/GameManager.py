@@ -59,13 +59,13 @@ class GameManager:
 
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BALANCE, 0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_DEFAULT_WEAPON,
                                        ))
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_DEFAULT_WEAPON,
 
@@ -73,7 +73,7 @@ class GameManager:
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
                                        sprite=Utils.scale_image(
-                                           Constants.SPRITE_PLAYER_SHIP, 0.6).convert_alpha(),
+                                           Constants.SPRITE_PLAYER_SHIP_BALANCE, 0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_DEFAULT_WEAPON,
 
