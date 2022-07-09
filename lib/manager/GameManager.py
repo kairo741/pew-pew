@@ -30,7 +30,7 @@ class GameManager:
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
-            x=int(self.get_res.current_w * 0.7), y=int(self.get_res.current_h * 0.7))
+            x=int(self.get_res.current_w * 0.85), y=int(self.get_res.current_h * 0.85))
         self.screen = pygame.display.set_mode(
             self.resolution.to_list(), self.flags)
         pygame.display.set_caption("PewPew")
@@ -59,28 +59,32 @@ class GameManager:
 
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BALANCE, 0.6).convert_alpha(),
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BALANCE,
+                                                                0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_BALANCE_WEAPON,
                                        ))
 
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_SPEED, 0.6).convert_alpha(),
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_SPEED,
+                                                                0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_SPEED_WEAPON,
                                        ))
 
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.6).convert_alpha(),
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE,
+                                                                0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_PIERCE_WEAPON,
                                        ))
-                                       
+
         self.player_manager.add(Player(x=self.resolution.x / 2, y=self.resolution.y / 2,
                                        speed=Presets.PLAYER_DEFAULT_SPEED,
-                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_FROGGERS, 0.6).convert_alpha(),
+                                       sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_FROGGERS,
+                                                                0.6).convert_alpha(),
                                        health=Presets.PLAYER_DEFAULT_HEALTH,
                                        weapon=Presets.PLAYER_FROG_WEAPON,
                                        ))
@@ -210,6 +214,9 @@ class GameManager:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()
+
+                if event.key == pygame.K_F5:
+                    self.reset_game()
 
             if event.type == Constants.ULTIMATE_END:
                 self.activate_time_stop(False)
