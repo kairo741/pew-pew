@@ -12,7 +12,7 @@ from utils.Utils import Utils
 class EnemyManager:
     def __init__(self):
         super().__init__()
-        self.enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP, 0.5)
+        self.enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP.convert_alpha(), 0.5)
         self.enemies = []
         self.last_enemy = 0
 

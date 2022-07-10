@@ -10,7 +10,7 @@ class Background(GameObject):
     def __init__(self, x=0, y=0, size=Axis.zero(), color=Constants.BACKGROUND_COLOR):
         super().__init__(x, y, size)
         self.color = color
-        self.star_sprite = Utils.scale_image(Constants.SPRITE_STAR, 0.1)
+        self.star_sprite = Utils.scale_image(Constants.SPRITE_STAR.convert_alpha(), 0.1)
         self.star_sprite.set_alpha(90)
 
     stars = []
@@ -36,7 +36,7 @@ class Background(GameObject):
         self.make_stars()
         for star in self.stars:
             star.y += star.speed.y * render_frame_time
-            if (star.y > self.size.x):
+            if (star.y > self.size.y):
                 try:
                     self.stars.remove(star)
                 except:

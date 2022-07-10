@@ -27,7 +27,7 @@ class Weapon:
             speed = override_speed
 
         
-        new_bullet = type(self.bullet)(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite), 
+        new_bullet = type(self.bullet)(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite.convert_alpha()), 
             tag=self.bullet.tag, 
             damage=self.bullet.damage
         )

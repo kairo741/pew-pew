@@ -8,11 +8,10 @@ from utils.Constants import Constants
 from utils.Presets import Presets
 from utils.Utils import Utils
 
-from manager.NumberManager import NumberManager
-
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
 from .ItemManager import ItemManager
+from .NumberManager import NumberManager
 from .PlayerManager import PlayerManager
 
 
@@ -24,17 +23,24 @@ class GameManager:
         pygame.display.init()
         pygame.joystick.init()
         pygame.font.init()
+        pygame.event.set_allowed([pygame.KEYDOWN, pygame.QUIT, Constants.ULTIMATE_END])
 
-        # flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
-        self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
+        self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
+        self.flags = self.base_flags
 
         self.is_fullscreen = False
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
-            x=int(self.get_res.current_w * 0.9), y=int(self.get_res.current_h * 0.9))
+            x=int(self.get_res.current_w * 0.8), 
+            y=int(self.get_res.current_h * 0.8),
+        )
         self.screen = pygame.display.set_mode(
-            self.resolution.to_list(), self.flags)
+            size=self.resolution.to_list(), 
+            flags=self.flags, 
+            depth=24,
+
+        )
         pygame.display.set_caption("PewPew")
 
         pygame.mixer.music.set_volume(Constants.BGM_VOLUME)
@@ -127,29 +133,11 @@ class GameManager:
 
     def game_events(self):
         self.check_game_over()
-
-        if self.player_manager.is_alive() and self.state == Constants.RUNNING:
-            for index, player in enumerate(self.player_manager.players):
-                if len(self.joysticks) >= index + 1:
-                    joy = self.joysticks[index]
-                    player.layout = Presets.CONTROLLER_LAYOUT
-                    player.control_ship_joystick(joy, self.render_frame_time,
-                                                 limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
-                    player.control_shoot_joystick(joy, self.bullet_manager)
-                    player.control_ultimate_joystick(joy, self.time_stop is False,
-                                                     action=lambda: self.activate_time_stop(True))
-
-                else:
-                    keys = pygame.key.get_pressed()
-                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks)]
-                    player.control_ship(keys, self.render_frame_time,
-                                        limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
-                    player.control_shoot(keys, self.bullet_manager)
-                    player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
+        self.player_input()
+        self.update_controller_state()
 
         for event in pygame.event.get():
-            self.update_controller_state()
-
+            
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_r and self.game_over:
@@ -173,6 +161,27 @@ class GameManager:
 
             if event.type == pygame.QUIT:
                 pygame.quit()
+
+    def player_input(self):
+        if self.player_manager.is_alive() and self.state == Constants.RUNNING:
+            for index, player in enumerate(self.player_manager.players):
+                if len(self.joysticks) >= index + 1:
+                    joy = self.joysticks[index]
+                    player.layout = Presets.CONTROLLER_LAYOUT
+                    player.control_ship_joystick(joy, self.render_frame_time,
+                                                 limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
+                    player.control_shoot_joystick(joy, self.bullet_manager)
+                    player.control_ultimate_joystick(joy, self.time_stop is False,
+                                                     action=lambda: self.activate_time_stop(True))
+
+                else:
+                    keys = pygame.key.get_pressed()
+                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks)]
+                    player.control_ship(keys, self.render_frame_time,
+                                        limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
+                    player.control_shoot(keys, self.bullet_manager)
+                    player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
+
 
     def manage_items(self):
         for item in self.item_manager.items:
@@ -255,13 +264,13 @@ class GameManager:
 
     def fullscreen_mode(self):
         if self.is_fullscreen:
-            self.resolution = Axis(x=int(self.get_res.current_w * 0.75),
-                                   y=int(self.get_res.current_h * 0.75))
-            self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
+            self.resolution = Axis(x=int(self.get_res.current_w * 0.8),
+                                   y=int(self.get_res.current_h * 0.8))
+            self.flags = self.base_flags
         else:
             self.resolution = Axis(x=int(self.get_res.current_w),
                                    y=int(self.get_res.current_h))
-            self.flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.FULLSCREEN
+            self.flags = self.base_flags | pygame.FULLSCREEN
 
         self.screen = pygame.display.set_mode(
             self.resolution.to_list(), self.flags)
