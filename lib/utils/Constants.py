@@ -8,6 +8,8 @@ class Constants:
     BACKGROUND_COLOR = (14, 6, 21)
     COLOR_RED = (255, 50, 50)
     COLOR_GREY = (200, 200, 200)
+    COLOR_BLUE = (100, 100, 255)
+    COLOR_GREEN = (100, 255, 100)
 
     # Game states
     RUNNING, PAUSE = 0, 1

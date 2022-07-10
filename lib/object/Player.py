@@ -10,6 +10,9 @@ class Player(Ship):
     def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout=Presets.PRIMARY_KB_LAYOUT):
         super().__init__(x, y, size, speed, sprite, weapon, health)
         self.layout = layout
+        self.ult_cooldown_sec = 30
+        self.next_ult = time.get_ticks()+1000
+        self.last_ult = 0
 
     def take_damage(self, value):
         super().take_damage(value)
@@ -48,8 +51,11 @@ class Player(Ship):
 
     def ult(self, *conditions, action):
         if self.is_alive():
-            if all(conditions[0]):
-                action()
+            if self.next_ult < time.get_ticks():
+                if all(conditions[0]):
+                    self.last_ult = time.get_ticks()
+                    self.next_ult = self.last_ult + self.ult_cooldown_sec*1000
+                    action()
 
 
     def control_ship(self, keys, render_frame_time, limit):
@@ -103,15 +109,26 @@ class Player(Ship):
     def render_lifebar(self, screen):
         lifebar_size = Axis(self.size.x, self.size.y / 10)
         health_size = lifebar_size.x * (self.health / self.max_health)
-        draw.rect(screen, (255, 100, 100), (self.x, self.size.y + self.y + lifebar_size.y * 2, lifebar_size.x, lifebar_size.y))
-        draw.rect(screen, (100, 255, 100), (self.x, self.size.y + self.y + lifebar_size.y * 2, health_size, lifebar_size.y))
+        draw.rect(screen, Constants.COLOR_RED, (self.x, self.size.y + self.y + lifebar_size.y * 2, lifebar_size.x, lifebar_size.y))
+        draw.rect(screen, Constants.COLOR_GREEN, (self.x, self.size.y + self.y + lifebar_size.y * 2, health_size, lifebar_size.y))
 
     def render_hitbox(self, screen):
-        draw.rect(screen, (75, 255, 75), self.get_hitbox_rect(), border_radius=100)
+        draw.rect(screen, (255, 255, 255), self.get_hitbox_rect(), border_radius=100)
+
+    def render_ult_bar(self, screen):
+        bar_size = Axis(self.size.x, self.size.y / 10)
+        percentage = (time.get_ticks()-self.last_ult) / (self.next_ult-self.last_ult)
+        cooldown_size = bar_size.x * (percentage)
+
+        if (cooldown_size > bar_size.x):
+            cooldown_size = bar_size.x
+
+        draw.rect(screen, Constants.COLOR_BLUE, (self.x, self.y + self.size.y + bar_size.y * 4, cooldown_size, bar_size.y))
 
     def render(self, screen):
         super().render(screen)
         self.render_lifebar(screen)
         self.render_hitbox(screen)
+        self.render_ult_bar(screen)
         
         

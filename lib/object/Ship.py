@@ -45,6 +45,6 @@ class Ship(GameObject):
         self.health -= value
 
     def get_hitbox_rect(self):
-        hitbox_size = Axis(self.size.x * 0.1, self.size.x * 0.1)
+        hitbox_size = Axis(self.size.x * 0.15, self.size.x * 0.15)
         middle = self.get_middle()
         return [middle.x - hitbox_size.x / 2, middle.y - hitbox_size.y / 2, hitbox_size.x, hitbox_size.y]
