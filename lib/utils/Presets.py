@@ -13,7 +13,13 @@ from utils.Utils import Utils
 class Presets:
     # Player attributes
     PLAYER_DEFAULT_HEALTH = 100
+    PLAYER_LIGHT_HEALTH = PLAYER_DEFAULT_HEALTH*0.8
+    PLAYER_HEAVY_HEALTH = PLAYER_DEFAULT_HEALTH*1.2
+
     PLAYER_DEFAULT_SPEED = Axis(7, 5)
+    PLAYER_LIGHT_SPEED = PLAYER_DEFAULT_SPEED.scale_to(1.2)
+    PLAYER_HEAVY_SPEED = PLAYER_DEFAULT_SPEED.scale_to(0.8)
+
     PLAYER_BALANCE_WEAPON = Weapon(
         shoot_delay=125,
         weapon_type="triple",
@@ -23,19 +29,19 @@ class Presets:
     PLAYER_PIERCE_WEAPON = Weapon(
         shoot_delay=300,
         weapon_type="single",
-        bullet=BulletPierce(speed=Axis(0, -75), sprite=Utils.scale_image(Constants.SPRITE_BULLET_LIGHTBLUE_LONG, 0.2), damage=45)
+        bullet=BulletPierce(speed=Axis(0, -75), sprite=Utils.scale_image(Constants.SPRITE_BULLET_LIGHTBLUE_LONG, 0.2), damage=70)
+    )
+
+    PLAYER_SPEED_WEAPON = Weapon(
+        shoot_delay=65,
+        weapon_type="double",
+        bullet=Bullet(speed=Axis(0, -25), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.2), damage=9)
     )
 
     PLAYER_FROG_WEAPON = Weapon(
         shoot_delay=200,
         weapon_type="spread",
-        bullet=Bullet(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_GREEN, 0.2), damage=16)
-    )
-
-    PLAYER_SPEED_WEAPON = Weapon(
-        shoot_delay=50,
-        weapon_type="double",
-        bullet=Bullet(speed=Axis(0, -25), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.2), damage=8)
+        bullet=Bullet(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_GREEN, 0.2), damage=18)
     )
 
     ENEMY_WEAPON = Weapon(
@@ -45,6 +51,8 @@ class Presets:
     )
 
     PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON]
+    PLAYER_SPEEDS = [PLAYER_DEFAULT_SPEED, PLAYER_DEFAULT_SPEED, PLAYER_LIGHT_SPEED, PLAYER_HEAVY_SPEED]
+    PLAYER_HEALTHS = [PLAYER_DEFAULT_HEALTH, PLAYER_DEFAULT_HEALTH, PLAYER_LIGHT_HEALTH, PLAYER_HEAVY_HEALTH]
 
     PRIMARY_KB_LAYOUT = Layout(K_w, K_s, K_a, K_d, K_SPACE, K_x)
     SECONDARY_KB_LAYOUT = Layout(K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RSHIFT, K_RCTRL)

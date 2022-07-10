@@ -11,6 +11,16 @@ class Weapon:
         self.weapon_type = weapon_type
         self.bullet = bullet
 
+    def calculate_dps(self):
+        shot_damage = 0
+
+        for bullet in self.make_bullets(Axis(0, 0)):
+            shot_damage+=bullet.damage
+
+        shot_damage *= 1000 / self.shoot_delay
+
+        return round(shot_damage)
+
     def create_bullet(self, x, y, override_speed=None):
         speed = self.bullet.speed
         if override_speed:

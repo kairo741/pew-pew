@@ -6,6 +6,9 @@ class Axis:
     @staticmethod
     def zero():
         return Axis(0, 0)
-    
+
     def to_list(self):
         return [self.x, self.y]
+
+    def scale_to(self, scale):
+        return Axis(self.x * scale, self.y * scale)

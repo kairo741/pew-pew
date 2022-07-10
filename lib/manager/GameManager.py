@@ -60,16 +60,17 @@ class GameManager:
         self.fps = FPS()
         self.score = Score()
 
+        base_pos = (self.resolution.x)/5
         for i in range(0, 4):
-            base_pos = (self.resolution.x)/5
             self.player_manager.add(Player(
                 x=base_pos*(i+1),
                 y=self.resolution.y*0.65,
-                speed=Presets.PLAYER_DEFAULT_SPEED,
+                speed=Presets.PLAYER_SPEEDS[i],
                 sprite=Utils.scale_image(Constants.SPRITE_PLAYERS[i],0.6).convert_alpha(),
-                health=Presets.PLAYER_DEFAULT_HEALTH,
+                health=Presets.PLAYER_HEALTHS[i],
                 weapon=Presets.PLAYER_WEAPONS[i],
             ))
+            print(i+1,"dps:", self.player_manager.players[i].weapon.calculate_dps())
 
 
         # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)

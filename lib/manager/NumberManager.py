@@ -8,11 +8,11 @@ class NumberManager:
         self.numbers = []
 
     def add_damage_number(self, x, y, value):
-        dn = Number(x, y, value, time.get_ticks(), color=Constants.COLOR_GREY, duration=300, size=20)
+        dn = Number(x, y, value, time.get_ticks(), color=Constants.COLOR_GREY, duration=300, size=26)
         self.numbers.append(dn)
 
     def add_take_damage_number(self, x, y, value):
-        dn = Number(x, y, value, time.get_ticks(), color=Constants.COLOR_RED, duration=1000, size=30)
+        dn = Number(x, y, value, time.get_ticks(), color=Constants.COLOR_RED, duration=1000, size=36)
         self.numbers.append(dn)
 
     def render(self, screen):

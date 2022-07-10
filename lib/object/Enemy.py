@@ -37,18 +37,8 @@ class Enemy(Ship):
     def render(self, screen):
         super().render(screen)
         lifebar_size = Axis(self.size.x, self.size.y / 10)
-        draw.rect(
-            screen,
-            (255, 100, 100),
-            (self.x, self.y - lifebar_size.y * 2, lifebar_size.x, lifebar_size.y),
+        health_size = lifebar_size.x * (self.health / self.max_health)
+        draw.rect(screen, (255, 100, 100),(self.x, self.y - lifebar_size.y * 2, lifebar_size.x, lifebar_size.y),
         )
-        draw.rect(
-            screen,
-            (100, 255, 100),
-            (
-                self.x,
-                self.y - lifebar_size.y * 2,
-                lifebar_size.x * (self.health / 100),
-                lifebar_size.y,
-            ),
+        draw.rect(screen, (100, 255, 100), (self.x, self.y - lifebar_size.y * 2, health_size, lifebar_size.y,),
         )

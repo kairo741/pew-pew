@@ -100,14 +100,18 @@ class Player(Ship):
         if joystick.get_button(self.layout.ultimate):
             self.ult(conditions, action=action)
 
+    def render_lifebar(self, screen):
+        lifebar_size = Axis(self.size.x, self.size.y / 10)
+        health_size = lifebar_size.x * (self.health / self.max_health)
+        draw.rect(screen, (255, 100, 100), (self.x, self.size.y + self.y + lifebar_size.y * 2, lifebar_size.x, lifebar_size.y))
+        draw.rect(screen, (100, 255, 100), (self.x, self.size.y + self.y + lifebar_size.y * 2, health_size, lifebar_size.y))
 
+    def render_hitbox(self, screen):
+        draw.rect(screen, (75, 255, 75), self.get_hitbox_rect(), border_radius=100)
 
     def render(self, screen):
         super().render(screen)
-        lifebar_size = Axis(self.size.x, self.size.y / 10)
-        draw.rect(screen, (255, 100, 100),
-                  (self.x, self.size.y + self.y + lifebar_size.y * 2, lifebar_size.x, lifebar_size.y))
-        draw.rect(screen, (100, 255, 100),
-                  (self.x, self.size.y + self.y + lifebar_size.y * 2, lifebar_size.x * (self.health / 100),
-                   lifebar_size.y))
-        draw.rect(screen, (75, 255, 75), self.get_hitbox_rect(), border_radius=100)
+        self.render_lifebar(screen)
+        self.render_hitbox(screen)
+        
+        
