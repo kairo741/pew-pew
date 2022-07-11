@@ -57,6 +57,7 @@ class Constants:
 
     # Fonts
     FONT_NUMBER = ROOT_PATH+"\\assets\\fonts\\Montserrat-Regular.ttf"
+    FONT_RETRO_GAMING = ROOT_PATH+"\\assets\\fonts\\Retro-Gaming.ttf"
 
     # Audio
     mixer.init()
