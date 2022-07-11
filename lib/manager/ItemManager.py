@@ -78,3 +78,7 @@ class ItemManager:
 
     def raise_damage(self, player):
         player.weapon.bullet.damage += uniform(1, 3)  # TODO - balancear valores
+
+    def raise_move_speed(self, player):
+        player.speed.x += uniform(0.7, 2.2)  # TODO - balancear valores
+        player.speed.y += uniform(0.3, 1.5)  # TODO - balancear valores
