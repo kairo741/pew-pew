@@ -32,12 +32,12 @@ class GameManager:
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
-            x=int(self.get_res.current_w * 0.8), 
+            x=int(self.get_res.current_w * 0.8),
             y=int(self.get_res.current_h * 0.8),
         )
         self.screen = pygame.display.set_mode(
-            size=self.resolution.to_list(), 
-            flags=self.flags, 
+            size=self.resolution.to_list(),
+            flags=self.flags,
             depth=24,
 
         )
@@ -60,24 +60,23 @@ class GameManager:
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         self.player_manager = PlayerManager()
-        self.item_manager = ItemManager()
         self.number_manager = NumberManager()
+        self.item_manager = ItemManager(self.number_manager)
 
         self.fps = FPS()
         self.score = Score()
 
-        base_pos = (self.resolution.x)/5
+        base_pos = (self.resolution.x) / 5
         for i in range(0, 4):
             self.player_manager.add(Player(
-                x=base_pos*(i+1),
-                y=self.resolution.y*0.65,
+                x=base_pos * (i + 1),
+                y=self.resolution.y * 0.65,
                 speed=Presets.PLAYER_SPEEDS[i],
-                sprite=Utils.scale_image(Constants.SPRITE_PLAYERS[i],0.6).convert_alpha(),
+                sprite=Utils.scale_image(Constants.SPRITE_PLAYERS[i], 0.6).convert_alpha(),
                 health=Presets.PLAYER_HEALTHS[i],
                 weapon=Presets.PLAYER_WEAPONS[i],
             ))
-            print(i+1,"dps:", self.player_manager.players[i].weapon.calculate_dps())
-
+            print(i + 1, "dps:", self.player_manager.players[i].weapon.calculate_dps())
 
         # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
 
@@ -137,7 +136,7 @@ class GameManager:
         self.update_controller_state()
 
         for event in pygame.event.get():
-            
+
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_r and self.game_over:
@@ -182,7 +181,6 @@ class GameManager:
                     player.control_shoot(keys, self.bullet_manager)
                     player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
 
-
     def manage_items(self):
         for item in self.item_manager.items:
             self.item_manager.move_item(item, self.render_frame_time)
@@ -190,7 +188,7 @@ class GameManager:
             for player in self.player_manager.players:
                 self.item_manager.has_collided(item, player,
                                                lambda item: self.item_manager.items.remove(item),
-                                               lambda effect: item.effect(player))
+                                               lambda effect: item.effect(player), )
 
             item.render(self.screen)
 
@@ -199,17 +197,20 @@ class GameManager:
             self.enemy_manager.move_enemy(enemy, self.render_frame_time)
             self.enemy_manager.check_enemy(enemy, self.resolution)
             self.bullet_manager.has_collided_any(enemy,
-                                                lambda bullet: enemy.take_damage(bullet.damage),
-                                                lambda bullet: self.score.add(173), 
-                                                lambda bullet: self.number_manager.add_damage_number(bullet.x, bullet.y, bullet.damage),
-                                                )
-                                                
+                                                 lambda bullet: enemy.take_damage(bullet.damage),
+                                                 lambda bullet: self.score.add(173),
+                                                 lambda bullet: self.number_manager.add_damage_number(bullet.x,
+                                                                                                      bullet.y,
+                                                                                                      bullet.damage))
+
             self.enemy_manager.check_death(enemy,
                                            lambda item: self.item_manager.random_item(enemy.x, enemy.y))
             for player in self.player_manager.players:
                 self.enemy_manager.has_collided(enemy, player,
                                                 lambda enemy: player.take_damage(player.max_health * 0.15),
-                                                lambda enemy: self.number_manager.add_take_damage_number(enemy.x, enemy.y, player.max_health * 0.15),
+                                                lambda enemy: self.number_manager.add_take_damage_number(enemy.x,
+                                                                                                         enemy.y,
+                                                                                                         player.max_health * 0.15),
                                                 lambda enemy: self.enemy_manager.enemies.remove(enemy)
                                                 )
 
@@ -226,7 +227,9 @@ class GameManager:
             for player in self.player_manager.players:
                 self.bullet_manager.has_collided(bullet, player,
                                                  lambda bullet: player.take_damage(bullet.damage),
-                                                 lambda bullet: self.number_manager.add_take_damage_number(bullet.x, bullet.y, bullet.damage),
+                                                 lambda bullet: self.number_manager.add_take_damage_number(bullet.x,
+                                                                                                           bullet.y,
+                                                                                                           bullet.damage),
                                                  use_hitbox=True)
 
     def check_game_over(self):

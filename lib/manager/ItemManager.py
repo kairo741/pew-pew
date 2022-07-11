@@ -1,16 +1,18 @@
+from random import randint, uniform
+
+from object.Axis import Axis
+from object.Item import Item, get_random_effect
 from utils.Constants import Constants
 from utils.Utils import Utils
-from object.Item import Item, get_random_effect
-from object.Axis import Axis
-from random import randint, uniform, choice
 
 
 class ItemManager:
-    def __init__(self):
+    def __init__(self, number_manager):
         super().__init__()
         self.items = []
         self.item_sprites = [Constants.POWER_UP_1, Constants.POWER_UP_2, Constants.POWER_UP_3, Constants.POWER_UP_4,
                              Constants.POWER_UP_5, Constants.POWER_UP_5, Constants.POWER_UP_6]
+        self.number_manager = number_manager  # TODO - verificar se é a melhor maneira
 
     def reset(self):
         self.items = []
@@ -59,5 +61,10 @@ class ItemManager:
         if player.health < player.max_health:
             if value + player.health > player.max_health:
                 player.health = player.max_health
+                text = 'MAX'
             else:
                 player.health += value
+                text = f'+{round(value)}'
+
+            self.number_manager.add_heal_number(player.x,
+                                                player.y, text)

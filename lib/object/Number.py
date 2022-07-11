@@ -12,12 +12,11 @@ class Number:
         self.text = text
         self.color = color
 
-        self.start_time = start_time        
+        self.start_time = start_time
         self.duration = duration
         self.opacity = opacity
 
-
     def render(self, display):
-        text = self.font.render(str(round(self.text)), True, self.color)
+        text = self.font.render(str(self.text), True, self.color)
         text.set_alpha(self.opacity)
         display.blit(text, (self.x, self.y))

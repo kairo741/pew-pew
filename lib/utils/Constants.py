@@ -1,6 +1,7 @@
 from os import path
 from pygame import image, mixer, font, USEREVENT
 
+
 class Constants:
     ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "..\..", ""))
 
@@ -10,6 +11,7 @@ class Constants:
     COLOR_GREY = (200, 200, 200)
     COLOR_BLUE = (100, 100, 255)
     COLOR_GREEN = (100, 255, 100)
+    COLOR_GREEN_HEAL = (91, 247, 164)
 
     # Game states
     RUNNING, PAUSE = 0, 1
@@ -21,12 +23,9 @@ class Constants:
     # Events
     ULTIMATE_END = USEREVENT + 1
 
-
-
     # ASSETS
     # Sprites
     SPRITE_STAR = image.load(ROOT_PATH + "\\assets\\images\\star.png")
-
 
     SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ship.png")
     SPRITE_BULLET_BLUE = image.load(ROOT_PATH + "\\assets\\images\\bullet_blue.png")
@@ -37,7 +36,7 @@ class Constants:
 
     SPRITE_PLAYER_SHIP_SPEED = image.load(ROOT_PATH + "\\assets\\images\\ship_speed.png")
     SPRITE_BULLET_RED = image.load(ROOT_PATH + "\\assets\\images\\bullet_red.png")
-    
+
     SPRITE_PLAYER_SHIP_FROGGERS = image.load(ROOT_PATH + "\\assets\\images\\ship_froggers.png")
     SPRITE_BULLET_GREEN = image.load(ROOT_PATH + "\\assets\\images\\bullet_green.png")
 
@@ -53,11 +52,12 @@ class Constants:
     POWER_UP_5 = image.load(ROOT_PATH + "\\assets\\images\\pwup-5.png")
     POWER_UP_6 = image.load(ROOT_PATH + "\\assets\\images\\pwup-6.png")
 
-    SPRITE_PLAYERS = [SPRITE_PLAYER_SHIP_BALANCE, SPRITE_PLAYER_SHIP_PIERCE, SPRITE_PLAYER_SHIP_SPEED, SPRITE_PLAYER_SHIP_FROGGERS]
+    SPRITE_PLAYERS = [SPRITE_PLAYER_SHIP_BALANCE, SPRITE_PLAYER_SHIP_PIERCE, SPRITE_PLAYER_SHIP_SPEED,
+                      SPRITE_PLAYER_SHIP_FROGGERS]
 
     # Fonts
-    FONT_NUMBER = ROOT_PATH+"\\assets\\fonts\\Montserrat-Regular.ttf"
-    FONT_RETRO_GAMING = ROOT_PATH+"\\assets\\fonts\\Retro-Gaming.ttf"
+    FONT_NUMBER = ROOT_PATH + "\\assets\\fonts\\Montserrat-Regular.ttf"
+    FONT_RETRO_GAMING = ROOT_PATH + "\\assets\\fonts\\Retro-Gaming.ttf"
 
     # Audio
     mixer.init()
