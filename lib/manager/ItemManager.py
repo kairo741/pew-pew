@@ -68,3 +68,13 @@ class ItemManager:
 
             self.number_manager.add_heal_number(player.x,
                                                 player.y, text)
+
+    def raise_attack_speed(self, player):
+        atk_speed = player.weapon.shoot_delay - uniform(0.2, 0.5)  # TODO - balancear valores
+        if atk_speed > 0:
+            player.weapon.shoot_delay = atk_speed
+        else:
+            player.weapon.shoot_delay = 0
+
+    def raise_damage(self, player):
+        player.weapon.bullet.damage += uniform(1, 3)  # TODO - balancear valores
