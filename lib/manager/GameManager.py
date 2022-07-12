@@ -108,11 +108,7 @@ class GameManager:
                 self.render_frame_time = normal_frame_time
 
             elif self.state == Constants.PAUSE:
-                pause_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render(
-                    'Pause', True, pygame.color.Color('Red'))
-                self.screen.blit(pause_text, (100, 100))
-                for enemy in self.enemy_manager.enemies:
-                    enemy.render(self.screen)
+                self.manage_pause()
 
             if self.game_over:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
@@ -182,6 +178,15 @@ class GameManager:
                                         limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)
                     player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
+
+    def manage_pause(self):
+        pause_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render(
+            'Pause', True, pygame.color.Color('Red'))
+        for bullet in self.bullet_manager.bullets:
+            bullet.render(self.screen)
+        self.screen.blit(pause_text, (100, 100))
+        for enemy in self.enemy_manager.enemies:
+            enemy.render(self.screen)
 
     def manage_items(self):
         for item in self.item_manager.items:
