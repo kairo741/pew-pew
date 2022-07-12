@@ -2,7 +2,7 @@ from random import randint
 
 from pygame import Surface
 
-from object.Axis import Axis
+from lib.object.Axis import Axis
 
 
 class Weapon:

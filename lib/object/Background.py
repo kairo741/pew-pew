@@ -1,6 +1,6 @@
 from random import randrange
-from utils.Constants import Constants
-from utils.Utils import Utils
+from lib.utils.Constants import Constants
+from lib.utils.Utils import Utils
 from .GameObject import GameObject
 from .Axis import Axis
 from pygame import time, draw

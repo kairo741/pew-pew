@@ -1,4 +1,4 @@
-from object.BulletPierce import BulletPierce
+from lib.object.BulletPierce import BulletPierce
 
 class BulletManager:
     def __init__(self):

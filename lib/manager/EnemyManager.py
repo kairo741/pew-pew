@@ -1,12 +1,12 @@
 from random import randint, uniform
-from utils.Presets import Presets
+from lib.utils.Presets import Presets
 
-from object.Axis import Axis
-from object.Enemy import Enemy
-from object.Weapon import Weapon
+from lib.object.Axis import Axis
+from lib.object.Enemy import Enemy
+from lib.object.Weapon import Weapon
 from pygame import Surface, time
-from utils.Constants import Constants
-from utils.Utils import Utils
+from lib.utils.Constants import Constants
+from lib.utils.Utils import Utils
 
 
 class EnemyManager:

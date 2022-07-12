@@ -1,13 +1,13 @@
-from object.BulletPierce import BulletPierce
-from object.Bullet import Bullet
-from object.Axis import Axis
-from object.Layout import Layout
-from object.Weapon import Weapon
+from lib.object.BulletPierce import BulletPierce
+from lib.object.Bullet import Bullet
+from lib.object.Axis import Axis
+from lib.object.Layout import Layout
+from lib.object.Weapon import Weapon
 from pygame import K_DELETE, K_DOWN, K_END, K_HOME, K_INSERT, K_LEFT, K_PAGEDOWN, K_PAGEUP, K_RCTRL, K_RIGHT, K_RSHIFT, \
     K_SPACE, K_UP, K_a, K_d, K_h, K_i, K_j, K_k, K_l, K_n, K_s, K_w, K_x
 
-from utils.Constants import Constants
-from utils.Utils import Utils
+from lib.utils.Constants import Constants
+from lib.utils.Utils import Utils
 
 
 class Presets:

@@ -1,12 +1,12 @@
 import pygame
-from object.Axis import Axis
-from object.Background import Background
-from object.Fps import FPS
-from object.Player import Player
-from object.Score import Score
-from utils.Constants import Constants
-from utils.Presets import Presets
-from utils.Utils import Utils
+from lib.object.Axis import Axis
+from lib.object.Background import Background
+from lib.object.Fps import FPS
+from lib.object.Player import Player
+from lib.object.Score import Score
+from lib.utils.Constants import Constants
+from lib.utils.Presets import Presets
+from lib.utils.Utils import Utils
 
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager

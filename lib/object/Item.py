@@ -1,8 +1,8 @@
 from .Axis import Axis
 from .GameObject import GameObject
 from random import choice
-from utils.Constants import Constants
-from utils.Utils import Utils
+from lib.utils.Constants import Constants
+from lib.utils.Utils import Utils
 
 
 def get_random_effect(item_manager):

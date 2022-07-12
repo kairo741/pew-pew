@@ -2,13 +2,13 @@ import pygame
 from random import randint
 
 from .BulletManager import BulletManager
-from object.Background import Background
-from object.Axis import Axis
-from object.Fps import FPS
-from object.Ship import Ship
-from object.Weapon import Weapon
-from utils.Constants import Constants
-from utils.Utils import Utils
+from lib.object.Background import Background
+from lib.object.Axis import Axis
+from lib.object.Fps import FPS
+from lib.object.Ship import Ship
+from lib.object.Weapon import Weapon
+from lib.utils.Constants import Constants
+from lib.utils.Utils import Utils
 
 
 class MultiplayerGameManagerPrototype:

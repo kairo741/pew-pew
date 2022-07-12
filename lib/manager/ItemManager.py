@@ -1,9 +1,9 @@
 from random import randint, uniform
 
-from object.Axis import Axis
-from object.Item import Item, get_random_effect
-from utils.Constants import Constants
-from utils.Utils import Utils
+from lib.object.Axis import Axis
+from lib.object.Item import Item, get_random_effect
+from lib.utils.Constants import Constants
+from lib.utils.Utils import Utils
 
 
 class ItemManager:

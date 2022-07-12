@@ -1,5 +1,5 @@
 from pygame import font
-from utils.Constants import Constants
+from lib.utils.Constants import Constants
 
 
 class Score:

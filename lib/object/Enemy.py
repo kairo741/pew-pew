@@ -1,7 +1,7 @@
 from random import randint
 
 from pygame import draw, time
-from utils.Constants import Constants
+from lib.utils.Constants import Constants
 
 from .Axis import Axis
 from .Ship import Ship

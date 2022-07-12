@@ -1,4 +1,4 @@
-from utils.Constants import Constants
+from lib.utils.Constants import Constants
 from .GameObject import GameObject
 from .Axis import Axis
 

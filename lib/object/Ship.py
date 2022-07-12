@@ -1,6 +1,6 @@
 from .GameObject import GameObject
 from .Axis import Axis
-from utils.Constants import Constants
+from lib.utils.Constants import Constants
 from pygame import Surface
 
 
