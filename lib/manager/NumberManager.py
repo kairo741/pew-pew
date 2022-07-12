@@ -9,7 +9,7 @@ class NumberManager:
         self.numbers = []
 
     def add_damage_number(self, x, y, value):
-        dn = Number(x, y, round(value), time.get_ticks(), color=Constants.COLOR_GREY, duration=300, size=26)
+        dn = Number(x, y, round(value), time.get_ticks(), color=Constants.COLOR_GREY, duration=500, size=26)
         self.numbers.append(dn)
 
     def add_take_damage_number(self, x, y, value):
@@ -20,11 +20,11 @@ class NumberManager:
         heal_number = Number(x, y, text, time.get_ticks(), color=Constants.COLOR_GREEN_HEAL, duration=1000, size=26)
         self.numbers.append(heal_number)
 
-    def render(self, screen):
+    def render(self, screen, render_frame_time):
         for number in self.numbers:
             time_left = (number.start_time + number.duration) - time.get_ticks()
             if time_left <= 0:
                 self.numbers.remove(number)
             else:
                 number.render(screen)
-                number.opacity -= (255 / time_left)
+                number.opacity -= (255 / time_left) * (render_frame_time * 10)

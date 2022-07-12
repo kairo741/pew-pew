@@ -124,7 +124,7 @@ class GameManager:
 
             self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
             self.score.render(display=self.screen, position=Axis(0, 0))
-            self.number_manager.render(self.screen)
+            self.number_manager.render(self.screen, self.render_frame_time)
 
             pygame.display.update()
 
