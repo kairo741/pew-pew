@@ -1,11 +1,10 @@
 from pygame import font
-
 from utils.Constants import Constants
 
 
 class Number:
     def __init__(self, x, y, text, start_time, duration, color, size, opacity=255):
-        self.font = font.Font(Constants.FONT_NUMBER, size)
+        self.font = font.Font(Constants.FONT_RETRO_GAMING, size)
 
         self.x = x
         self.y = y

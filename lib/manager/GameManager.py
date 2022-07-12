@@ -108,9 +108,11 @@ class GameManager:
                 self.render_frame_time = normal_frame_time
 
             elif self.state == Constants.PAUSE:
-                pause_text = pygame.font.SysFont('Consolas', 40).render(
+                pause_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render(
                     'Pause', True, pygame.color.Color('Red'))
                 self.screen.blit(pause_text, (100, 100))
+                for enemy in self.enemy_manager.enemies:
+                    enemy.render(self.screen)
 
             if self.game_over:
                 death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
