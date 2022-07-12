@@ -20,6 +20,10 @@ class NumberManager:
         heal_number = Number(x, y, text, time.get_ticks(), color=Constants.COLOR_GREEN_HEAL, duration=1000, size=26)
         self.numbers.append(heal_number)
 
+    def add_buff_info(self, x, y, text):
+        info = Number(x, y, text, time.get_ticks(), color=Constants.COLOR_LIGHT_BLUE, duration=1000, size=26)
+        self.numbers.append(info)
+
     def render(self, screen, render_frame_time):
         for number in self.numbers:
             time_left = (number.start_time + number.duration) - time.get_ticks()

@@ -76,8 +76,11 @@ class ItemManager:
         else:
             player.weapon.shoot_delay = 0
 
+        self.number_manager.add_buff_info(player.x, player.y, "+SPEED")
+
     def raise_damage(self, player):
         player.weapon.bullet.damage += uniform(1, 3)  # TODO - balancear valores
+        self.number_manager.add_buff_info(player.x, player.y, "+ATK")
 
     def raise_move_speed(self, player):
         player.speed.x += uniform(0.7, 2.2)  # TODO - balancear valores
