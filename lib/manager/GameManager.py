@@ -33,14 +33,12 @@ class GameManager:
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
             x=int(self.get_res.current_w * 0.8),
-            y=int(self.get_res.current_h * 0.8),
-        )
+            y=int(self.get_res.current_h * 0.8))
         self.screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
-            depth=24,
+            depth=24)
 
-        )
         pygame.display.set_caption("PewPew")
 
         pygame.mixer.music.set_volume(Constants.BGM_VOLUME)
@@ -66,19 +64,19 @@ class GameManager:
         self.fps = FPS()
         self.score = Score()
 
-        base_pos = (self.resolution.x) / 5
         for i in range(0, 4):
             self.player_manager.add(Player(
-                x=base_pos * (i + 1),
+                x=self.resolution.x,
                 y=self.resolution.y * 0.65,
                 speed=Presets.PLAYER_SPEEDS[i],
                 sprite=Utils.scale_image(Constants.SPRITE_PLAYERS[i], 0.6).convert_alpha(),
                 health=Presets.PLAYER_HEALTHS[i],
-                weapon=Presets.PLAYER_WEAPONS[i],
-            ))
-            print(i + 1, "dps:", self.player_manager.players[i].weapon.calculate_dps())
+                weapon=Presets.PLAYER_WEAPONS[i]))
 
+            print(f'\033[1mP{i + 1} DPS:\033[0m '
+                  f'\033[93m\033[4m{self.player_manager.players[i].weapon.calculate_dps()}\033[0m')
         # self.trail = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        self.player_manager.set_spawn_position(self.resolution)
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -111,9 +109,10 @@ class GameManager:
                 self.manage_pause()
 
             if self.game_over:
-                death_text = pygame.font.SysFont('Consolas', 40).render('U died', True, pygame.color.Color('White'))
-                continue_text = pygame.font.SysFont('Consolas', 40).render('Press R to continue', True,
-                                                                           pygame.color.Color('White'))
+                death_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('U died', True,
+                                                                                      pygame.color.Color('White'))
+                continue_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('Press R to continue', True,
+                                                                                         pygame.color.Color('White'))
                 self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
             else:
@@ -187,6 +186,8 @@ class GameManager:
         self.screen.blit(pause_text, (100, 100))
         for enemy in self.enemy_manager.enemies:
             enemy.render(self.screen)
+        for item in self.item_manager.items:
+            item.render(self.screen)
 
     def manage_items(self):
         for item in self.item_manager.items:
@@ -269,6 +270,7 @@ class GameManager:
         self.player_manager.reset()
         self.item_manager.reset()
         self.score.reset()
+        self.player_manager.set_spawn_position(self.resolution)
         self.activate_time_stop(False)
         self.game_over = False
 
@@ -282,6 +284,5 @@ class GameManager:
                                    y=int(self.get_res.current_h))
             self.flags = self.base_flags | pygame.FULLSCREEN
 
-        self.screen = pygame.display.set_mode(
-            self.resolution.to_list(), self.flags)
+        self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
         self.is_fullscreen = not self.is_fullscreen
