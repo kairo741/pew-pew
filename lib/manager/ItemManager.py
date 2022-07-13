@@ -57,14 +57,14 @@ class ItemManager:
             self.items.remove(item)
 
     def heal(self, player):
-        value = uniform(player.max_health * 0.05, player.max_health * 0.15)
+        heal_value = uniform(player.max_health * 0.05, player.max_health * 0.15)
         if player.health < player.max_health:
-            if value + player.health > player.max_health:
+            if heal_value + player.health >= player.max_health:
                 player.health = player.max_health
                 text = 'MAX'
             else:
-                player.health += value
-                text = f'+{round(value)}'
+                player.health += heal_value
+                text = f'+{round(heal_value)}'
 
             self.number_manager.add_heal_number(player.x,
                                                 player.y, text)
