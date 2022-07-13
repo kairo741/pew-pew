@@ -58,7 +58,7 @@ class ItemManager:
 
     def heal(self, player):
         heal_value = uniform(player.max_health * 0.05, player.max_health * 0.15)
-        if player.health < player.max_health:
+        if player.health <= player.max_health:
             if heal_value + player.health >= player.max_health:
                 player.health = player.max_health
                 text = 'MAX'
