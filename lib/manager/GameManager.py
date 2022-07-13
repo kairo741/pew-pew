@@ -2,12 +2,12 @@ import pygame
 from lib.object.Axis import Axis
 from lib.object.Background import Background
 from lib.object.Fps import FPS
+from lib.object.Crt import CRT
 from lib.object.Player import Player
 from lib.object.Score import Score
 from lib.utils.Constants import Constants
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
-
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
 from .ItemManager import ItemManager
@@ -63,6 +63,7 @@ class GameManager:
 
         self.fps = FPS()
         self.score = Score()
+        self.crt = CRT(self.screen, self.get_res.current_w, self.get_res.current_h)
 
         for i in range(0, 4):
             self.player_manager.add(Player(
@@ -124,7 +125,6 @@ class GameManager:
             self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
             self.score.render(display=self.screen, position=Axis(0, 0))
             self.number_manager.render(self.screen, self.render_frame_time)
-
             pygame.display.update()
 
     def game_events(self):
@@ -188,6 +188,7 @@ class GameManager:
             enemy.render(self.screen)
         for item in self.item_manager.items:
             item.render(self.screen)
+        self.crt.draw()
 
     def manage_items(self):
         for item in self.item_manager.items:
