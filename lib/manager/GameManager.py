@@ -106,9 +106,6 @@ class GameManager:
 
                 self.render_frame_time = normal_frame_time
 
-            elif self.state == Constants.PAUSE:
-                self.manage_pause()
-
             if self.game_over:
                 death_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('U died', True,
                                                                                       pygame.color.Color('White'))
@@ -125,6 +122,9 @@ class GameManager:
             self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
             self.score.render(display=self.screen, position=Axis(0, 0))
             self.number_manager.render(self.screen, self.render_frame_time)
+
+            if self.state == Constants.PAUSE:
+                self.manage_pause()
             pygame.display.update()
 
     def game_events(self):
