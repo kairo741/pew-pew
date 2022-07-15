@@ -10,7 +10,7 @@ def get_random_effect(item_manager):
     atk_speed = {"effect": item_manager.raise_attack_speed, "sprite": Constants.POWER_UP_3}
     atk_damage = {"effect": item_manager.raise_damage, "sprite": Constants.POWER_UP_1}
     # move_speed = {"effect": item_manager.raise_move_speed, "sprite": Constants.POWER_UP_8}
-    effects = [atk_damage]  # TODO - fazer os IFs das chances de spawn
+    effects = [heal, atk_speed, heal, atk_damage, heal,]  # TODO - fazer os IFs das chances de spawn
     return choice(effects)
 
 
