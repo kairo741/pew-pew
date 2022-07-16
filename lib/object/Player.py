@@ -20,23 +20,23 @@ class Player(Ship):
             self.disable()
 
 
-    def move(self, direction, render_frame_time, limit):
+    def move(self, direction, render_frame_time, limit, multiplier=1):
         if self.is_alive():
             if direction == "r":
                 if self.x + self.size.x < limit.x:
-                    self.x += self.speed.x * render_frame_time
+                    self.x += self.speed.x * multiplier * render_frame_time
 
             if direction == "l":
                 if self.x > 2:
-                    self.x -= self.speed.x * render_frame_time
+                    self.x -= self.speed.x * multiplier * render_frame_time
 
             if direction == "u":
                 if self.y > 2:
-                    self.y -= self.speed.y * render_frame_time
+                    self.y -= self.speed.y * multiplier * render_frame_time
 
             if direction == "d":
                 if self.y + self.size.y < limit.y:
-                    self.y += self.speed.y * render_frame_time
+                    self.y += self.speed.y * multiplier * render_frame_time
 
     def shoot(self, bullet_manager):
         if self.is_alive():
@@ -87,16 +87,16 @@ class Player(Ship):
         axis = Axis(joystick.get_axis(0), joystick.get_axis(1))
 
         if axis.x > self.layout.right:
-            self.move("r", render_frame_time, limit)
+            self.move("r", render_frame_time, limit, multiplier=axis.x)
 
         if axis.x < self.layout.left:
-            self.move("l", render_frame_time, limit)
+            self.move("l", render_frame_time, limit, multiplier=-axis.x)
 
         if axis.y < self.layout.up:
-            self.move("u", render_frame_time, limit)
+            self.move("u", render_frame_time, limit, multiplier=-axis.y)
 
         if axis.y > self.layout.down:
-            self.move("d", render_frame_time, limit)
+            self.move("d", render_frame_time, limit, multiplier=axis.y)
 
     def control_shoot_joystick(self, joystick, bullet_manager):
         if joystick.get_button(self.layout.shoot):
