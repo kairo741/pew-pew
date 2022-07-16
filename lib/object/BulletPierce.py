@@ -1,3 +1,5 @@
+from copy import deepcopy
+from pygame import Surface
 from lib.utils.Constants import Constants
 from .Bullet import Bullet
 
@@ -18,3 +20,12 @@ class BulletPierce(Bullet):
             except ValueError:
                 self.enemies_hit.append(object)
                 return True
+
+    def copy(self):
+        copyobj = BulletPierce()
+        for name, attr in self.__dict__.items():
+            if type(attr) is Surface:
+                copyobj.__dict__[name] = Surface.copy(attr)
+            else:
+                copyobj.__dict__[name] = deepcopy(attr)
+        return copyobj

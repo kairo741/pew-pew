@@ -14,6 +14,22 @@ class ItemManager:
                              Constants.POWER_UP_5, Constants.POWER_UP_5, Constants.POWER_UP_6]
         self.number_manager = number_manager  # TODO - verificar se é a melhor maneira
 
+    def calculate_rates(self):
+        heals = 0
+        atk = 0
+        speed = 0
+        count = len(self.items)+1
+
+        for item in self.items:
+            if item.effect == self.raise_damage:
+                atk+=1
+            elif item.effect == self.raise_attack_speed:
+                speed+=1
+            else:
+                heals+=1
+
+        print(f"atk: {round((atk/count)*100)}% speed: {round((speed/count)*100)}% heal: {round((heals/count)*100)}%")
+
     def reset(self):
         self.items = []
 
@@ -70,7 +86,7 @@ class ItemManager:
                                                 player.y, text)
 
     def raise_attack_speed(self, player):
-        atk_speed = player.weapon.shoot_delay - uniform(0.2, 0.5)  # TODO - balancear valores
+        atk_speed = player.weapon.shoot_delay - randint(10, 20)  # TODO - balancear valores
         if atk_speed > 0:
             player.weapon.shoot_delay = atk_speed
         else:

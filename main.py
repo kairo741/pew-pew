@@ -1,4 +1,3 @@
-from lib.manager.MultiplayerGameManagerPrototype import MultiplayerGameManagerPrototype
 from lib.manager.GameManager import GameManager
 
 if __name__ == '__main__':

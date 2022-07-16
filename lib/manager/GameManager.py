@@ -53,6 +53,7 @@ class GameManager:
 
         self.time_stop = False
         self.game_over = False
+        self.player_count = 4
 
         self.bg = Background()
         self.bullet_manager = BulletManager()
@@ -65,7 +66,7 @@ class GameManager:
         self.score = Score()
         self.crt = CRT(self.screen, self.get_res.current_w, self.get_res.current_h)
 
-        self.create_players(4)
+        self.player_manager.create_players(self.player_count, self.resolution)
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -141,16 +142,20 @@ class GameManager:
                     self.reset_game()
 
                 if event.key == pygame.K_F1:
-                    self.create_players(1)
+                    self.player_count = 1
+                    self.player_manager.create_players(self.player_count, self.resolution)
 
                 if event.key == pygame.K_F2:
-                    self.create_players(2)
+                    self.player_count = 2
+                    self.player_manager.create_players(self.player_count, self.resolution)
 
                 if event.key == pygame.K_F3:
-                    self.create_players(3)
+                    self.player_count = 3
+                    self.player_manager.create_players(self.player_count, self.resolution)
 
                 if event.key == pygame.K_F4:
-                    self.create_players(4)
+                    self.player_count = 4
+                    self.player_manager.create_players(self.player_count, self.resolution)
 
             if event.type == Constants.ULTIMATE_END:
                 self.activate_time_stop(False)
@@ -241,21 +246,6 @@ class GameManager:
                                                                                                            bullet.damage),
                                                  use_hitbox=True)
 
-    def create_players(self, quantity):
-        self.player_manager.players = []
-        for i in range(0, quantity):
-            self.player_manager.add(Player(
-                x=self.resolution.x,
-                y=self.resolution.y * 0.65,
-                speed=Presets.PLAYER_SPEEDS[i],
-                sprite=Utils.scale_image(Constants.SPRITE_PLAYERS[i], 0.6).convert_alpha(),
-                health=Presets.PLAYER_HEALTHS[i],
-                weapon=Presets.PLAYER_WEAPONS[i]))
-
-            print(f'\033[1mP{i + 1} DPS:\033[0m '
-                  f'\033[93m\033[4m{self.player_manager.players[i].weapon.calculate_dps()}\033[0m')
-
-        self.player_manager.set_spawn_position(self.resolution)
 
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:
@@ -287,9 +277,9 @@ class GameManager:
         self.player_manager.reset()
         self.item_manager.reset()
         self.score.reset()
-        self.player_manager.set_spawn_position(self.resolution)
         self.activate_time_stop(False)
         self.game_over = False
+        self.player_manager.create_players(self.player_count, self.resolution)
 
     def fullscreen_mode(self):
         if self.is_fullscreen:

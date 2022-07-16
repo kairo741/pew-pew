@@ -1,18 +1,31 @@
-from pygame import draw, time
+from copy import deepcopy
+from pygame import Surface, draw, time
 from lib.utils.Constants import Constants
-from lib.utils.Presets import Presets
+from lib.utils.Utils import Utils
 
 from .Axis import Axis
 from .Ship import Ship
 
 
 class Player(Ship):
-    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout=Presets.PRIMARY_KB_LAYOUT):
+    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout=""):
         super().__init__(x, y, size, speed, sprite, weapon, health)
         self.layout = layout
         self.ult_cooldown_sec = 30
         self.next_ult = time.get_ticks()+1000
         self.last_ult = 0
+
+    def copy(self):
+        copyobj = Player()
+        for name, attr in self.__dict__.items():
+            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
+                copyobj.__dict__[name] = attr.copy()
+            else:
+                if type(attr) is Surface:
+                    copyobj.__dict__[name] = Surface.copy(attr)
+                else:
+                    copyobj.__dict__[name] = deepcopy(attr)
+        return copyobj
 
     def take_damage(self, value):
         super().take_damage(value)

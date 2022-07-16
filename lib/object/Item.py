@@ -1,6 +1,6 @@
 from .Axis import Axis
 from .GameObject import GameObject
-from random import choice
+from random import choice, randint
 from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils
 
@@ -10,8 +10,19 @@ def get_random_effect(item_manager):
     atk_speed = {"effect": item_manager.raise_attack_speed, "sprite": Constants.POWER_UP_3}
     atk_damage = {"effect": item_manager.raise_damage, "sprite": Constants.POWER_UP_1}
     # move_speed = {"effect": item_manager.raise_move_speed, "sprite": Constants.POWER_UP_8}
-    effects = [heal, atk_speed, heal, atk_damage, heal,]  # TODO - fazer os IFs das chances de spawn
-    return choice(effects)
+
+    # 1/5 = 20% de chance de spawn
+    if randint(1, 5) == 1:
+        return atk_speed
+    
+    # tem 80% de chance de chegar nesse if
+    # tem 26% de chance total de spawn
+    elif randint(1, 3) == 1:
+        return atk_damage
+
+    # tem 54% de chance de chegar aqui
+    else:
+        return heal
 
 
 class Item(GameObject):

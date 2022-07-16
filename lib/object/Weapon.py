@@ -1,15 +1,26 @@
+from copy import deepcopy
 from random import randint
 
 from pygame import Surface
 
 from lib.object.Axis import Axis
+from lib.object.Bullet import Bullet
 
 
 class Weapon:
-    def __init__(self, shoot_delay, weapon_type, bullet):
+    def __init__(self, shoot_delay=0, weapon_type="single", bullet=Bullet()):
         self.shoot_delay = shoot_delay
         self.weapon_type = weapon_type
         self.bullet = bullet
+
+    def copy(self):
+        copyobj = Weapon(0, "single", Bullet())
+        for name, attr in self.__dict__.items():
+            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
+                copyobj.__dict__[name] = attr.copy()
+            else:
+                copyobj.__dict__[name] = deepcopy(attr)
+        return copyobj
 
     def calculate_dps(self):
         shot_damage = 0
