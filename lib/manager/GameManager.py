@@ -138,24 +138,7 @@ class GameManager:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()
 
-                if event.key == pygame.K_F5:
-                    self.reset_game()
-
-                if event.key == pygame.K_F1:
-                    self.player_count = 1
-                    self.player_manager.create_players(self.player_count, self.resolution)
-
-                if event.key == pygame.K_F2:
-                    self.player_count = 2
-                    self.player_manager.create_players(self.player_count, self.resolution)
-
-                if event.key == pygame.K_F3:
-                    self.player_count = 3
-                    self.player_manager.create_players(self.player_count, self.resolution)
-
-                if event.key == pygame.K_F4:
-                    self.player_count = 4
-                    self.player_manager.create_players(self.player_count, self.resolution)
+                self.reset_keys(event.key)
 
             if event.type == Constants.ULTIMATE_END:
                 self.activate_time_stop(False)
@@ -246,7 +229,6 @@ class GameManager:
                                                                                                            bullet.damage),
                                                  use_hitbox=True)
 
-
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:
             Constants.SFX_DEATH.play()
@@ -270,6 +252,22 @@ class GameManager:
             for index in range(0, joy_count):
                 self.joysticks.append(pygame.joystick.Joystick(index))
                 self.joysticks[index].init()
+
+    def reset_keys(self, key):
+        if key == pygame.K_F1 or key == pygame.K_F2 or key == pygame.K_F3 or key == pygame.K_F4 or key == pygame.K_F5:
+            if key == pygame.K_F1:
+                self.player_count = 1
+
+            if key == pygame.K_F2:
+                self.player_count = 2
+
+            if key == pygame.K_F3:
+                self.player_count = 3
+
+            if key == pygame.K_F4:
+                self.player_count = 4
+
+            self.reset_game()
 
     def reset_game(self):
         self.enemy_manager.reset()
