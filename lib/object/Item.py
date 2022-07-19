@@ -12,12 +12,12 @@ def get_random_effect(item_manager):
     # move_speed = {"effect": item_manager.raise_move_speed, "sprite": Constants.POWER_UP_8}
 
     # 1/5 = 20% de chance de spawn
-    if randint(1, 5) == 1:
+    if False:
         return atk_speed
     
     # tem 80% de chance de chegar nesse if
     # tem 26% de chance total de spawn
-    elif randint(1, 3) == 1:
+    elif True:
         return atk_damage
 
     # tem 54% de chance de chegar aqui

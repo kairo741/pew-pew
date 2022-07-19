@@ -51,7 +51,7 @@ class Weapon:
         bullets = []
 
         if self.weapon_type == "random":
-            bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(randint(-2, 2), randint(4, 6))))
+            bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(randint(-2, 2), randint(2, 3))))
 
         if self.weapon_type == "single":
             bullets.append(self.create_bullet(spawn_position.x, spawn_position.y))

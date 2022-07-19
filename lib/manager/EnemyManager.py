@@ -25,7 +25,7 @@ class EnemyManager:
             x=x,
             y=y,
             sprite=Surface.copy(self.enemy_sprite),
-            speed=Axis(uniform(-2, 2), randint(1, 3)),
+            speed=Axis(uniform(-2, 2), randint(1, 2)),
             weapon=Presets.ENEMY_WEAPON
         )
         new_enemy.set_size_with_sprite()

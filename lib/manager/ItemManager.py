@@ -55,7 +55,7 @@ class ItemManager:
         item.y += item.speed.y * render_frame_time
 
     def has_collided(self, item, object, *actions):
-        if item.collided_with(object, object.get_hitbox_rect()):
+        if item.collided_with(object):
             try:
                 for action in actions:
                     action(item)
@@ -86,7 +86,7 @@ class ItemManager:
                                                 player.y, text)
 
     def raise_attack_speed(self, player):
-        atk_speed = player.weapon.shoot_delay - randint(10, 20)  # TODO - balancear valores
+        atk_speed = player.weapon.shoot_delay - randint(10, 15)
         if atk_speed > 0:
             player.weapon.shoot_delay = atk_speed
         else:
@@ -95,9 +95,10 @@ class ItemManager:
         self.number_manager.add_buff_info(player.x, player.y, "+SPEED")
 
     def raise_damage(self, player):
-        player.weapon.bullet.damage += uniform(1, 3)  # TODO - balancear valores
+        damage = player.weapon.bullet.damage
+        player.weapon.bullet.damage += uniform(damage * 0.1, damage * 0.15)
         self.number_manager.add_buff_info(player.x, player.y, "+ATK")
 
     def raise_move_speed(self, player):
-        player.speed.x += uniform(0.7, 2.2)  # TODO - balancear valores
-        player.speed.y += uniform(0.3, 1.5)  # TODO - balancear valores
+        player.speed.x += uniform(0.7, 2.2)
+        player.speed.y += uniform(0.3, 1.5)
