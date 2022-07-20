@@ -1,13 +1,14 @@
+
 import pygame
 from lib.object.Axis import Axis
 from lib.object.Background import Background
-from lib.object.Fps import FPS
 from lib.object.Crt import CRT
-from lib.object.Player import Player
+from lib.object.CustomJoy import CustomJoy
+from lib.object.Fps import FPS
 from lib.object.Score import Score
 from lib.utils.Constants import Constants
 from lib.utils.Presets import Presets
-from lib.utils.Utils import Utils
+
 from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
 from .ItemManager import ItemManager
@@ -67,6 +68,16 @@ class GameManager:
         self.crt = CRT(self.screen, self.get_res.current_w, self.get_res.current_h)
 
         self.player_manager.create_players(self.player_count, self.resolution)
+
+        self.use_gyro = False
+
+        if self.use_gyro:
+            import hid
+            self.joy_hid = hid.device()
+            self.joy_hid.open(1356, 1476)
+            self.joy_hid.set_nonblocking(1)
+
+
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -151,8 +162,19 @@ class GameManager:
             for index, player in enumerate(self.player_manager.players):
                 if len(self.joysticks) >= index + 1:
                     joy = self.joysticks[index]
+                    control_joy = joy
+
                     player.layout = Presets.CONTROLLER_LAYOUT
-                    player.control_ship_joystick(joy, self.render_frame_time,
+                    joy_name = joy.get_name().lower()
+                    
+                    if self.use_gyro and "sony" in joy_name or "ps" in joy_name:
+                        try:
+                            data = self.joy_hid.read(64)
+                            control_joy = CustomJoy(data)
+                        except:
+                            pass
+
+                    player.control_ship_joystick(control_joy, self.render_frame_time,
                                                  limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot_joystick(joy, self.bullet_manager)
                     player.control_ultimate_joystick(joy, self.time_stop is False,
