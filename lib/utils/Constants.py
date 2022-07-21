@@ -42,6 +42,9 @@ class Constants:
     SPRITE_PLAYER_SHIP_FROGGERS = image.load(ROOT_PATH + "\\assets\\images\\ship_froggers.png")
     SPRITE_BULLET_GREEN = image.load(ROOT_PATH + "\\assets\\images\\bullet_green.png")
 
+    SPRITE_PLAYER_SHIP_VAMPIRE = image.load(ROOT_PATH + "\\assets\\images\\ship_vampire.png")
+    SPRITE_BULLET_PURPLE = image.load(ROOT_PATH + "\\assets\\images\\bullet_purple.png")
+
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
 
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\shipEnemy.png")
