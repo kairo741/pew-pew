@@ -15,5 +15,5 @@ class Score:
         self.value += value
 
     def render(self, display, position):
-        text = self.font.render(str(round(self.value)), True, (255, 255, 255))
+        text = self.font.render(f'Score: {str(round(self.value))}', True, (255, 255, 255))
         display.blit(text, position.to_list())
