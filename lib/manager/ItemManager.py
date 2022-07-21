@@ -1,4 +1,4 @@
-from random import randint, uniform
+from random import randint, uniform, choice
 
 from lib.object.Axis import Axis
 from lib.object.Item import Item, get_random_effect
@@ -103,3 +103,8 @@ class ItemManager:
     def raise_move_speed(self, player):
         player.speed.x += uniform(0.7, 2.2)
         player.speed.y += uniform(0.3, 1.5)
+
+    def change_weapon_type(self, player):
+        types = ["single", "double", "triple", "spread"]
+        types.remove(player.weapon.weapon_type)
+        player.weapon.weapon_type = choice(types)
