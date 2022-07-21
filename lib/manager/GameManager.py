@@ -114,7 +114,7 @@ class GameManager:
             if self.game_over:
                 death_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('U died', True,
                                                                                       pygame.color.Color('White'))
-                continue_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('Press R to continue', True,
+                continue_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('Press R to try again', True,
                                                                                          pygame.color.Color('White'))
                 self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
                 self.screen.blit(continue_text, (self.resolution.x / 3, 240))
