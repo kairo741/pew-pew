@@ -18,17 +18,18 @@ class ItemManager:
         heals = 0
         atk = 0
         speed = 0
-        count = len(self.items)+1
+        count = len(self.items) + 1
 
         for item in self.items:
             if item.effect == self.raise_damage:
-                atk+=1
+                atk += 1
             elif item.effect == self.raise_attack_speed:
-                speed+=1
+                speed += 1
             else:
-                heals+=1
+                heals += 1
 
-        print(f"atk: {round((atk/count)*100)}% speed: {round((speed/count)*100)}% heal: {round((heals/count)*100)}%")
+        print(
+            f"atk: {round((atk / count) * 100)}% speed: {round((speed / count) * 100)}% heal: {round((heals / count) * 100)}%")
 
     def reset(self):
         self.items = []

@@ -1,4 +1,3 @@
-
 import pygame
 from lib.object.Axis import Axis
 from lib.object.Background import Background
@@ -76,8 +75,6 @@ class GameManager:
             self.joy_hid = hid.device()
             self.joy_hid.open(1356, 1476)
             self.joy_hid.set_nonblocking(1)
-
-
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -166,7 +163,7 @@ class GameManager:
 
                     player.layout = Presets.CONTROLLER_LAYOUT
                     joy_name = joy.get_name().lower()
-                    
+
                     if self.use_gyro and "sony" in joy_name or "ps" in joy_name:
                         try:
                             data = self.joy_hid.read(64)

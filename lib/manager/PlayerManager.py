@@ -37,13 +37,12 @@ class PlayerManager:
             player.x = base_pos * (index + 0.5)
             player.initial_position.x = base_pos * (index + 0.5)
 
-    
     def create_players(self, quantity, resolution):
         self.players = []
         for i in range(0, quantity):
             this_player = Presets.PLAYER_LIST[i].copy()
             this_player.x = resolution.x
-            this_player.y = resolution.y/2
+            this_player.y = resolution.y / 2
 
             self.add(this_player)
 
