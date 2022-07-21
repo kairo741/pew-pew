@@ -1,6 +1,6 @@
 from random import randint
 
-from pygame import draw, time
+from pygame import draw, time, mixer
 from lib.utils.Constants import Constants
 
 from .Axis import Axis
@@ -30,8 +30,8 @@ class Enemy(Ship):
             bullets = self.weapon.make_bullets(Axis(self.get_middle().x, self.y + self.size.y))
             for generated_bullet in bullets:
                 bullet_manager.shoot(generated_bullet)
-
-            Constants.SFX_LASER_2.play()
+            channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
+            channel.play(Constants.SFX_LASER_2)
             self.next_shot = self.get_random_time()
 
     def render(self, screen):

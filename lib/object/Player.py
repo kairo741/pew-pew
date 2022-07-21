@@ -1,5 +1,5 @@
 from copy import deepcopy
-from pygame import Surface, draw, time
+from pygame import Surface, draw, time, mixer
 from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils
 
@@ -57,8 +57,9 @@ class Player(Ship):
                 for generated_bullet in self.weapon.make_bullets(self.get_middle()):
                     bullet_manager.shoot(generated_bullet)
 
-                Constants.SFX_LASER.stop()
-                Constants.SFX_LASER.play()
+                channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
+                # Constants.SFX_LASER.stop()
+                channel.play(Constants.SFX_LASER)
                 self.last_bullet = time.get_ticks()
 
 

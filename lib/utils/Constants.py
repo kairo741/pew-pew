@@ -70,7 +70,9 @@ class Constants:
 
     # Audio
     mixer.init()
-    GLOBAL_VOLUME = 0
+    GLOBAL_VOLUME = 1
+    SFX_MIXER_CHANNEL = 1
+    BGM_MIXER_CHANNEL = 2
     SFX_VOLUME = GLOBAL_VOLUME * 1
     BGM_VOLUME = GLOBAL_VOLUME * 0.2
 

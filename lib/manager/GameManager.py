@@ -40,10 +40,9 @@ class GameManager:
             depth=24)
 
         pygame.display.set_caption("PewPew")
-
-        pygame.mixer.music.set_volume(Constants.BGM_VOLUME)
-        pygame.mixer.music.load(Constants.BGM_INDIGO)
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.music.set_volume(Constants.BGM_VOLUME)
+        # pygame.mixer.music.load(Constants.BGM_INDIGO)
+        # pygame.mixer.music.play(-1)
 
         self.state = Constants.RUNNING
         self.clock = pygame.time.Clock()
@@ -75,6 +74,13 @@ class GameManager:
             self.joy_hid = hid.device()
             self.joy_hid.open(1356, 1476)
             self.joy_hid.set_nonblocking(1)
+
+        self.sfx_sound_channel = pygame.mixer.Channel(Constants.SFX_MIXER_CHANNEL)
+        self.bgm_sound_channel = pygame.mixer.Channel(Constants.BGM_MIXER_CHANNEL)
+        self.sfx_sound_channel.set_volume(0)
+        self.bgm_sound_channel.set_volume(0)
+        self.bgm_sound_channel.play(pygame.mixer.Sound(Constants.BGM_INDIGO), -1)
+        self.is_sound_paused = True
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -145,6 +151,15 @@ class GameManager:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()
+
+                if event.key == pygame.K_F8:
+                    if self.is_sound_paused:
+                        self.sfx_sound_channel.set_volume(Constants.SFX_VOLUME)
+                        self.bgm_sound_channel.set_volume(Constants.BGM_VOLUME)
+                    else:
+                        self.sfx_sound_channel.set_volume(0)
+                        self.bgm_sound_channel.set_volume(0)
+                    self.is_sound_paused = not self.is_sound_paused
 
                 self.reset_keys(event.key)
 
@@ -250,12 +265,12 @@ class GameManager:
 
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:
-            Constants.SFX_DEATH.play()
+            self.sfx_sound_channel.play(Constants.SFX_DEATH)
             self.game_over = True
 
     def activate_time_stop(self, activate):
         if activate:
-            Constants.SFX_TIME_STOP.play()
+            self.sfx_sound_channel.play(Constants.SFX_TIME_STOP)
             self.bg.color = [code + 50 for code in self.bg.color]
             self.time_stop = True
             pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
