@@ -78,7 +78,9 @@ class GameManager:
         self.sfx_sound_channel = pygame.mixer.Channel(Constants.SFX_MIXER_CHANNEL)
         self.bgm_sound_channel = pygame.mixer.Channel(Constants.BGM_MIXER_CHANNEL)
         self.sfx_sound_channel.set_volume(0)
+        self.sfx_sound_channel.pause()
         self.bgm_sound_channel.set_volume(0)
+        self.bgm_sound_channel.pause()
         self.bgm_sound_channel.play(pygame.mixer.Sound(Constants.BGM_INDIGO), -1)
         self.is_sound_paused = True
 
