@@ -155,10 +155,14 @@ class GameManager:
                 if event.key == pygame.K_F8:
                     if self.is_sound_paused:
                         self.sfx_sound_channel.set_volume(Constants.SFX_VOLUME)
+                        self.sfx_sound_channel.unpause()
                         self.bgm_sound_channel.set_volume(Constants.BGM_VOLUME)
+                        self.bgm_sound_channel.unpause()
                     else:
                         self.sfx_sound_channel.set_volume(0)
+                        self.sfx_sound_channel.pause()
                         self.bgm_sound_channel.set_volume(0)
+                        self.bgm_sound_channel.pause()
                     self.is_sound_paused = not self.is_sound_paused
 
                 self.reset_keys(event.key)
