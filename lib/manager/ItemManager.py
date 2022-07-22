@@ -74,7 +74,7 @@ class ItemManager:
             self.items.remove(item)
 
     def heal(self, player):
-        heal_value = uniform(player.max_health * 0.05, player.max_health * 0.15)
+        heal_value = uniform(player.max_health * 0.1, player.max_health * 0.15)
         if player.health <= player.max_health:
             if heal_value + player.health >= player.max_health:
                 player.health = player.max_health
@@ -87,7 +87,7 @@ class ItemManager:
                                                 player.y, text)
 
     def raise_attack_speed(self, player):
-        atk_speed = player.weapon.shoot_delay - randint(10, 15)
+        atk_speed = player.weapon.shoot_delay * uniform(0.93, 0.97)
         if atk_speed > 0:
             player.weapon.shoot_delay = atk_speed
         else:
@@ -105,6 +105,6 @@ class ItemManager:
         player.speed.y += uniform(0.3, 1.5)
 
     def change_weapon_type(self, player):
-        types = ["single", "double", "triple", "spread"]
+        types = ["single", "double", "triple", "spread", "wiggle"]
         types.remove(player.weapon.weapon_type)
         player.weapon.weapon_type = choice(types)

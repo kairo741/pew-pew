@@ -1,5 +1,5 @@
 from copy import deepcopy
-from random import randint
+from random import randint, uniform
 
 from pygame import Surface
 
@@ -70,5 +70,8 @@ class Weapon:
             bullets.append(self.create_bullet(x=spawn_position.x, y=spawn_position.y))
             bullets.append(self.create_bullet(x=spawn_position.x + 20, y=spawn_position.y,
                                               override_speed=Axis(5, self.bullet.speed.y)))
+
+        elif self.weapon_type == "wiggle":
+            bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(uniform(-5, 5), self.bullet.speed.y)))
 
         return bullets

@@ -62,7 +62,7 @@ class Constants:
     POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\pwup-random-weapon.png")
 
     SPRITE_PLAYERS = [SPRITE_PLAYER_SHIP_BALANCE, SPRITE_PLAYER_SHIP_PIERCE, SPRITE_PLAYER_SHIP_SPEED,
-                      SPRITE_PLAYER_SHIP_FROGGERS]
+                      SPRITE_PLAYER_SHIP_FROGGERS, SPRITE_PLAYER_SHIP_VAMPIRE]
 
     # Fonts
     FONT_NUMBER = ROOT_PATH + "\\assets\\fonts\\Montserrat-Regular.ttf"
