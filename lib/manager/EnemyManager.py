@@ -26,13 +26,24 @@ class EnemyManager:
             speed_x = 2
         else:
             speed_x = -2
-        new_enemy = Enemy(
-            x=x,
-            y=y,
-            sprite=Surface.copy(self.enemy_sprite),
-            speed=Axis(uniform(0, speed_x), randint(1, 2)),
-            weapon=Presets.ENEMY_EXPLOSION_WEAPON
-        )
+
+        if randint(1, 4) == 1:
+            new_enemy = Enemy(
+                x=x,
+                y=y,
+                sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_GUNNER.convert_alpha(), 0.5),
+                speed=Axis(uniform(0, speed_x), randint(1, 2)),
+                weapon=Presets.ENEMY_EXPLOSION_WEAPON
+            )
+        else:
+            new_enemy = Enemy(
+                x=x,
+                y=y,
+                sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP.convert_alpha(), 0.5),
+                speed=Axis(uniform(0, speed_x), randint(1, 2)),
+                weapon=Presets.ENEMY_DEFAULT_WEAPON
+            )
+
         new_enemy.set_size_with_sprite()
         new_enemy.center()
         return new_enemy
@@ -42,7 +53,7 @@ class EnemyManager:
             sprite_size = self.enemy_sprite.get_size()
             self.enemies.append(
                 self.create_enemy(
-                    x=uniform(0, screen_size.x), y=-sprite_size[1], middle=screen_size.x/2
+                    x=uniform(0, screen_size.x), y=-sprite_size[1], middle=screen_size.x / 2
                 )
             )
             self.last_enemy = time.get_ticks()
@@ -55,7 +66,7 @@ class EnemyManager:
     def move_enemy(self, e, render_frame_time):
         e.x += e.speed.x * render_frame_time
         if e.y <= e.size.y:
-            e.y += e.speed.y*4 * render_frame_time
+            e.y += e.speed.y * 4 * render_frame_time
         else:
             e.y += e.speed.y * render_frame_time
 
