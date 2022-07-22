@@ -82,7 +82,7 @@ class GameManager:
         self.bgm_sound_channel.pause()
         self.bgm_sound_channel.play(pygame.mixer.Sound(Constants.BGM_INDIGO), -1)
         self.is_sound_paused = True
-        self.pause = PauseManager()
+        self.pause = PauseManager(self)
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -125,7 +125,7 @@ class GameManager:
 
             if self.state == Constants.PAUSE:
                 self.manage_game_over()
-                self.pause.manage_pause(self)
+                self.pause.manage_pause()
             pygame.display.update()
 
     def game_events(self):
