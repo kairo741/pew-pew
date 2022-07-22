@@ -54,7 +54,7 @@ class Player(Ship):
     def shoot(self, bullet_manager):
         if self.is_alive():
             if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay:
-                for generated_bullet in self.weapon.make_bullets(self.get_middle()):
+                for generated_bullet in self.weapon.make_bullets(self.get_middle(), source_size=self.size):
                     bullet_manager.shoot(generated_bullet)
 
                 channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)

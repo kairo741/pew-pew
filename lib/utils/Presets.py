@@ -65,7 +65,7 @@ class Presets:
     ENEMY_EXPLOSION_WEAPON = Weapon(
         shoot_delay=900,
         weapon_type="explosion",
-        bullet=Bullet(speed=Axis(0, 5), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
+        bullet=Bullet(speed=Axis(0, 2), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
                       tag=Constants.TAG_ENEMY)
     )
 
@@ -108,7 +108,7 @@ class Presets:
         weapon=PLAYER_WEAPONS[4]
     )
 
-    PLAYER_LIST = [PLAYER_VAMPIRE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_FROGGERS]
+    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_FROGGERS]
 
     PRIMARY_KB_LAYOUT = Layout(K_w, K_s, K_a, K_d, K_SPACE, K_x)
     SECONDARY_KB_LAYOUT = Layout(K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RSHIFT, K_RCTRL)
