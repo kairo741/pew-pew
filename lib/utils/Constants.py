@@ -59,7 +59,7 @@ class Constants:
     POWER_UP_5 = image.load(ROOT_PATH + "\\assets\\images\\pwup-5.png")
     POWER_UP_6 = image.load(ROOT_PATH + "\\assets\\images\\pwup-heal.png")
     POWER_UP_7 = image.load(ROOT_PATH + "\\assets\\images\\pwup-7.png")
-    POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\pwup-random-weapon.png")
+    POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\pwup-random-weapon-2.png")
 
     SPRITE_PLAYERS = [SPRITE_PLAYER_SHIP_BALANCE, SPRITE_PLAYER_SHIP_PIERCE, SPRITE_PLAYER_SHIP_SPEED,
                       SPRITE_PLAYER_SHIP_FROGGERS, SPRITE_PLAYER_SHIP_VAMPIRE]
