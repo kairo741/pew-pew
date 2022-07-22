@@ -181,6 +181,9 @@ class GameManager:
                     player.layout = Presets.CONTROLLER_LAYOUT
                     joy_name = joy.get_name().lower()
 
+                    if "xbox" in joy_name:
+                        player.layout = Presets.XBOX_CONTROLLER_LAYOUT
+
                     if self.use_gyro and "sony" in joy_name or "ps" in joy_name:
                         try:
                             data = self.joy_hid.read(64)
