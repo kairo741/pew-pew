@@ -1,7 +1,6 @@
 import pygame
 from lib.object.Axis import Axis
 from lib.object.Background import Background
-from lib.object.Crt import CRT
 from lib.object.CustomJoy import CustomJoy
 from lib.object.Fps import FPS
 from lib.object.Score import Score
@@ -12,6 +11,7 @@ from .BulletManager import BulletManager
 from .EnemyManager import EnemyManager
 from .ItemManager import ItemManager
 from .NumberManager import NumberManager
+from .PauseManager import PauseManager
 from .PlayerManager import PlayerManager
 
 
@@ -63,7 +63,6 @@ class GameManager:
 
         self.fps = FPS()
         self.score = Score()
-        self.crt = CRT(self.screen, self.get_res.current_w, self.get_res.current_h)
 
         self.player_manager.create_players(self.player_count, self.resolution)
 
@@ -83,6 +82,7 @@ class GameManager:
         self.bgm_sound_channel.pause()
         self.bgm_sound_channel.play(pygame.mixer.Sound(Constants.BGM_INDIGO), -1)
         self.is_sound_paused = True
+        self.pause = PauseManager()
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -102,6 +102,8 @@ class GameManager:
 
                 self.bg.manage_stars(self.render_frame_time)
 
+                self.manage_game_over()
+
                 self.manage_bullets()
                 self.manage_enemies()
                 self.manage_items()
@@ -111,14 +113,7 @@ class GameManager:
 
                 self.render_frame_time = normal_frame_time
 
-            if self.game_over:
-                death_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('U died', True,
-                                                                                      pygame.color.Color('White'))
-                continue_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('Press R to try again', True,
-                                                                                         pygame.color.Color('White'))
-                self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
-                self.screen.blit(continue_text, (self.resolution.x / 3, 240))
-            else:
+            if not self.game_over:
                 self.player_manager.render(self.screen)
 
             # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
@@ -129,7 +124,8 @@ class GameManager:
             self.number_manager.render(self.screen, self.render_frame_time)
 
             if self.state == Constants.PAUSE:
-                self.manage_pause()
+                self.manage_game_over()
+                self.pause.manage_pause(self)
             pygame.display.update()
 
     def game_events(self):
@@ -206,17 +202,16 @@ class GameManager:
                     player.control_shoot(keys, self.bullet_manager)
                     player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
 
-    def manage_pause(self):
-        pause_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render(
-            'Pause', True, pygame.color.Color('Red'))
-        for bullet in self.bullet_manager.bullets:
-            bullet.render(self.screen)
-        self.screen.blit(pause_text, (100, 100))
-        for enemy in self.enemy_manager.enemies:
-            enemy.render(self.screen)
-        for item in self.item_manager.items:
-            item.render(self.screen)
-        self.crt.draw()
+    def manage_game_over(self):
+        if self.game_over:
+            death_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('U died', True,
+                                                                                  pygame.color.Color('White'))
+            continue_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('Press R to try again',
+                                                                                     True,
+                                                                                     pygame.color.Color(
+                                                                                         'White'))
+            self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
+            self.screen.blit(continue_text, (self.resolution.x / 3, 240))
 
     def manage_items(self):
         for item in self.item_manager.items:
