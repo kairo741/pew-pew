@@ -43,6 +43,7 @@ class PlayerManager:
             this_player = Presets.PLAYER_LIST[i].copy()
             this_player.x = resolution.x
             this_player.y = resolution.y / 2
+            this_player.weapon.source_reference = this_player
 
             self.add(this_player)
 

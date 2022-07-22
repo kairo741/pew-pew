@@ -7,10 +7,11 @@ from .Axis import Axis
 
 
 class Bullet(GameObject):
-    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", damage=10, tag=Constants.TAG_PLAYER):
+    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", damage=10, tag=Constants.TAG_PLAYER, source_reference=None):
         super().__init__(x, y, size, speed, sprite)
         self.damage = damage
         self.tag = tag
+        self.source_reference = source_reference
 
 
     def copy(self):
@@ -21,3 +22,6 @@ class Bullet(GameObject):
             else:
                 copyobj.__dict__[name] = deepcopy(attr)
         return copyobj
+
+    def hit_callback(self, object_hit):
+        pass

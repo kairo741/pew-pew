@@ -47,6 +47,8 @@ class BulletManager:
                 except:
                     print("error in bullet collision action")
 
+                bullet.hit_callback(object)
+
                 if type(bullet) is not BulletPierce:
                     try:
                         self.bullets.remove(bullet)
@@ -67,6 +69,8 @@ class BulletManager:
                             action(bullet)
                     except:
                         print("error in bullet collision action")
+
+                    bullet.hit_callback(object)
 
                     if type(bullet) is not BulletPierce:
                         try:

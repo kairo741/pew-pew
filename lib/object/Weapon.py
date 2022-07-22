@@ -8,13 +8,14 @@ from lib.object.Bullet import Bullet
 
 
 class Weapon:
-    def __init__(self, shoot_delay=0, weapon_type="single", bullet=Bullet()):
+    def __init__(self, shoot_delay=0, weapon_type="single", bullet=Bullet(), source_reference=None):
         self.shoot_delay = shoot_delay
         self.weapon_type = weapon_type
         self.bullet = bullet
+        self.source_reference = source_reference
 
     def copy(self):
-        copyobj = Weapon(0, "single", Bullet())
+        copyobj = Weapon()
         for name, attr in self.__dict__.items():
             if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
                 copyobj.__dict__[name] = attr.copy()
@@ -39,7 +40,8 @@ class Weapon:
 
         new_bullet = type(self.bullet)(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite.convert_alpha()),
                                        tag=self.bullet.tag,
-                                       damage=self.bullet.damage
+                                       damage=self.bullet.damage,
+                                       source_reference=self.source_reference
                                        )
         new_bullet.set_size_with_sprite()
         new_bullet.center()

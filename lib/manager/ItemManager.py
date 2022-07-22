@@ -2,6 +2,7 @@ from random import randint, uniform, choice
 
 from lib.object.Axis import Axis
 from lib.object.Item import Item, get_random_effect
+from lib.object.PlayerVampire import PlayerVampire
 from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils
 
@@ -75,16 +76,20 @@ class ItemManager:
 
     def heal(self, player):
         heal_value = uniform(player.max_health * 0.1, player.max_health * 0.15)
-        if player.health <= player.max_health:
-            if heal_value + player.health >= player.max_health:
-                player.health = player.max_health
-                text = 'MAX'
-            else:
-                player.health += heal_value
-                text = f'+{round(heal_value)}'
+        if type(player) is not PlayerVampire:
+            if player.health <= player.max_health:
+                if heal_value + player.health >= player.max_health:
+                    player.health = player.max_health
+                    text = 'MAX'
+                else:
+                    player.health += heal_value
+                    text = f'+{round(heal_value)}'
 
-            self.number_manager.add_heal_number(player.x,
-                                                player.y, text)
+                self.number_manager.add_heal_number(player.x,
+                                                    player.y, text)
+        else:
+            player.health -= player.max_health*0.5
+            self.number_manager.add_take_damage_number(player.x, player.y, player.max_health*0.5)
 
     def raise_attack_speed(self, player):
         atk_speed = player.weapon.shoot_delay * uniform(0.93, 0.97)
