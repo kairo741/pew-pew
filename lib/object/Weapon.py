@@ -47,7 +47,7 @@ class Weapon:
         new_bullet.center()
         return new_bullet
 
-    def make_bullets(self, spawn_position):
+    def make_bullets(self, spawn_position, source_size=Axis(0, 0)):
         bullets = []
 
         if self.weapon_type == "random":
@@ -75,5 +75,13 @@ class Weapon:
 
         elif self.weapon_type == "wiggle":
             bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(uniform(-5, 5), self.bullet.speed.y)))
+
+        elif self.weapon_type == "explosion":
+            speed = 1
+            for x in range(-speed, speed+1, speed):
+                for y in range(-speed, speed+1, speed):
+                    if x != 0 or y!=0:
+                        bullets.append(self.create_bullet(spawn_position.x+(source_size.x/3*y), spawn_position.y-(source_size.y/3*x),
+                                                override_speed=Axis(x=x, y=y)))
 
         return bullets

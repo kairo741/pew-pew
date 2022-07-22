@@ -1,4 +1,5 @@
 from random import randint, uniform
+from turtle import speed
 from lib.utils.Presets import Presets
 
 from lib.object.Axis import Axis
@@ -12,7 +13,7 @@ from lib.utils.Utils import Utils
 class EnemyManager:
     def __init__(self):
         super().__init__()
-        self.enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP.convert_alpha(), 0.5)
+        self.enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_GUNNER.convert_alpha(), 0.5)
         self.enemies = []
         self.last_enemy = 0
 
@@ -20,24 +21,28 @@ class EnemyManager:
         self.enemies = []
         self.last_enemy = 0
 
-    def create_enemy(self, x, y):
+    def create_enemy(self, x, y, middle):
+        if x < middle:
+            speed_x = 2
+        else:
+            speed_x = -2
         new_enemy = Enemy(
             x=x,
             y=y,
             sprite=Surface.copy(self.enemy_sprite),
-            speed=Axis(uniform(-2, 2), randint(1, 2)),
-            weapon=Presets.ENEMY_WEAPON
+            speed=Axis(uniform(0, speed_x), randint(1, 2)),
+            weapon=Presets.ENEMY_EXPLOSION_WEAPON
         )
         new_enemy.set_size_with_sprite()
         new_enemy.center()
         return new_enemy
 
     def spawn_enemy_random(self, screen_size):
-        if time.get_ticks() - self.last_enemy > randint(500, 1200):
+        if time.get_ticks() - self.last_enemy > randint(800, 2000):
             sprite_size = self.enemy_sprite.get_size()
             self.enemies.append(
                 self.create_enemy(
-                    x=uniform(screen_size.x / 4, screen_size.x / 1.8), y=-sprite_size[1]
+                    x=uniform(0, screen_size.x), y=-sprite_size[1], middle=screen_size.x/2
                 )
             )
             self.last_enemy = time.get_ticks()
@@ -49,7 +54,10 @@ class EnemyManager:
 
     def move_enemy(self, e, render_frame_time):
         e.x += e.speed.x * render_frame_time
-        e.y += e.speed.y * render_frame_time
+        if e.y <= e.size.y:
+            e.y += e.speed.y*4 * render_frame_time
+        else:
+            e.y += e.speed.y * render_frame_time
 
     def check_enemy(self, enemy, screen_size):
         if enemy.y < -(enemy.size.y * 2):
