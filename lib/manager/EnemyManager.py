@@ -12,7 +12,6 @@ from lib.utils.Utils import Utils
 class EnemyManager:
     def __init__(self):
         super().__init__()
-        self.enemy_sprite = Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_GUNNER.convert_alpha(), 0.5)
         self.enemies = []
         self.last_enemy = 0
 
@@ -30,7 +29,7 @@ class EnemyManager:
             new_enemy = Enemy(
                 x=x,
                 y=y,
-                sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_GUNNER.convert_alpha(), 0.5),
+                sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_BOMBER.convert_alpha(), 0.5),
                 speed=Axis(uniform(0, speed_x), randint(1, 2)),
                 weapon=Presets.ENEMY_EXPLOSION_WEAPON,
                 health=90 + (player_quantity * 20)
@@ -47,14 +46,14 @@ class EnemyManager:
 
         new_enemy.set_size_with_sprite()
         new_enemy.center()
+        new_enemy.y -= new_enemy.size.y
         return new_enemy
 
     def spawn_enemy_random(self, screen_size, player_quantity):
         if time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50), 2000 - (player_quantity * 150)):
-            sprite_size = self.enemy_sprite.get_size()
             self.enemies.append(
                 self.create_enemy(
-                    x=uniform(0, screen_size.x), y=-sprite_size[1], middle=screen_size.x / 2,
+                    x=uniform(0, screen_size.x), y=0, middle=screen_size.x / 2,
                     player_quantity=player_quantity
                 )
             )
