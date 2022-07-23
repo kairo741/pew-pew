@@ -77,6 +77,17 @@ class Weapon:
             speed_y = self.bullet.speed.y
             bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(x=uniform(speed_y/-4, speed_y/4), y=speed_y)))
 
+        elif self.weapon_type == "sides":
+            speed_y = self.bullet.speed.y
+            bullets.append(self.create_bullet(x=spawn_position.x - 10, y=spawn_position.y))
+            bullets.append(self.create_bullet(x=spawn_position.x + 10, y=spawn_position.y))
+
+            bullets.append(self.create_bullet(x=spawn_position.x, y=spawn_position.y, override_speed=Axis(-self.bullet.speed.y, speed_y)))
+            bullets.append(self.create_bullet(x=spawn_position.x, y=spawn_position.y, override_speed=Axis(-self.bullet.speed.y, 0)))
+            bullets.append(self.create_bullet(x=spawn_position.x, y=spawn_position.y, override_speed=Axis(self.bullet.speed.y, speed_y)))
+            bullets.append(self.create_bullet(x=spawn_position.x, y=spawn_position.y, override_speed=Axis(self.bullet.speed.y, 0)))
+            
+
         elif self.weapon_type == "explosion":
             speed = abs(self.bullet.speed.y)
             for x in range(-speed, speed+1, speed):

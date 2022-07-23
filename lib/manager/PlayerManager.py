@@ -15,8 +15,9 @@ class PlayerManager:
         for player in self.players:
             player.disable()
 
-    def render(self, screen):
+    def render(self, screen, render_frame_time):
         for player in self.players:
+            player.player_passive(render_frame_time)
             player.render(screen)
 
     def is_alive(self):

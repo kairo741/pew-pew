@@ -27,6 +27,9 @@ class Player(Ship):
                     copyobj.__dict__[name] = deepcopy(attr)
         return copyobj
 
+    def player_passive(self, render_frame_time):
+        pass
+
     def take_damage(self, value):
         super().take_damage(value)
         if not self.is_alive():

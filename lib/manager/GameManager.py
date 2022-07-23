@@ -111,7 +111,7 @@ class GameManager:
                 self.render_frame_time = normal_frame_time
 
             if not self.game_over:
-                self.player_manager.render(self.screen)
+                self.player_manager.render(self.screen, self.render_frame_time)
 
             # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
             # self.screen.blit(self.trail, (0, 0))

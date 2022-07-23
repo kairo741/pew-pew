@@ -1,11 +1,12 @@
 from lib.object.Axis import Axis
 from lib.object.Bullet import Bullet
 from lib.object.BulletBounce import BulletBounce
-from lib.object.BulletVamp import BulletVamp
 from lib.object.BulletHeal import BulletHeal
 from lib.object.BulletPierce import BulletPierce
+from lib.object.BulletVamp import BulletVamp
 from lib.object.Enemy import Enemy
 from lib.object.Player import Player
+from lib.object.PlayerHealer import PlayerHealer
 from lib.object.PlayerVampire import PlayerVampire
 from lib.object.Weapon import Weapon
 from lib.utils.Constants import Constants
@@ -49,6 +50,12 @@ class Presets:
         bullet=BulletVamp(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_PURPLE, 0.2), damage=26)
     )
 
+    PLAYER_HEAL_WEAPON = Weapon(
+        shoot_delay=250,
+        weapon_type="sides",
+        bullet=BulletHeal(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_YELLOW, 0.2), damage=22)
+    )
+
     ENEMY_DEFAULT_WEAPON = Weapon(
         shoot_delay=350,
         weapon_type="single",
@@ -81,7 +88,7 @@ class Presets:
         health=50
     )
 
-    PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON, PLAYER_BAT_WEAPON]
+    PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON, PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON]
     
     PLAYER_BALANCE = Player(
         speed=PLAYER_DEFAULT_SPEED,
@@ -117,5 +124,11 @@ class Presets:
         health=PLAYER_DEFAULT_HEALTH*0.7,
         weapon=PLAYER_WEAPONS[4]
     )
+    PLAYER_HEALER = PlayerHealer(
+        speed=PLAYER_DEFAULT_SPEED,
+        sprite=Constants.SPRITE_PLAYER_SHIP_MERCY,
+        health=PLAYER_DEFAULT_HEALTH*0.7,
+        weapon=PLAYER_WEAPONS[5]
+    )
 
-    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_FROGGERS]
+    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_HEALER]

@@ -10,8 +10,12 @@ class BulletHeal(Bullet):
 
     def hit_callback(self, object_hit):
         if object_hit.tag == Constants.TAG_PLAYER:
-            if object_hit.health < object_hit.max_health:
-                object_hit.health += self.source_reference.health*0.1
+            heal_amount = self.source_reference.health*0.1
+
+            if (object_hit.health+heal_amount) < object_hit.max_health:
+                object_hit.health += heal_amount
+            else:
+                object_hit.health = object_hit.max_health
 
     def copy(self):
         copyobj = BulletHeal()
