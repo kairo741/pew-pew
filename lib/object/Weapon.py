@@ -74,7 +74,8 @@ class Weapon:
                                               override_speed=Axis(5, self.bullet.speed.y)))
 
         elif self.weapon_type == "wiggle":
-            bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(uniform(-5, 5), self.bullet.speed.y)))
+            speed_y = self.bullet.speed.y
+            bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(x=uniform(speed_y/-4, speed_y/4), y=speed_y)))
 
         elif self.weapon_type == "explosion":
             speed = abs(self.bullet.speed.y)
