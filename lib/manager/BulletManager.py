@@ -1,4 +1,8 @@
 from lib.object.BulletPierce import BulletPierce
+from lib.object.BulletBounce import BulletBounce
+from lib.object.Axis import Axis
+from random import randint
+
 
 class BulletManager:
     def __init__(self):
@@ -48,8 +52,17 @@ class BulletManager:
                     print("error in bullet collision action")
 
                 bullet.hit_callback(object)
+                if type(bullet) is BulletBounce:
+                    try:
+                        new_bullet = type(bullet)(x=bullet.x, y=bullet.y + 30, size=bullet.size,
+                                                  speed=Axis(x=randint(-10, 10), y=bullet.speed.y * -0.3),
+                                                  sprite=bullet.sprite)
+                        self.bullets.remove(bullet)
+                        self.bullets.append(new_bullet)
+                    except:
+                        print("error removing bullet")
 
-                if type(bullet) is not BulletPierce:
+                elif type(bullet) is not BulletPierce:
                     try:
                         self.bullets.remove(bullet)
                     except:
@@ -71,8 +84,17 @@ class BulletManager:
                         print("error in bullet collision action")
 
                     bullet.hit_callback(object)
+                    if type(bullet) is BulletBounce:
+                        try:
+                            new_bullet = type(bullet)(x=bullet.x, y=bullet.y + 30, size=bullet.size,
+                                                      speed=Axis(x=randint(-10, 10), y=bullet.speed.y * -0.3),
+                                                      sprite=bullet.sprite)
+                            self.bullets.remove(bullet)
+                            self.bullets.append(new_bullet)
+                        except:
+                            print("error removing bullet")
 
-                    if type(bullet) is not BulletPierce:
+                    elif type(bullet) is not BulletPierce:
                         try:
                             self.bullets.remove(bullet)
                         except:
