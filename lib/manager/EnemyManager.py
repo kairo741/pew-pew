@@ -20,7 +20,7 @@ class EnemyManager:
         self.enemies = []
         self.last_enemy = 0
 
-    def create_enemy(self, x, y, middle):
+    def create_enemy(self, x, y, middle, player_quantity):
         if x < middle:
             speed_x = 2
         else:
@@ -32,7 +32,8 @@ class EnemyManager:
                 y=y,
                 sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_GUNNER.convert_alpha(), 0.5),
                 speed=Axis(uniform(0, speed_x), randint(1, 2)),
-                weapon=Presets.ENEMY_EXPLOSION_WEAPON
+                weapon=Presets.ENEMY_EXPLOSION_WEAPON,
+                health=90 + (player_quantity * 20)
             )
         else:
             new_enemy = Enemy(
@@ -40,7 +41,8 @@ class EnemyManager:
                 y=y,
                 sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP.convert_alpha(), 0.5),
                 speed=Axis(uniform(0, speed_x), randint(1, 2)),
-                weapon=Presets.ENEMY_DEFAULT_WEAPON
+                weapon=Presets.ENEMY_DEFAULT_WEAPON,
+                health=90 + (player_quantity * 20)
             )
 
         new_enemy.set_size_with_sprite()
@@ -52,7 +54,8 @@ class EnemyManager:
             sprite_size = self.enemy_sprite.get_size()
             self.enemies.append(
                 self.create_enemy(
-                    x=uniform(0, screen_size.x), y=-sprite_size[1], middle=screen_size.x / 2
+                    x=uniform(0, screen_size.x), y=-sprite_size[1], middle=screen_size.x / 2,
+                    player_quantity=player_quantity
                 )
             )
             self.last_enemy = time.get_ticks()
