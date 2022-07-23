@@ -3,18 +3,17 @@ from pygame import Surface
 from lib.utils.Constants import Constants
 from .Bullet import Bullet
 
-class BulletHeal(Bullet):
-
+class BulletVamp(Bullet):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", damage=10, tag=Constants.TAG_PLAYER, source_reference=None):
         super().__init__(x, y, size, speed, sprite, damage, tag, source_reference)
 
-    def hit_callback(self, object_hit):
-        if object_hit.tag == Constants.TAG_PLAYER:
-            if object_hit.health < object_hit.max_health:
-                object_hit.health += self.source_reference.health*0.1
+    
+    def hit_callback(self, object):
+        if self.source_reference.health < self.source_reference.max_health:
+            self.source_reference.health += self.source_reference.max_health*0.02
 
     def copy(self):
-        copyobj = BulletHeal()
+        copyobj = BulletVamp()
         for name, attr in self.__dict__.items():
             if type(attr) is Surface:
                 copyobj.__dict__[name] = Surface.copy(attr)
