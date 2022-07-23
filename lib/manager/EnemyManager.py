@@ -1,12 +1,11 @@
 from random import randint, uniform
-from turtle import speed
-from lib.utils.Presets import Presets
+
+from pygame import time
 
 from lib.object.Axis import Axis
 from lib.object.Enemy import Enemy
-from lib.object.Weapon import Weapon
-from pygame import Surface, time
 from lib.utils.Constants import Constants
+from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
 
 
@@ -48,8 +47,8 @@ class EnemyManager:
         new_enemy.center()
         return new_enemy
 
-    def spawn_enemy_random(self, screen_size):
-        if time.get_ticks() - self.last_enemy > randint(800, 2000):
+    def spawn_enemy_random(self, screen_size, player_quantity):
+        if time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50), 2000 - (player_quantity * 150)):
             sprite_size = self.enemy_sprite.get_size()
             self.enemies.append(
                 self.create_enemy(

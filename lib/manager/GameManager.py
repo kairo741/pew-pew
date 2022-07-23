@@ -109,7 +109,7 @@ class GameManager:
                 self.manage_items()
 
                 if self.render_frame_time != 0.01:
-                    self.enemy_manager.spawn_enemy_random(self.resolution)
+                    self.enemy_manager.spawn_enemy_random(self.resolution, len(self.player_manager.players))
 
                 self.render_frame_time = normal_frame_time
 
