@@ -5,14 +5,7 @@ from lib.object.CustomJoy import CustomJoy
 from lib.object.Fps import FPS
 from lib.object.Score import Score
 from lib.utils.Constants import Constants
-from lib.utils.Presets import Presets
-
-from .BulletManager import BulletManager
-from .EnemyManager import EnemyManager
-from .ItemManager import ItemManager
-from .NumberManager import NumberManager
-from .PauseManager import PauseManager
-from .PlayerManager import PlayerManager
+from lib.utils.LayoutPresets import LayoutPresets
 
 
 class GameManager:
@@ -40,9 +33,13 @@ class GameManager:
             depth=24)
 
         pygame.display.set_caption("PewPew")
-        # pygame.mixer.music.set_volume(Constants.BGM_VOLUME)
-        # pygame.mixer.music.load(Constants.BGM_INDIGO)
-        # pygame.mixer.music.play(-1)
+
+        from .BulletManager import BulletManager
+        from .EnemyManager import EnemyManager
+        from .ItemManager import ItemManager
+        from .NumberManager import NumberManager
+        from .PauseManager import PauseManager
+        from .PlayerManager import PlayerManager
 
         self.state = Constants.RUNNING
         self.clock = pygame.time.Clock()
@@ -185,11 +182,11 @@ class GameManager:
                     joy = self.joysticks[index]
                     control_joy = joy
 
-                    player.layout = Presets.CONTROLLER_LAYOUT
+                    player.layout = LayoutPresets.CONTROLLER_LAYOUT
                     joy_name = joy.get_name().lower()
 
                     if "xbox" in joy_name:
-                        player.layout = Presets.XBOX_CONTROLLER_LAYOUT
+                        player.layout = LayoutPresets.XBOX_CONTROLLER_LAYOUT
 
                     if self.use_gyro and "sony" in joy_name or "ps" in joy_name:
                         try:
@@ -206,7 +203,7 @@ class GameManager:
 
                 else:
                     keys = pygame.key.get_pressed()
-                    player.layout = Presets.KEYBOARD_LAYOUTS[index - len(self.joysticks)]
+                    player.layout = LayoutPresets.KEYBOARD_LAYOUTS[index - len(self.joysticks)]
                     player.control_ship(keys, self.render_frame_time,
                                         limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)

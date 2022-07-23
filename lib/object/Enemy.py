@@ -1,6 +1,7 @@
+from copy import deepcopy
 from random import randint
 
-from pygame import draw, time, mixer
+from pygame import Surface, draw, time, mixer
 from lib.utils.Constants import Constants
 
 from .Axis import Axis
@@ -20,19 +21,35 @@ class Enemy(Ship):
         tag=Constants.TAG_ENEMY,
     ):
         super().__init__(x, y, size, speed, sprite, weapon, health, tag)
-        self.next_shot = self.get_random_time()
+        self.next_shot = 0
+
+    def copy(self):
+        copyobj = Enemy()
+        for name, attr in self.__dict__.items():
+            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
+                copyobj.__dict__[name] = attr.copy()
+            else:
+                if type(attr) is Surface:
+                    copyobj.__dict__[name] = Surface.copy(attr)
+                else:
+                    copyobj.__dict__[name] = deepcopy(attr)
+
+        copyobj.next_shot = copyobj.get_random_time()
+        return copyobj
 
     def get_random_time(self):
-        return time.get_ticks()+randint(self.weapon.shoot_delay, self.weapon.shoot_delay*2)
+        if self.weapon is not None:
+            return time.get_ticks()+randint(self.weapon.shoot_delay, self.weapon.shoot_delay*2)
 
     def shoot(self, bullet_manager):
-        if time.get_ticks() > self.next_shot:
-            bullets = self.weapon.make_bullets(Axis(self.get_middle().x, self.y + self.size.y), self.size)
-            for generated_bullet in bullets:
-                bullet_manager.shoot(generated_bullet)
-            channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
-            channel.play(Constants.SFX_LASER_2)
-            self.next_shot = self.get_random_time()
+        if self.weapon is not None:
+            if time.get_ticks() > self.next_shot:
+                bullets = self.weapon.make_bullets(Axis(self.get_middle().x, self.y + self.size.y), self.size)
+                for generated_bullet in bullets:
+                    bullet_manager.shoot(generated_bullet)
+                channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
+                channel.play(Constants.SFX_LASER_2)
+                self.next_shot = self.get_random_time()
 
     def render(self, screen):
         super().render(screen)

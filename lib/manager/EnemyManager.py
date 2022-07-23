@@ -25,28 +25,24 @@ class EnemyManager:
         else:
             speed_x = -2
 
+        enemy_speed = Axis(uniform(0, speed_x), randint(1, 2))
+
         if randint(1, 4) == 1:
-            new_enemy = Enemy(
-                x=x,
-                y=y,
-                sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_BOMBER.convert_alpha(), 0.5),
-                speed=Axis(uniform(0, speed_x), randint(1, 2)),
-                weapon=Presets.ENEMY_EXPLOSION_WEAPON,
-                health=90 + (player_quantity * 20)
-            )
+            new_enemy = Presets.ENEMY_BOMBER.copy()
+        elif randint(1, 3) == 1:
+            new_enemy = Presets.ENEMY_RUNNER.copy()
+            enemy_speed.y = randint(8, 12)
         else:
-            new_enemy = Enemy(
-                x=x,
-                y=y,
-                sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP.convert_alpha(), 0.5),
-                speed=Axis(uniform(0, speed_x), randint(1, 2)),
-                weapon=Presets.ENEMY_DEFAULT_WEAPON,
-                health=90 + (player_quantity * 20)
-            )
+            new_enemy = Presets.ENEMY_DEFAULT.copy()
+
+        new_enemy.speed=enemy_speed
+        new_enemy.health += (player_quantity * 20)
+        new_enemy.max_health += (player_quantity * 20)
 
         new_enemy.set_size_with_sprite()
         new_enemy.center()
-        new_enemy.y -= new_enemy.size.y
+        new_enemy.x=x
+        new_enemy.y= y - new_enemy.size.y
         return new_enemy
 
     def spawn_enemy_random(self, screen_size, player_quantity):

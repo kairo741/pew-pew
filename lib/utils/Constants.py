@@ -51,6 +51,8 @@ class Constants:
     SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\bullets\\enemy_bullet.png")
     
     SPRITE_ENEMY_SHIP_BOMBER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_bomber.png")
+    SPRITE_ENEMY_SHIP_RUNNER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_runner.png")
+    
 
     POWER_UP_1 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-atk-up.png")
     POWER_UP_2 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-2.png")

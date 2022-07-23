@@ -1,16 +1,16 @@
 from .Axis import Axis
 from .GameObject import GameObject
-from random import choice, randint
+from random import randint
 from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils
 
 
 def get_random_effect(item_manager):
-    heal = {"effect": item_manager.heal, "sprite": Constants.POWER_UP_6}
-    atk_speed = {"effect": item_manager.raise_attack_speed, "sprite": Constants.POWER_UP_3}
-    atk_damage = {"effect": item_manager.raise_damage, "sprite": Constants.POWER_UP_1}
+    heal = {"effect": item_manager.heal, "sprite": Utils.scale_image(Constants.POWER_UP_6, 1.05)}
+    atk_speed = {"effect": item_manager.raise_attack_speed, "sprite": Utils.scale_image(Constants.POWER_UP_3, 1.05)}
+    atk_damage = {"effect": item_manager.raise_damage, "sprite": Utils.scale_image(Constants.POWER_UP_1, 1.05)}
     # move_speed = {"effect": item_manager.raise_move_speed, "sprite": Constants.POWER_UP_8}
-    change_weapon = {"effect": item_manager.change_weapon_type, "sprite": Constants.POWER_UP_8}
+    change_weapon = {"effect": item_manager.change_weapon_type, "sprite": Utils.scale_image(Constants.POWER_UP_8, 1.05)}
 
     # 1/5 = 20% de chance de spawndsa
     if randint(1, 5) == 1:
