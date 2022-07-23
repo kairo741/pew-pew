@@ -1,6 +1,7 @@
 from lib.object.Axis import Axis
 from lib.object.Bullet import Bullet
 from lib.object.BulletHeal import BulletHeal
+from lib.object.BulletBounce import BulletBounce
 from lib.object.BulletPierce import BulletPierce
 from lib.object.Layout import Layout
 from lib.object.Player import Player
@@ -27,7 +28,7 @@ class Presets:
     PLAYER_BALANCE_WEAPON = Weapon(
         shoot_delay=170,
         weapon_type="triple",
-        bullet=Bullet(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_BLUE, 0.2), damage=15)
+        bullet=BulletBounce(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_BLUE, 0.2), damage=15)
     )
 
     PLAYER_PIERCE_WEAPON = Weapon(
