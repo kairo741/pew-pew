@@ -13,10 +13,10 @@ class GameObject:
     def to_rect(self):
         return Rect(self.x, self.y, self.size.x, self.size.y)
 
-    def collided_with(self, object, rect=None):
+    def collided_with(self, object, rect=None) -> Rect:
         if rect is None:
             rect = object.to_rect()
-        return self.to_rect().colliderect(rect)
+        return self.to_rect().clip(rect)
 
     def set_size_with_sprite(self):
         self.size = Axis(self.sprite.get_width(), self.sprite.get_height())

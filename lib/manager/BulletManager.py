@@ -2,7 +2,7 @@ from lib.object.BulletHeal import BulletHeal
 from lib.object.BulletPierce import BulletPierce
 from lib.object.BulletBounce import BulletBounce
 from lib.object.Axis import Axis
-from random import randint
+from random import uniform
 
 
 class BulletManager:
@@ -49,12 +49,12 @@ class BulletManager:
     def check_collision(self, bullet, object, actions, use_hitbox=False):
         if bullet.tag != object.tag:
             if use_hitbox:
-                collided = bullet.collided_with(object, object.get_hitbox_rect())
+                collision = bullet.collided_with(object, object.get_hitbox_rect())
             else:
-                collided = bullet.collided_with(object)
+                collision = bullet.collided_with(object)
 
-            if collided:
-                self.handle_bullet_collision(bullet, object, actions)
+            if collision:
+                self.handle_bullet_collision(bullet, object, actions, collision)
         
         elif type(bullet) is BulletHeal:
             if bullet.collided_with(object) and bullet.source_reference != object:
@@ -62,12 +62,17 @@ class BulletManager:
                 bullet.hit_callback(object)
 
 
-
-    def handle_bullet_collision(self, bullet, object, actions):
-        bullet.hit_callback(object)
+    def handle_bullet_collision(self, bullet, object, actions, collision):
         if type(bullet) is BulletBounce:
-            bullet.y+=30
-            bullet.speed=Axis(x=randint(-10, 10), y=bullet.speed.y * -0.3)
+            hits = [edge for edge in ['left', 'right'] if getattr(collision, edge) == getattr(bullet.to_rect(), edge)]
+            bullet.speed = Axis(x=0, y=-bullet.speed.y)
+
+            for hit in hits:
+                horizontal_speed = uniform(abs(bullet.speed.y)*0.01, abs(bullet.speed.y*1.5))
+                if hit == "left":
+                    bullet.speed.x = horizontal_speed
+                elif hit == "right":
+                    bullet.speed.x = -horizontal_speed
 
         elif type(bullet) is not BulletPierce:
             self.try_remove_bullet(bullet)
@@ -77,6 +82,8 @@ class BulletManager:
                 action(bullet)
         except:
             print("error in bullet collision action")
+
+        bullet.hit_callback(object)
             
     
     def try_remove_bullet(self, bullet):

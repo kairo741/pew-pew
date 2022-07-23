@@ -46,6 +46,7 @@ class Constants:
     SPRITE_BULLET_PURPLE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_purple.png")
 
     SPRITE_PLAYER_SHIP_MERCY = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_mercy.png")
+    SPRITE_BULLET_YELLOW = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_yellow.png")
 
 
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")

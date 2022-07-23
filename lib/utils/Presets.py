@@ -1,6 +1,7 @@
 from lib.object.Axis import Axis
 from lib.object.Bullet import Bullet
 from lib.object.BulletBounce import BulletBounce
+from lib.object.BulletVamp import BulletVamp
 from lib.object.BulletHeal import BulletHeal
 from lib.object.BulletPierce import BulletPierce
 from lib.object.Enemy import Enemy
@@ -45,7 +46,7 @@ class Presets:
     PLAYER_BAT_WEAPON = Weapon(
         shoot_delay=120,
         weapon_type="wiggle",
-        bullet=BulletHeal(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_PURPLE, 0.2), damage=26)
+        bullet=BulletVamp(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_PURPLE, 0.2), damage=26)
     )
 
     ENEMY_DEFAULT_WEAPON = Weapon(
