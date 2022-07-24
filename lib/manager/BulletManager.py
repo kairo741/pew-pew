@@ -65,10 +65,13 @@ class BulletManager:
     def handle_bullet_collision(self, bullet, object, actions, collision):
         if type(bullet) is BulletBounce:
             hits = [edge for edge in ['left', 'right'] if getattr(collision, edge) == getattr(bullet.to_rect(), edge)]
-            bullet.speed = Axis(x=0, y=-bullet.speed.y)
-
+            bullet.speed = Axis(x=bullet.speed.x, y=-bullet.speed.y)
+            speed_x = abs(bullet.speed.x)
+            speed_y = abs(bullet.speed.y)
+            horizontal_speed = speed_y if speed_y > speed_x else speed_x
+            
             for hit in hits:
-                horizontal_speed = uniform(abs(bullet.speed.y)*0.01, abs(bullet.speed.y*1.5))
+                horizontal_speed = uniform(horizontal_speed*1, horizontal_speed*1.5)
                 if hit == "left":
                     bullet.speed.x = horizontal_speed
                 elif hit == "right":
