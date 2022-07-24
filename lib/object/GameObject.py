@@ -11,7 +11,7 @@ class GameObject:
         self.speed = speed
         self.sprite = sprite
         self.glow = Constants.SPRITE_GLOW.convert_alpha()
-        self.glow_scale = 2.5
+        self.glow_scale = 2.8
 
     def to_rect(self):
         return Rect(self.x, self.y, self.size.x, self.size.y)
@@ -27,11 +27,30 @@ class GameObject:
         
 
     def set_glow(self):
-        self.glow = transform.smoothscale(self.glow, self.size.scale_to(self.glow_scale).to_list())
-        center_color = self.sprite.get_at((int(self.size.x/2), int(self.size.y/2)))
-        color_surf = Surface(self.glow.get_size())
-        color_surf.fill(center_color)
+        glow_size = self.size.scale_to(self.glow_scale).to_list()
+
+        self.glow = transform.smoothscale(self.glow, glow_size)
+        color_surf = Surface(glow_size)
+
+        average_color = [0, 0, 0, 255]
+        # loop em todos os pixels da sprite
+        for x in range(self.size.x):
+            for y in range(self.size.y):
+                this_color = self.sprite.get_at((x, y))
+
+                # se esse pixel nao for transparente
+                if this_color[3] != 0:
+                    # adicionar essa cor
+                    for i in range(0, 3):
+                        average_color[i] += this_color[i]
+
+        for i in range(0, 3):
+            average_color[i] /= (self.size.x*self.size.y)
+
+        # desenhar cor mantendo transparencia
+        color_surf.fill(average_color)
         self.glow.blit(color_surf, (0, 0), special_flags=BLEND_MULT)
+        
 
     def get_middle(self):
         return Axis(self.x + self.size.x / 2, self.y + self.size.y / 2)
