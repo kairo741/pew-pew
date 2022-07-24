@@ -6,11 +6,11 @@ from lib.object.Axis import Axis
 
 class Utils:
     @staticmethod
-    def scale_image(image, scale):
-        horizontal_size = display.get_window_size()[0]*0.00067
+    def scale_image(image, scale=1):
+        size = display.get_window_size()[1]*0.0012
         img_size = Axis(image.get_width(), image.get_height())
 
-        return transform.smoothscale(image, [(img_size.x * scale)*horizontal_size, (img_size.y * scale)*horizontal_size])
+        return transform.smoothscale(image, [(img_size.x * scale)*size, (img_size.y * scale)*size]).convert_alpha()
 
     @staticmethod
     def random_int(start, end):

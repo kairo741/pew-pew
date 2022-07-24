@@ -55,14 +55,14 @@ class Constants:
     SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\bullets\\enemy_bullet.png")
     
     
-    POWER_UP_1 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-atk-up.png")
-    POWER_UP_2 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-2.png")
-    POWER_UP_3 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-atk-speed.png")
-    POWER_UP_4 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-4.png")
-    POWER_UP_5 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-5.png")
-    POWER_UP_6 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-heal.png")
-    POWER_UP_7 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-7.png")
-    POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-random-weapon-2.png")
+    SPRITE_POWER_UP_1 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-atk-up.png")
+    SPRITE_POWER_UP_2 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-2.png")
+    SPRITE_POWER_UP_3 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-atk-speed.png")
+    SPRITE_POWER_UP_4 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-4.png")
+    SPRITE_POWER_UP_5 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-5.png")
+    SPRITE_POWER_UP_6 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-heal.png")
+    SPRITE_POWER_UP_7 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-7.png")
+    SPRITE_POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-random-weapon-2.png")
 
 
     # Fonts

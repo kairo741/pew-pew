@@ -11,8 +11,6 @@ class ItemManager:
     def __init__(self, number_manager):
         super().__init__()
         self.items = []
-        self.item_sprites = [Constants.POWER_UP_1, Constants.POWER_UP_2, Constants.POWER_UP_3, Constants.POWER_UP_4,
-                             Constants.POWER_UP_5, Constants.POWER_UP_5, Constants.POWER_UP_6]
         self.number_manager = number_manager  # TODO - verificar se é a melhor maneira
 
     def calculate_rates(self):

@@ -92,41 +92,41 @@ class Presets:
     
     PLAYER_BALANCE = Player(
         speed=PLAYER_DEFAULT_SPEED,
-        sprite=Constants.SPRITE_PLAYER_SHIP_BALANCE,
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BALANCE, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH,
         weapon=PLAYER_WEAPONS[0]
     )
     
     PLAYER_PIERCE = Player(
         speed=PLAYER_DEFAULT_SPEED,
-        sprite=Constants.SPRITE_PLAYER_SHIP_PIERCE,
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH,
         weapon=PLAYER_WEAPONS[1]
     )
     
     PLAYER_SPEED = Player(
         speed=PLAYER_DEFAULT_SPEED.scale_to(1.2),
-        sprite=Constants.SPRITE_PLAYER_SHIP_SPEED,
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_SPEED, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH*0.8,
         weapon=PLAYER_WEAPONS[2]
     )
     
     PLAYER_FROGGERS = Player(
         speed=PLAYER_DEFAULT_SPEED.scale_to(0.8),
-        sprite=Constants.SPRITE_PLAYER_SHIP_FROGGERS,
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_FROGGERS, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH*1.2,
         weapon=PLAYER_WEAPONS[3]
     )
 
     PLAYER_VAMPIRE = PlayerVampire(
         speed=PLAYER_DEFAULT_SPEED,
-        sprite=Constants.SPRITE_PLAYER_SHIP_VAMPIRE,
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_VAMPIRE, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH*0.7,
         weapon=PLAYER_WEAPONS[4]
     )
     PLAYER_HEALER = PlayerHealer(
         speed=PLAYER_DEFAULT_SPEED,
-        sprite=Constants.SPRITE_PLAYER_SHIP_MERCY,
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_MERCY, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH*0.7,
         weapon=PLAYER_WEAPONS[5]
     )
