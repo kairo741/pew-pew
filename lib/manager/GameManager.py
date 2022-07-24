@@ -1,4 +1,5 @@
 import pygame
+
 from lib.object.Axis import Axis
 from lib.object.Background import Background
 from lib.object.CustomJoy import CustomJoy
@@ -32,7 +33,7 @@ class GameManager:
             flags=self.flags,
             depth=24)
 
-        pygame.display.set_caption("PewPew")
+        pygame.display.set_caption("PewPew 🚀")
 
         from .BulletManager import BulletManager
         from .EnemyManager import EnemyManager

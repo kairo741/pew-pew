@@ -3,10 +3,7 @@ from random import randint, uniform
 from pygame import time
 
 from lib.object.Axis import Axis
-from lib.object.Enemy import Enemy
-from lib.utils.Constants import Constants
 from lib.utils.Presets import Presets
-from lib.utils.Utils import Utils
 
 
 class EnemyManager:
@@ -35,14 +32,14 @@ class EnemyManager:
         else:
             new_enemy = Presets.ENEMY_DEFAULT.copy()
 
-        new_enemy.speed=enemy_speed
+        new_enemy.speed = enemy_speed
         new_enemy.health += (player_quantity * 20)
         new_enemy.max_health += (player_quantity * 20)
 
         new_enemy.set_size_with_sprite()
         new_enemy.center()
-        new_enemy.x=x
-        new_enemy.y= y - new_enemy.size.y
+        new_enemy.x = x
+        new_enemy.y = y - new_enemy.size.y
         return new_enemy
 
     def spawn_enemy_random(self, screen_size, player_quantity):

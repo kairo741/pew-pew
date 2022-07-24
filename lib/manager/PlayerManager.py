@@ -24,7 +24,6 @@ class PlayerManager:
         for player in self.players:
             if player.health > 0:
                 return True
-
         return False
 
     def reset(self):
