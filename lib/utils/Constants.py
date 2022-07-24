@@ -27,37 +27,34 @@ class Constants:
     # ASSETS
     # Sprites
     SPRITE_STAR = image.load(ROOT_PATH + "\\assets\\images\\star.png")
-
-    SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship.png")
-    SPRITE_BULLET_BLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_blue.png")
-
-    SPRITE_PLAYER_SHIP_PIERCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_pierce.png")
-    SPRITE_BULLET_LIGHTBLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_lightblue.png")
-    SPRITE_BULLET_LIGHTBLUE_LONG = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_lightblue_long.png")
+    SPRITE_GLOW = image.load(ROOT_PATH + "\\assets\\images\\glow.png")
     CRT_TV = image.load(ROOT_PATH + "\\assets\\images\\tv.png")
 
+    SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship.png")
+    SPRITE_PLAYER_SHIP_PIERCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_pierce.png")
     SPRITE_PLAYER_SHIP_SPEED = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_speed.png")
-    SPRITE_BULLET_RED = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_red.png")
-
     SPRITE_PLAYER_SHIP_FROGGERS = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_froggers.png")
-    SPRITE_BULLET_GREEN = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_green.png")
-
     SPRITE_PLAYER_SHIP_VAMPIRE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_vampire.png")
-    SPRITE_BULLET_PURPLE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_purple.png")
-
     SPRITE_PLAYER_SHIP_MERCY = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_mercy.png")
+
+    SPRITE_BULLET_BLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_blue.png")
+    SPRITE_BULLET_LIGHTBLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_lightblue.png")
+    SPRITE_BULLET_LIGHTBLUE_LONG = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_lightblue_long.png")
+    SPRITE_BULLET_RED = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_red.png")
+    SPRITE_BULLET_GREEN = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_green.png")
+    SPRITE_BULLET_PURPLE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_purple.png")
     SPRITE_BULLET_YELLOW = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_yellow.png")
 
 
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
 
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy.png")
-    SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\bullets\\enemy_bullet.png")
-    
     SPRITE_ENEMY_SHIP_BOMBER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_bomber.png")
     SPRITE_ENEMY_SHIP_RUNNER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_runner.png")
-    
 
+    SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\bullets\\enemy_bullet.png")
+    
+    
     POWER_UP_1 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-atk-up.png")
     POWER_UP_2 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-2.png")
     POWER_UP_3 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-atk-speed.png")
@@ -67,8 +64,6 @@ class Constants:
     POWER_UP_7 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-7.png")
     POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-random-weapon-2.png")
 
-    SPRITE_PLAYERS = [SPRITE_PLAYER_SHIP_BALANCE, SPRITE_PLAYER_SHIP_PIERCE, SPRITE_PLAYER_SHIP_SPEED,
-                      SPRITE_PLAYER_SHIP_FROGGERS, SPRITE_PLAYER_SHIP_VAMPIRE]
 
     # Fonts
     FONT_NUMBER = ROOT_PATH + "\\assets\\fonts\\Montserrat-Regular.ttf"

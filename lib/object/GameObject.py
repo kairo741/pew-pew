@@ -1,5 +1,6 @@
-from pygame import Rect
+from pygame import Rect, transform
 from .Axis import Axis
+from lib.utils.Constants import Constants
 
 
 class GameObject:
@@ -9,6 +10,7 @@ class GameObject:
         self.size = size
         self.speed = speed
         self.sprite = sprite
+        self.glow = Constants.SPRITE_GLOW.convert_alpha()
 
     def to_rect(self):
         return Rect(self.x, self.y, self.size.x, self.size.y)
@@ -20,6 +22,7 @@ class GameObject:
 
     def set_size_with_sprite(self):
         self.size = Axis(self.sprite.get_width(), self.sprite.get_height())
+        self.glow = transform.smoothscale(self.glow, self.size.scale_to(1.2).to_list())
 
     def get_middle(self):
         return Axis(self.x + self.size.x / 2, self.y + self.size.y / 2)
@@ -28,5 +31,8 @@ class GameObject:
         self.x -= self.size.x / 2
         self.y -= self.size.y / 2
 
-    def render(self, screen):
+    def render(self, screen, glow=True):
+        if glow:
+            screen.blit(self.glow, (self.x-(self.size.x*0.12), self.y-(self.size.y*0.12)))
+
         screen.blit(self.sprite, self.to_rect())

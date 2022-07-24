@@ -48,5 +48,5 @@ class Background(GameObject):
         draw.rect(screen, self.color, self.to_rect())
 
         for star in self.stars:
-            star.render(screen)
+            star.render(screen, glow=False)
             
