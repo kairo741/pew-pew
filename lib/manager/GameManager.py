@@ -13,7 +13,7 @@ class GameManager:
     def __init__(self):
         super().__init__()
         pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
-        pygame.display.set_caption("PewPew")
+        pygame.display.set_caption("PewPew 🚀🛸")
         pygame.display.init()
         pygame.joystick.init()
         pygame.font.init()
@@ -32,9 +32,6 @@ class GameManager:
             size=self.resolution.to_list(),
             flags=self.flags,
             depth=24)
-
-        pygame.display.set_caption("PewPew 🚀")
-
         from .BulletManager import BulletManager
         from .EnemyManager import EnemyManager
         from .ItemManager import ItemManager
