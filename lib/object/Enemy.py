@@ -24,20 +24,6 @@ class Enemy(Ship):
         self.next_shot = 0
         self.glow_scale = 3
 
-    def copy(self):
-        copy_obj = Enemy()
-        for name, attr in self.__dict__.items():
-            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                copy_obj.__dict__[name] = attr.copy()
-            else:
-                if type(attr) is Surface:
-                    copy_obj.__dict__[name] = Surface.copy(attr)
-                else:
-                    copy_obj.__dict__[name] = deepcopy(attr)
-
-        copy_obj.next_shot = copy_obj.get_random_time()
-        return copy_obj
-
     def get_random_time(self):
         if self.weapon is not None:
             return time.get_ticks() + randint(self.weapon.shoot_delay, self.weapon.shoot_delay * 2)

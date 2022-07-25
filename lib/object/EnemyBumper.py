@@ -21,17 +21,3 @@ class EnemyBumper(Enemy):
             self.speed.x = -self.speed.x
         elif self.y > screen_size.y:
             self.speed.y = -self.speed.y
-
-    def copy(self):
-        copy_obj = EnemyBumper()
-        for name, attr in self.__dict__.items():
-            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                copy_obj.__dict__[name] = attr.copy()
-            else:
-                if type(attr) is Surface:
-                    copy_obj.__dict__[name] = Surface.copy(attr)
-                else:
-                    copy_obj.__dict__[name] = deepcopy(attr)
-
-        copy_obj.next_shot = copy_obj.get_random_time()
-        return copy_obj

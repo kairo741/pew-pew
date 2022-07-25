@@ -13,11 +13,3 @@ class BulletVamp(Bullet):
         if self.source_reference.health < self.source_reference.max_health:
             self.source_reference.health += self.source_reference.max_health * 0.02
 
-    def copy(self):
-        copy_obj = BulletVamp()
-        for name, attr in self.__dict__.items():
-            if type(attr) is Surface:
-                copy_obj.__dict__[name] = Surface.copy(attr)
-            else:
-                copy_obj.__dict__[name] = deepcopy(attr)
-        return copy_obj

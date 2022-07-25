@@ -1,5 +1,4 @@
-from copy import deepcopy
-from pygame import Surface, draw, time, mixer
+from pygame import draw, time, mixer
 from lib.object.Ultimate import Ultimate
 from lib.utils.Constants import Constants
 
@@ -16,20 +15,6 @@ class Player(Ship):
         self.next_ult = time.get_ticks()+1000
         self.last_ult = 0
 
-    def copy(self):
-        copyobj = Player()
-        for name, attr in self.__dict__.items():
-            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                if type(attr) is Ultimate:
-                    copyobj.__dict__[name] = attr.copy(parent=copyobj)
-                else:    
-                    copyobj.__dict__[name] = attr.copy()
-            else:
-                if type(attr) is Surface:
-                    copyobj.__dict__[name] = Surface.copy(attr)
-                else:
-                    copyobj.__dict__[name] = deepcopy(attr)
-        return copyobj
 
     def player_passive(self, render_frame_time):
         pass

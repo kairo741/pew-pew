@@ -1,7 +1,4 @@
-from copy import deepcopy
-
 from lib.object.Ultimate import Ultimate
-from pygame import Surface
 
 from .Player import Player
 
@@ -14,23 +11,6 @@ class PlayerPierce(Player):
 
         self.old_shoot_delay = 0
 
-    
-    def copy(self):
-        copyobj = PlayerPierce()
-        for name, attr in self.__dict__.items():
-            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                if type(attr) is Ultimate:
-                    copyobj.__dict__[name] = attr.copy(parent=copyobj)
-                else:    
-                    copyobj.__dict__[name] = attr.copy()
-            else:
-                if type(attr) is Surface:
-                    copyobj.__dict__[name] = Surface.copy(attr)
-                else:
-                    copyobj.__dict__[name] = deepcopy(attr)
-        return copyobj
-
-    
 
     def enable_ultimate(self):
         self.old_shoot_delay = self.weapon.shoot_delay

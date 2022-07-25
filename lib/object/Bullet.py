@@ -13,16 +13,7 @@ class Bullet(GameObject):
         self.tag = tag
         self.source_reference = source_reference
         self.glow_scale = 2.1
-
-
-    def copy(self):
-        copyobj = Bullet()
-        for name, attr in self.__dict__.items():
-            if type(attr) is Surface:
-                copyobj.__dict__[name] = Surface.copy(attr)
-            else:
-                copyobj.__dict__[name] = deepcopy(attr)
-        return copyobj
+        
 
     def hit_callback(self, object_hit, collision):
         pass

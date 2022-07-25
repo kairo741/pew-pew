@@ -23,11 +23,3 @@ class BulletPierce(Bullet):
                 self.enemies_hit.append(object)
                 return True
 
-    def copy(self):
-        copy_obj = BulletPierce()
-        for name, attr in self.__dict__.items():
-            if type(attr) is Surface:
-                copy_obj.__dict__[name] = Surface.copy(attr)
-            else:
-                copy_obj.__dict__[name] = deepcopy(attr)
-        return copy_obj

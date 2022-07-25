@@ -20,12 +20,3 @@ class BulletHeal(Bullet):
                 object_hit.health += heal_amount
             else:
                 object_hit.health = object_hit.max_health
-
-    def copy(self):
-        copy_obj = BulletHeal()
-        for name, attr in self.__dict__.items():
-            if type(attr) is Surface:
-                copy_obj.__dict__[name] = Surface.copy(attr)
-            else:
-                copy_obj.__dict__[name] = deepcopy(attr)
-        return copy_obj

@@ -24,12 +24,3 @@ class BulletBounce(Bullet):
                 self.speed.x = horizontal_speed
             elif hit == "right":
                 self.speed.x = -horizontal_speed
-
-    def copy(self):
-        copy_obj = BulletBounce()
-        for name, attr in self.__dict__.items():
-            if type(attr) is Surface:
-                copy_obj.__dict__[name] = Surface.copy(attr)
-            else:
-                copy_obj.__dict__[name] = deepcopy(attr)
-        return copy_obj

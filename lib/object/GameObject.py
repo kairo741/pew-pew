@@ -1,4 +1,7 @@
+from copy import deepcopy
 from pygame import BLEND_MULT, Rect, Surface, transform, draw
+
+from lib.object.Ultimate import Ultimate
 from .Axis import Axis
 from lib.utils.Constants import Constants
 
@@ -12,6 +15,21 @@ class GameObject:
         self.sprite = sprite
         self.glow = Constants.SPRITE_GLOW.convert_alpha()
         self.glow_scale = glow_scale
+
+    def copy(self):
+        copyobj = type(self)()
+        for name, attr in self.__dict__.items():
+            if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
+                if type(attr) is Ultimate:
+                    copyobj.__dict__[name] = attr.copy(parent=copyobj)
+                else:    
+                    copyobj.__dict__[name] = attr.copy()
+            else:
+                if type(attr) is Surface:
+                    copyobj.__dict__[name] = Surface.copy(attr)
+                else:
+                    copyobj.__dict__[name] = deepcopy(attr)
+        return copyobj
 
     def to_rect(self):
         return Rect(self.x, self.y, self.size.x, self.size.y)
