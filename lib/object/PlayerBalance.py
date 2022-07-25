@@ -8,11 +8,15 @@ class PlayerBalance(Player):
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate)
 
     
+    
     def copy(self):
         copyobj = PlayerBalance()
         for name, attr in self.__dict__.items():
             if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                copyobj.__dict__[name] = attr.copy()
+                if type(attr) is Ultimate:
+                    copyobj.__dict__[name] = attr.copy(parent=copyobj)
+                else:    
+                    copyobj.__dict__[name] = attr.copy()
             else:
                 if type(attr) is Surface:
                     copyobj.__dict__[name] = Surface.copy(attr)

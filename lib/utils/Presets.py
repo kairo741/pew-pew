@@ -9,6 +9,7 @@ from lib.object.EnemyBumper import EnemyBumper
 from lib.object.Player import Player
 from lib.object.PlayerBalance import PlayerBalance
 from lib.object.PlayerHealer import PlayerHealer
+from lib.object.PlayerPierce import PlayerPierce
 from lib.object.PlayerVampire import PlayerVampire
 from lib.object.Weapon import Weapon
 from lib.utils.Constants import Constants
@@ -105,7 +106,7 @@ class Presets:
         weapon=PLAYER_WEAPONS[0]
     )
 
-    PLAYER_PIERCE = Player(
+    PLAYER_PIERCE = PlayerPierce(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH,

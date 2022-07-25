@@ -50,7 +50,7 @@ class PlayerManager:
             this_player.x = resolution.x
             this_player.y = resolution.y / 2
             this_player.weapon.source_reference = this_player
-            print(type(this_player))
+
             if type(this_player) == PlayerBalance:
                 this_player.ultimate = Ultimate(lambda: self.time_stop_ultimate(True), lambda: self.time_stop_ultimate(False), duration=5)
 
