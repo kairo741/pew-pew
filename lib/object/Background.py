@@ -19,7 +19,7 @@ class Background(GameObject):
     star_spawn_position = Axis(-10, -30)
 
     def create_star(self):
-        return GameObject(x=randrange(0, self.size.x), y=randrange(-50, -10), speed=Axis(0, randrange(4, 15)), sprite=self.star_sprite)
+        return GameObject(x=randrange(0, self.size.x), y=randrange(-50, -10), speed=Axis(0, randrange(4, 15)), sprite=self.star_sprite, glow_scale=0)
 
     def make_stars(self):
         get_random_delay = randrange(
@@ -48,5 +48,5 @@ class Background(GameObject):
         draw.rect(screen, self.color, self.to_rect())
 
         for star in self.stars:
-            star.render(screen, glow=False)
+            star.render(screen)
             

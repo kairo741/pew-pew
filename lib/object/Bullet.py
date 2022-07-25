@@ -12,6 +12,7 @@ class Bullet(GameObject):
         self.damage = damage
         self.tag = tag
         self.source_reference = source_reference
+        self.glow_scale = 2.1
 
 
     def copy(self):

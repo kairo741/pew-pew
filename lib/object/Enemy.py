@@ -22,6 +22,7 @@ class Enemy(Ship):
     ):
         super().__init__(x, y, size, speed, sprite, weapon, health, tag)
         self.next_shot = 0
+        self.glow_scale = 3
 
     def copy(self):
         copy_obj = Enemy()
