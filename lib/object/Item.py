@@ -7,10 +7,10 @@ from lib.utils.Utils import Utils
 
 def get_random_effect(item_manager):
     # move_speed = {"effect": item_manager.raise_move_speed, "sprite": Constants.SPRITE_POWER_UP_8}
-    heal = {"effect": item_manager.heal, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_6)}
-    atk_speed = {"effect": item_manager.raise_attack_speed, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_3)}
-    atk_damage = {"effect": item_manager.raise_damage, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_1)}
-    change_weapon = {"effect": item_manager.change_weapon_type, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_8)}
+    heal = {"effect": item_manager.heal, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_HEAL)}
+    atk_speed = {"effect": item_manager.raise_attack_speed, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_SPEED)}
+    atk_damage = {"effect": item_manager.raise_damage, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_ATK)}
+    change_weapon = {"effect": item_manager.change_weapon_type, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_RANDOM)}
 
     # 1/5 = 20% de chance de spawndsa
     if randint(1, 5) == 1:
