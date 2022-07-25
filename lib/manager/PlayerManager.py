@@ -1,11 +1,14 @@
 from random import randint
+from lib.object.PlayerBalance import PlayerBalance
+from lib.object.Ultimate import Ultimate
 
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
 
 
 class PlayerManager:
-    def __init__(self):
+    def __init__(self, time_stop_ultimate):
+        self.time_stop_ultimate = time_stop_ultimate
         self.players = []
 
     def add(self, player):
@@ -47,6 +50,9 @@ class PlayerManager:
             this_player.x = resolution.x
             this_player.y = resolution.y / 2
             this_player.weapon.source_reference = this_player
+            print(type(this_player))
+            if type(this_player) == PlayerBalance:
+                this_player.ultimate = Ultimate(lambda: self.time_stop_ultimate(True), lambda: self.time_stop_ultimate(False), duration=5)
 
             self.add(this_player)
 

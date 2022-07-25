@@ -7,6 +7,7 @@ from lib.object.BulletVamp import BulletVamp
 from lib.object.Enemy import Enemy
 from lib.object.EnemyBumper import EnemyBumper
 from lib.object.Player import Player
+from lib.object.PlayerBalance import PlayerBalance
 from lib.object.PlayerHealer import PlayerHealer
 from lib.object.PlayerVampire import PlayerVampire
 from lib.object.Weapon import Weapon
@@ -97,7 +98,7 @@ class Presets:
 
     PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON, PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON]
 
-    PLAYER_BALANCE = Player(
+    PLAYER_BALANCE = PlayerBalance(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BALANCE, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH,

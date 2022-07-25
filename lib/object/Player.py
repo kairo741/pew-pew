@@ -1,5 +1,6 @@
 from copy import deepcopy
 from pygame import Surface, draw, time, mixer
+from lib.object.Ultimate import Ultimate
 from lib.utils.Constants import Constants
 
 from .Axis import Axis
@@ -7,8 +8,9 @@ from .Ship import Ship
 
 
 class Player(Ship):
-    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout=""):
+    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout="", ultimate = Ultimate()):
         super().__init__(x, y, size, speed, sprite, weapon, health)
+        self.ultimate = ultimate
         self.layout = layout
         self.ult_cooldown_sec = 30
         self.next_ult = time.get_ticks()+1000

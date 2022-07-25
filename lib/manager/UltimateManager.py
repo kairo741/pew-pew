@@ -1,3 +1,8 @@
+from pygame import time
+from lib.object.Ultimate import Ultimate
+from lib.utils.Constants import Constants
+
+
 class UltimateManager():
     def __init__(self):
         
@@ -5,12 +10,12 @@ class UltimateManager():
 
         self.disable_ultimate_function = lambda: None
 
-    def do_ultimate(self, enable_function: lambda: None, disable_function: lambda: None) -> bool:
+    def do_ultimate(self, ultimate: Ultimate) -> bool:
         if self.ultimate_enabled is not True:
-            enable_function()
-            self.disable_ultimate_function = disable_function
+            ultimate.enable_function()
+            self.disable_ultimate_function = ultimate.disable_function
             self.ultimate_enabled = True
-
+            time.set_timer(Constants.ULTIMATE_END, ultimate.duration*1000)
             return True
         
         return False

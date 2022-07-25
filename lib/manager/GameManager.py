@@ -53,7 +53,7 @@ class GameManager:
         self.bg = Background()
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
-        self.player_manager = PlayerManager()
+        self.player_manager = PlayerManager(time_stop_ultimate = self.activate_time_stop)
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager()
@@ -198,7 +198,7 @@ class GameManager:
                     player.control_ship_joystick(control_joy, self.render_frame_time,
                                                  limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot_joystick(joy, self.bullet_manager)
-                    player.control_ultimate_joystick(joy, action=lambda: self.ultimate_manager.do_ultimate(self.activate_time_stop(True), self.activate_time_stop(False)))
+                    player.control_ultimate_joystick(joy, action=lambda: self.ultimate_manager.do_ultimate(player.ultimate))
 
                 else:
                     keys = pygame.key.get_pressed()
@@ -206,7 +206,7 @@ class GameManager:
                     player.control_ship(keys, self.render_frame_time,
                                         limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)
-                    player.control_ultimate(keys, action=lambda: self.ultimate_manager.do_ultimate(lambda: self.activate_time_stop(True), lambda: self.activate_time_stop(False)))
+                    player.control_ultimate(keys, action=lambda: self.ultimate_manager.do_ultimate(player.ultimate))
 
     def manage_game_over(self):
         if self.game_over:
@@ -279,7 +279,6 @@ class GameManager:
             self.sfx_sound_channel.play(Constants.SFX_TIME_STOP)
             self.bg.color = [code + 50 for code in self.bg.color]
             self.time_stop = True
-            pygame.time.set_timer(Constants.ULTIMATE_END, 5000)
 
         else:
             self.bg.color = Constants.BACKGROUND_COLOR
