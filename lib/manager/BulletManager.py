@@ -54,27 +54,15 @@ class BulletManager:
                 self.handle_bullet_collision(bullet, object, actions, collision)
         
         elif type(bullet) is BulletHeal:
-            if bullet.collided_with(object) and bullet.source_reference != object:
+            collision = bullet.collided_with(object)
+            if collision and bullet.source_reference != object:
                 self.try_remove_bullet(bullet)
-                bullet.hit_callback(object)
+                bullet.hit_callback(object, collision)
 
 
     def handle_bullet_collision(self, bullet, object, actions, collision):
-        if type(bullet) is BulletBounce:
-            hits = [edge for edge in ['left', 'right'] if getattr(collision, edge) == getattr(bullet.to_rect(), edge)]
-            bullet.speed = Axis(x=bullet.speed.x, y=-bullet.speed.y)
-            speed_x = abs(bullet.speed.x)
-            speed_y = abs(bullet.speed.y)
-            horizontal_speed = speed_y if speed_y > speed_x else speed_x
-            
-            for hit in hits:
-                horizontal_speed = uniform(horizontal_speed*1, horizontal_speed*1.5)
-                if hit == "left":
-                    bullet.speed.x = horizontal_speed
-                elif hit == "right":
-                    bullet.speed.x = -horizontal_speed
 
-        elif type(bullet) is not BulletPierce:
+        if type(bullet) is not BulletPierce and type(bullet) is not BulletBounce:
             self.try_remove_bullet(bullet)
 
         try:
@@ -83,7 +71,7 @@ class BulletManager:
         except:
             print("error in bullet collision action")
 
-        bullet.hit_callback(object)
+        bullet.hit_callback(object, collision)
             
     
     def try_remove_bullet(self, bullet):

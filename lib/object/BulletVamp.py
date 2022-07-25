@@ -8,7 +8,7 @@ class BulletVamp(Bullet):
         super().__init__(x, y, size, speed, sprite, damage, tag, source_reference)
 
     
-    def hit_callback(self, object):
+    def hit_callback(self, object, collision):
         if self.source_reference.health < self.source_reference.max_health:
             self.source_reference.health += self.source_reference.max_health*0.02
 

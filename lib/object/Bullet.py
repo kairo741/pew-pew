@@ -23,5 +23,5 @@ class Bullet(GameObject):
                 copyobj.__dict__[name] = deepcopy(attr)
         return copyobj
 
-    def hit_callback(self, object_hit):
+    def hit_callback(self, object_hit, collision):
         pass

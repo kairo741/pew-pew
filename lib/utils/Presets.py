@@ -22,7 +22,7 @@ class Presets:
     PLAYER_BALANCE_WEAPON = Weapon(
         shoot_delay=170,
         weapon_type="triple",
-        bullet=BulletBounce(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_BLUE, 0.2), damage=12)
+        bullet=BulletBounce(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_BLUE, 0.2), damage=12)
     )
 
     PLAYER_PIERCE_WEAPON = Weapon(

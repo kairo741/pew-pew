@@ -55,16 +55,16 @@ class Weapon:
                                               override_speed=Axis(randint(-2, 2), randint(2, 3))))
 
         if self.weapon_type == "single":
-            bullets.append(self.create_bullet(spawn_position.x, spawn_position.y))
+            bullets.append(self.create_bullet(spawn_position.x, spawn_position.y-30))
 
         elif self.weapon_type == "double":
-            bullets.append(self.create_bullet(x=spawn_position.x - 10, y=spawn_position.y))
-            bullets.append(self.create_bullet(x=spawn_position.x + 10, y=spawn_position.y))
+            bullets.append(self.create_bullet(x=spawn_position.x - 20, y=spawn_position.y))
+            bullets.append(self.create_bullet(x=spawn_position.x + 20, y=spawn_position.y))
 
         elif self.weapon_type == "triple":
-            bullets.append(self.create_bullet(x=spawn_position.x - 20, y=spawn_position.y))
-            bullets.append(self.create_bullet(x=spawn_position.x, y=spawn_position.y))
-            bullets.append(self.create_bullet(x=spawn_position.x + 20, y=spawn_position.y))
+            bullets.append(self.create_bullet(x=spawn_position.x - 25, y=spawn_position.y))
+            bullets.append(self.create_bullet(x=spawn_position.x, y=spawn_position.y-15))
+            bullets.append(self.create_bullet(x=spawn_position.x + 25, y=spawn_position.y))
 
         elif self.weapon_type == "spread":
             bullets.append(self.create_bullet(x=spawn_position.x - 20, y=spawn_position.y,

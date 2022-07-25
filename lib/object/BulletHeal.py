@@ -8,7 +8,7 @@ class BulletHeal(Bullet):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", damage=10, tag=Constants.TAG_PLAYER, source_reference=None):
         super().__init__(x, y, size, speed, sprite, damage, tag, source_reference)
 
-    def hit_callback(self, object_hit):
+    def hit_callback(self, object_hit, collision):
         if object_hit.tag == Constants.TAG_PLAYER:
             heal_amount = self.source_reference.health*0.1
 
