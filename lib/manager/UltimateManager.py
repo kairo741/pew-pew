@@ -31,3 +31,7 @@ class UltimateManager():
         self.disable_ultimate_function()
         self.ultimate_enabled = False
         self.background.color = Constants.BACKGROUND_COLOR
+
+
+    def reset(self):
+        self.disable_ultimate()

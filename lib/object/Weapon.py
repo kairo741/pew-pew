@@ -14,6 +14,9 @@ class Weapon:
         self.bullet = bullet
         self.source_reference = source_reference
 
+        self.circle_weapon_order = [Axis(0, -20), Axis(-20, 0), Axis(20, 0), Axis(0, 20)]
+        self.counter = 0
+
     def copy(self):
         copyobj = Weapon()
         for name, attr in self.__dict__.items():
@@ -83,7 +86,7 @@ class Weapon:
             speed_y = self.bullet.speed.y
             bullets.append(self.create_bullet(spawn_position.x, spawn_position.y, override_speed=Axis(x=uniform(speed_y/-4, speed_y/4), y=speed_y)))
 
-        elif self.weapon_type == "sides":
+        elif self.weapon_type == "arc":
             speed_y = self.bullet.speed.y
             bullets.append(self.create_bullet(x=spawn_position.x - 10, y=spawn_position.y))
             bullets.append(self.create_bullet(x=spawn_position.x + 10, y=spawn_position.y))

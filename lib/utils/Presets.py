@@ -56,7 +56,7 @@ class Presets:
 
     PLAYER_HEAL_WEAPON = Weapon(
         shoot_delay=250,
-        weapon_type="sides",
+        weapon_type="arc",
         bullet=BulletHeal(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_YELLOW, 0.2), damage=22)
     )
 

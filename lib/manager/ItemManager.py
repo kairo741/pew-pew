@@ -107,6 +107,6 @@ class ItemManager:
         player.speed.y += uniform(0.3, 1.5)
 
     def change_weapon_type(self, player):
-        types = ["single", "double", "triple", "spread", "wiggle", "sides"]
+        types = ["single", "double", "triple", "spread", "wiggle", "arc"]
         types.remove(player.weapon.weapon_type)
         player.weapon.weapon_type = choice(types)

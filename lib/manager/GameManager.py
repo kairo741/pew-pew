@@ -113,9 +113,6 @@ class GameManager:
 
                 self.render_frame_time = normal_frame_time
 
-            # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
-            # self.screen.blit(self.trail, (0, 0))
-
             self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
             self.score.render(display=self.screen, position=Axis(0, 0))
             self.number_manager.render(self.screen, self.render_frame_time)
@@ -307,6 +304,7 @@ class GameManager:
             self.reset_game()
 
     def reset_game(self):
+        self.ultimate_manager.reset()
         self.enemy_manager.reset()
         self.bullet_manager.reset()
         self.player_manager.reset()
