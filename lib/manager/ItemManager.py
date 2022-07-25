@@ -3,7 +3,6 @@ from random import randint, uniform, choice
 from lib.object.Axis import Axis
 from lib.object.Item import Item, get_random_effect
 from lib.object.PlayerVampire import PlayerVampire
-from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils
 
 
@@ -86,8 +85,8 @@ class ItemManager:
                 self.number_manager.add_heal_number(player.x,
                                                     player.y, text)
         else:
-            player.health -= player.max_health*0.5
-            self.number_manager.add_take_damage_number(player.x, player.y, player.max_health*0.5)
+            player.health -= player.max_health * 0.5
+            self.number_manager.add_take_damage_number(player.x, player.y, player.max_health * 0.5)
 
     def raise_attack_speed(self, player):
         atk_speed = player.weapon.shoot_delay * uniform(0.93, 0.97)
