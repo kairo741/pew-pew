@@ -57,17 +57,19 @@ class BulletManager:
                 bullet.hit_callback(object, collision)
 
     def handle_bullet_collision(self, bullet, object, actions, collision):
+        bullet.hit_callback(object, collision)
+        self.try_execute_actions(bullet, actions)
 
         if type(bullet) is not BulletPierce and type(bullet) is not BulletBounce:
             self.try_remove_bullet(bullet)
 
+        
+    def try_execute_actions(self, bullet, actions):
         try:
             for action in actions:
                 action(bullet)
         except:
             print("error in bullet collision action")
-
-        bullet.hit_callback(object, collision)
 
     def try_remove_bullet(self, bullet):
         try:

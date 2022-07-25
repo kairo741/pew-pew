@@ -3,11 +3,11 @@ from copy import deepcopy
 from pygame import Surface
 
 from lib.object.Axis import Axis
-from lib.object.BulletHeal import BulletHeal
+from lib.object.Bullet import Bullet
 from lib.utils.Constants import Constants
 
 
-class BulletBounce(BulletHeal):
+class BulletBounce(Bullet):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", damage=10, tag=Constants.TAG_PLAYER,
                  source_reference=None):
         super().__init__(x, y, size, speed, sprite, damage, tag, source_reference)
