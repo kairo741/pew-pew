@@ -14,13 +14,15 @@ class Player(Ship):
         self.ult_cooldown_sec = 30
         self.next_ult = time.get_ticks()+1000
         self.last_ult = 0
+        self.is_invincible = False
 
 
     def player_passive(self, render_frame_time):
         pass
 
     def take_damage(self, value):
-        super().take_damage(value)
+        if self.is_invincible is not True:
+            super().take_damage(value)
         if not self.is_alive():
             self.disable()
 
@@ -117,7 +119,7 @@ class Player(Ship):
         lifebar_size = Axis(self.size.x, self.size.y / 10)
         health_size = lifebar_size.x * (self.health / self.max_health)
         draw.rect(screen, Constants.COLOR_RED, (self.x, self.size.y + self.y + lifebar_size.y * 2, lifebar_size.x, lifebar_size.y))
-        draw.rect(screen, Constants.COLOR_GREEN, (self.x, self.size.y + self.y + lifebar_size.y * 2, health_size, lifebar_size.y))
+        draw.rect(screen, Constants.COLOR_GREEN if not self.is_invincible else Constants.COLOR_YELLOW, (self.x, self.size.y + self.y + lifebar_size.y * 2, health_size, lifebar_size.y))
 
     def render_hitbox(self, screen):
         draw.rect(screen, (255, 40, 40), self.get_hitbox_rect(), border_radius=100)
@@ -140,7 +142,7 @@ class Player(Ship):
         middle.y -= hitbox_size.x/2
         return [middle.x, middle.y, hitbox_size.x, hitbox_size.y]
 
-    def render(self, screen):
+    def render(self, screen, render_frame_time):
         super().render(screen)
         self.render_lifebar(screen)
         self.render_ult_bar(screen)

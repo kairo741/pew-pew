@@ -23,7 +23,7 @@ class PlayerManager:
     def render(self, screen, render_frame_time):
         for player in self.players:
             player.player_passive(render_frame_time)
-            player.render(screen)
+            player.render(screen, render_frame_time)
 
     def is_alive(self):
         for player in self.players:

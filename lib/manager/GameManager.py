@@ -56,7 +56,7 @@ class GameManager:
         self.player_manager = PlayerManager(time_stop_ultimate = self.activate_time_stop)
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
-        self.ultimate_manager = UltimateManager()
+        self.ultimate_manager = UltimateManager(background=self.bg)
 
         self.fps = FPS()
         self.score = Score()
@@ -277,11 +277,9 @@ class GameManager:
     def activate_time_stop(self, activate):
         if activate:
             self.sfx_sound_channel.play(Constants.SFX_TIME_STOP)
-            self.bg.color = [code + 50 for code in self.bg.color]
             self.time_stop = True
 
         else:
-            self.bg.color = Constants.BACKGROUND_COLOR
             self.time_stop = False
 
     def update_controller_state(self):

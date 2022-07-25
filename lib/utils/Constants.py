@@ -13,6 +13,7 @@ class Constants:
     COLOR_GREEN = (100, 255, 100)
     COLOR_GREEN_HEAL = (91, 247, 164)
     COLOR_LIGHT_BLUE = (0, 255, 255)
+    COLOR_YELLOW = (250, 255, 97)
 
     # Game states
     RUNNING, PAUSE = 0, 1
