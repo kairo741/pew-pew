@@ -26,8 +26,8 @@ class GameManager:
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
-            x=int(self.get_res.current_w * 0.8),
-            y=int(self.get_res.current_h * 0.8))
+            x=int(self.get_res.current_w),
+            y=int(self.get_res.current_h * 0.925))
         self.screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
@@ -89,6 +89,9 @@ class GameManager:
             self.game_events()
 
             self.bg.render_background(self.screen, self.resolution)
+            
+            if not self.game_over:
+                self.player_manager.render(self.screen, self.render_frame_time)
 
             if self.state == Constants.RUNNING:
                 normal_frame_time = self.render_frame_time
@@ -107,9 +110,6 @@ class GameManager:
                     self.enemy_manager.spawn_enemy_random(self.resolution, len(self.player_manager.players))
 
                 self.render_frame_time = normal_frame_time
-
-            if not self.game_over:
-                self.player_manager.render(self.screen, self.render_frame_time)
 
             # self.trail.fill((255, 255, 255, 200), special_flags=pygame.BLEND_RGBA_MULT)
             # self.screen.blit(self.trail, (0, 0))
@@ -266,8 +266,7 @@ class GameManager:
                                                  lambda bullet: player.take_damage(bullet.damage),
                                                  lambda bullet: self.number_manager.add_take_damage_number(bullet.x,
                                                                                                            bullet.y,
-                                                                                                           bullet.damage),
-                                                 use_hitbox=True)
+                                                                                                           bullet.damage))
 
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:

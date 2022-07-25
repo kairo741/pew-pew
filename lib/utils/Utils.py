@@ -1,5 +1,5 @@
 from random import randint
-from pygame import transform, display
+from pygame import transform
 
 from lib.object.Axis import Axis
 
@@ -7,10 +7,9 @@ from lib.object.Axis import Axis
 class Utils:
     @staticmethod
     def scale_image(image, scale=1):
-        size = display.get_window_size()[1]*0.0012
         img_size = Axis(image.get_width(), image.get_height())
 
-        return transform.smoothscale(image, [(img_size.x * scale)*size, (img_size.y * scale)*size]).convert_alpha()
+        return transform.smoothscale(image, [(img_size.x * scale), (img_size.y * scale)]).convert_alpha()
 
     @staticmethod
     def random_int(start, end):

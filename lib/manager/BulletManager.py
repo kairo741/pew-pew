@@ -38,20 +38,17 @@ class BulletManager:
         elif bullet.y > screen_size.y:
             self.bullets.remove(bullet)
 
-    def has_collided(self, bullet, object, *actions, use_hitbox=False):
-        self.check_collision(bullet, object, actions, use_hitbox=use_hitbox)
+    def has_collided(self, bullet, object, *actions):
+        self.check_collision(bullet, object, actions)
 
-    def has_collided_any(self, object, *actions, use_hitbox=False):
+    def has_collided_any(self, object, *actions):
         for bullet in self.bullets:
-            self.check_collision(bullet, object, actions, use_hitbox=use_hitbox)
+            self.check_collision(bullet, object, actions)
 
 
-    def check_collision(self, bullet, object, actions, use_hitbox=False):
+    def check_collision(self, bullet, object, actions):
         if bullet.tag != object.tag:
-            if use_hitbox:
-                collision = bullet.collided_with(object, object.get_hitbox_rect())
-            else:
-                collision = bullet.collided_with(object)
+            collision = bullet.collided_with(object, object.get_hitbox_rect())
 
             if collision:
                 self.handle_bullet_collision(bullet, object, actions, collision)

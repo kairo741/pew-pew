@@ -130,7 +130,7 @@ class Player(Ship):
         draw.rect(screen, Constants.COLOR_GREEN, (self.x, self.size.y + self.y + lifebar_size.y * 2, health_size, lifebar_size.y))
 
     def render_hitbox(self, screen):
-        draw.rect(screen, (255, 255, 255), self.get_hitbox_rect(), border_radius=100)
+        draw.rect(screen, (255, 40, 40), self.get_hitbox_rect(), border_radius=100)
 
     def render_ult_bar(self, screen):
         bar_size = Axis(self.size.x, self.size.y / 10)
@@ -142,10 +142,18 @@ class Player(Ship):
 
         draw.rect(screen, Constants.COLOR_BLUE, (self.x, self.y + self.size.y + bar_size.y * 4, cooldown_size, bar_size.y))
 
+    
+    def get_hitbox_rect(self):
+        hitbox_size = Axis(self.size.x * 0.15, self.size.x * 0.15)
+        middle = self.get_middle()
+        middle.x -= hitbox_size.x/2
+        middle.y -= hitbox_size.x/2
+        return [middle.x, middle.y, hitbox_size.x, hitbox_size.y]
+
     def render(self, screen):
         super().render(screen)
         self.render_lifebar(screen)
-        self.render_hitbox(screen)
         self.render_ult_bar(screen)
+        self.render_hitbox(screen)
         
         

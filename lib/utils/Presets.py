@@ -28,7 +28,7 @@ class Presets:
     PLAYER_PIERCE_WEAPON = Weapon(
         shoot_delay=300,
         weapon_type="single",
-        bullet=BulletPierce(speed=Axis(0, -75), sprite=Utils.scale_image(Constants.SPRITE_BULLET_LIGHTBLUE_LONG, 0.2),
+        bullet=BulletPierce(speed=Axis(0, -60), sprite=Utils.scale_image(Constants.SPRITE_BULLET_LIGHTBLUE_LONG, 0.2),
                             damage=75)
     )
 

@@ -1,4 +1,4 @@
-from pygame import BLEND_MULT, Rect, Surface, transform
+from pygame import BLEND_MULT, Rect, Surface, transform, draw
 from .Axis import Axis
 from lib.utils.Constants import Constants
 
@@ -51,6 +51,8 @@ class GameObject:
         color_surf.fill(average_color)
         self.glow.blit(color_surf, (0, 0), special_flags=BLEND_MULT)
         
+    def get_hitbox_rect(self):
+        return [self.x, self.y, self.size.x, self.size.y]
 
     def get_middle(self):
         return Axis(self.x + self.size.x / 2, self.y + self.size.y / 2)
@@ -59,9 +61,11 @@ class GameObject:
         self.x -= self.size.x / 2
         self.y -= self.size.y / 2
 
-    def render(self, screen, glow=True):
+    def render(self, screen, glow=True, show_hitbox=False):
         if glow:
             glow_difference = Axis((self.size.x*self.glow_scale)-self.size.x, (self.size.y*self.glow_scale)-self.size.y)
             screen.blit(self.glow, (self.x-glow_difference.x/2, self.y-glow_difference.y/2))
+        if show_hitbox:
+            draw.rect(screen, (255, 255, 255), self.get_hitbox_rect(), 1)
 
         screen.blit(self.sprite, self.to_rect())
