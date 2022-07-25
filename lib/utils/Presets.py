@@ -59,7 +59,7 @@ class Presets:
 
     ENEMY_DEFAULT_WEAPON = Weapon(
         shoot_delay=350,
-        weapon_type="single",
+        weapon_type="random",
         bullet=Bullet(speed=Axis(0, 5), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
                       tag=Constants.TAG_ENEMY)
     )
