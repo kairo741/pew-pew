@@ -89,7 +89,7 @@ class GameManager:
             self.game_events()
 
             self.bg.render_background(self.screen, self.resolution)
-            
+
             if not self.game_over:
                 self.player_manager.render(self.screen, self.render_frame_time)
 
@@ -320,8 +320,8 @@ class GameManager:
 
     def fullscreen_mode(self):
         if self.is_fullscreen:
-            self.resolution = Axis(x=int(self.get_res.current_w * 0.8),
-                                   y=int(self.get_res.current_h * 0.8))
+            self.resolution = Axis(x=int(self.get_res.current_w),
+                                   y=int(self.get_res.current_h * 0.925))
             self.flags = self.base_flags
         else:
             self.resolution = Axis(x=int(self.get_res.current_w),

@@ -1,10 +1,10 @@
 from copy import deepcopy
-from random import uniform
+
 from pygame import Surface
+
 from lib.object.Axis import Axis
 from lib.object.BulletHeal import BulletHeal
 from lib.utils.Constants import Constants
-from .Bullet import Bullet
 
 
 class BulletBounce(BulletHeal):
@@ -18,7 +18,7 @@ class BulletBounce(BulletHeal):
         speed_x = abs(self.speed.x)
         speed_y = abs(self.speed.y)
         horizontal_speed = speed_y if speed_y > speed_x else speed_x
-        
+
         for hit in hits:
             if hit == "left":
                 self.speed.x = horizontal_speed

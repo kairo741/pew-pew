@@ -1,8 +1,6 @@
+from lib.object.BulletBounce import BulletBounce
 from lib.object.BulletHeal import BulletHeal
 from lib.object.BulletPierce import BulletPierce
-from lib.object.BulletBounce import BulletBounce
-from lib.object.Axis import Axis
-from random import uniform
 
 
 class BulletManager:
@@ -45,20 +43,18 @@ class BulletManager:
         for bullet in self.bullets:
             self.check_collision(bullet, object, actions)
 
-
     def check_collision(self, bullet, object, actions):
         if bullet.tag != object.tag:
             collision = bullet.collided_with(object, object.get_hitbox_rect())
 
             if collision:
                 self.handle_bullet_collision(bullet, object, actions, collision)
-        
+
         elif type(bullet) is BulletHeal:
             collision = bullet.collided_with(object)
             if collision and bullet.source_reference != object:
                 self.try_remove_bullet(bullet)
                 bullet.hit_callback(object, collision)
-
 
     def handle_bullet_collision(self, bullet, object, actions, collision):
 
@@ -72,8 +68,7 @@ class BulletManager:
             print("error in bullet collision action")
 
         bullet.hit_callback(object, collision)
-            
-    
+
     def try_remove_bullet(self, bullet):
         try:
             self.bullets.remove(bullet)
