@@ -21,9 +21,9 @@ class Presets:
     PLAYER_DEFAULT_SPEED = Axis(7, 5)
 
     PLAYER_BALANCE_WEAPON = Weapon(
-        shoot_delay=170,
+        shoot_delay=200,
         weapon_type="triple",
-        bullet=BulletBounce(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_BLUE, 0.2), damage=12)
+        bullet=BulletBounce(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RUBBER, 0.2), damage=12)
     )
 
     PLAYER_PIERCE_WEAPON = Weapon(
