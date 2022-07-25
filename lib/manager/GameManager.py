@@ -1,4 +1,5 @@
 import pygame
+from lib.manager.UltimateManager import UltimateManager
 
 from lib.object.Axis import Axis
 from lib.object.Background import Background
@@ -55,6 +56,7 @@ class GameManager:
         self.player_manager = PlayerManager()
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
+        self.ultimate_manager = UltimateManager()
 
         self.fps = FPS()
         self.score = Score()
@@ -168,7 +170,7 @@ class GameManager:
                     self.state = Constants.PAUSE
 
             if event.type == Constants.ULTIMATE_END:
-                self.activate_time_stop(False)
+                self.ultimate_manager.disable_ultimate()
 
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -196,8 +198,7 @@ class GameManager:
                     player.control_ship_joystick(control_joy, self.render_frame_time,
                                                  limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot_joystick(joy, self.bullet_manager)
-                    player.control_ultimate_joystick(joy, self.time_stop is False,
-                                                     action=lambda: self.activate_time_stop(True))
+                    player.control_ultimate_joystick(joy, action=lambda: self.ultimate_manager.do_ultimate(self.activate_time_stop(True), self.activate_time_stop(False)))
 
                 else:
                     keys = pygame.key.get_pressed()
@@ -205,7 +206,7 @@ class GameManager:
                     player.control_ship(keys, self.render_frame_time,
                                         limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)
-                    player.control_ultimate(keys, self.time_stop is False, action=lambda: self.activate_time_stop(True))
+                    player.control_ultimate(keys, action=lambda: self.ultimate_manager.do_ultimate(lambda: self.activate_time_stop(True), lambda: self.activate_time_stop(False)))
 
     def manage_game_over(self):
         if self.game_over:

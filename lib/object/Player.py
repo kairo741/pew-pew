@@ -1,7 +1,6 @@
 from copy import deepcopy
 from pygame import Surface, draw, time, mixer
 from lib.utils.Constants import Constants
-from lib.utils.Utils import Utils
 
 from .Axis import Axis
 from .Ship import Ship
@@ -66,13 +65,14 @@ class Player(Ship):
                 self.last_bullet = time.get_ticks()
 
 
-    def ult(self, *conditions, action):
+    def ult(self, action):
         if self.is_alive():
             if self.next_ult < time.get_ticks():
-                if all(conditions[0]):
+                ult_enabled = action()
+
+                if ult_enabled:
                     self.last_ult = time.get_ticks()
                     self.next_ult = self.last_ult + self.ult_cooldown_sec*1000
-                    action()
 
 
     def control_ship(self, keys, render_frame_time, limit):
@@ -95,9 +95,9 @@ class Player(Ship):
             self.shoot(bullet_manager)
                 
 
-    def control_ultimate(self, keys, *conditions, action):
+    def control_ultimate(self, keys, action):
         if keys[self.layout.ultimate]:
-            self.ult(conditions, action=action)
+            self.ult(action)
 
     
     def control_ship_joystick(self, joystick, render_frame_time, limit):
@@ -119,9 +119,9 @@ class Player(Ship):
         if joystick.get_button(self.layout.shoot):
             self.shoot(bullet_manager)
 
-    def control_ultimate_joystick(self, joystick, *conditions, action):
+    def control_ultimate_joystick(self, joystick, action):
         if joystick.get_button(self.layout.ultimate):
-            self.ult(conditions, action=action)
+            self.ult(action)
 
     def render_lifebar(self, screen):
         lifebar_size = Axis(self.size.x, self.size.y / 10)
