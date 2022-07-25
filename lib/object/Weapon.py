@@ -45,6 +45,12 @@ class Weapon:
                                        )
         new_bullet.set_size_with_sprite()
         new_bullet.center()
+
+        if new_bullet.speed.y < 0:
+            new_bullet.y -= new_bullet.size.y/3
+        elif new_bullet.speed.y < 0:
+            new_bullet.y += new_bullet.size.y/3
+            
         return new_bullet
 
     def make_bullets(self, spawn_position, source_size=Axis(0, 0)):
