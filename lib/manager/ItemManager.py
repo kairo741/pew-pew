@@ -96,7 +96,7 @@ class ItemManager:
         else:
             player.weapon.shoot_delay = 0
 
-        self.number_manager.add_buff_info(player.x, player.y, "+SPEED")
+        self.number_manager.add_buff_info(player.x, player.y, "+F. RATE")
 
     def raise_damage(self, player):
         damage = player.weapon.bullet.damage
