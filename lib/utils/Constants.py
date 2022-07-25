@@ -62,7 +62,7 @@ class Constants:
     SPRITE_POWER_UP_5 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-5.png")
     SPRITE_POWER_UP_6 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\heal_disk.png")
     SPRITE_POWER_UP_7 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-7.png")
-    SPRITE_POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\pwup-random-weapon-2.png")
+    SPRITE_POWER_UP_8 = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\random_disk.png")
 
 
     # Fonts
