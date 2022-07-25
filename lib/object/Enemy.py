@@ -24,18 +24,18 @@ class Enemy(Ship):
         self.next_shot = 0
 
     def copy(self):
-        copyobj = Enemy()
+        copy_obj = Enemy()
         for name, attr in self.__dict__.items():
             if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                copyobj.__dict__[name] = attr.copy()
+                copy_obj.__dict__[name] = attr.copy()
             else:
                 if type(attr) is Surface:
-                    copyobj.__dict__[name] = Surface.copy(attr)
+                    copy_obj.__dict__[name] = Surface.copy(attr)
                 else:
-                    copyobj.__dict__[name] = deepcopy(attr)
+                    copy_obj.__dict__[name] = deepcopy(attr)
 
-        copyobj.next_shot = copyobj.get_random_time()
-        return copyobj
+        copy_obj.next_shot = copy_obj.get_random_time()
+        return copy_obj
 
     def get_random_time(self):
         if self.weapon is not None:
@@ -53,9 +53,7 @@ class Enemy(Ship):
 
     def render(self, screen):
         super().render(screen)
-        lifebar_size = Axis(self.size.x, self.size.y / 10)
-        health_size = lifebar_size.x * (self.health / self.max_health)
-        draw.rect(screen, (255, 100, 100), (self.x, self.y - lifebar_size.y * 2, lifebar_size.x, lifebar_size.y),
-                  )
-        draw.rect(screen, (100, 255, 100), (self.x, self.y - lifebar_size.y * 2, health_size, lifebar_size.y,),
-                  )
+        life_bar_size = Axis(self.size.x, self.size.y / 10)
+        health_size = life_bar_size.x * (self.health / self.max_health)
+        draw.rect(screen, (255, 100, 100), (self.x, self.y - life_bar_size.y * 2, life_bar_size.x, life_bar_size.y), )
+        draw.rect(screen, (100, 255, 100), (self.x, self.y - life_bar_size.y * 2, health_size, life_bar_size.y,), )

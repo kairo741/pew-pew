@@ -5,6 +5,7 @@ from lib.object.BulletHeal import BulletHeal
 from lib.object.BulletPierce import BulletPierce
 from lib.object.BulletVamp import BulletVamp
 from lib.object.Enemy import Enemy
+from lib.object.EnemyBumper import EnemyBumper
 from lib.object.Player import Player
 from lib.object.PlayerHealer import PlayerHealer
 from lib.object.PlayerVampire import PlayerVampire
@@ -88,29 +89,35 @@ class Presets:
         health=50
     )
 
+    ENEMY_BUMPER = EnemyBumper(
+        sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_BUMPER.convert_alpha(), 0.4),
+        weapon=ENEMY_DEFAULT_WEAPON,
+        health=300
+    )
+
     PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON, PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON]
-    
+
     PLAYER_BALANCE = Player(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BALANCE, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH,
         weapon=PLAYER_WEAPONS[0]
     )
-    
+
     PLAYER_PIERCE = Player(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH,
         weapon=PLAYER_WEAPONS[1]
     )
-    
+
     PLAYER_SPEED = Player(
         speed=PLAYER_DEFAULT_SPEED.scale_to(1.2),
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_SPEED, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH*0.8,
         weapon=PLAYER_WEAPONS[2]
     )
-    
+
     PLAYER_FROGGERS = Player(
         speed=PLAYER_DEFAULT_SPEED.scale_to(0.8),
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_FROGGERS, 0.84).convert_alpha(),

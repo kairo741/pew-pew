@@ -45,21 +45,19 @@ class Constants:
     SPRITE_BULLET_PURPLE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_purple.png")
     SPRITE_BULLET_YELLOW = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_yellow.png")
 
-
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
 
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy.png")
     SPRITE_ENEMY_SHIP_BOMBER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_bomber.png")
     SPRITE_ENEMY_SHIP_RUNNER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_runner.png")
+    SPRITE_ENEMY_SHIP_BUMPER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_bumper.png")
 
     SPRITE_ENEMY_BULLET = image.load(ROOT_PATH + "\\assets\\images\\bullets\\enemy_bullet.png")
-    
-    
+
     SPRITE_POWER_UP_ATK = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\atk_disk.png")
     SPRITE_POWER_UP_SPEED = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\speed_disk.png")
     SPRITE_POWER_UP_HEAL = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\heal_disk.png")
     SPRITE_POWER_UP_RANDOM = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\random_disk.png")
-
 
     # Fonts
     FONT_NUMBER = ROOT_PATH + "\\assets\\fonts\\Montserrat-Regular.ttf"

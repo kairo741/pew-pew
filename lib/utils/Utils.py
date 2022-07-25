@@ -14,6 +14,6 @@ class Utils:
     @staticmethod
     def random_int(start, end):
         n = randint(start, end)
-        if (n == 0):
+        if n == 0:
             return 1
         return n

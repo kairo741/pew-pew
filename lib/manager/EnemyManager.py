@@ -3,6 +3,7 @@ from random import randint, uniform
 from pygame import time
 
 from lib.object.Axis import Axis
+from lib.object.EnemyBumper import EnemyBumper
 from lib.utils.Presets import Presets
 
 
@@ -29,6 +30,8 @@ class EnemyManager:
         elif randint(1, 3) == 1:
             new_enemy = Presets.ENEMY_RUNNER.copy()
             enemy_speed.y = randint(8, 12)
+        elif randint(1, 5) == 1:
+            new_enemy = Presets.ENEMY_BUMPER.copy()
         else:
             new_enemy = Presets.ENEMY_DEFAULT.copy()
 
@@ -45,11 +48,8 @@ class EnemyManager:
     def spawn_enemy_random(self, screen_size, player_quantity):
         if time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50), 2000 - (player_quantity * 150)):
             self.enemies.append(
-                self.create_enemy(
-                    x=uniform(0, screen_size.x), y=0, middle=screen_size.x / 2,
-                    player_quantity=player_quantity
-                )
-            )
+                self.create_enemy(x=uniform(0, screen_size.x), y=0, middle=screen_size.x / 2,
+                                  player_quantity=player_quantity))
             self.last_enemy = time.get_ticks()
 
     def manage_enemies(self, *actions):
@@ -65,17 +65,21 @@ class EnemyManager:
             e.y += e.speed.y * render_frame_time
 
     def check_enemy(self, enemy, screen_size):
-        if enemy.y < -(enemy.size.y * 2):
-            self.enemies.remove(enemy)
+        if type(enemy) is not EnemyBumper:
+            if enemy.y < -(enemy.size.y * 2):
+                self.enemies.remove(enemy)
 
-        elif enemy.x < -(enemy.size.x * 2):
-            self.enemies.remove(enemy)
+            elif enemy.x < -(enemy.size.x * 2):
+                self.enemies.remove(enemy)
 
-        elif enemy.x > screen_size.x:
-            self.enemies.remove(enemy)
+            elif enemy.x > screen_size.x:
+                self.enemies.remove(enemy)
 
-        elif enemy.y > screen_size.y:
-            self.enemies.remove(enemy)
+            elif enemy.y > screen_size.y:
+                self.enemies.remove(enemy)
+        else:
+            # TODO - refac
+            enemy.enemy_passive(screen_size)
 
     def check_death(self, enemy, *actions):
         if enemy.health < 1:
