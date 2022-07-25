@@ -1,3 +1,5 @@
+from random import randint
+
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
 
@@ -40,7 +42,8 @@ class PlayerManager:
     def create_players(self, quantity, resolution):
         self.players = []
         for i in range(0, quantity):
-            this_player = Presets.PLAYER_LIST[i].copy()
+            player_list_position = randint(0, len(Presets.PLAYER_LIST) - 1)
+            this_player = Presets.PLAYER_LIST[player_list_position].copy()
             this_player.x = resolution.x
             this_player.y = resolution.y / 2
             this_player.weapon.source_reference = this_player

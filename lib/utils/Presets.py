@@ -70,7 +70,7 @@ class Presets:
         bullet=Bullet(speed=Axis(0, 2), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
                       tag=Constants.TAG_ENEMY)
     )
-    
+
     ENEMY_DEFAULT = Enemy(
         sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP.convert_alpha(), 0.5),
         weapon=ENEMY_DEFAULT_WEAPON,
@@ -80,7 +80,7 @@ class Presets:
     ENEMY_BOMBER = Enemy(
         sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_BOMBER.convert_alpha(), 0.5),
         weapon=ENEMY_EXPLOSION_WEAPON,
-        health=110 
+        health=110
     )
 
     ENEMY_RUNNER = Enemy(
@@ -138,4 +138,4 @@ class Presets:
         weapon=PLAYER_WEAPONS[5]
     )
 
-    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_HEALER]
+    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_HEALER, PLAYER_VAMPIRE, PLAYER_FROGGERS]
