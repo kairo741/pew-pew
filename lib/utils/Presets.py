@@ -6,7 +6,7 @@ from lib.object.BulletPierce import BulletPierce
 from lib.object.BulletVamp import BulletVamp
 from lib.object.Enemy import Enemy
 from lib.object.EnemyBumper import EnemyBumper
-from lib.object.Player import Player
+from lib.object.PlayerFroggers import PlayerFroggers
 from lib.object.PlayerBalance import PlayerBalance
 from lib.object.PlayerHealer import PlayerHealer
 from lib.object.PlayerPierce import PlayerPierce
@@ -121,7 +121,7 @@ class Presets:
         weapon=PLAYER_WEAPONS[2]
     )
 
-    PLAYER_FROGGERS = Player(
+    PLAYER_FROGGERS = PlayerFroggers(
         speed=PLAYER_DEFAULT_SPEED.scale_to(0.8),
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_FROGGERS, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH*1.2,
