@@ -4,6 +4,7 @@ from .Player import Player
 
 from pygame import Surface, transform
 
+
 class PlayerSpeed(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout=""):
         ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=8)
@@ -13,32 +14,31 @@ class PlayerSpeed(Player):
         self.rotate = 0
         self.old_sprite = Surface((0, 0))
         self.old_speed = Axis(0, 0)
-
-
+        self.old_shoot_delay = None
 
     def enable_ultimate(self):
         self.old_sprite = self.sprite
         self.old_speed = self.speed
+        self.old_shoot_delay = self.weapon.shoot_delay
         self.speed = self.speed.scale_to(1.5)
         self.rotate = 1
         self.is_invincible = True
-        
+        self.weapon.shoot_delay = 99999
 
     def disable_ultimate(self):
         self.sprite = self.old_sprite
         self.rotate = 0
         self.is_invincible = False
+        self.weapon.shoot_delay = self.old_shoot_delay
 
     def render(self, screen, render_frame_time):
         if self.rotate != 0:
             self.sprite = transform.rotate(self.old_sprite, self.rotate)
             self.sprite = transform.scale(self.sprite, self.size.to_list())
 
-            self.rotate-=10
+            self.rotate -= 10
             print(self.rotate)
             if self.rotate < -359:
                 self.rotate = 1
-
-            
 
         return super().render(screen, render_frame_time)
