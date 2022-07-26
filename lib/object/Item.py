@@ -11,6 +11,7 @@ def get_random_effect(item_manager):
     atk_speed = {"effect": item_manager.raise_attack_speed, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_SPEED)}
     atk_damage = {"effect": item_manager.raise_damage, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_ATK)}
     change_weapon = {"effect": item_manager.change_weapon_type, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_RANDOM)}
+    recharge_ult = {"effect": item_manager.recharge_ultimage, "sprite": Utils.scale_image(Constants.SPRITE_POWER_UP_CHARGE_ULT)}
 
     # 1/5 = 20% de chance de spawndsa
     if randint(1, 5) == 1:
@@ -20,6 +21,9 @@ def get_random_effect(item_manager):
     # tem 26% de chance total de spawn
     elif randint(1, 3) == 1:
         return atk_damage
+
+    elif randint(1, 3) == 1:
+        return recharge_ult
 
     elif randint(1, 10) == 1:
         return change_weapon

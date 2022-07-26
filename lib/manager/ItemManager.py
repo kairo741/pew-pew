@@ -1,5 +1,5 @@
 from random import randint, uniform, choice
-
+from pygame import time
 from lib.object.Axis import Axis
 from lib.object.Item import Item, get_random_effect
 from lib.object.PlayerVampire import PlayerVampire
@@ -110,3 +110,6 @@ class ItemManager:
         types = ["single", "double", "triple", "spread", "wiggle", "arc"]
         types.remove(player.weapon.weapon_type)
         player.weapon.weapon_type = choice(types)
+
+    def recharge_ultimage(self, player):
+        player.next_ult = time.get_ticks()

@@ -60,6 +60,7 @@ class Constants:
     SPRITE_POWER_UP_SPEED = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\speed_disk.png")
     SPRITE_POWER_UP_HEAL = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\heal_disk.png")
     SPRITE_POWER_UP_RANDOM = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\random_disk.png")
+    SPRITE_POWER_UP_CHARGE_ULT = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\random_disk.png")
 
     # Fonts
     FONT_NUMBER = ROOT_PATH + "\\assets\\fonts\\Montserrat-Regular.ttf"
