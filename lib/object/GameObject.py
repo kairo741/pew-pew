@@ -39,9 +39,10 @@ class GameObject:
             rect = object.to_rect()
         return self.to_rect().clip(rect)
 
-    def set_size_with_sprite(self):
+    def set_size_with_sprite(self, set_glow=True):
         self.size = Axis(self.sprite.get_width(), self.sprite.get_height())
-        self.set_glow()
+        if set_glow:
+            self.set_glow()
 
     def set_glow(self):
         if self.glow_scale > 0:

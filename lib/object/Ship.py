@@ -1,7 +1,7 @@
 from .GameObject import GameObject
 from .Axis import Axis
 from lib.utils.Constants import Constants
-from pygame import Surface
+from pygame import Surface, transform
 
 
 class Ship(GameObject):
@@ -38,8 +38,12 @@ class Ship(GameObject):
     def revive(self):
         self.health = self.max_health
         self.last_bullet = 0
-        self.sprite = self.initial_sprite
-        self.set_size_with_sprite()
+        self.sprite = self.initial_sprite.copy()
+        self.set_size_with_sprite(set_glow=False)
+
+    def set_size_with_sprite(self, set_glow=True):
+        self.initial_sprite = self.sprite.copy()
+        return super().set_size_with_sprite(set_glow)
 
     def is_alive(self):
         return self.health > 0
