@@ -27,9 +27,10 @@ class PlayerSpeed(Player):
 
     def disable_ultimate(self):
         self.sprite = self.old_sprite
+        self.speed = self.old_speed
+        self.weapon.shoot_delay = self.old_shoot_delay
         self.rotate = 0
         self.is_invincible = False
-        self.weapon.shoot_delay = self.old_shoot_delay
 
     def render(self, screen, render_frame_time):
         if self.rotate != 0:
