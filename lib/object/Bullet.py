@@ -11,7 +11,7 @@ class Bullet(GameObject):
         self.damage = damage
         self.tag = tag
         self.source_reference = source_reference
-        self.glow_scale = 2.1
+        self.glow_scale = 0
 
     def hit_callback(self, object_hit, collision):
         if isinstance(self.source_reference, Player):

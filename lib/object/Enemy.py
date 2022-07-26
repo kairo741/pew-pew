@@ -19,11 +19,13 @@ class Enemy(Ship):
             weapon="",
             health=100,
             tag=Constants.TAG_ENEMY,
-            level=1
+            level=1,
+            is_boss=False
     ):
         super().__init__(x, y, size, speed, sprite, weapon, health, tag, level=level)
         self.next_shot = 0
         self.glow_scale = 2.5
+        self.is_boss = is_boss
         self.glow_color = [255, 30, 30]
 
     def get_random_time(self):
@@ -39,7 +41,6 @@ class Enemy(Ship):
                 channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
                 channel.play(Constants.SFX_LASER_2)
                 self.next_shot = self.get_random_time()
-
 
     def render(self, screen):
         super().render(screen)

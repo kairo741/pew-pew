@@ -26,7 +26,8 @@ class Presets:
     PLAYER_BALANCE_WEAPON = Weapon(
         shoot_delay=200,
         weapon_type="triple",
-        bullet=BulletBounce(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RUBBER, 0.2), damage=12)
+        bullet=BulletBounce(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RUBBER, 0.2),
+                            damage=12)
     )
 
     PLAYER_PIERCE_WEAPON = Weapon(
@@ -104,12 +105,14 @@ class Presets:
             shoot_delay=80,
             weapon_type="random",
             bullet=Bullet(speed=Axis(0, 5), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
-                        tag=Constants.TAG_ENEMY, damage=40)
+                          tag=Constants.TAG_ENEMY, damage=40)
         ),
+        is_boss=True,
         health=35000
     )
 
-    PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON, PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON]
+    PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON,
+                      PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON]
 
     PLAYER_BALANCE = PlayerBalance(
         speed=PLAYER_DEFAULT_SPEED,
@@ -128,27 +131,27 @@ class Presets:
     PLAYER_SPEED = PlayerSpeed(
         speed=PLAYER_DEFAULT_SPEED.scale_to(1.2),
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_SPEED, 0.84).convert_alpha(),
-        health=PLAYER_DEFAULT_HEALTH*0.8,
+        health=PLAYER_DEFAULT_HEALTH * 0.8,
         weapon=PLAYER_WEAPONS[2]
     )
 
     PLAYER_FROGGERS = PlayerFroggers(
         speed=PLAYER_DEFAULT_SPEED.scale_to(0.8),
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_FROGGERS, 0.84).convert_alpha(),
-        health=PLAYER_DEFAULT_HEALTH*1.2,
+        health=PLAYER_DEFAULT_HEALTH * 1.2,
         weapon=PLAYER_WEAPONS[3]
     )
 
     PLAYER_VAMPIRE = PlayerVampire(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_VAMPIRE, 0.84).convert_alpha(),
-        health=PLAYER_DEFAULT_HEALTH*0.7,
+        health=PLAYER_DEFAULT_HEALTH * 0.7,
         weapon=PLAYER_WEAPONS[4]
     )
     PLAYER_HEALER = PlayerHealer(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_MERCY, 0.84).convert_alpha(),
-        health=PLAYER_DEFAULT_HEALTH*0.7,
+        health=PLAYER_DEFAULT_HEALTH * 0.7,
         weapon=PLAYER_WEAPONS[5]
     )
 
