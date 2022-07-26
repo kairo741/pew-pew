@@ -64,8 +64,11 @@ class Ship(GameObject):
     def render_level(self, screen, align="bottom"):
         if self.is_alive():
             this_font = Constants.FONT_LEVEL_OBJECT
-            red = 155 * (self.level/100)
-            text = this_font.render(str(self.level), True, (red+100, 100, 100))
+            red = 255
+            green = 255 * (1-self.level/100)
+            blue = 255 / self.level
+
+            text = this_font.render(str(self.level), True, (red, green, blue))
             text_size = text.get_size()
             if align == "bottom":
                 screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y+self.size.y*1.6))
