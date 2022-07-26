@@ -72,8 +72,10 @@ class EnemyManager:
         else:
             if time.get_ticks() - self.last_enemy > randint(6500 - (player_quantity * 50),
                                                             13000 - (player_quantity * 150)):
-                boss = list(filter(lambda enemy: enemy.is_boss is True, self.enemies))[0]
-                self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER)
+                boss = list(filter(lambda enemy: enemy.is_boss is True, self.enemies))
+                if len(boss) > 0:
+                    boss = boss[0]
+                    self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER)
 
     def append_enemy(self, screen_size, player_quantity, x=None, y=None, preset=None):
         if x is not None and y is not None:
