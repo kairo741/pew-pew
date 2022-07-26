@@ -4,6 +4,7 @@ from pygame import time
 
 from lib.object.Axis import Axis
 from lib.object.EnemyBumper import EnemyBumper
+from lib.object.PlayerSpeed import PlayerSpeed
 from lib.utils.Presets import Presets
 
 
@@ -99,8 +100,23 @@ class EnemyManager:
                 except:
                     print("error in enemy collision action")
 
+    def has_collided_player(self, enemy, player, *actions, render_frame_time=1):
+        if type(player) == PlayerSpeed and player.ulted:
+            if enemy.collided_with(player):
+                enemy.take_damage((player.weapon.bullet.damage*5)*render_frame_time)
+
+        elif enemy.collided_with(player, player.get_hitbox_rect()):
+            if not player.is_invincible:
+                try:
+                    for action in actions:
+                        action(enemy)
+                except:
+                    print("error in enemy collision action")
+
+
     def has_collided(self, enemy, object, *actions):
         if enemy.collided_with(object, object.get_hitbox_rect()):
+        
             try:
                 for action in actions:
                     action(enemy)

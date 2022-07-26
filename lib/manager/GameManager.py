@@ -242,12 +242,13 @@ class GameManager:
             self.enemy_manager.check_death(enemy,
                                            lambda item: self.item_manager.random_item(enemy.x, enemy.y))
             for player in self.player_manager.players:
-                self.enemy_manager.has_collided(enemy, player,
-                                                lambda enemy: player.take_damage(player.max_health * 0.15),
+                self.enemy_manager.has_collided_player(enemy, player,
+                                                lambda enemy: player.take_damage(player.max_health * 0.33),
                                                 lambda enemy: self.number_manager.add_take_damage_number(enemy.x,
                                                                                                          enemy.y,
-                                                                                                         player.max_health * 0.15),
-                                                lambda enemy: self.enemy_manager.enemies.remove(enemy)
+                                                                                                         player.max_health * 0.33),
+                                                lambda enemy: self.enemy_manager.enemies.remove(enemy),
+                                                render_frame_time=self.render_frame_time
                                                 )
 
             enemy.shoot(self.bullet_manager) if self.time_stop is False else None

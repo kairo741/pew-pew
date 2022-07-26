@@ -11,26 +11,38 @@ class PlayerSpeed(Player):
 
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate)
 
+        self.ulted = False
+        
         self.rotate = 0
         self.old_sprite = Surface((0, 0))
         self.old_speed = Axis(0, 0)
         self.old_shoot_delay = None
 
-    def enable_ultimate(self):
+    def save_attributes(self):
         self.old_sprite = self.sprite
         self.old_speed = self.speed
         self.old_shoot_delay = self.weapon.shoot_delay
-        self.speed = self.speed.scale_to(1.5)
-        self.rotate = 1
-        self.is_invincible = True
-        self.weapon.shoot_delay = 99999
 
-    def disable_ultimate(self):
+    def restore_attributes(self):
         self.sprite = self.old_sprite
         self.speed = self.old_speed
         self.weapon.shoot_delay = self.old_shoot_delay
+
+    def enable_ultimate(self):
+        self.save_attributes()
+
+        self.weapon.shoot_delay = 10**10
+        self.speed = self.speed.scale_to(2)
+        self.rotate = 1
+        self.is_invincible = True
+        self.ulted = True
+
+    def disable_ultimate(self):
+        self.restore_attributes()
+
         self.rotate = 0
         self.is_invincible = False
+        self.ulted = False
 
     def render(self, screen, render_frame_time):
         if self.rotate != 0:
