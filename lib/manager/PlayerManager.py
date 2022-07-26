@@ -1,6 +1,7 @@
 from random import randint
 from lib.object.PlayerBalance import PlayerBalance
 from lib.object.PlayerHealer import PlayerHealer
+from lib.object.PlayerFroggers import PlayerFroggers
 from lib.object.Ultimate import Ultimate
 
 from lib.utils.Presets import Presets
@@ -8,8 +9,9 @@ from lib.utils.Utils import Utils
 
 
 class PlayerManager:
-    def __init__(self, time_stop_ultimate):
+    def __init__(self, time_stop_ultimate, bullet_manager):
         self.time_stop_ultimate = time_stop_ultimate
+        self.bullet_manager = bullet_manager
         self.players = []
 
     def add(self, player):
@@ -58,6 +60,9 @@ class PlayerManager:
 
             if type(this_player) == PlayerHealer:
                 this_player.team = self.players
+
+            if type(this_player) == PlayerFroggers:
+                this_player.bullet_manager = self.bullet_manager
 
             self.add(this_player)
 

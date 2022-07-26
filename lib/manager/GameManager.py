@@ -53,7 +53,7 @@ class GameManager:
         self.bg = Background()
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
-        self.player_manager = PlayerManager(time_stop_ultimate=self.activate_time_stop)
+        self.player_manager = PlayerManager(time_stop_ultimate=self.activate_time_stop, bullet_manager=self.bullet_manager)
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager(background=self.bg)
