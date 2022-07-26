@@ -76,6 +76,8 @@ class EnemyManager:
                 if len(boss) > 0:
                     boss = boss[0]
                     self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER)
+                else:
+                    self.boss_spawned = False
 
     def append_enemy(self, screen_size, player_quantity, x=None, y=None, preset=None):
         if x is not None and y is not None:
