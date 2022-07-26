@@ -23,7 +23,8 @@ class Enemy(Ship):
     ):
         super().__init__(x, y, size, speed, sprite, weapon, health, tag, level=level)
         self.next_shot = 0
-        self.glow_scale = 3
+        self.glow_scale = 2.5
+        self.glow_color = [255, 30, 30]
 
     def get_random_time(self):
         if self.weapon is not None:

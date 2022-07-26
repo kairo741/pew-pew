@@ -15,6 +15,7 @@ class GameObject:
         self.sprite = sprite
         self.glow = Constants.SPRITE_GLOW.convert_alpha()
         self.glow_scale = glow_scale
+        self.glow_color = None
 
     def copy(self):
         copy_obj = type(self)()
@@ -44,37 +45,40 @@ class GameObject:
         if set_glow:
             self.set_glow()
 
+    def calculate_glow_color(self):
+        average_color = [0, 0, 0, 255]
+        # loop em todos os pixels da sprite
+        for x in range(self.size.x):
+            for y in range(self.size.y):
+                this_color = self.sprite.get_at((x, y))
+
+                # se esse pixel nao for transparente
+                if this_color[3] != 0:
+                    brightness = (this_color[0] + this_color[1] + this_color[2]) / (255 * 3)
+
+                    if brightness < 0.8:
+                        this_color = this_color.correct_gamma(0.8)
+                        if brightness < 0.11:
+                            this_color = this_color.correct_gamma(0.1)
+
+                        # adicionar essa cor
+                        for i in range(0, 3):
+                            average_color[i] += this_color[i]
+
+        for i in range(0, 3):
+            average_color[i] /= (self.size.x * self.size.y)
+
+        self.glow_color = average_color
+
     def set_glow(self):
         if self.glow_scale > 0:
-            glow_size = self.size.scale_to(self.glow_scale).to_list()
+            if self.glow_color is None:
+                self.calculate_glow_color()
 
+            glow_size = self.size.scale_to(self.glow_scale).to_list()
             self.glow = transform.smoothscale(self.glow, glow_size)
             color_surf = Surface(glow_size)
-
-            average_color = [0, 0, 0, 255]
-            # loop em todos os pixels da sprite
-            for x in range(self.size.x):
-                for y in range(self.size.y):
-                    this_color = self.sprite.get_at((x, y))
-
-                    # se esse pixel nao for transparente
-                    if this_color[3] != 0:
-                        brightness = (this_color[0] + this_color[1] + this_color[2]) / (255 * 3)
-
-                        if brightness < 0.8:
-                            this_color = this_color.correct_gamma(0.8)
-                            if brightness < 0.11:
-                                this_color = this_color.correct_gamma(0.1)
-
-                            # adicionar essa cor
-                            for i in range(0, 3):
-                                average_color[i] += this_color[i]
-
-            for i in range(0, 3):
-                average_color[i] /= (self.size.x * self.size.y)
-
-            # desenhar cor mantendo transparencia
-            color_surf.fill(average_color)
+            color_surf.fill(self.glow_color)
             self.glow.blit(color_surf, (0, 0), special_flags=BLEND_MULT)
 
     def get_hitbox_rect(self):
