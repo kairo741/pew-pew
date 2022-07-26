@@ -98,6 +98,17 @@ class Presets:
         health=300
     )
 
+    BOSS_BUMPER = EnemyBumper(
+        sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_BUMPER.convert_alpha(), 0.8),
+        weapon=Weapon(
+            shoot_delay=80,
+            weapon_type="random",
+            bullet=Bullet(speed=Axis(0, 5), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
+                        tag=Constants.TAG_ENEMY, damage=40)
+        ),
+        health=35000
+    )
+
     PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON, PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON]
 
     PLAYER_BALANCE = PlayerBalance(

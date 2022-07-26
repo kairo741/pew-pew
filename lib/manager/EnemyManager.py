@@ -13,12 +13,16 @@ class EnemyManager:
         super().__init__()
         self.enemies = []
         self.last_enemy = 0
+        self.enemy_count = 0
+        self.boss_spawned = False
 
     def reset(self):
         self.enemies = []
         self.last_enemy = 0
+        self.enemy_count = 0
+        self.boss_spawned = False
 
-    def create_enemy(self, x, y, middle, player_quantity):
+    def create_enemy(self, x, y, middle, player_quantity, is_boss=False):
         if x < middle:
             speed_x = 2
         else:
@@ -26,15 +30,19 @@ class EnemyManager:
 
         enemy_speed = Axis(uniform(0, speed_x), randint(1, 2))
 
-        if randint(1, 4) == 1:
-            new_enemy = Presets.ENEMY_BOMBER.copy()
-        elif randint(1, 3) == 1:
-            new_enemy = Presets.ENEMY_RUNNER.copy()
-            enemy_speed.y = randint(8, 12)
-        elif randint(1, 5) == 1:
-            new_enemy = Presets.ENEMY_BUMPER.copy()
+        if is_boss is False:
+            if randint(1, 4) == 1:
+                new_enemy = Presets.ENEMY_BOMBER.copy()
+            elif randint(1, 3) == 1:
+                new_enemy = Presets.ENEMY_RUNNER.copy()
+                enemy_speed.y = randint(8, 12)
+            elif randint(1, 5) == 1:
+                new_enemy = Presets.ENEMY_BUMPER.copy()
+            else:
+                new_enemy = Presets.ENEMY_DEFAULT.copy()
         else:
-            new_enemy = Presets.ENEMY_DEFAULT.copy()
+            new_enemy = Presets.BOSS_BUMPER.copy()
+            enemy_speed = Axis(5, 0)
 
         if new_enemy.weapon != None:
             new_enemy.weapon.source_reference = new_enemy
@@ -49,12 +57,19 @@ class EnemyManager:
         new_enemy.y = y - new_enemy.size.y
         return new_enemy
 
+
     def spawn_enemy_random(self, screen_size, player_quantity):
-        if time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50), 2000 - (player_quantity * 150)):
-            self.enemies.append(
-                self.create_enemy(x=uniform(0, screen_size.x), y=0, middle=screen_size.x / 2,
-                                  player_quantity=player_quantity))
-            self.last_enemy = time.get_ticks()
+        if self.boss_spawned is False:
+            if ((self.enemy_count+1) % 31) == 0:
+                self.enemies.append(self.create_enemy(x=screen_size.x/2, y=200 ,middle=screen_size.x / 2,  player_quantity=player_quantity, is_boss=True))
+                self.boss_spawned = True
+            
+            elif time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50), 2000 - (player_quantity * 150)):
+                self.enemies.append(
+                    self.create_enemy(x=uniform(0, screen_size.x), y=0, middle=screen_size.x / 2,
+                                    player_quantity=player_quantity))
+                self.last_enemy = time.get_ticks()
+                self.enemy_count+=1
 
     def manage_enemies(self, *actions):
         for enemy in self.enemies:
