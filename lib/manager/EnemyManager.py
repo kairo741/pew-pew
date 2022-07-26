@@ -46,11 +46,11 @@ class EnemyManager:
         else:
             new_enemy = enemy_preset.copy()
 
-        if new_enemy.weapon != None:
+        if new_enemy.weapon is not None:
             new_enemy.weapon.source_reference = new_enemy
 
         new_enemy.speed = enemy_speed
-        new_enemy.health *= (player_quantity - 0.5)
+        new_enemy.health += new_enemy.health * (player_quantity - 0.5)
         new_enemy.max_health = new_enemy.health
 
         new_enemy.set_size_with_sprite()
