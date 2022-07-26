@@ -36,6 +36,9 @@ class EnemyManager:
         else:
             new_enemy = Presets.ENEMY_DEFAULT.copy()
 
+        if new_enemy.weapon != None:
+            new_enemy.weapon.source_reference = new_enemy
+
         new_enemy.speed = enemy_speed
         new_enemy.health += (player_quantity * 20)
         new_enemy.max_health += (player_quantity * 20)

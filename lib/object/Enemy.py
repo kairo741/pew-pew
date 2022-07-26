@@ -19,8 +19,9 @@ class Enemy(Ship):
             weapon="",
             health=100,
             tag=Constants.TAG_ENEMY,
+            level=1
     ):
-        super().__init__(x, y, size, speed, sprite, weapon, health, tag)
+        super().__init__(x, y, size, speed, sprite, weapon, health, tag, level=level)
         self.next_shot = 0
         self.glow_scale = 3
 
@@ -38,9 +39,8 @@ class Enemy(Ship):
                 channel.play(Constants.SFX_LASER_2)
                 self.next_shot = self.get_random_time()
 
+
     def render(self, screen):
         super().render(screen)
-        life_bar_size = Axis(self.size.x, self.size.y / 10)
-        health_size = life_bar_size.x * (self.health / self.max_health)
-        draw.rect(screen, (255, 100, 100), (self.x, self.y - life_bar_size.y * 2, life_bar_size.x, life_bar_size.y), )
-        draw.rect(screen, (100, 255, 100), (self.x, self.y - life_bar_size.y * 2, health_size, life_bar_size.y,), )
+        self.render_level(screen, align="top")
+        self.render_lifebar(screen, align="top")

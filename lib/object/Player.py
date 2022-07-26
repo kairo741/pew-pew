@@ -1,4 +1,4 @@
-from pygame import draw, time, mixer
+from pygame import draw, time, mixer, font
 
 from lib.object.Ultimate import Ultimate
 from lib.utils.Constants import Constants
@@ -8,14 +8,17 @@ from .Ship import Ship
 
 class Player(Ship):
     def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout="",
-                 ultimate=Ultimate()):
-        super().__init__(x, y, size, speed, sprite, weapon, health)
+                 ultimate=Ultimate(), level=1):
+        super().__init__(x, y, size, speed, sprite, weapon, health, level=level)
         self.ultimate = ultimate
         self.layout = layout
         self.ult_cooldown_sec = 30
         self.next_ult = time.get_ticks() + 1000
         self.last_ult = 0
         self.is_invincible = False
+
+        
+
 
     def player_passive(self, render_frame_time):
         pass
@@ -109,14 +112,6 @@ class Player(Ship):
         if joystick.get_button(self.layout.ultimate):
             self.ult(action)
 
-    def render_lifebar(self, screen):
-        lifebar_size = Axis(self.size.x, self.size.y / 10)
-        health_size = lifebar_size.x * (self.health / self.max_health)
-        draw.rect(screen, Constants.COLOR_RED,
-                  (self.x, self.size.y + self.y + lifebar_size.y * 2, lifebar_size.x, lifebar_size.y))
-        draw.rect(screen, Constants.COLOR_GREEN if not self.is_invincible else Constants.COLOR_YELLOW,
-                  (self.x, self.size.y + self.y + lifebar_size.y * 2, health_size, lifebar_size.y))
-
     def render_hitbox(self, screen):
         draw.rect(screen, (255, 40, 40), self.get_hitbox_rect(), border_radius=100)
 
@@ -140,6 +135,7 @@ class Player(Ship):
 
     def render(self, screen, render_frame_time):
         super().render(screen)
-        self.render_lifebar(screen)
+        self.render_level(screen)
+        self.render_lifebar(screen, color=Constants.COLOR_GREEN if not self.is_invincible else Constants.COLOR_YELLOW)
         self.render_ult_bar(screen)
         self.render_hitbox(screen)

@@ -62,9 +62,12 @@ class Constants:
     SPRITE_POWER_UP_RANDOM = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\random_disk.png")
     SPRITE_POWER_UP_CHARGE_ULT = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\temp_pwup_sprite.png")
 
+    font.init()
     # Fonts
     FONT_NUMBER = ROOT_PATH + "\\assets\\fonts\\Montserrat-Regular.ttf"
     FONT_RETRO_GAMING = ROOT_PATH + "\\assets\\fonts\\Retro-Gaming.ttf"
+
+    FONT_LEVEL_OBJECT = font.Font(FONT_RETRO_GAMING, 16)
 
     # Audio
     mixer.init()

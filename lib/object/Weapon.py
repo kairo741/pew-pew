@@ -30,7 +30,7 @@ class Weapon:
         shot_damage = 0
 
         for bullet in self.make_bullets(Axis(0, 0)):
-            shot_damage += bullet.damage
+            shot_damage += bullet.damage*self.source_reference.level
 
         shot_damage *= 1000 / self.shoot_delay
 
@@ -43,7 +43,7 @@ class Weapon:
 
         new_bullet = type(self.bullet)(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite.convert_alpha()),
                                        tag=self.bullet.tag,
-                                       damage=self.bullet.damage,
+                                       damage=self.bullet.damage*self.source_reference.level,
                                        source_reference=self.source_reference
                                        )
         new_bullet.set_size_with_sprite()
