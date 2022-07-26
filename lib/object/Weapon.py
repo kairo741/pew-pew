@@ -43,7 +43,7 @@ class Weapon:
 
         new_bullet = type(self.bullet)(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite.convert_alpha()),
                                        tag=self.bullet.tag,
-                                       damage=self.bullet.damage*self.source_reference.level,
+                                       damage=self.bullet.damage+(self.bullet.damage / (25 / self.source_reference.level)),
                                        source_reference=self.source_reference
                                        )
         new_bullet.set_size_with_sprite()

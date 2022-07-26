@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from pygame import Surface
+from lib.object.Player import Player
 from lib.utils.Constants import Constants
 from .GameObject import GameObject
 from .Axis import Axis
@@ -16,4 +17,5 @@ class Bullet(GameObject):
         
 
     def hit_callback(self, object_hit, collision):
-        pass
+        if isinstance(self.source_reference, Player):
+            self.source_reference.damage_dealt+=self.damage

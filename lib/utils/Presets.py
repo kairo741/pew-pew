@@ -64,14 +64,14 @@ class Presets:
         shoot_delay=350,
         weapon_type="random",
         bullet=Bullet(speed=Axis(0, 5), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
-                      tag=Constants.TAG_ENEMY)
+                      tag=Constants.TAG_ENEMY, damage=20)
     )
 
     ENEMY_EXPLOSION_WEAPON = Weapon(
         shoot_delay=900,
         weapon_type="explosion",
         bullet=Bullet(speed=Axis(0, 2), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
-                      tag=Constants.TAG_ENEMY)
+                      tag=Constants.TAG_ENEMY, damage=20)
     )
 
     ENEMY_DEFAULT = Enemy(

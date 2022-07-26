@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from pygame import Surface
+from lib.object.Player import Player
 
 from lib.utils.Constants import Constants
 from .Bullet import Bullet
@@ -13,6 +14,9 @@ class BulletHeal(Bullet):
         super().__init__(x, y, size, speed, sprite, damage, tag, source_reference)
 
     def hit_callback(self, object_hit, collision):
+        if not isinstance(object_hit, Player):
+            super().hit_callback(object_hit, collision)
+            
         if object_hit.tag == Constants.TAG_PLAYER:
             heal_amount = self.source_reference.health * 0.1
 

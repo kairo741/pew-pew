@@ -13,6 +13,7 @@ class BulletBounce(Bullet):
         super().__init__(x, y, size, speed, sprite, damage, tag, source_reference)
 
     def hit_callback(self, object_hit, collision):
+        super().hit_callback(object_hit, collision)
         hits = [edge for edge in ['left', 'right'] if getattr(collision, edge) == getattr(self.to_rect(), edge)]
         self.speed = Axis(x=self.speed.x, y=-self.speed.y)
         speed_x = abs(self.speed.x)

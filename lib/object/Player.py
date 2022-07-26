@@ -17,8 +17,15 @@ class Player(Ship):
         self.last_ult = 0
         self.is_invincible = False
 
-        
+        self.damage_dealt = 0
 
+        
+    def check_level_up(self):
+        damage_required = self.damage_dealt / (1000*self.level)
+        if damage_required > self.level:
+            self.set_level(self.level+1)
+
+        print(self.health, self.weapon.bullet.damage)
 
     def player_passive(self, render_frame_time):
         pass
@@ -134,6 +141,7 @@ class Player(Ship):
         return [middle.x, middle.y, hitbox_size.x, hitbox_size.y]
 
     def render(self, screen, render_frame_time):
+        self.check_level_up()
         super().render(screen)
         self.render_level(screen)
         self.render_lifebar(screen, color=Constants.COLOR_GREEN if not self.is_invincible else Constants.COLOR_YELLOW)

@@ -20,19 +20,20 @@ class Ship(GameObject):
         super().__init__(x, y, size, speed, sprite)
 
         self.weapon = weapon
-        self.health = health*level
-        self.max_health = self.health
+        self.health = health
+        self.max_health = health
         self.last_bullet = 0
         self.initial_position = Axis(x, y)
         self.initial_sprite = sprite
         self.tag = tag
         self.level = level
+        self.set_level(self.level)
 
     def set_level(self, level):
         self.level = level
-        self.health = self.max_health*level
+        self.health = self.max_health+(self.max_health / (10 / level))
         self.max_health = self.health
-        if self.weapon != None:
+        if self.weapon is not None and self.weapon is not "":
             self.weapon.level = level
 
     def reset(self):
@@ -61,15 +62,16 @@ class Ship(GameObject):
         self.health -= value
 
     def render_level(self, screen, align="bottom"):
-        this_font = Constants.FONT_LEVEL_OBJECT
-        red = 155 * (self.level/100)
-        text = this_font.render(str(self.level), True, (red+100, 100, 100))
-        text_size = text.get_size()
-        if align == "bottom":
-            screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y+self.size.y*1.6))
+        if self.is_alive():
+            this_font = Constants.FONT_LEVEL_OBJECT
+            red = 155 * (self.level/100)
+            text = this_font.render(str(self.level), True, (red+100, 100, 100))
+            text_size = text.get_size()
+            if align == "bottom":
+                screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y+self.size.y*1.6))
 
-        elif align == "top":
-            screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y-self.size.y*0.6))
+            elif align == "top":
+                screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y-self.size.y*0.6))
 
     
     def render_lifebar(self, screen, align="bottom", color=Constants.COLOR_GREEN):
