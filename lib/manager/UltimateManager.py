@@ -1,11 +1,12 @@
 from pygame import time
+from lib.object.Background import Background
 
 from lib.object.Ultimate import Ultimate
 from lib.utils.Constants import Constants
 
 
 class UltimateManager:
-    def __init__(self, background):
+    def __init__(self, background: Background):
         self.background = background
 
         self.ultimate_enabled = False
@@ -18,7 +19,7 @@ class UltimateManager:
 
             self.disable_ultimate_function = ultimate.disable_function
             self.ultimate_enabled = True
-            self.background.color = [code + 50 for code in self.background.color]
+            self.background.change_bg_color(ultimate.color)
 
             time.set_timer(Constants.ULTIMATE_END, ultimate.duration * 1000)
 
@@ -29,7 +30,7 @@ class UltimateManager:
     def disable_ultimate(self):
         self.disable_ultimate_function()
         self.ultimate_enabled = False
-        self.background.color = Constants.BACKGROUND_COLOR
+        self.background.reset_bg_color()
 
     def reset(self):
         self.disable_ultimate()

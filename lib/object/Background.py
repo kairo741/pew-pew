@@ -7,9 +7,9 @@ from pygame import time, draw
 
 
 class Background(GameObject):
-    def __init__(self, x=0, y=0, size=Axis.zero(), color=Constants.BACKGROUND_COLOR):
+    def __init__(self, x=0, y=0, size=Axis.zero()):
         super().__init__(x, y, size)
-        self.color = color
+        self.color = Constants.BACKGROUND_COLOR
         self.star_sprite = Utils.scale_image(Constants.SPRITE_STAR.convert_alpha(), 0.1)
         self.star_sprite.set_alpha(90)
 
@@ -41,6 +41,14 @@ class Background(GameObject):
                     self.stars.remove(star)
                 except:
                     print("error removing star")
+
+
+    def change_bg_color(self, color):
+        self.color = color
+
+    def reset_bg_color(self):
+        self.color = Constants.BACKGROUND_COLOR
+
     
     def render_background(self, screen, resolution):
         self.size = resolution

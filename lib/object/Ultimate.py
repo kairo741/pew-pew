@@ -5,10 +5,11 @@ from lib.utils.Utils import Utils
 
 
 class Ultimate:
-    def __init__(self, enable_function=lambda parent: None, disable_function=lambda parent: None, duration=5):
+    def __init__(self, enable_function=lambda parent: None, disable_function=lambda parent: None, duration=5, color=[89, 81, 96]):
         self.enable_function = enable_function
         self.disable_function = disable_function
         self.duration = duration
+        self.color = color
 
     def copy(self, parent):
         copy_obj = type(self)()

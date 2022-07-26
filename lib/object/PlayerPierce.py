@@ -5,7 +5,7 @@ from .Player import Player
 
 class PlayerPierce(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", level=1):
-        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate)
+        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, color=[43, 71, 79])
 
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level=level)
 

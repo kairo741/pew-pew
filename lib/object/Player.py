@@ -25,7 +25,6 @@ class Player(Ship):
         if damage_required > self.level:
             self.set_level(self.level+1)
 
-        print(self.health, self.weapon.bullet.damage)
 
     def player_passive(self, render_frame_time):
         pass
