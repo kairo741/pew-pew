@@ -21,9 +21,10 @@ class Player(Ship):
 
         
     def check_level_up(self):
-        damage_required = self.damage_dealt / (1000*self.level)
+        damage_required = self.damage_dealt / (500*self.level)
         if damage_required > self.level:
-            self.set_level(self.level+1)
+            if self.level < 100:
+                self.set_level(self.level+1)
 
 
     def player_passive(self, render_frame_time):

@@ -22,6 +22,7 @@ class Ship(GameObject):
         self.weapon = weapon
         self.health = health
         self.max_health = health
+        self.base_health = health
         self.last_bullet = 0
         self.initial_position = Axis(x, y)
         self.initial_sprite = sprite
@@ -31,7 +32,7 @@ class Ship(GameObject):
 
     def set_level(self, level):
         self.level = level
-        self.health = self.max_health+(self.max_health / (10 / level))
+        self.health = self.base_health*level
         self.max_health = self.health
         if self.weapon is not None and self.weapon is not "":
             self.weapon.level = level
