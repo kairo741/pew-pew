@@ -108,7 +108,7 @@ class Presets:
                           tag=Constants.TAG_ENEMY, damage=40)
         ),
         is_boss=True,
-        health=35000
+        health=7777
     )
 
     PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON,
