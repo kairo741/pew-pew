@@ -18,13 +18,13 @@ class Weapon:
         self.counter = 0
 
     def copy(self):
-        copyobj = Weapon()
+        copy_obj = Weapon()
         for name, attr in self.__dict__.items():
             if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                copyobj.__dict__[name] = attr.copy()
+                copy_obj.__dict__[name] = attr.copy()
             else:
-                copyobj.__dict__[name] = deepcopy(attr)
-        return copyobj
+                copy_obj.__dict__[name] = deepcopy(attr)
+        return copy_obj
 
     def calculate_dps(self):
         shot_damage = 0

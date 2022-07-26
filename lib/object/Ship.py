@@ -27,16 +27,19 @@ class Ship(GameObject):
         self.tag = tag
 
     def reset(self):
-        self.health = self.max_health
-        self.last_bullet = 0
         self.x = self.initial_position.x
         self.y = self.initial_position.y
-        self.sprite = self.initial_sprite
-        self.set_size_with_sprite()
+        self.revive()
 
     def disable(self):
         self.sprite = Surface((0, 0))
         self.size = Axis(0, 0)
+
+    def revive(self):
+        self.health = self.max_health
+        self.last_bullet = 0
+        self.sprite = self.initial_sprite
+        self.set_size_with_sprite()
 
     def is_alive(self):
         return self.health > 0

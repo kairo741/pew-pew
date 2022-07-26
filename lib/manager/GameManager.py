@@ -53,7 +53,7 @@ class GameManager:
         self.bg = Background()
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
-        self.player_manager = PlayerManager(time_stop_ultimate = self.activate_time_stop)
+        self.player_manager = PlayerManager(time_stop_ultimate=self.activate_time_stop)
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager(background=self.bg)
@@ -195,7 +195,8 @@ class GameManager:
                     player.control_ship_joystick(control_joy, self.render_frame_time,
                                                  limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
                     player.control_shoot_joystick(joy, self.bullet_manager)
-                    player.control_ultimate_joystick(joy, action=lambda: self.ultimate_manager.do_ultimate(player.ultimate))
+                    player.control_ultimate_joystick(joy,
+                                                     action=lambda: self.ultimate_manager.do_ultimate(player.ultimate))
 
                 else:
                     keys = pygame.key.get_pressed()

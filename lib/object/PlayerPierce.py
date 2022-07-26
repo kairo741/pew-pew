@@ -12,7 +12,6 @@ class PlayerPierce(Player):
         self.old_shoot_delay = 0
         self.old_damage = 0
 
-
     def enable_ultimate(self):
         self.old_shoot_delay = self.weapon.shoot_delay
         self.old_damage = self.weapon.bullet.damage

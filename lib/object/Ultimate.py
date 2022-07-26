@@ -10,19 +10,18 @@ class Ultimate:
         self.disable_function = disable_function
         self.duration = duration
 
-    
     def copy(self, parent):
-        copyobj = type(self)()
+        copy_obj = type(self)()
         for name, attr in self.__dict__.items():
             if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
-                copyobj.__dict__[name] = attr.copy()
+                copy_obj.__dict__[name] = attr.copy()
             else:
                 if type(attr) is Surface:
-                    copyobj.__dict__[name] = Surface.copy(attr)
+                    copy_obj.__dict__[name] = Surface.copy(attr)
 
                 elif callable(attr):
-                    copyobj.__dict__[name] = Utils.copy_function(attr, parent_class=parent)
-                    
+                    copy_obj.__dict__[name] = Utils.copy_function(attr, parent_class=parent)
+
                 else:
-                    copyobj.__dict__[name] = deepcopy(attr)
-        return copyobj
+                    copy_obj.__dict__[name] = deepcopy(attr)
+        return copy_obj

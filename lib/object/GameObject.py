@@ -17,19 +17,19 @@ class GameObject:
         self.glow_scale = glow_scale
 
     def copy(self):
-        copyobj = type(self)()
+        copy_obj = type(self)()
         for name, attr in self.__dict__.items():
             if hasattr(attr, 'copy') and callable(getattr(attr, 'copy')):
                 if type(attr) is Ultimate:
-                    copyobj.__dict__[name] = attr.copy(parent=copyobj)
-                else:    
-                    copyobj.__dict__[name] = attr.copy()
+                    copy_obj.__dict__[name] = attr.copy(parent=copy_obj)
+                else:
+                    copy_obj.__dict__[name] = attr.copy()
             else:
                 if type(attr) is Surface:
-                    copyobj.__dict__[name] = Surface.copy(attr)
+                    copy_obj.__dict__[name] = Surface.copy(attr)
                 else:
-                    copyobj.__dict__[name] = deepcopy(attr)
-        return copyobj
+                    copy_obj.__dict__[name] = deepcopy(attr)
+        return copy_obj
 
     def to_rect(self):
         return Rect(self.x, self.y, self.size.x, self.size.y)
@@ -42,7 +42,6 @@ class GameObject:
     def set_size_with_sprite(self):
         self.size = Axis(self.sprite.get_width(), self.sprite.get_height())
         self.set_glow()
-        
 
     def set_glow(self):
         if self.glow_scale > 0:
@@ -59,25 +58,24 @@ class GameObject:
 
                     # se esse pixel nao for transparente
                     if this_color[3] != 0:
-                        brightness = (this_color[0]+this_color[1]+this_color[2])/(255*3)
-                        
+                        brightness = (this_color[0] + this_color[1] + this_color[2]) / (255 * 3)
+
                         if brightness < 0.8:
                             this_color = this_color.correct_gamma(0.8)
                             if brightness < 0.11:
                                 this_color = this_color.correct_gamma(0.1)
-                            
+
                             # adicionar essa cor
                             for i in range(0, 3):
                                 average_color[i] += this_color[i]
 
             for i in range(0, 3):
-                average_color[i] /= (self.size.x*self.size.y)
+                average_color[i] /= (self.size.x * self.size.y)
 
             # desenhar cor mantendo transparencia
             color_surf.fill(average_color)
             self.glow.blit(color_surf, (0, 0), special_flags=BLEND_MULT)
-            
-        
+
     def get_hitbox_rect(self):
         return [self.x, self.y, self.size.x, self.size.y]
 
@@ -90,8 +88,9 @@ class GameObject:
 
     def render(self, screen, show_hitbox=False):
         if self.glow_scale > 0:
-            glow_difference = Axis((self.size.x*self.glow_scale)-self.size.x, (self.size.y*self.glow_scale)-self.size.y)
-            screen.blit(self.glow, (self.x-glow_difference.x/2, self.y-glow_difference.y/2))
+            glow_difference = Axis((self.size.x * self.glow_scale) - self.size.x,
+                                   (self.size.y * self.glow_scale) - self.size.y)
+            screen.blit(self.glow, (self.x - glow_difference.x / 2, self.y - glow_difference.y / 2))
 
         if show_hitbox:
             draw.rect(screen, (255, 255, 255), self.get_hitbox_rect(), 1)
