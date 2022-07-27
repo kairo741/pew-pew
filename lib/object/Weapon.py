@@ -5,10 +5,11 @@ from pygame import Surface
 
 from lib.object.Axis import Axis
 from lib.object.Bullet import Bullet
+from lib.object.Ship import Ship
 
 
 class Weapon:
-    def __init__(self, shoot_delay=0, weapon_type="single", bullet=Bullet(), source_reference=None):
+    def __init__(self, shoot_delay=0, weapon_type="single", bullet=Bullet(), source_reference=Ship()):
         self.shoot_delay = shoot_delay
         self.weapon_type = weapon_type
         self.bullet = bullet
@@ -36,6 +37,9 @@ class Weapon:
 
         return round(shot_damage)
 
+    def get_bonus_level_damage(self):
+        return self.bullet.damage*self.source_reference.get_damage_multiplier()
+
     def create_bullet(self, x, y, override_speed=None):
         speed = self.bullet.speed
         if override_speed:
@@ -43,7 +47,7 @@ class Weapon:
 
         new_bullet = type(self.bullet)(x=x, y=y, speed=speed, sprite=Surface.copy(self.bullet.sprite.convert_alpha()),
                                        tag=self.bullet.tag,
-                                       damage=self.bullet.damage*self.source_reference.level,
+                                       damage=self.bullet.damage+self.get_bonus_level_damage(),
                                        source_reference=self.source_reference
                                        )
         new_bullet.set_size_with_sprite()

@@ -20,7 +20,7 @@ from lib.utils.Utils import Utils
 
 class Presets:
     # Player attributes
-    PLAYER_DEFAULT_HEALTH = 100
+    PLAYER_DEFAULT_HEALTH = 75
 
     PLAYER_DEFAULT_SPEED = Axis(7, 5)
 

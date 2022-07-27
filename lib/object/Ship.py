@@ -30,12 +30,17 @@ class Ship(GameObject):
         self.level = level
         self.set_level(self.level)
 
+    def get_health_multiplier(self):
+        return self.level**2/50
+
+    def get_damage_multiplier(self):
+        return self.level**2/50
+
     def set_level(self, level):
         if level > 100:
             level = 100
-            
         self.level = level
-        self.health = self.base_health*level
+        self.health = self.base_health+(self.base_health*self.get_health_multiplier())
         self.max_health = self.health
         if self.weapon is not None and self.weapon is not "":
             self.weapon.level = level
