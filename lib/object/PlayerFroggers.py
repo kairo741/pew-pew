@@ -23,7 +23,7 @@ class PlayerFroggers(Player):
         for bullet in self.bullet_manager.bullets:
             bullet.tag = Constants.TAG_PLAYER
             bullet.sprite = Utils.scale_image(Constants.SPRITE_BULLET_FROGGERS_ULT, 0.4)
-            bullet.damage = self.weapon.bullet.damage*30
+            bullet.damage = (self.weapon.bullet.damage*self.level)*30
             
             bullet.speed = Axis(bullet.speed.x, -1)
             bullet.source_reference = self
