@@ -1,11 +1,9 @@
 import pygame
 from lib.manager.UltimateManager import UltimateManager
-
 from lib.object.Axis import Axis
 from lib.object.Background import Background
 from lib.object.CustomJoy import CustomJoy
-from lib.object.Fps import FPS
-from lib.object.Score import Score
+from lib.object.Text import Text
 from lib.utils.Constants import Constants
 from lib.utils.LayoutPresets import LayoutPresets
 
@@ -58,8 +56,8 @@ class GameManager:
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager(background=self.bg)
 
-        self.fps = FPS()
-        self.score = Score()
+        self.fps = Text(x=self.resolution.x)
+        self.score = Text(x=0)
 
         self.player_manager.create_players(self.player_count, self.resolution)
 
@@ -85,7 +83,6 @@ class GameManager:
         self.render_frame_time = self.clock.tick() / 10
 
     def start(self):
-
         while True:
             self.tick_clock()
             self.game_events()
@@ -113,8 +110,11 @@ class GameManager:
 
                 self.render_frame_time = normal_frame_time
 
-            self.fps.render(display=self.screen, fps=self.clock.get_fps(), position=Axis(self.resolution.x, 0))
-            self.score.render(display=self.screen, position=Axis(0, 0))
+
+            self.fps.set_text(round(self.clock.get_fps()))
+            self.fps.render(self.screen, align="top-right")
+            
+            self.score.render(self.screen, align="top-left")
             self.number_manager.render(self.screen, self.render_frame_time)
 
             if self.state == Constants.PAUSE:
@@ -207,14 +207,14 @@ class GameManager:
 
     def manage_game_over(self):
         if self.game_over:
-            death_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('U died', True,
-                                                                                  pygame.color.Color('White'))
-            continue_text = pygame.font.Font(Constants.FONT_RETRO_GAMING, 40).render('Press R to try again',
-                                                                                     True,
-                                                                                     pygame.color.Color(
-                                                                                         'White'))
-            self.screen.blit(death_text, (self.resolution.x / 2.2, 150))
-            self.screen.blit(continue_text, (self.resolution.x / 3, 240))
+            death_text = Text(font_size=40, text="You Died")
+            death_text.set_pos(self.resolution.x / 2, self.resolution.y/6)
+
+            continue_text = Text(font_size=40, text="Press R to try again")
+            continue_text.set_pos(self.resolution.x / 2, self.resolution.y/3.5)
+
+            death_text.render(self.screen, align="center")
+            continue_text.render(self.screen, align="center")
 
     def manage_items(self):
         for item in self.item_manager.items:
