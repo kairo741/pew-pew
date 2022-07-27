@@ -23,10 +23,10 @@ class PlayerFroggers(Player):
         for bullet in self.bullet_manager.bullets:
             bullet.tag = Constants.TAG_PLAYER
             bullet.sprite = Utils.scale_image(Constants.SPRITE_BULLET_FROGGERS_ULT, 0.4)
-            # bullet.calculate_glow_color()
-            bullet.glow_scale = 0
-            if randint(1, 3) == 1:
-                bullet.speed = Axis.zero()
+            bullet.damage = self.weapon.bullet.damage*30
+            
+            bullet.speed = Axis(bullet.speed.x, -1)
+            bullet.source_reference = self
 
         self.old_weapon_type = self.weapon.weapon_type
         self.old_shoot_delay = self.weapon.shoot_delay

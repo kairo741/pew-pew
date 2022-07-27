@@ -15,12 +15,14 @@ class EnemyManager:
         self.last_enemy = 0
         self.enemy_count = 0
         self.boss_spawned = False
+        self.enemy_level = 1
 
     def reset(self):
         self.enemies = []
         self.last_enemy = 0
         self.enemy_count = 0
         self.boss_spawned = False
+        self.enemy_level = 1
 
     def create_enemy(self, x, y, middle, player_quantity, is_boss=False, enemy_preset=None):
         if x < middle:
@@ -57,18 +59,22 @@ class EnemyManager:
         new_enemy.center()
         new_enemy.x = x
         new_enemy.y = y - new_enemy.size.y
+        new_enemy.set_level(self.enemy_level)
         return new_enemy
 
     def spawn_enemy_random(self, screen_size, player_quantity):
+
         if self.boss_spawned is False:
             if ((self.enemy_count + 1) % 31) == 0:
                 self.enemies.append(self.create_enemy(x=screen_size.x / 2, y=200, middle=screen_size.x / 2,
                                                       player_quantity=player_quantity, is_boss=True))
                 self.boss_spawned = True
 
-            elif time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50),
-                                                              2000 - (player_quantity * 150)):
+            elif time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50), 2000 - (player_quantity * 150)):
+                if ((self.enemy_count + 1) % 6) == 0:
+                    self.enemy_level+=1
                 self.append_enemy(screen_size, player_quantity)
+
         else:
             if time.get_ticks() - self.last_enemy > randint(6500 - (player_quantity * 50),
                                                             13000 - (player_quantity * 150)):

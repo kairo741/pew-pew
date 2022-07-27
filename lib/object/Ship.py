@@ -31,11 +31,12 @@ class Ship(GameObject):
         self.set_level(self.level)
 
     def set_level(self, level):
-        self.level = level
-        self.health = self.base_health*level
-        self.max_health = self.health
-        if self.weapon is not None and self.weapon is not "":
-            self.weapon.level = level
+        if level < 100:
+            self.level = level
+            self.health = self.base_health*level
+            self.max_health = self.health
+            if self.weapon is not None and self.weapon is not "":
+                self.weapon.level = level
 
     def reset(self):
         self.x = self.initial_position.x
