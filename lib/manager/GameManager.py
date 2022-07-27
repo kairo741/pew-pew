@@ -16,7 +16,7 @@ class GameManager:
         pygame.display.init()
         pygame.joystick.init()
         pygame.font.init()
-        pygame.event.set_allowed([pygame.KEYDOWN, pygame.QUIT, Constants.ULTIMATE_END])
+        pygame.event.set_allowed([pygame.KEYDOWN, pygame.QUIT, pygame.JOYBUTTONDOWN, Constants.ULTIMATE_END])
 
         self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
         self.flags = self.base_flags
@@ -120,6 +120,7 @@ class GameManager:
             if self.state == Constants.PAUSE:
                 self.manage_game_over()
                 self.pause.manage_pause()
+
             pygame.display.update()
 
     def game_events(self):
@@ -128,6 +129,8 @@ class GameManager:
         self.update_controller_state()
 
         for event in pygame.event.get():
+            if self.state == Constants.PAUSE:
+                self.pause.check_pause_events(event)
 
             if event.type == pygame.KEYDOWN:
 
