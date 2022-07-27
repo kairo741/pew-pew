@@ -6,6 +6,7 @@ from lib.object.BulletPierce import BulletPierce
 from lib.object.BulletVamp import BulletVamp
 from lib.object.Enemy import Enemy
 from lib.object.EnemyBumper import EnemyBumper
+from lib.object.PlayerCharge import PlayerCharge
 from lib.object.PlayerFroggers import PlayerFroggers
 from lib.object.PlayerBalance import PlayerBalance
 from lib.object.PlayerHealer import PlayerHealer
@@ -61,6 +62,12 @@ class Presets:
         bullet=BulletHeal(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_YELLOW, 0.2), damage=22)
     )
 
+    PLAYER_CHARGE_WEAPON = Weapon(
+        shoot_delay=180,
+        weapon_type="single",
+        bullet=Bullet(speed=Axis(0, -40), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.4), damage=18)
+    )
+
     ENEMY_DEFAULT_WEAPON = Weapon(
         shoot_delay=350,
         weapon_type="random",
@@ -112,7 +119,7 @@ class Presets:
     )
 
     PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON,
-                      PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON]
+                      PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON, PLAYER_CHARGE_WEAPON]
 
     PLAYER_BALANCE = PlayerBalance(
         speed=PLAYER_DEFAULT_SPEED,
@@ -124,7 +131,7 @@ class Presets:
     PLAYER_PIERCE = PlayerPierce(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.84).convert_alpha(),
-        health=PLAYER_DEFAULT_HEALTH,
+        health=PLAYER_DEFAULT_HEALTH*0.8,
         weapon=PLAYER_WEAPONS[1]
     )
 
@@ -155,4 +162,11 @@ class Presets:
         weapon=PLAYER_WEAPONS[5]
     )
 
-    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_HEALER, PLAYER_VAMPIRE, PLAYER_FROGGERS]
+    PLAYER_CHARGE = PlayerCharge(
+        speed=PLAYER_DEFAULT_SPEED.scale_to(0.75),
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.84).convert_alpha(),
+        health=PLAYER_DEFAULT_HEALTH * 1.5,
+        weapon=PLAYER_WEAPONS[6]
+    )
+
+    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_FROGGERS, PLAYER_VAMPIRE, PLAYER_HEALER, PLAYER_CHARGE]

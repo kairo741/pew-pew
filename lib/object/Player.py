@@ -54,10 +54,11 @@ class Player(Ship):
                 if self.y + self.size.y < limit.y:
                     self.y += self.speed.y * multiplier * render_frame_time
 
-    def shoot(self, bullet_manager):
+    def shoot(self, bullet_manager, damage_multiplier=1):
         if self.is_alive():
             if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay:
                 for generated_bullet in self.weapon.make_bullets(self.get_middle(), source_size=self.size):
+                    generated_bullet.damage *= damage_multiplier
                     bullet_manager.shoot(generated_bullet)
 
                 channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
