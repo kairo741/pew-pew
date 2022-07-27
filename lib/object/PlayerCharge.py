@@ -6,19 +6,38 @@ from pygame import Surface, draw, transform
 
 class PlayerCharge(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", ultimate=Ultimate(), level=1, sprite_mid=Surface((0, 0)), sprite_full=Surface((0, 0))):
+        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=6,
+                            color=[69, 58, 89])
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level)
         self.sprite_mid = sprite_mid
         self.sprite_full = sprite_full
 
         self.charge_time = 0
 
-    def get_charge(self):
+        self.cancel_charge_time = False
+
+    def enable_ultimate(self):
+        self.cancel_charge_time = True
+
+    def disable_ultimate(self):
+        self.cancel_charge_time = False
+
+
+    def get_charge(self, raw=False):
         charge = (self.charge_time/100)
+
+        if self.cancel_charge_time:
+            return 2
+
+        if raw:
+            return charge
+        
         if charge > 2:
             charge = 2
 
         elif charge < 1:
             charge = 1
+
         return charge
 
     def check_sprite_change(self):
@@ -49,7 +68,7 @@ class PlayerCharge(Player):
 
     def render_charge_shot(self, screen):
         bar_size = Axis(self.size.x, self.size.y / 10)
-        multiplier = (self.charge_time / 100) / 2
+        multiplier = self.get_charge(raw=True) / 2
         if multiplier > 1:
             multiplier = 1
 
