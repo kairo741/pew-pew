@@ -70,7 +70,7 @@ class Ship(GameObject):
     def take_damage(self, value):
         self.health -= value
 
-    def render_level(self, screen, align="bottom"):
+    def render_level(self, screen, align="bottom", space_bottom=1.6):
         if self.is_alive():
             this_font = Constants.FONT_LEVEL_OBJECT
             red = 255
@@ -80,7 +80,7 @@ class Ship(GameObject):
             text = this_font.render(str(self.level), True, (red, green, blue))
             text_size = text.get_size()
             if align == "bottom":
-                screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y+self.size.y*1.6))
+                screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y+self.size.y*space_bottom))
 
             elif align == "top":
                 screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y-self.size.y*0.6))

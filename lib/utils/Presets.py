@@ -164,7 +164,9 @@ class Presets:
 
     PLAYER_CHARGE = PlayerCharge(
         speed=PLAYER_DEFAULT_SPEED.scale_to(0.75),
-        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_CHARGE_RED, 0.84).convert_alpha(),
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_CHARGE_GREEN, 0.84).convert_alpha(),
+        sprite_mid=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_CHARGE_ORANGE, 0.84).convert_alpha(),
+        sprite_full=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_CHARGE_RED, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH * 1.5,
         weapon=PLAYER_WEAPONS[6]
     )

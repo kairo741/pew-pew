@@ -30,7 +30,7 @@ class PlayerFroggers(Player):
 
         self.old_weapon_type = self.weapon.weapon_type
         self.old_shoot_delay = self.weapon.shoot_delay
-        self.weapon.shoot_delay = 50
+        self.weapon.shoot_delay = 80
         self.weapon.weapon_type = 'explosion'
 
     def disable_ultimate(self):
