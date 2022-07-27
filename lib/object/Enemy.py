@@ -1,9 +1,8 @@
-from copy import deepcopy
 from random import randint
 
-from pygame import Surface, draw, time, mixer
-
 from lib.utils.Constants import Constants
+from pygame import mixer, time
+
 from .Axis import Axis
 from .Ship import Ship
 
@@ -20,13 +19,18 @@ class Enemy(Ship):
             health=100,
             tag=Constants.TAG_ENEMY,
             level=1,
-            is_boss=False
+            on_screen=False
     ):
         super().__init__(x, y, size, speed, sprite, weapon, health, tag, level=level)
         self.next_shot = 0
         self.glow_scale = 2.5
-        self.is_boss = is_boss
         self.glow_color = [255, 30, 30]
+
+        self.on_screen = on_screen
+
+
+    def enemy_passive(self):
+        pass
 
     def get_random_time(self):
         if self.weapon is not None:

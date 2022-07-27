@@ -5,10 +5,10 @@ from lib.object.BulletHeal import BulletHeal
 from lib.object.BulletPierce import BulletPierce
 from lib.object.BulletVamp import BulletVamp
 from lib.object.Enemy import Enemy
-from lib.object.EnemyBumper import EnemyBumper
+from lib.object.EnemyBoss import EnemyBoss
+from lib.object.PlayerBalance import PlayerBalance
 from lib.object.PlayerCharge import PlayerCharge
 from lib.object.PlayerFroggers import PlayerFroggers
-from lib.object.PlayerBalance import PlayerBalance
 from lib.object.PlayerHealer import PlayerHealer
 from lib.object.PlayerPierce import PlayerPierce
 from lib.object.PlayerSpeed import PlayerSpeed
@@ -100,13 +100,14 @@ class Presets:
         health=50
     )
 
-    ENEMY_BUMPER = EnemyBumper(
+    ENEMY_BUMPER = Enemy(
         sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_BUMPER.convert_alpha(), 0.4),
         weapon=ENEMY_DEFAULT_WEAPON,
-        health=300
+        health=300,
+        on_screen=True
     )
 
-    BOSS_BUMPER = EnemyBumper(
+    BOSS_BUMPER = EnemyBoss(
         sprite=Utils.scale_image(Constants.SPRITE_ENEMY_SHIP_BUMPER.convert_alpha(), 0.8),
         weapon=Weapon(
             shoot_delay=80,
@@ -114,7 +115,6 @@ class Presets:
             bullet=Bullet(speed=Axis(0, 5), sprite=Utils.scale_image(Constants.SPRITE_ENEMY_BULLET, 0.2),
                           tag=Constants.TAG_ENEMY, damage=40)
         ),
-        is_boss=True,
         health=7777
     )
 

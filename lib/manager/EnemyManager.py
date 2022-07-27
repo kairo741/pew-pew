@@ -1,11 +1,10 @@
 from random import randint, uniform
 
-from pygame import time
-
 from lib.object.Axis import Axis
-from lib.object.EnemyBumper import EnemyBumper
+from lib.object.EnemyBoss import EnemyBoss
 from lib.object.PlayerSpeed import PlayerSpeed
 from lib.utils.Presets import Presets
+from pygame import time
 
 
 class EnemyManager:
@@ -78,7 +77,7 @@ class EnemyManager:
         else:
             if time.get_ticks() - self.last_enemy > randint(6500 - (player_quantity * 50),
                                                             13000 - (player_quantity * 150)):
-                boss = list(filter(lambda enemy: enemy.is_boss is True, self.enemies))
+                boss = list(filter(lambda enemy: type(enemy) is EnemyBoss, self.enemies))
                 if len(boss) > 0:
                     boss = boss[0]
                     self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER)
@@ -112,7 +111,7 @@ class EnemyManager:
             e.y += e.speed.y * render_frame_time
 
     def check_enemy(self, enemy, screen_size):
-        if type(enemy) is not EnemyBumper:
+        if not enemy.on_screen:
             if enemy.y < -(enemy.size.y * 2):
                 self.enemies.remove(enemy)
 
@@ -124,9 +123,17 @@ class EnemyManager:
 
             elif enemy.y > screen_size.y:
                 self.enemies.remove(enemy)
+
         else:
-            # TODO - refac
-            enemy.enemy_passive(screen_size)
+            if enemy.y < -enemy.size.y:
+                enemy.speed.y = -enemy.speed.y
+            elif enemy.x < -enemy.size.x:
+                enemy.speed.x = -enemy.speed.x
+            elif enemy.x > screen_size.x:
+                enemy.speed.x = -enemy.speed.x
+            elif enemy.y > screen_size.y:
+                enemy.speed.y = -enemy.speed.y
+            
 
     def check_death(self, enemy, *actions):
         if enemy.health < 1:
@@ -155,6 +162,9 @@ class EnemyManager:
         elif enemy.collided_with(player, player.get_hitbox_rect()):
             if not player.is_invincible:
                 try:
+                    if type(enemy) is not EnemyBoss:
+                        self.enemies.remove(enemy)
+
                     for action in actions:
                         action(enemy)
                 except:

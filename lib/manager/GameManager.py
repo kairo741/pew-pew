@@ -246,7 +246,6 @@ class GameManager:
                                                 lambda enemy: self.number_manager.add_take_damage_number(enemy.x,
                                                                                                          enemy.y,
                                                                                                          player.max_health * 0.33),
-                                                lambda enemy: self.enemy_manager.enemies.remove(enemy),
                                                 render_frame_time=self.render_frame_time
                                                 )
 
