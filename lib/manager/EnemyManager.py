@@ -144,6 +144,7 @@ class EnemyManager:
         if type(player) == PlayerSpeed and player.ulted:
             if enemy.collided_with(player):
                 enemy.take_damage((player.weapon.bullet.damage * 5) * render_frame_time)
+                player.damage_dealt+=(player.weapon.bullet.damage * 5) * render_frame_time
 
         elif enemy.collided_with(player, player.get_hitbox_rect()):
             if not player.is_invincible:

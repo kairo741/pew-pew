@@ -22,5 +22,7 @@ class BulletHeal(Bullet):
 
             if (object_hit.health + heal_amount) < object_hit.max_health:
                 object_hit.health += heal_amount
+                
+                self.source_reference.damage_dealt += self.damage
             else:
                 object_hit.health = object_hit.max_health

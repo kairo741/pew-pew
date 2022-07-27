@@ -11,7 +11,9 @@ class PlayerCharge(Player):
         self.charge_time = 0
 
     def player_passive(self, render_frame_time):
-        self.charge_time += (1) * render_frame_time
+        charge_increment = (1+(1/self.weapon.shoot_delay)*100)
+        
+        self.charge_time += charge_increment * render_frame_time
         return super().player_passive(render_frame_time)
 
     def shoot(self, bullet_manager):
@@ -22,7 +24,8 @@ class PlayerCharge(Player):
             charge = 2
 
         elif charge < 1:
-            charge=1
+            charge = 1
+
         return super().shoot(bullet_manager, damage_multiplier=charge**6)
 
     def render_charge_shot(self, screen):
