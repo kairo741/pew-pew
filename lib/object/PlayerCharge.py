@@ -26,7 +26,7 @@ class PlayerCharge(Player):
         elif charge < 1:
             charge = 1
 
-        return super().shoot(bullet_manager, damage_multiplier=charge**6)
+        return super().shoot(bullet_manager, damage_multiplier=charge**4.5)
 
     def render_charge_shot(self, screen):
         bar_size = Axis(self.size.x, self.size.y / 10)

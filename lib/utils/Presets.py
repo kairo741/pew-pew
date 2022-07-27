@@ -53,7 +53,7 @@ class Presets:
     PLAYER_BAT_WEAPON = Weapon(
         shoot_delay=120,
         weapon_type="wiggle",
-        bullet=BulletVamp(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_PURPLE, 0.2), damage=26)
+        bullet=BulletVamp(speed=Axis(0, -20), sprite=Utils.scale_image(Constants.SPRITE_BULLET_PURPLE, 0.2), damage=28)
     )
 
     PLAYER_HEAL_WEAPON = Weapon(
@@ -65,7 +65,7 @@ class Presets:
     PLAYER_CHARGE_WEAPON = Weapon(
         shoot_delay=180,
         weapon_type="single",
-        bullet=Bullet(speed=Axis(0, -40), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.4), damage=18)
+        bullet=Bullet(speed=Axis(0, -40), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.4), damage=10)
     )
 
     ENEMY_DEFAULT_WEAPON = Weapon(
