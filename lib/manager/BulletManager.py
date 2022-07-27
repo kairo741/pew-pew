@@ -24,17 +24,20 @@ class BulletManager:
         bullet.y += bullet.speed.y * render_time
 
     def check_bullet(self, bullet, screen_size):
-        if bullet.y < -bullet.size.y:
-            self.bullets.remove(bullet)
+        if type(bullet) is not BulletBounce:
+            if bullet.y < -bullet.size.y:
+                self.bullets.remove(bullet)
 
-        elif bullet.x < -bullet.size.x:
-            self.bullets.remove(bullet)
+            elif bullet.x < -bullet.size.x:
+                self.bullets.remove(bullet)
 
-        elif bullet.x > screen_size.x:
-            self.bullets.remove(bullet)
+            elif bullet.x > screen_size.x:
+                self.bullets.remove(bullet)
 
-        elif bullet.y > screen_size.y:
-            self.bullets.remove(bullet)
+            elif bullet.y > screen_size.y:
+                self.bullets.remove(bullet)
+        else:
+            bullet.check_bullet(self.bullets, screen_size)
 
     def has_collided(self, bullet, object, *actions):
         self.check_collision(bullet, object, actions)
@@ -63,7 +66,6 @@ class BulletManager:
         if type(bullet) is not BulletPierce and type(bullet) is not BulletBounce:
             self.try_remove_bullet(bullet)
 
-        
     def try_execute_actions(self, bullet, actions):
         try:
             for action in actions:
