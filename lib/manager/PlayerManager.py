@@ -49,24 +49,35 @@ class PlayerManager:
         self.players = []
         for i in range(0, quantity):
             player_list_position = randint(0, len(Presets.PLAYER_LIST) - 1)
-            this_player = Presets.PLAYER_LIST[player_list_position].copy()
-            this_player.x = resolution.x
-            this_player.y = resolution.y / 2
-            this_player.weapon.source_reference = this_player
+            self.create_player(resolution, Presets.PLAYER_LIST[player_list_position])
 
-            if type(this_player) == PlayerBalance:
-                this_player.ultimate = Ultimate(lambda: self.time_stop_ultimate(True),
-                                                lambda: self.time_stop_ultimate(False), duration=5)
+        self.show_players_dps()
+        self.set_spawn_position(resolution)
 
-            if type(this_player) == PlayerHealer:
-                this_player.team = self.players
 
-            if type(this_player) == PlayerFroggers:
-                this_player.bullet_manager = self.bullet_manager
-
-            self.add(this_player)
-
+    def show_players_dps(self):
+        for i, player in enumerate(self.players):
             print(f'\033[1mP{i + 1} DPS:\033[0m '
-                  f'\033[93m\033[4m{self.players[i].weapon.calculate_dps()}\033[0m')
+                f'\033[93m\033[4m{self.players[i].weapon.calculate_dps()}\033[0m')
 
+
+    def create_player(self, resolution, player_preset):
+        this_player = player_preset.copy()
+        this_player.x = resolution.x
+        this_player.y = resolution.y / 2
+        this_player.weapon.source_reference = this_player
+
+        if type(this_player) == PlayerBalance:
+            this_player.ultimate = Ultimate(lambda: self.time_stop_ultimate(True),
+                                            lambda: self.time_stop_ultimate(False), duration=5)
+
+        if type(this_player) == PlayerHealer:
+            this_player.team = self.players
+
+        if type(this_player) == PlayerFroggers:
+            this_player.bullet_manager = self.bullet_manager
+
+        self.add(this_player)
+
+    
         self.set_spawn_position(resolution)

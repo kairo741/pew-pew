@@ -2,7 +2,7 @@ from lib.object.Axis import Axis
 from lib.object.GameObject import GameObject
 from lib.utils.Constants import Constants
 
-from pygame import font
+from pygame import BLEND_MULT, Surface, font
 
 class Text(GameObject):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", glow_scale=2, font_size=20, text="", color=[255, 255, 255]):
@@ -30,6 +30,14 @@ class Text(GameObject):
         self.x = x
         self.y = y
 
+    def get_surface(self):
+        text = self.font.render(str(self.text), True, self.color)
+        size = text.get_size()
+        s = Surface(size, BLEND_MULT)
+        s.set_colorkey((0, 0, 0, 0))
+        s.blit(text, (0, 0))
+        return s
+
     def render(self, screen, align="center"):
         text = self.font.render(str(self.text), True, self.color)
         size = text.get_size()
@@ -41,4 +49,5 @@ class Text(GameObject):
 
         elif align == "top-right":
             screen.blit(text, [self.x-size[0], self.y])
+
 

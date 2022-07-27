@@ -139,8 +139,10 @@ class GameManager:
 
                 if event.key == pygame.K_ESCAPE:
                     if self.state == Constants.PAUSE:
+                        self.pause.stop_pause()
                         self.state = Constants.RUNNING
                     else:
+                        self.pause.start_pause()
                         self.state = Constants.PAUSE
 
                 if event.key == pygame.K_RETURN:
