@@ -241,7 +241,8 @@ class GameManager:
                                                  lambda bullet: self.score.add(173),
                                                  lambda bullet: self.number_manager.add_damage_number(bullet.x,
                                                                                                       bullet.y,
-                                                                                                      bullet.damage))
+                                                                                                      bullet.damage,
+                                                                                                      bullet.is_crit))
 
             self.enemy_manager.check_death(enemy,
                                            lambda item: self.item_manager.random_item(enemy.x, enemy.y))

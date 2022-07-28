@@ -36,9 +36,10 @@ class Player(Ship):
         self.set_glow()
 
     def check_level_up(self):
-        damage_required = self.xp / (500 * self.level)
+        damage_required = self.xp / (1000 * self.level)
         if damage_required > self.level:
-            self.set_level(self.level + 1)
+            if self.is_alive():
+                self.set_level(self.level + 1)
 
     def player_passive(self, render_frame_time):
         pass

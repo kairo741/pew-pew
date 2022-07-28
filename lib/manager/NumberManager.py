@@ -8,8 +8,8 @@ class NumberManager:
         super().__init__()
         self.numbers = []
 
-    def add_damage_number(self, x, y, value):
-        dn = Number(x, y, round(value), time.get_ticks(), color=Constants.COLOR_GREY, duration=500, size=26)
+    def add_damage_number(self, x, y, value, is_crit=False):
+        dn = Number(x, y, round(value), time.get_ticks(), color=Constants.COLOR_GREY if not is_crit else Constants.COLOR_YELLOW, duration=500, size=26 if not is_crit else 30)
         self.numbers.append(dn)
 
     def add_take_damage_number(self, x, y, value):

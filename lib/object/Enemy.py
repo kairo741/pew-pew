@@ -28,6 +28,11 @@ class Enemy(Ship):
 
         self.on_screen = on_screen
 
+    def get_health_multiplier(self):
+        return self.level**2/20
+
+    def get_damage_multiplier(self):
+        return self.level**2/80
 
     def enemy_passive(self):
         pass

@@ -14,9 +14,13 @@ class Bullet(GameObject):
         self.source_reference = source_reference
         self.glow_scale = 0
 
+        self.is_crit = False
         self.crit_rate = 0.25
         if uniform(0, 1) < self.crit_rate:
             self.damage *=2
+            self.is_crit = True
+
+        
 
     def hit_callback(self, object_hit, collision):
         if isinstance(self.source_reference, Player):
