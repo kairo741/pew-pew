@@ -153,6 +153,7 @@ class Presets:
     PLAYER_VAMPIRE = PlayerVampire(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_VAMPIRE, 0.84).convert_alpha(),
+        sprite_ult=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_VAMPIRE_OPEN, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH * 0.7,
         weapon=PLAYER_WEAPONS[4]
     )
