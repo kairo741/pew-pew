@@ -1,3 +1,4 @@
+import pygame
 from pygame import draw, time, mixer, font
 
 from lib.object.Ultimate import Ultimate
@@ -23,7 +24,6 @@ class Player(Ship):
 
         self.old_glow_scale = 0
 
-
     def enable_ultimate(self):
         self.old_glow_scale = self.glow_scale
         self.glow_scale = 10
@@ -36,10 +36,9 @@ class Player(Ship):
         self.set_glow()
 
     def check_level_up(self):
-        damage_required = self.xp / (500*self.level)
+        damage_required = self.xp / (500 * self.level)
         if damage_required > self.level:
-            self.set_level(self.level+1)
-
+            self.set_level(self.level + 1)
 
     def player_passive(self, render_frame_time):
         pass
@@ -135,7 +134,9 @@ class Player(Ship):
             self.ult(action)
 
     def render_hitbox(self, screen):
-        draw.rect(screen, (255, 40, 40), self.get_hitbox_rect(), border_radius=100)
+        shape_surf = pygame.Surface(pygame.Rect(self.get_hitbox_rect()).size, pygame.SRCALPHA)
+        pygame.draw.rect(shape_surf, (255, 40, 40, 150), shape_surf.get_rect(), border_radius=10)
+        screen.blit(shape_surf, self.get_hitbox_rect())
 
     def render_ult_bar(self, screen):
         bar_size = Axis(self.size.x, self.size.y / 10)
@@ -151,9 +152,9 @@ class Player(Ship):
     def get_hitbox_rect(self):
         hitbox_size = Axis(self.size.x * 0.15, self.size.x * 0.15)
         middle = self.get_middle()
-        middle.x -= hitbox_size.x / 2
+        middle.x -= (hitbox_size.x / 2)
         middle.y -= hitbox_size.x / 2
-        return [middle.x, middle.y, hitbox_size.x, hitbox_size.y]
+        return [middle.x, middle.y, hitbox_size.x + 1, hitbox_size.y]
 
     def render(self, screen, render_frame_time):
         self.check_level_up()
