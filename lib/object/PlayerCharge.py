@@ -6,8 +6,8 @@ from pygame import Surface, draw, transform
 
 class PlayerCharge(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", ultimate=Ultimate(), level=1, sprite_mid=Surface((0, 0)), sprite_full=Surface((0, 0))):
-        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=6,
-                            color=[69, 58, 89])
+        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate,
+                            color=[20, 0, 23])
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level)
         self.sprite_mid = sprite_mid
         self.sprite_full = sprite_full
@@ -17,10 +17,12 @@ class PlayerCharge(Player):
         self.cancel_charge_time = False
 
     def enable_ultimate(self):
+        super().enable_ultimate()
         self.cancel_charge_time = True
 
     def disable_ultimate(self):
         self.cancel_charge_time = False
+        super().disable_ultimate()
 
 
     def get_charge(self, raw=False):

@@ -1,16 +1,18 @@
+from pygame import Surface, transform
 from lib.object.Ultimate import Ultimate
 
 from .Player import Player
 
 
 class PlayerPierce(Player):
-    def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", level=1):
-        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, color=[43, 71, 79])
+    def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", level=1, sprite_ult=Surface((0, 0))):
+        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, color=[0, 16, 23])
 
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level=level)
 
         self.old_shoot_delay = 0
         self.old_damage = 0
+        self.sprite_ult = sprite_ult
 
     
     def save_attributes(self):
@@ -21,11 +23,16 @@ class PlayerPierce(Player):
         self.weapon.shoot_delay = self.old_shoot_delay
         self.weapon.bullet.damage = self.old_damage
 
+        self.sprite = transform.smoothscale(self.initial_sprite, self.size.to_list())
+
     def enable_ultimate(self):
+        super().enable_ultimate()
         self.save_attributes()
 
+        self.sprite = transform.smoothscale(self.sprite_ult, self.size.to_list())
         self.weapon.shoot_delay = 25
         self.weapon.bullet.damage *= 1.75
 
     def disable_ultimate(self):
         self.restore_attributes()
+        super().disable_ultimate()

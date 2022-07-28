@@ -7,7 +7,7 @@ from pygame import Surface, transform
 
 class PlayerSpeed(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", level=1):
-        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=8, color=[79, 43, 43])
+        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=8, color=[23, 0, 0])
 
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level=level)
 
@@ -29,6 +29,7 @@ class PlayerSpeed(Player):
         self.weapon.shoot_delay = self.old_shoot_delay
 
     def enable_ultimate(self):
+        super().enable_ultimate()
         self.save_attributes()
 
         self.weapon.shoot_delay = 10**10
@@ -43,6 +44,7 @@ class PlayerSpeed(Player):
         self.rotate = 0
         self.is_invincible = False
         self.ulted = False
+        super().disable_ultimate()
 
     def render(self, screen, render_frame_time):
         if self.rotate != 0:

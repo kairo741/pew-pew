@@ -131,6 +131,7 @@ class Presets:
     PLAYER_PIERCE = PlayerPierce(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE, 0.84).convert_alpha(),
+        sprite_ult=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_PIERCE_ULT, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH*0.8,
         weapon=PLAYER_WEAPONS[1]
     )

@@ -10,16 +10,31 @@ class Player(Ship):
     def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", weapon="", health=100, layout="",
                  ultimate=Ultimate(), level=1):
         super().__init__(x, y, size, speed, sprite, weapon, health, level=level)
-        self.ultimate = ultimate
         self.layout = layout
+
+        self.ultimate = ultimate
         self.ult_cooldown_sec = 30
         self.next_ult = time.get_ticks() + 1000
         self.last_ult = 0
+
         self.is_invincible = False
 
         self.xp = 0
 
-        
+        self.old_glow_scale = 0
+
+
+    def enable_ultimate(self):
+        self.old_glow_scale = self.glow_scale
+        self.glow_scale = 10
+        self.glow_color = self.calculate_glow_color()
+        self.set_glow()
+
+    def disable_ultimate(self):
+        self.glow_scale = self.old_glow_scale
+        self.glow_color = self.calculate_glow_color()
+        self.set_glow()
+
     def check_level_up(self):
         damage_required = self.xp / (500*self.level)
         if damage_required > self.level:

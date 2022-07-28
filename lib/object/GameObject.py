@@ -65,8 +65,14 @@ class GameObject:
                         for i in range(0, 3):
                             average_color[i] += this_color[i]
 
-        for i in range(0, 3):
-            average_color[i] /= (self.size.x * self.size.y)
+        try:
+            for i in range(0, 3):
+                average_color[i] /= (self.size.x * self.size.y)
+
+        except:
+            print("color division error")
+            average_color = (255, 255, 255)
+
 
         self.glow_color = average_color
 
@@ -76,9 +82,11 @@ class GameObject:
                 self.calculate_glow_color()
 
             glow_size = self.size.scale_to(self.glow_scale).to_list()
+            self.glow = Constants.SPRITE_GLOW.copy().convert_alpha()
             self.glow = transform.smoothscale(self.glow, glow_size)
             color_surf = Surface(glow_size)
             color_surf.fill(self.glow_color)
+            
             self.glow.blit(color_surf, (0, 0), special_flags=BLEND_MULT)
 
     def get_hitbox_rect(self):

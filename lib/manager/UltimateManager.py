@@ -21,7 +21,7 @@ class UltimateManager:
             self.ultimate_enabled = True
             self.background.change_bg_color(ultimate.color)
 
-            time.set_timer(Constants.ULTIMATE_END, ultimate.duration * 1000)
+            time.set_timer(Constants.ULTIMATE_END, ultimate.duration * 1000, loops=1)
 
             return True
 
@@ -33,4 +33,5 @@ class UltimateManager:
         self.background.reset_bg_color()
 
     def reset(self):
-        self.disable_ultimate()
+        if self.ultimate_enabled:
+            self.disable_ultimate()

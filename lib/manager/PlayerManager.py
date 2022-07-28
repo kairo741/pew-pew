@@ -68,8 +68,7 @@ class PlayerManager:
         this_player.weapon.source_reference = this_player
 
         if type(this_player) == PlayerBalance:
-            this_player.ultimate = Ultimate(lambda: self.time_stop_ultimate(True),
-                                            lambda: self.time_stop_ultimate(False), duration=5)
+            this_player.time_stop = self.time_stop_ultimate 
 
         if type(this_player) == PlayerHealer:
             this_player.team = self.players

@@ -33,6 +33,7 @@ class Constants:
 
     SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship.png")
     SPRITE_PLAYER_SHIP_PIERCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_pierce.png")
+    SPRITE_PLAYER_SHIP_PIERCE_ULT = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_pierce_ult.png")
     SPRITE_PLAYER_SHIP_SPEED = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_speed.png")
     SPRITE_PLAYER_SHIP_FROGGERS = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_froggers.png")
     SPRITE_PLAYER_SHIP_VAMPIRE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_vampire.png")
