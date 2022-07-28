@@ -1,4 +1,4 @@
-from pygame import Surface, transform
+from pygame import Surface, transform, time
 
 from lib.object.Ultimate import Ultimate
 from .Player import Player
@@ -20,23 +20,37 @@ class PlayerVampire(Player):
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, level=level, ultimate=ultimate)
         self.sprite_ult = sprite_ult
 
+        self.ult_enabled = False
+        self.last_bat = 0
+
+    def player_passive(self, render_frame_time):
+        if self.ult_enabled:
+            if time.get_ticks() - self.last_bat > 15:
+
+                sprite = Utils.scale_image(
+                    choice([Constants.SPRITE_BAT_1, Constants.SPRITE_BAT_2, Constants.SPRITE_BAT_3,
+                            Constants.SPRITE_BAT_4]),
+                    0.1).convert_alpha()
+
+                bat = BulletVamp(x=self.x, y=self.y, speed=Axis(uniform(-5, 5), uniform(-5, -1)),
+                                sprite=sprite,
+                                size=Axis(sprite.get_width(), sprite.get_height()),
+                                damage=(self.weapon.bullet.damage+self.weapon.get_bonus_level_damage())*2,
+                                tag=Constants.TAG_PLAYER,
+                                source_reference=self,
+                                )
+                self.bullet_manager.bullets.append(bat)
+                self.last_bat = time.get_ticks()
+
+        return super().player_passive(render_frame_time)
+
     def enable_ultimate(self):
         super().enable_ultimate()
         self.sprite = transform.smoothscale(self.sprite_ult, self.size.to_list())
-
-        for index in range(100):
-            sprite = Utils.scale_image(
-                choice([Constants.SPRITE_BAT_1, Constants.SPRITE_BAT_2, Constants.SPRITE_BAT_3,
-                        Constants.SPRITE_BAT_4]),
-                0.1).convert_alpha()
-            bat = BulletVamp(x=0, y=index * 10, speed=Axis(uniform(2, 10), 0),
-                             sprite=sprite,
-                             size=Axis(sprite.get_width(), sprite.get_height()),
-                             damage=(self.weapon.bullet.damage+self.weapon.get_bonus_level_damage())*2,
-                             tag=Constants.TAG_PLAYER,
-                             source_reference=self)
-            self.bullet_manager.bullets.append(bat)
+        self.ult_enabled = True
 
     def disable_ultimate(self):
         self.sprite = transform.smoothscale(self.initial_sprite, self.size.to_list())
+        self.ult_enabled = False
         super().disable_ultimate()
+        
