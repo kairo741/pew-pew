@@ -1,3 +1,4 @@
+from random import randint, uniform
 from lib.object.Player import Player
 from lib.utils.Constants import Constants
 from .Axis import Axis
@@ -12,6 +13,10 @@ class Bullet(GameObject):
         self.tag = tag
         self.source_reference = source_reference
         self.glow_scale = 0
+
+        self.crit_rate = 0.25
+        if uniform(0, 1) < self.crit_rate:
+            self.damage *=2
 
     def hit_callback(self, object_hit, collision):
         if isinstance(self.source_reference, Player):
