@@ -32,7 +32,7 @@ class PlayerVampire(Player):
             bat = BulletVamp(x=0, y=index * 10, speed=Axis(uniform(2, 10), 0),
                              sprite=sprite,
                              size=Axis(sprite.get_width(), sprite.get_height()),
-                             damage=100,
+                             damage=(self.weapon.bullet.damage+self.weapon.get_bonus_level_damage())*2,
                              tag=Constants.TAG_PLAYER,
                              source_reference=self)
             self.bullet_manager.bullets.append(bat)
