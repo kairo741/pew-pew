@@ -1,3 +1,4 @@
+from random import uniform
 import pygame
 from lib.manager.UltimateManager import UltimateManager
 from lib.object.Axis import Axis
@@ -27,10 +28,14 @@ class GameManager:
         self.resolution = Axis(
             x=int(self.get_res.current_w),
             y=int(self.get_res.current_h * 0.925))
-        self.screen = pygame.display.set_mode(
+        self.real_screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
             depth=24)
+
+        self.screen = self.real_screen.copy()
+        self.screen_pos = Axis(0, 0)
+
         from .BulletManager import BulletManager
         from .EnemyManager import EnemyManager
         from .ItemManager import ItemManager
@@ -121,6 +126,8 @@ class GameManager:
                 self.manage_game_over()
                 self.pause.manage_pause()
 
+            self.real_screen.blit(self.screen, self.screen_pos.to_list())
+
             pygame.display.update()
 
     def game_events(self):
@@ -128,11 +135,17 @@ class GameManager:
         self.player_input()
         self.update_controller_state()
 
+        if self.ultimate_manager.ultimate_enabled:
+            self.shake_screen(5)
+
+        elif set(self.screen_pos.to_list()) != set((0, 0)):
+            self.screen_pos = Axis(0, 0)
+
         for event in pygame.event.get():
             if self.state == Constants.PAUSE:
                 self.pause.check_pause_events(event)
 
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:                
 
                 if event.key == pygame.K_r and self.game_over:
                     self.reset_game()
@@ -175,6 +188,10 @@ class GameManager:
 
             if event.type == pygame.QUIT:
                 pygame.quit()
+
+
+    def shake_screen(self, value):
+        self.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
 
     def player_input(self):
         if self.player_manager.is_alive() and self.state == Constants.RUNNING:

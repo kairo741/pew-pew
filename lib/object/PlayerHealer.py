@@ -7,7 +7,7 @@ class PlayerHealer(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", team=None, level=1,
                  sprite_ult=Surface((0, 0))):
         self.team = team
-        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=6,
+        ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=7,
                             color=[23, 23, 0])
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level=level)
         self.sprite_ult = sprite_ult

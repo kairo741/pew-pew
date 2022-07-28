@@ -1,5 +1,5 @@
 import pygame
-from pygame import draw, time, mixer
+from pygame import Color, draw, time, mixer
 
 from lib.object.Ultimate import Ultimate
 from lib.utils.Constants import Constants
@@ -18,19 +18,24 @@ class Player(Ship):
         self.next_ult = time.get_ticks() + 1000
         self.last_ult = 0
 
+        self.ult_bar_hue = 0
+
         self.is_invincible = False
+        self.is_ulted = False
 
         self.xp = 0
 
         self.old_glow_scale = 0
 
     def enable_ultimate(self):
+        self.is_ulted = True
         self.old_glow_scale = self.glow_scale
         self.glow_scale = 10
         self.glow_color = self.calculate_glow_color()
         self.set_glow()
 
     def disable_ultimate(self):
+        self.is_ulted = False
         self.glow_scale = self.old_glow_scale
         self.glow_color = self.calculate_glow_color()
         self.set_glow()
@@ -141,14 +146,24 @@ class Player(Ship):
 
     def render_ult_bar(self, screen):
         bar_size = Axis(self.size.x, self.size.y / 10)
-        percentage = (time.get_ticks() - self.last_ult) / (self.next_ult - self.last_ult)
-        cooldown_size = bar_size.x * percentage
+        if not self.is_ulted:
 
-        if cooldown_size > bar_size.x:
-            cooldown_size = bar_size.x
+            percentage = (time.get_ticks() - self.last_ult) / (self.next_ult - self.last_ult)
+            cooldown_size = bar_size.x * percentage
 
-        draw.rect(screen, Constants.COLOR_BLUE,
-                  (self.x, self.y + self.size.y + bar_size.y * 4, cooldown_size, bar_size.y))
+            if cooldown_size > bar_size.x:
+                cooldown_size = bar_size.x
+
+            draw.rect(screen, Constants.COLOR_BLUE,
+                    (self.x, self.y + self.size.y + bar_size.y * 4, cooldown_size, bar_size.y))
+
+        else:
+            self.ult_bar_hue = self.ult_bar_hue + 2 if self.ult_bar_hue < 359 else 0
+            bar_color = Color(0)
+            bar_color.hsla = ((self.ult_bar_hue, 100, 70, 70))
+
+            draw.rect(screen, bar_color,
+                    (self.x, self.y + self.size.y + bar_size.y * 4, bar_size.x, bar_size.y))
 
     def get_hitbox_rect(self):
         hitbox_size = Axis(self.size.x * 0.15, self.size.x * 0.15)

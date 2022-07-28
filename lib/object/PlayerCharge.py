@@ -66,7 +66,7 @@ class PlayerCharge(Player):
         charge = self.get_charge()
         self.charge_time = 0
 
-        return super().shoot(bullet_manager, damage_multiplier=charge**4.5)
+        return super().shoot(bullet_manager, damage_multiplier=charge**5)
 
     def render_charge_shot(self, screen):
         bar_size = Axis(self.size.x, self.size.y / 10)
