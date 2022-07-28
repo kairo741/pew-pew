@@ -80,7 +80,7 @@ class Player(Ship):
                     generated_bullet.damage *= damage_multiplier
                     bullet_manager.shoot(generated_bullet)
 
-                channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
+                channel = mixer.Channel(Constants.MIXER_CHANNEL_SFX)
                 # Constants.SFX_LASER.stop()
                 channel.play(Constants.SFX_LASER)
                 self.last_bullet = time.get_ticks()

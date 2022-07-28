@@ -75,13 +75,17 @@ class GameManager:
             self.joy_hid.open(1356, 1476)
             self.joy_hid.set_nonblocking(1)
 
-        self.sfx_sound_channel = pygame.mixer.Channel(Constants.SFX_MIXER_CHANNEL)
-        self.bgm_sound_channel = pygame.mixer.Channel(Constants.BGM_MIXER_CHANNEL)
-        self.sfx_sound_channel.set_volume(0)
-        self.sfx_sound_channel.pause()
-        self.bgm_sound_channel.set_volume(0)
-        self.bgm_sound_channel.pause()
-        self.bgm_sound_channel.play(pygame.mixer.Sound(Constants.BGM_INDIGO), -1)
+        self.sound_channel_sfx = pygame.mixer.Channel(Constants.MIXER_CHANNEL_SFX)
+        self.sound_channel_bgm = pygame.mixer.Channel(Constants.MIXER_CHANNEL_BGM)
+        self.sound_channel_bgm = pygame.mixer.Channel(Constants.MIXER_CHANNEL_BGM)
+        self.sound_channel_ult = pygame.mixer.Channel(Constants.MIXER_CHANNEL_ULT)
+        self.sound_channel_sfx.set_volume(0)
+        self.sound_channel_sfx.pause()
+        self.sound_channel_bgm.set_volume(0)
+        self.sound_channel_bgm.pause()
+        self.sound_channel_ult.set_volume(0)
+        self.sound_channel_ult.pause()
+        self.sound_channel_bgm.play(pygame.mixer.Sound(Constants.BGM_INDIGO), -1)
         self.is_sound_paused = True
         self.pause = PauseManager(self)
 
@@ -145,7 +149,7 @@ class GameManager:
             if self.state == Constants.PAUSE:
                 self.pause.check_pause_events(event)
 
-            if event.type == pygame.KEYDOWN:                
+            if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_r and self.game_over:
                     self.reset_game()
@@ -164,15 +168,19 @@ class GameManager:
 
                 if event.key == pygame.K_F8:
                     if self.is_sound_paused:
-                        self.sfx_sound_channel.set_volume(Constants.SFX_VOLUME)
-                        self.sfx_sound_channel.unpause()
-                        self.bgm_sound_channel.set_volume(Constants.BGM_VOLUME)
-                        self.bgm_sound_channel.unpause()
+                        self.sound_channel_sfx.set_volume(Constants.VOLUME_SFX)
+                        self.sound_channel_sfx.unpause()
+                        self.sound_channel_bgm.set_volume(Constants.VOLUME_BGM)
+                        self.sound_channel_bgm.unpause()
+                        self.sound_channel_ult.set_volume(Constants.VOLUME_ULT)
+                        self.sound_channel_ult.unpause()
                     else:
-                        self.sfx_sound_channel.set_volume(0)
-                        self.sfx_sound_channel.pause()
-                        self.bgm_sound_channel.set_volume(0)
-                        self.bgm_sound_channel.pause()
+                        self.sound_channel_sfx.set_volume(0)
+                        self.sound_channel_sfx.pause()
+                        self.sound_channel_bgm.set_volume(0)
+                        self.sound_channel_bgm.pause()
+                        self.sound_channel_ult.set_volume(0)
+                        self.sound_channel_ult.pause()
                     self.is_sound_paused = not self.is_sound_paused
 
                 self.reset_keys(event.key)
@@ -188,7 +196,6 @@ class GameManager:
 
             if event.type == pygame.QUIT:
                 pygame.quit()
-
 
     def shake_screen(self, value):
         self.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
@@ -291,12 +298,12 @@ class GameManager:
 
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:
-            self.sfx_sound_channel.play(Constants.SFX_DEATH)
+            self.sound_channel_sfx.play(Constants.SFX_DEATH)
             self.game_over = True
 
     def activate_time_stop(self, activate):
         if activate:
-            self.sfx_sound_channel.play(Constants.SFX_TIME_STOP)
+            self.sound_channel_sfx.play(Constants.SFX_TIME_STOP)
             self.time_stop = True
 
         else:

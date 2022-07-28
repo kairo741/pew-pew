@@ -47,7 +47,7 @@ class Enemy(Ship):
                 bullets = self.weapon.make_bullets(Axis(self.get_middle().x, self.y + self.size.y), self.size)
                 for generated_bullet in bullets:
                     bullet_manager.shoot(generated_bullet)
-                channel = mixer.Channel(Constants.SFX_MIXER_CHANNEL)
+                channel = mixer.Channel(Constants.MIXER_CHANNEL_SFX)
                 channel.play(Constants.SFX_LASER_2)
                 self.next_shot = self.get_random_time()
 

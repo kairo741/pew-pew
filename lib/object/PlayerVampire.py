@@ -1,4 +1,4 @@
-from pygame import Surface, transform, time
+from pygame import Surface, transform, time, mixer
 
 from lib.object.Ultimate import Ultimate
 from .Player import Player
@@ -15,7 +15,7 @@ class PlayerVampire(Player):
                  sprite_ult=Surface((0, 0)), bullet_manager=None):
         self.bullet_manager = bullet_manager
         ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate,
-                            color=[13, 1, 36])
+                            color=[13, 1, 36], duration=6)
 
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, level=level, ultimate=ultimate)
         self.sprite_ult = sprite_ult
@@ -26,19 +26,18 @@ class PlayerVampire(Player):
     def player_passive(self, render_frame_time):
         if self.ult_enabled:
             if time.get_ticks() - self.last_bat > 15:
-
                 sprite = Utils.scale_image(
                     choice([Constants.SPRITE_BAT_1, Constants.SPRITE_BAT_2, Constants.SPRITE_BAT_3,
                             Constants.SPRITE_BAT_4]),
                     0.1).convert_alpha()
 
                 bat = BulletVamp(x=self.x, y=self.y, speed=Axis(uniform(-5, 5), uniform(-5, -1)),
-                                sprite=sprite,
-                                size=Axis(sprite.get_width(), sprite.get_height()),
-                                damage=(self.weapon.bullet.damage+self.weapon.get_bonus_level_damage())*2,
-                                tag=Constants.TAG_PLAYER,
-                                source_reference=self,
-                                )
+                                 sprite=sprite,
+                                 size=Axis(sprite.get_width(), sprite.get_height()),
+                                 damage=(self.weapon.bullet.damage + self.weapon.get_bonus_level_damage()) * 2,
+                                 tag=Constants.TAG_PLAYER,
+                                 source_reference=self,
+                                 )
                 self.bullet_manager.bullets.append(bat)
                 self.last_bat = time.get_ticks()
 
@@ -46,6 +45,8 @@ class PlayerVampire(Player):
 
     def enable_ultimate(self):
         super().enable_ultimate()
+        channel = mixer.Channel(Constants.MIXER_CHANNEL_ULT)
+        channel.play(Constants.SFX_BAT_SWARM)
         self.sprite = transform.smoothscale(self.sprite_ult, self.size.to_list())
         self.ult_enabled = True
 
@@ -53,4 +54,3 @@ class PlayerVampire(Player):
         self.sprite = transform.smoothscale(self.initial_sprite, self.size.to_list())
         self.ult_enabled = False
         super().disable_ultimate()
-        
