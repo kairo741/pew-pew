@@ -1,9 +1,8 @@
-from .Player import Player
-from .Axis import Axis
-from .Ultimate import Ultimate
 from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils
-from random import randint
+from .Axis import Axis
+from .Player import Player
+from .Ultimate import Ultimate
 
 
 class PlayerFroggers(Player):

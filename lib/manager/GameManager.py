@@ -51,7 +51,8 @@ class GameManager:
         self.bg = Background()
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
-        self.player_manager = PlayerManager(time_stop_ultimate=self.activate_time_stop, bullet_manager=self.bullet_manager)
+        self.player_manager = PlayerManager(time_stop_ultimate=self.activate_time_stop,
+                                            bullet_manager=self.bullet_manager)
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager(background=self.bg)
@@ -110,10 +111,9 @@ class GameManager:
 
                 self.render_frame_time = normal_frame_time
 
-
             self.fps.set_text(round(self.clock.get_fps()))
             self.fps.render(self.screen, align="top-right")
-            
+
             self.score.render(self.screen, align="top-left")
             self.number_manager.render(self.screen, self.render_frame_time)
 
@@ -213,10 +213,10 @@ class GameManager:
     def manage_game_over(self):
         if self.game_over:
             death_text = Text(font_size=40, text="You Died")
-            death_text.set_pos(self.resolution.x / 2, self.resolution.y/6)
+            death_text.set_pos(self.resolution.x / 2, self.resolution.y / 6)
 
             continue_text = Text(font_size=40, text="Press R to try again")
-            continue_text.set_pos(self.resolution.x / 2, self.resolution.y/3.5)
+            continue_text.set_pos(self.resolution.x / 2, self.resolution.y / 3.5)
 
             death_text.render(self.screen, align="center")
             continue_text.render(self.screen, align="center")
@@ -247,12 +247,12 @@ class GameManager:
                                            lambda item: self.item_manager.random_item(enemy.x, enemy.y))
             for player in self.player_manager.players:
                 self.enemy_manager.has_collided_player(enemy, player,
-                                                lambda enemy: player.take_damage(player.max_health * 0.33),
-                                                lambda enemy: self.number_manager.add_take_damage_number(enemy.x,
-                                                                                                         enemy.y,
-                                                                                                         player.max_health * 0.33),
-                                                render_frame_time=self.render_frame_time
-                                                )
+                                                       lambda enemy: player.take_damage(player.max_health * 0.33),
+                                                       lambda enemy: self.number_manager.add_take_damage_number(enemy.x,
+                                                                                                                enemy.y,
+                                                                                                                player.max_health * 0.33),
+                                                       render_frame_time=self.render_frame_time
+                                                       )
 
             enemy.shoot(self.bullet_manager) if self.time_stop is False else None
             enemy.render(self.screen)

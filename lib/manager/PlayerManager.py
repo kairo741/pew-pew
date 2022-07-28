@@ -1,9 +1,9 @@
 from random import randint
-from lib.object.PlayerBalance import PlayerBalance
-from lib.object.PlayerHealer import PlayerHealer
-from lib.object.PlayerFroggers import PlayerFroggers
-from lib.object.Ultimate import Ultimate
 
+from lib.object.PlayerBalance import PlayerBalance
+from lib.object.PlayerFroggers import PlayerFroggers
+from lib.object.PlayerHealer import PlayerHealer
+from lib.object.PlayerVampire import PlayerVampire
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
 
@@ -54,12 +54,10 @@ class PlayerManager:
         self.show_players_dps()
         self.set_spawn_position(resolution)
 
-
     def show_players_dps(self):
         for i, player in enumerate(self.players):
             print(f'\033[1mP{i + 1} DPS:\033[0m '
-                f'\033[93m\033[4m{self.players[i].weapon.calculate_dps()}\033[0m')
-
+                  f'\033[93m\033[4m{self.players[i].weapon.calculate_dps()}\033[0m')
 
     def create_player(self, resolution, player_preset):
         this_player = player_preset.copy()
@@ -68,7 +66,7 @@ class PlayerManager:
         this_player.weapon.source_reference = this_player
 
         if type(this_player) == PlayerBalance:
-            this_player.time_stop = self.time_stop_ultimate 
+            this_player.time_stop = self.time_stop_ultimate
 
         if type(this_player) == PlayerHealer:
             this_player.team = self.players
@@ -76,7 +74,9 @@ class PlayerManager:
         if type(this_player) == PlayerFroggers:
             this_player.bullet_manager = self.bullet_manager
 
+        if type(this_player) == PlayerVampire:
+            this_player.bullet_manager = self.bullet_manager
+
         self.add(this_player)
 
-    
         self.set_spawn_position(resolution)

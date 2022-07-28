@@ -1,5 +1,5 @@
 import pygame
-from pygame import draw, time, mixer, font
+from pygame import draw, time, mixer
 
 from lib.object.Ultimate import Ultimate
 from lib.utils.Constants import Constants
