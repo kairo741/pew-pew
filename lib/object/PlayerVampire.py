@@ -25,11 +25,13 @@ class PlayerVampire(Player):
         self.sprite = transform.smoothscale(self.sprite_ult, self.size.to_list())
 
         for index in range(100):
+            sprite = Utils.scale_image(
+                choice([Constants.SPRITE_BAT_1, Constants.SPRITE_BAT_2, Constants.SPRITE_BAT_3,
+                        Constants.SPRITE_BAT_4]),
+                0.1).convert_alpha()
             bat = BulletVamp(x=0, y=index * 10, speed=Axis(uniform(2, 10), 0),
-                             sprite=Utils.scale_image(
-                                 choice([Constants.SPRITE_BAT_1, Constants.SPRITE_BAT_2, Constants.SPRITE_BAT_3,
-                                         Constants.SPRITE_BAT_4]),
-                                 0.1).convert_alpha(),
+                             sprite=sprite,
+                             size=Axis(sprite.get_width(), sprite.get_height()),
                              damage=100,
                              tag=Constants.TAG_PLAYER,
                              source_reference=self)
