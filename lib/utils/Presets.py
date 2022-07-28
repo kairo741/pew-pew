@@ -159,6 +159,7 @@ class Presets:
     PLAYER_HEALER = PlayerHealer(
         speed=PLAYER_DEFAULT_SPEED,
         sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_MERCY, 0.84).convert_alpha(),
+        sprite_ult=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_MERCY_GOLD, 0.84).convert_alpha(),
         health=PLAYER_DEFAULT_HEALTH * 0.7,
         weapon=PLAYER_WEAPONS[5]
     )

@@ -38,6 +38,7 @@ class Constants:
     SPRITE_PLAYER_SHIP_FROGGERS = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_froggers.png")
     SPRITE_PLAYER_SHIP_VAMPIRE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_vampire.png")
     SPRITE_PLAYER_SHIP_MERCY = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_mercy.png")
+    SPRITE_PLAYER_SHIP_MERCY_GOLD = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_mercy_golden.png")
     SPRITE_PLAYER_SHIP_CHARGE_ORANGE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_charge_mid.png")
     SPRITE_PLAYER_SHIP_CHARGE_GREEN = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_charge.png")
     SPRITE_PLAYER_SHIP_CHARGE_RED = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_charge_full.png")
