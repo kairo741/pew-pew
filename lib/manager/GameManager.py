@@ -5,6 +5,8 @@ from lib.object.Axis import Axis
 from lib.object.Background import Background
 from lib.object.CustomJoy import CustomJoy
 from lib.object.Text import Text
+from lib.object.Score import Score
+from lib.object.Sound import Sound
 from lib.utils.Constants import Constants
 from lib.utils.LayoutPresets import LayoutPresets
 
@@ -63,7 +65,7 @@ class GameManager:
         self.ultimate_manager = UltimateManager(background=self.bg)
 
         self.fps = Text(x=self.resolution.x)
-        self.score = Text(x=0)
+        self.score = Score(x=0)
 
         self.player_manager.create_players(self.player_count, self.resolution)
 
@@ -75,18 +77,10 @@ class GameManager:
             self.joy_hid.open(1356, 1476)
             self.joy_hid.set_nonblocking(1)
 
-        self.sound_channel_sfx = pygame.mixer.Channel(Constants.MIXER_CHANNEL_SFX)
-        self.sound_channel_bgm = pygame.mixer.Channel(Constants.MIXER_CHANNEL_BGM)
-        self.sound_channel_bgm = pygame.mixer.Channel(Constants.MIXER_CHANNEL_BGM)
-        self.sound_channel_ult = pygame.mixer.Channel(Constants.MIXER_CHANNEL_ULT)
-        self.sound_channel_sfx.set_volume(0)
-        self.sound_channel_sfx.pause()
-        self.sound_channel_bgm.set_volume(0)
-        self.sound_channel_bgm.pause()
-        self.sound_channel_ult.set_volume(0)
-        self.sound_channel_ult.pause()
-        self.sound_channel_bgm.play(pygame.mixer.Sound(Constants.BGM_INDIGO), -1)
-        self.is_sound_paused = True
+        self.sound = Sound()
+        self.sound.play_bg_music()
+        self.sound.mute()
+
         self.pause = PauseManager(self)
 
     def tick_clock(self):
@@ -122,6 +116,8 @@ class GameManager:
 
             self.fps.set_text(round(self.clock.get_fps()))
             self.fps.render(self.screen, align="top-right")
+            if self.sound.is_sound_paused:
+                self.sound.render_muted_icon(self.screen, self.resolution)
 
             self.score.render(self.screen, align="top-left")
             self.number_manager.render(self.screen, self.render_frame_time)
@@ -167,21 +163,10 @@ class GameManager:
                         self.fullscreen_mode()
 
                 if event.key == pygame.K_F8:
-                    if self.is_sound_paused:
-                        self.sound_channel_sfx.set_volume(Constants.VOLUME_SFX)
-                        self.sound_channel_sfx.unpause()
-                        self.sound_channel_bgm.set_volume(Constants.VOLUME_BGM)
-                        self.sound_channel_bgm.unpause()
-                        self.sound_channel_ult.set_volume(Constants.VOLUME_ULT)
-                        self.sound_channel_ult.unpause()
+                    if self.sound.is_sound_paused:
+                        self.sound.unmute()
                     else:
-                        self.sound_channel_sfx.set_volume(0)
-                        self.sound_channel_sfx.pause()
-                        self.sound_channel_bgm.set_volume(0)
-                        self.sound_channel_bgm.pause()
-                        self.sound_channel_ult.set_volume(0)
-                        self.sound_channel_ult.pause()
-                    self.is_sound_paused = not self.is_sound_paused
+                        self.sound.mute()
 
                 self.reset_keys(event.key)
 

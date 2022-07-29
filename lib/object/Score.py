@@ -1,19 +1,15 @@
 from pygame import font
 from lib.utils.Constants import Constants
+from lib.object.Text import Text
 
 
-class Score:
-    def __init__(self):
-        # self.font = font.SysFont("Consolas", 34)
-        self.font = font.Font(Constants.FONT_RETRO_GAMING, 20)
+class Score(Text):
+    def __init__(self, x=0, y=0, size=..., speed=..., sprite="", glow_scale=2, font_size=20, text=""):
+        super().__init__(x, y, size, speed, sprite, glow_scale)
         self.value = 0
-
-    def reset(self):
-        self.value = 0
+        self.text = text
 
     def add(self, value):
         self.value += value
 
-    def render(self, display, position):
-        text = self.font.render(f'Score: {str(round(self.value))}', True, (255, 255, 255))
-        display.blit(text, position.to_list())
+        self.text = f'Score: {self.value}'
