@@ -285,12 +285,12 @@ class GameManager:
 
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:
-            self.sound_channel_sfx.play(Constants.SFX_DEATH)
+            self.sound.sound_channel_sfx.play(Constants.SFX_DEATH)
             self.game_over = True
 
     def activate_time_stop(self, activate):
         if activate:
-            self.sound_channel_sfx.play(Constants.SFX_TIME_STOP)
+            self.sound.sound_channel_sfx.play(Constants.SFX_TIME_STOP)
             self.time_stop = True
 
         else:
