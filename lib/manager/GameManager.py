@@ -139,8 +139,8 @@ class GameManager:
         self.player_input()
         self.update_controller_state()
 
-        if self.ultimate_manager.ultimate_enabled:
-            self.shake_screen(5)
+        if self.ultimate_manager.ultimate_enabled and self.ultimate_manager.get_time_passed() < 250:
+            self.shake_screen(20)
 
         elif set(self.screen_pos.to_list()) != set((0, 0)):
             self.screen_pos = Axis(0, 0)

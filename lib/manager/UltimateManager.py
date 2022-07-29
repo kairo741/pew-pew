@@ -13,8 +13,15 @@ class UltimateManager:
 
         self.disable_ultimate_function = lambda: None
 
+        self.ult_tick = 0
+
+    def get_time_passed(self):
+        return time.get_ticks() - self.ult_tick
+
     def do_ultimate(self, ultimate: Ultimate) -> bool:
         if self.ultimate_enabled is not True:
+            self.ult_tick = time.get_ticks()
+
             ultimate.enable_function()
 
             self.disable_ultimate_function = ultimate.disable_function
