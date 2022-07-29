@@ -1,8 +1,7 @@
-from lib.object.Axis import Axis
+from pygame import BLEND_MULT, Surface, font
+
 from lib.object.GameObject import GameObject
 from lib.utils.Constants import Constants
-
-from pygame import BLEND_MULT, Surface, font
 
 
 class Text(GameObject):
