@@ -96,6 +96,7 @@ class PauseManager:
 
         self.display_pause_menu()
         self.update_center_pos()
+        self.update_cursor_pos()
         self.draw_cursor()
         self.draw_buttons()
         crt.draw()
@@ -130,26 +131,30 @@ class PauseManager:
     def draw_cursor(self):
         self.draw_text('>', self.cursor_rect.x, self.cursor_rect.y)
 
+    def update_cursor_pos(self):
+        if self.state == 'Sound':
+            self.cursor_rect.midtop = (self.teste_pos.x + self.offset, self.sound_pos.y)
+        elif self.state == 'Teste':
+            self.cursor_rect.midtop = (self.exit_pos.x + self.offset, self.teste_pos.y)
+        elif self.state == 'Exit':
+            self.cursor_rect.midtop = (self.sound_pos.x + self.offset, self.exit_pos.y)
+
+
     def move_cursor(self, key):
         if key == K_DOWN or key == K_s:
             if self.state == 'Sound':
-                self.cursor_rect.midtop = (self.teste_pos.x + self.offset, self.teste_pos.y)
                 self.state = 'Teste'
             elif self.state == 'Teste':
-                self.cursor_rect.midtop = (self.exit_pos.x + self.offset, self.exit_pos.y)
                 self.state = 'Exit'
             elif self.state == 'Exit':
-                self.cursor_rect.midtop = (self.sound_pos.x + self.offset, self.sound_pos.y)
                 self.state = 'Sound'
+
         elif key == K_UP or key == K_w:
             if self.state == 'Sound':
-                self.cursor_rect.midtop = (self.exit_pos.x + self.offset, self.exit_pos.y)
                 self.state = 'Exit'
             elif self.state == 'Exit':
-                self.cursor_rect.midtop = (self.teste_pos.x + self.offset, self.teste_pos.y)
                 self.state = 'Teste'
             elif self.state == 'Teste':
-                self.cursor_rect.midtop = (self.sound_pos.x + self.offset, self.sound_pos.y)
                 self.state = 'Sound'
 
     def execute_current_action(self):
