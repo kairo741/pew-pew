@@ -156,6 +156,9 @@ class PauseManager:
         if self.state == "Exit":
             quit()
 
+        elif self.state == "Sound":
+            self.game.toggle_sound()
+
     def check_pause_events(self, event):
         if event.type == MOUSEBUTTONDOWN:
             self.mouse_button_state = True

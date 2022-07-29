@@ -63,6 +63,8 @@ class GameManager:
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager(background=self.bg)
+        
+        self.pause = PauseManager(self)
 
         self.fps = Text(x=self.resolution.x)
         self.score = Score(x=0)
@@ -81,7 +83,7 @@ class GameManager:
         self.sound.play_bg_music()
         self.sound.mute()
 
-        self.pause = PauseManager(self)
+        
 
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
@@ -130,6 +132,13 @@ class GameManager:
 
             pygame.display.update()
 
+    def toggle_sound(self):
+        if self.sound.is_sound_paused:
+            self.sound.unmute()
+        else:
+            self.sound.mute()
+
+
     def game_events(self):
         self.check_game_over()
         self.player_input()
@@ -163,10 +172,7 @@ class GameManager:
                         self.fullscreen_mode()
 
                 if event.key == pygame.K_F8:
-                    if self.sound.is_sound_paused:
-                        self.sound.unmute()
-                    else:
-                        self.sound.mute()
+                    self.toggle_sound()
 
                 self.reset_keys(event.key)
 
