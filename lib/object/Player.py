@@ -18,16 +18,18 @@ class Player(Ship):
         self.next_ult = time.get_ticks() + 1000
         self.last_ult = 0
 
-        self.ult_bar_hue = 0
 
         self.is_invincible = False
         self.is_ulted = False
+        self.ult_bar_hue = 0
+        self.ult_tick = 0
 
         self.xp = 0
 
         self.old_glow_scale = 0
 
     def enable_ultimate(self):
+        self.ult_tick = time.get_ticks()
         self.is_ulted = True
         self.old_glow_scale = self.glow_scale
         self.glow_scale = 10
@@ -161,6 +163,7 @@ class Player(Ship):
             self.ult_bar_hue = self.ult_bar_hue + 2 if self.ult_bar_hue < 359 else 0
             bar_color = Color(0)
             bar_color.hsla = ((self.ult_bar_hue, 100, 70, 70))
+            bar_size.x *= 1-(time.get_ticks()-self.ult_tick) / (self.ultimate.duration*1000)
 
             draw.rect(screen, bar_color,
                     (self.x, self.y + self.size.y + bar_size.y * 4, bar_size.x, bar_size.y))

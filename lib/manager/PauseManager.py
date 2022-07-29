@@ -62,7 +62,7 @@ class PauseManager:
 
         text = Text(font_size=40, text="Apply", color="Red").get_surface()
         text_size = text.get_size()
-        self.apply_button = Button(x=(self.game.resolution.x/2)-text_size[0]/2, y=self.game.resolution.y*0.8, size=Axis(text_size[0], text_size[1]), content=text)
+        self.apply_button = Button(x=self.game.resolution.x/2-(text_size[0]*1.5)/2, y=self.game.resolution.y*0.8, size=Axis(text_size[0]*1.5, text_size[1]*1.5), content=text)
         self.apply_button.on_click = lambda: self.set_apply_change()
 
         for index, player in enumerate(self.game.player_manager.players):

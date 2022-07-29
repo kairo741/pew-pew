@@ -32,7 +32,7 @@ class Enemy(Ship):
         return self.level**2/20
 
     def get_damage_multiplier(self):
-        return self.level**2/80
+        return self.level**2/65
 
     def enemy_passive(self):
         pass

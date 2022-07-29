@@ -80,11 +80,12 @@ class EnemyManager:
                 boss = list(filter(lambda enemy: type(enemy) is EnemyBoss, self.enemies))
                 if len(boss) > 0:
                     boss = boss[0]
-                    self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER)
+                    self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER, count=False)
                 else:
+                    self.enemy_count+=1
                     self.boss_spawned = False
 
-    def append_enemy(self, screen_size, player_quantity, x=None, y=None, preset=None):
+    def append_enemy(self, screen_size, player_quantity, x=None, y=None, preset=None, count=True):
         if x is not None and y is not None:
             enemy_x = x
             enemy_y = y
@@ -96,7 +97,8 @@ class EnemyManager:
             self.create_enemy(x=enemy_x, y=enemy_y, middle=screen_size.x / 2,
                               player_quantity=player_quantity, enemy_preset=preset))
         self.last_enemy = time.get_ticks()
-        self.enemy_count += 1
+        if count:
+            self.enemy_count += 1
 
     def manage_enemies(self, *actions):
         for enemy in self.enemies:

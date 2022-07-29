@@ -1,4 +1,4 @@
-from random import randint, uniform
+from random import uniform
 from lib.object.Player import Player
 from lib.utils.Constants import Constants
 from .Axis import Axis
@@ -16,9 +16,10 @@ class Bullet(GameObject):
 
         self.is_crit = False
         self.crit_rate = 0.25
-        if uniform(0, 1) < self.crit_rate:
-            self.damage *=2
-            self.is_crit = True
+        if self.tag != Constants.TAG_ENEMY:
+            if uniform(0, 1) < self.crit_rate:
+                self.damage *=2
+                self.is_crit = True
 
         
 

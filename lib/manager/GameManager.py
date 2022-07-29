@@ -187,8 +187,10 @@ class GameManager:
 
             if event.type == pygame.JOYBUTTONDOWN and event.button == 6:
                 if self.state == Constants.PAUSE:
+                    self.pause.stop_pause()
                     self.state = Constants.RUNNING
                 else:
+                    self.pause.start_pause()
                     self.state = Constants.PAUSE
 
             if event.type == Constants.ULTIMATE_END:

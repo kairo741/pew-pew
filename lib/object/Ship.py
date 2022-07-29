@@ -48,6 +48,7 @@ class Ship(GameObject):
     def reset(self):
         self.x = self.initial_position.x
         self.y = self.initial_position.y
+        self.set_level(1)
         self.revive()
 
     def disable(self):
