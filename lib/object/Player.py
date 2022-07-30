@@ -77,10 +77,9 @@ class Player(Ship):
                 if self.y + self.size.y < limit.y:
                     self.y += self.speed.y * multiplier * render_frame_time
 
-    def shoot(self, bullet_manager, damage_multiplier=1):
-        print(self.crit_rate)
+    def shoot(self, bullet_manager, damage_multiplier=1, shoot_delay_multiplier=1):
         if self.is_alive():
-            if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay:
+            if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay*shoot_delay_multiplier:
                 for generated_bullet in self.weapon.make_bullets(self.get_middle(), source_size=self.size):
                     generated_bullet.damage *= damage_multiplier
                     bullet_manager.shoot(generated_bullet)
