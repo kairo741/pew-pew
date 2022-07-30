@@ -144,8 +144,8 @@ class GameManager:
         self.player_input()
         self.update_controller_state()
 
-        if self.ultimate_manager.ultimate_enabled and self.ultimate_manager.get_time_passed() < 250:
-            self.shake_screen(20)
+        if self.ultimate_manager.get_shake_enabled():
+            self.shake_screen(3)
 
         elif set(self.screen_pos.to_list()) != set((0, 0)):
             self.screen_pos = Axis(0, 0)
@@ -191,6 +191,7 @@ class GameManager:
                 pygame.quit()
 
     def shake_screen(self, value):
+        value *= (self.resolution.x/1000)
         self.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
 
     def player_input(self):

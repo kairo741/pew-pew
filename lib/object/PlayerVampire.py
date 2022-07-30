@@ -15,7 +15,7 @@ class PlayerVampire(Player):
                  sprite_ult=Surface((0, 0)), bullet_manager=None):
         self.bullet_manager = bullet_manager
         ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate,
-                            color=[13, 1, 36], duration=6)
+                            color=[13, 1, 36], duration=6, shake_duration=None)
 
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, level=level, ultimate=ultimate)
         self.sprite_ult = sprite_ult
