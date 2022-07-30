@@ -6,7 +6,9 @@ from lib.object.BulletPierce import BulletPierce
 from lib.object.BulletVamp import BulletVamp
 from lib.object.Enemy import Enemy
 from lib.object.EnemyBoss import EnemyBoss
+from lib.object.Player import Player
 from lib.object.PlayerBalance import PlayerBalance
+from lib.object.PlayerBerserk import PlayerBerserk
 from lib.object.PlayerCharge import PlayerCharge
 from lib.object.PlayerFroggers import PlayerFroggers
 from lib.object.PlayerHealer import PlayerHealer
@@ -68,6 +70,12 @@ class Presets:
         bullet=Bullet(speed=Axis(0, -40), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.4), damage=10)
     )
 
+    PLAYER_BERSERK_WEAPON = Weapon(
+        shoot_delay=500,
+        weapon_type="triple",
+        bullet=Bullet(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.3), damage=8)
+    )
+
     ENEMY_DEFAULT_WEAPON = Weapon(
         shoot_delay=350,
         weapon_type="random",
@@ -119,7 +127,7 @@ class Presets:
     )
 
     PLAYER_WEAPONS = [PLAYER_BALANCE_WEAPON, PLAYER_PIERCE_WEAPON, PLAYER_SPEED_WEAPON, PLAYER_FROG_WEAPON,
-                      PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON, PLAYER_CHARGE_WEAPON]
+                      PLAYER_BAT_WEAPON, PLAYER_HEAL_WEAPON, PLAYER_CHARGE_WEAPON, PLAYER_BERSERK_WEAPON]
 
     PLAYER_BALANCE = PlayerBalance(
         speed=PLAYER_DEFAULT_SPEED,
@@ -174,4 +182,11 @@ class Presets:
         weapon=PLAYER_WEAPONS[6]
     )
 
-    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_FROGGERS, PLAYER_VAMPIRE, PLAYER_HEALER, PLAYER_CHARGE]
+    PLAYER_BERSERK = PlayerBerserk(
+        speed=PLAYER_DEFAULT_SPEED.scale_to(0.8),
+        sprite=Utils.scale_image(Constants.SPRITE_PLAYER_SHIP_BERSERK, 0.84).convert_alpha(),
+        health=PLAYER_DEFAULT_HEALTH * 2,
+        weapon=PLAYER_WEAPONS[7]
+    )
+
+    PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_FROGGERS, PLAYER_VAMPIRE, PLAYER_HEALER, PLAYER_CHARGE, PLAYER_BERSERK]
