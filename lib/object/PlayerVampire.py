@@ -20,11 +20,10 @@ class PlayerVampire(Player):
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, level=level, ultimate=ultimate)
         self.sprite_ult = sprite_ult
 
-        self.ult_enabled = False
         self.last_bat = 0
 
     def player_passive(self, render_frame_time):
-        if self.ult_enabled:
+        if self.is_ulted:
             if time.get_ticks() - self.last_bat > 15:
                 sprite = Utils.scale_image(
                     choice([Constants.SPRITE_BAT_1, Constants.SPRITE_BAT_2, Constants.SPRITE_BAT_3,
@@ -48,9 +47,7 @@ class PlayerVampire(Player):
         channel = mixer.Channel(Constants.MIXER_CHANNEL_ULT)
         channel.play(Constants.SFX_VAMPIRE_ULT)
         self.sprite = transform.smoothscale(self.sprite_ult, self.size.to_list())
-        self.ult_enabled = True
 
     def disable_ultimate(self):
         self.sprite = transform.smoothscale(self.initial_sprite, self.size.to_list())
-        self.ult_enabled = False
         super().disable_ultimate()

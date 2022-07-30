@@ -67,7 +67,7 @@ class Presets:
     PLAYER_CHARGE_WEAPON = Weapon(
         shoot_delay=180,
         weapon_type="single",
-        bullet=Bullet(speed=Axis(0, -40), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.4), damage=10)
+        bullet=Bullet(speed=Axis(0, -40), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.4), damage=7)
     )
 
     PLAYER_BERSERK_WEAPON = Weapon(

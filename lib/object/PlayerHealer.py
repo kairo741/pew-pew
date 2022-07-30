@@ -29,5 +29,5 @@ class PlayerHealer(Player):
     def disable_ultimate(self):
         for player in self.team:
             player.is_invincible = False
-        super().disable_ultimate()
         self.sprite = transform.smoothscale(self.initial_sprite, self.size.to_list())
+        super().disable_ultimate()

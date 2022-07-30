@@ -9,7 +9,10 @@ class NumberManager:
         self.numbers = []
 
     def add_damage_number(self, x, y, value, is_crit=False):
-        dn = Number(x, y, round(value), time.get_ticks(), color=Constants.COLOR_GREY if not is_crit else Constants.COLOR_YELLOW, duration=500, size=26 if not is_crit else 30)
+        dn = Number(x, y, round(value), time.get_ticks(), duration=800, 
+            size=26 if not is_crit else 30, 
+            color=Constants.COLOR_GREY if not is_crit else Constants.COLOR_YELLOW
+        )
         self.numbers.append(dn)
 
     def add_take_damage_number(self, x, y, value):
@@ -32,3 +35,5 @@ class NumberManager:
             else:
                 number.render(screen)
                 number.opacity -= (255 / time_left) * (render_frame_time * 10)
+                number.y -= 1 * render_frame_time
+                number.x += 1 * render_frame_time

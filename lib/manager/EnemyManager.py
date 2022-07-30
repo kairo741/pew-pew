@@ -156,7 +156,7 @@ class EnemyManager:
                     print("error in enemy collision action")
 
     def has_collided_player(self, enemy, player, *actions, render_frame_time=1):
-        if type(player) == PlayerSpeed and player.ulted:
+        if type(player) == PlayerSpeed and player.is_ulted:
             if enemy.collided_with(player):
                 enemy.take_damage((player.weapon.bullet.damage * 5) * render_frame_time)
                 player.xp+=(player.weapon.bullet.damage * 5) * render_frame_time

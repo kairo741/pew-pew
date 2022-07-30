@@ -14,21 +14,17 @@ class PlayerCharge(Player):
 
         self.charge_time = 0
 
-        self.cancel_charge_time = False
-
     def enable_ultimate(self):
         super().enable_ultimate()
-        self.cancel_charge_time = True
 
     def disable_ultimate(self):
-        self.cancel_charge_time = False
         super().disable_ultimate()
 
 
     def get_charge(self, raw=False):
         charge = (self.charge_time/100)
 
-        if self.cancel_charge_time:
+        if self.is_ulted:
             return 2
 
         if raw:

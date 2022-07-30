@@ -11,7 +11,6 @@ class PlayerSpeed(Player):
 
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level=level)
 
-        self.ulted = False
         
         self.rotate = 0
         self.old_sprite = Surface((0, 0))
@@ -31,19 +30,16 @@ class PlayerSpeed(Player):
     def enable_ultimate(self):
         super().enable_ultimate()
         self.save_attributes()
-
         self.weapon.shoot_delay = 10**10
         self.speed = self.speed.scale_to(2)
         self.rotate = 1
         self.is_invincible = True
-        self.ulted = True
 
     def disable_ultimate(self):
         self.restore_attributes()
 
         self.rotate = 0
         self.is_invincible = False
-        self.ulted = False
         super().disable_ultimate()
 
     def render(self, screen, render_frame_time):
