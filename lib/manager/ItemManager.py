@@ -114,3 +114,7 @@ class ItemManager:
     def recharge_ultimage(self, player):
         player.next_ult = time.get_ticks()
         self.number_manager.add_buff_info(player.x, player.y, "+ULT")
+
+    def raise_crit_rate(self, player):
+        player.crit_rate+=0.07
+        self.number_manager.add_buff_info(player.x, player.y, "+CRIT")

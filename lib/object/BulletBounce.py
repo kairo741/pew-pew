@@ -6,8 +6,8 @@ from random import uniform
 
 class BulletBounce(Bullet):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", damage=10, tag=Constants.TAG_PLAYER,
-                 source_reference=None):
-        super().__init__(x, y, size, speed, sprite, damage, tag, source_reference)
+                 source_reference=None, crit_rate=0):
+        super().__init__(x, y, size, speed, sprite, damage, tag, source_reference, crit_rate)
         self.wall_bounce = 3  # TODO - balancear baseado no nível
 
     def hit_callback(self, object_hit, collision):

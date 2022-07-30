@@ -15,7 +15,8 @@ class Ship(GameObject):
             weapon="",
             health=100,
             tag=Constants.TAG_PLAYER,
-            level=1
+            level=1,
+            crit_rate = -1
     ):
         super().__init__(x, y, size, speed, sprite)
 
@@ -28,6 +29,7 @@ class Ship(GameObject):
         self.initial_sprite = sprite
         self.tag = tag
         self.level = level
+        self.crit_rate = crit_rate
         self.set_level(self.level)
 
     def get_health_multiplier(self):

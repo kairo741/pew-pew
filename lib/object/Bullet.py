@@ -7,7 +7,7 @@ from .GameObject import GameObject
 
 class Bullet(GameObject):
     def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", damage=10, tag=Constants.TAG_PLAYER,
-                 source_reference=None):
+                 source_reference=None, crit_rate=0):
         super().__init__(x, y, size, speed, sprite)
         self.damage = damage
         self.tag = tag
@@ -15,11 +15,10 @@ class Bullet(GameObject):
         self.glow_scale = 0
 
         self.is_crit = False
-        self.crit_rate = 0.25
-        if self.tag != Constants.TAG_ENEMY:
-            if uniform(0, 1) < self.crit_rate:
-                self.damage *=2
-                self.is_crit = True
+        self.crit_rate = crit_rate
+        if uniform(0, 1) < self.crit_rate:
+            self.damage *=1.5
+            self.is_crit = True
 
         
 

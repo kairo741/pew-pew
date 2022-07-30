@@ -74,6 +74,7 @@ class Constants:
     SPRITE_POWER_UP_HEAL = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\heal_disk.png")
     SPRITE_POWER_UP_RANDOM = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\random_disk.png")
     SPRITE_POWER_UP_CHARGE_ULT = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\ult_disk.png")
+    SPRITE_POWER_UP_CRIT_RATE = image.load(ROOT_PATH + "\\assets\\images\\power_ups\\crit_disk.png")
 
     font.init()
     # Fonts

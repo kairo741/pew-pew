@@ -26,6 +26,7 @@ class Player(Ship):
         self.ult_tick = 0
 
         self.xp = 0
+        self.crit_rate = 0.1
 
         self.old_glow_scale = 0
 
@@ -77,6 +78,7 @@ class Player(Ship):
                     self.y += self.speed.y * multiplier * render_frame_time
 
     def shoot(self, bullet_manager, damage_multiplier=1):
+        print(self.crit_rate)
         if self.is_alive():
             if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay:
                 for generated_bullet in self.weapon.make_bullets(self.get_middle(), source_size=self.size):
