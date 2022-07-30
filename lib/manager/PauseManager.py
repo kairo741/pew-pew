@@ -3,7 +3,7 @@ from lib.object.game.Axis import Axis
 from lib.object.visual.Button import Button
 from lib.object.visual.Crt import CRT
 from lib.object.visual.Text import Text
-from pygame import K_DOWN, K_RETURN, K_UP, KEYDOWN, MOUSEBUTTONDOWN, K_s, K_w, Rect, quit, mouse, transform
+from pygame import K_DOWN, K_RETURN, K_UP, KEYDOWN, MOUSEBUTTONDOWN, K_s, K_w, Rect, Surface, quit, mouse, transform
 
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
@@ -24,6 +24,8 @@ class PauseManager:
         self.exit_pos = Axis(self.center_width, self.center_height + 120)
         self.cursor_rect.midtop = (self.center_width + self.offset, self.center_height)
 
+        self.game_last_frame = Surface((0, 0))
+
         self.apply_change = False
         self.mouse_button_state = False
 
@@ -43,15 +45,18 @@ class PauseManager:
 
         next_player = Presets.PLAYER_LIST[self.players[index]["index"]]
         button_ref.content = transform.smoothscale(next_player.sprite, button_ref.content.get_size())
-        self.players[index]["players"] = next_player
+        self.players[index]["player"] = next_player
 
 
     def set_apply_change(self):
         self.mouse_button_state = False
         self.apply_change = True
 
+    def copy_current_frame(self):
+        self.game_last_frame = self.game.screen.copy()
 
     def start_pause(self):
+        self.copy_current_frame()
         self.apply_change = False
         self.mouse_button_state = False
 
@@ -73,7 +78,7 @@ class PauseManager:
             button.on_click = Utils.copy_function2(self.change_player)
             button.on_click = partial(button.on_click, self, index, button)
             self.buttons.append(button)
-            self.players.append({"index": 0, "players": player})
+            self.players.append({"index": 0, "player": player})
 
     def stop_pause(self):
         if self.apply_change:
@@ -83,23 +88,18 @@ class PauseManager:
 
 
     def manage_pause(self):
-        crt = CRT(self.game.screen, self.game.resolution.x, self.game.resolution.y)
+        crt = CRT(self.game.resolution.x, self.game.resolution.y)
         pause_text = Text(text="Pause", color="Red", font_size=60, x=self.game.resolution.x/2, y=self.game.resolution.y/4)
         pause_text.render(self.game.screen, align="center")
-
-        for bullet in self.game.bullet_manager.bullets:
-            bullet.render(self.game.screen)
-        for enemy in self.game.enemy_manager.enemies:
-            enemy.render(self.game.screen)
-        for item in self.game.item_manager.items:
-            item.render(self.game.screen)
+        
+        self.game.screen = self.game_last_frame.copy()
 
         self.display_pause_menu()
         self.update_center_pos()
         self.update_cursor_pos()
         self.draw_cursor()
         self.draw_buttons()
-        crt.draw()
+        crt.draw(self.game.screen)
 
     def draw_buttons(self):
         self.apply_button.render(self.game.screen)

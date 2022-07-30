@@ -67,7 +67,7 @@ class GameManager:
         self.pause = PauseManager(self)
 
         self.fps = Text(x=self.resolution.x)
-        self.score = Score(x=0)
+        self.score = Score(x=0, text="Score: 0")
 
         self.player_manager.create_players(self.player_count, self.resolution)
 
@@ -93,44 +93,49 @@ class GameManager:
             self.tick_clock()
             self.game_events()
 
-            self.bg.render_background(self.screen, self.resolution)
-
-            if not self.game_over:
-                self.player_manager.render(self.screen, self.render_frame_time)
-
             if self.state == Constants.RUNNING:
-                normal_frame_time = self.render_frame_time
-                if self.time_stop:
-                    self.render_frame_time = 0.01
-
-                self.bg.manage_stars(self.render_frame_time)
-
-                self.manage_game_over()
-
-                self.manage_bullets()
-                self.manage_enemies()
-                self.manage_items()
-
-                if self.render_frame_time != 0.01:
-                    self.enemy_manager.spawn_enemy_random(self.resolution, len(self.player_manager.players))
-
-                self.render_frame_time = normal_frame_time
-
-            self.fps.set_text(round(self.clock.get_fps()))
-            self.fps.render(self.screen, align="top-right")
-            if self.sound.is_sound_paused:
-                self.sound.render_muted_icon(self.screen, self.resolution)
-
-            self.score.render(self.screen, align="top-left")
-            self.number_manager.render(self.screen, self.render_frame_time)
-
-            if self.state == Constants.PAUSE:
+                self.manage_game()
+            
+            elif self.state == Constants.PAUSE:
                 self.manage_game_over()
                 self.pause.manage_pause()
 
-            self.real_screen.blit(self.screen, self.screen_pos.to_list())
+            if self.sound.is_sound_paused:
+                self.sound.render_muted_icon(self.screen, self.resolution)
 
+            self.real_screen.blit(self.screen, self.screen_pos.to_list())
             pygame.display.update()
+
+
+    def manage_game(self):
+        self.bg.render_background(self.screen, self.resolution)
+
+        if not self.game_over:
+            self.player_manager.render(self.screen, self.render_frame_time)
+
+        normal_frame_time = self.render_frame_time
+        if self.time_stop:
+            self.render_frame_time = 0.01
+
+        self.bg.manage_stars(self.render_frame_time)
+
+        self.manage_game_over()
+
+        self.manage_bullets()
+        self.manage_enemies()
+        self.manage_items()
+
+        if self.render_frame_time != 0.01:
+            self.enemy_manager.spawn_enemy_random(self.resolution, len(self.player_manager.players))
+
+        self.render_frame_time = normal_frame_time
+
+        self.fps.set_text(round(self.clock.get_fps()))
+        self.fps.render(self.screen, align="top-right")
+
+        self.score.render(self.screen, align="top-left")
+        self.number_manager.render(self.screen, self.render_frame_time)
+
 
     def toggle_sound(self):
         if self.sound.is_sound_paused:
@@ -333,7 +338,7 @@ class GameManager:
         self.bullet_manager.reset()
         self.player_manager.reset()
         self.item_manager.reset()
-        self.score.reset()
+        self.score.reset("Score: 0")
         self.activate_time_stop(False)
         self.game_over = False
         self.player_manager.create_players(self.player_count, self.resolution)
@@ -350,3 +355,4 @@ class GameManager:
 
         self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
         self.is_fullscreen = not self.is_fullscreen
+        self.pause.copy_current_frame()
