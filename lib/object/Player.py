@@ -1,3 +1,4 @@
+from random import uniform
 import pygame
 from pygame import Color, draw, time, mixer
 
@@ -166,7 +167,7 @@ class Player(Ship):
             bar_size.x *= 1-(time.get_ticks()-self.ult_tick) / (self.ultimate.duration*1000)
 
             draw.rect(screen, bar_color,
-                    (self.x, self.y + self.size.y + bar_size.y * 4, bar_size.x, bar_size.y))
+                    (self.x+uniform(-5, 5), self.y+uniform(-5, 5) + self.size.y + bar_size.y * 4, bar_size.x, bar_size.y))
 
     def get_hitbox_rect(self):
         hitbox_size = Axis(self.size.x * 0.15, self.size.x * 0.15)
