@@ -3,7 +3,7 @@ from random import randint
 import types
 from pygame import transform
 
-from lib.object.Axis import Axis
+from lib.object.game.Axis import Axis
 
 
 class Utils:

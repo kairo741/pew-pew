@@ -1,6 +1,6 @@
 from lib.utils.Constants import Constants
 from .Bullet import Bullet
-from .Axis import Axis
+from lib.object.game.Axis import Axis
 
 
 class BulletVamp(Bullet):

@@ -1,5 +1,5 @@
 from .Axis import Axis
-from .GameObject import GameObject
+from lib.object.structure.GameObject import GameObject
 from random import randint
 from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils

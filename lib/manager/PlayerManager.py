@@ -1,9 +1,9 @@
 from random import randint
 
-from lib.object.PlayerBalance import PlayerBalance
-from lib.object.PlayerFroggers import PlayerFroggers
-from lib.object.PlayerHealer import PlayerHealer
-from lib.object.PlayerVampire import PlayerVampire
+from lib.object.players.PlayerBalance import PlayerBalance
+from lib.object.players.PlayerFroggers import PlayerFroggers
+from lib.object.players.PlayerHealer import PlayerHealer
+from lib.object.players.PlayerVampire import PlayerVampire
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
 

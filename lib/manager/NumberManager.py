@@ -1,5 +1,5 @@
 from lib.utils.Constants import Constants
-from lib.object.Number import Number
+from lib.object.visual.Number import Number
 from pygame import time
 
 

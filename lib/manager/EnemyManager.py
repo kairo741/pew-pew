@@ -1,8 +1,8 @@
 from random import randint, uniform
 
-from lib.object.Axis import Axis
-from lib.object.EnemyBoss import EnemyBoss
-from lib.object.PlayerSpeed import PlayerSpeed
+from lib.object.game.Axis import Axis
+from lib.object.enemies.EnemyBoss import EnemyBoss
+from lib.object.players.PlayerSpeed import PlayerSpeed
 from lib.utils.Presets import Presets
 from pygame import time
 

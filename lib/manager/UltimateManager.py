@@ -1,7 +1,7 @@
 from pygame import time
-from lib.object.Background import Background
+from lib.object.visual.Background import Background
 
-from lib.object.Ultimate import Ultimate
+from lib.object.game.Ultimate import Ultimate
 from lib.utils.Constants import Constants
 
 

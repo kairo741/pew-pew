@@ -1,5 +1,5 @@
 
-from lib.object.Enemy import Enemy
+from lib.object.enemies.Enemy import Enemy
 from lib.utils.Constants import Constants
 
 

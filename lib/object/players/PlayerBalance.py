@@ -1,5 +1,5 @@
-from .Player import Player
-from .Ultimate import Ultimate
+from lib.object.players.Player import Player
+from lib.object.game.Ultimate import Ultimate
 
 
 class PlayerBalance(Player):

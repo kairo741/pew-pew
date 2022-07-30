@@ -1,8 +1,8 @@
 from lib.utils.Constants import Constants
 from lib.utils.Utils import Utils
-from .Axis import Axis
-from .Player import Player
-from .Ultimate import Ultimate
+from lib.object.game.Axis import Axis
+from lib.object.players.Player import Player
+from lib.object.game.Ultimate import Ultimate
 
 
 class PlayerFroggers(Player):

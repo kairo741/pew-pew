@@ -1,12 +1,12 @@
 from random import uniform
 import pygame
 from lib.manager.UltimateManager import UltimateManager
-from lib.object.Axis import Axis
-from lib.object.Background import Background
-from lib.object.CustomJoy import CustomJoy
-from lib.object.Text import Text
-from lib.object.Score import Score
-from lib.object.Sound import Sound
+from lib.object.game.Axis import Axis
+from lib.object.visual.Background import Background
+from lib.object.structure.CustomJoy import CustomJoy
+from lib.object.visual.Text import Text
+from lib.object.visual.Score import Score
+from lib.object.structure.Sound import Sound
 from lib.utils.Constants import Constants
 from lib.utils.LayoutPresets import LayoutPresets
 

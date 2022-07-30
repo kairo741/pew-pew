@@ -1,7 +1,6 @@
 from pygame import Surface, transform
-from lib.object.Ultimate import Ultimate
-
-from .Player import Player
+from lib.object.game.Ultimate import Ultimate
+from lib.object.players.Player import Player
 
 
 class PlayerPierce(Player):

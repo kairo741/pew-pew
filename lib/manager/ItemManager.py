@@ -1,8 +1,8 @@
 from random import randint, uniform, choice
 from pygame import time
-from lib.object.Axis import Axis
-from lib.object.Item import Item, get_random_effect
-from lib.object.PlayerVampire import PlayerVampire
+from lib.object.game.Axis import Axis
+from lib.object.game.Item import Item, get_random_effect
+from lib.object.players.PlayerVampire import PlayerVampire
 from lib.utils.Utils import Utils
 
 

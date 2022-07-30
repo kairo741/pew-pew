@@ -1,6 +1,4 @@
-from pygame import font
-from lib.utils.Constants import Constants
-from lib.object.Text import Text
+from lib.object.visual.Text import Text
 
 
 class Score(Text):

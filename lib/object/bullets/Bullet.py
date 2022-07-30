@@ -1,8 +1,8 @@
 from random import uniform
-from lib.object.Player import Player
+from lib.object.players.Player import Player
 from lib.utils.Constants import Constants
-from .Axis import Axis
-from .GameObject import GameObject
+from lib.object.game.Axis import Axis
+from lib.object.structure.GameObject import GameObject
 
 
 class Bullet(GameObject):

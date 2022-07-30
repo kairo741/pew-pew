@@ -1,5 +1,5 @@
-from lib.object.Ultimate import Ultimate
-from .Player import Player
+from lib.object.game.Ultimate import Ultimate
+from lib.object.players.Player import Player
 
 class PlayerBerserk(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", ultimate=Ultimate(), level=1):

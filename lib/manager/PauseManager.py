@@ -1,8 +1,8 @@
 from functools import partial
-from lib.object.Axis import Axis
-from lib.object.Button import Button
-from lib.object.Crt import CRT
-from lib.object.Text import Text
+from lib.object.game.Axis import Axis
+from lib.object.visual.Button import Button
+from lib.object.visual.Crt import CRT
+from lib.object.visual.Text import Text
 from pygame import K_DOWN, K_RETURN, K_UP, KEYDOWN, MOUSEBUTTONDOWN, K_s, K_w, Rect, quit, mouse, transform
 
 from lib.utils.Presets import Presets
@@ -43,7 +43,7 @@ class PauseManager:
 
         next_player = Presets.PLAYER_LIST[self.players[index]["index"]]
         button_ref.content = transform.smoothscale(next_player.sprite, button_ref.content.get_size())
-        self.players[index]["player"] = next_player
+        self.players[index]["players"] = next_player
 
 
     def set_apply_change(self):
@@ -73,7 +73,7 @@ class PauseManager:
             button.on_click = Utils.copy_function2(self.change_player)
             button.on_click = partial(button.on_click, self, index, button)
             self.buttons.append(button)
-            self.players.append({"index": 0, "player": player})
+            self.players.append({"index": 0, "players": player})
 
     def stop_pause(self):
         if self.apply_change:

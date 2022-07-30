@@ -1,5 +1,5 @@
-from lib.object.Axis import Axis
-from lib.object.GameObject import GameObject
+from lib.object.game.Axis import Axis
+from lib.object.structure.GameObject import GameObject
 
 from pygame import Surface, draw
 

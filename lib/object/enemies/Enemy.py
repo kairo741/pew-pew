@@ -3,8 +3,8 @@ from random import randint
 from lib.utils.Constants import Constants
 from pygame import mixer, time
 
-from .Axis import Axis
-from .Ship import Ship
+from lib.object.game.Axis import Axis
+from lib.object.structure.Ship import Ship
 
 
 class Enemy(Ship):

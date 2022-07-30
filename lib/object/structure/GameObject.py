@@ -1,8 +1,8 @@
 from copy import deepcopy
 from pygame import BLEND_MULT, Rect, Surface, transform, draw
 
-from lib.object.Ultimate import Ultimate
-from .Axis import Axis
+from lib.object.game.Ultimate import Ultimate
+from lib.object.game.Axis import Axis
 from lib.utils.Constants import Constants
 
 

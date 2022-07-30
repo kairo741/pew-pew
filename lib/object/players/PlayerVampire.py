@@ -1,9 +1,9 @@
 from pygame import Surface, transform, time, mixer
 
-from lib.object.Ultimate import Ultimate
-from .Player import Player
-from .BulletVamp import BulletVamp
-from .Axis import Axis
+from lib.object.game.Ultimate import Ultimate
+from lib.object.players.Player import Player
+from lib.object.bullets.BulletVamp import BulletVamp
+from lib.object.game.Axis import Axis
 from random import uniform, choice
 from lib.utils.Utils import Utils
 from lib.utils.Constants import Constants

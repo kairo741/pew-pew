@@ -1,4 +1,4 @@
-from lib.object.Layout import Layout
+from lib.object.visual.Layout import Layout
 from pygame import (K_DELETE, K_DOWN, K_END, K_HOME, K_INSERT, K_LEFT,
                     K_PAGEDOWN, K_PAGEUP, K_RCTRL, K_RIGHT, K_RSHIFT, K_SPACE,
                     K_UP, K_a, K_d, K_h, K_i, K_j, K_k, K_l, K_n, K_s, K_w,

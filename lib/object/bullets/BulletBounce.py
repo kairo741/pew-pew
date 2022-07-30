@@ -1,5 +1,5 @@
-from lib.object.Axis import Axis
-from lib.object.Bullet import Bullet
+from lib.object.game.Axis import Axis
+from lib.object.bullets.Bullet import Bullet
 from lib.utils.Constants import Constants
 from random import uniform
 

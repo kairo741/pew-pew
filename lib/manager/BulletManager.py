@@ -1,6 +1,6 @@
-from lib.object.BulletBounce import BulletBounce
-from lib.object.BulletHeal import BulletHeal
-from lib.object.BulletPierce import BulletPierce
+from lib.object.bullets.BulletBounce import BulletBounce
+from lib.object.bullets.BulletHeal import BulletHeal
+from lib.object.bullets.BulletPierce import BulletPierce
 
 
 class BulletManager:

@@ -1,6 +1,6 @@
-from lib.object.Axis import Axis
-from lib.object.Ultimate import Ultimate
-from .Player import Player
+from lib.object.game.Axis import Axis
+from lib.object.game.Ultimate import Ultimate
+from lib.object.players.Player import Player
 
 from pygame import Surface, draw, transform
 

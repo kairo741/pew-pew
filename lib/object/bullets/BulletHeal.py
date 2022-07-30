@@ -1,7 +1,4 @@
-from copy import deepcopy
-
-from pygame import Surface
-from lib.object.Player import Player
+from lib.object.players.Player import Player
 
 from lib.utils.Constants import Constants
 from .Bullet import Bullet

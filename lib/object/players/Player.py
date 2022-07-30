@@ -2,10 +2,10 @@ from random import uniform
 import pygame
 from pygame import Color, draw, time, mixer
 
-from lib.object.Ultimate import Ultimate
+from lib.object.game.Ultimate import Ultimate
 from lib.utils.Constants import Constants
-from .Axis import Axis
-from .Ship import Ship
+from lib.object.game.Axis import Axis
+from lib.object.structure.Ship import Ship
 
 
 class Player(Ship):
