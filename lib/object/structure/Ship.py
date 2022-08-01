@@ -16,7 +16,7 @@ class Ship(GameObject):
             health=100,
             tag=Constants.TAG_PLAYER,
             level=1,
-            crit_rate = -1
+            crit_rate=-1
     ):
         super().__init__(x, y, size, speed, sprite)
 
@@ -33,16 +33,16 @@ class Ship(GameObject):
         self.set_level(self.level)
 
     def get_health_multiplier(self):
-        return self.level**2/50
+        return self.level ** 2 / 50
 
     def get_damage_multiplier(self):
-        return self.level**2/50
+        return self.level ** 2 / 50
 
     def set_level(self, level):
         if level > 100:
             level = 100
         self.level = level
-        self.health = self.base_health+(self.base_health*self.get_health_multiplier())
+        self.health = self.base_health + (self.base_health * self.get_health_multiplier())
         self.max_health = self.health
         if self.weapon is not None and self.weapon is not "":
             self.weapon.level = level
@@ -77,18 +77,17 @@ class Ship(GameObject):
         if self.is_alive():
             this_font = Constants.FONT_LEVEL_OBJECT
             red = 255
-            green = 255 * (1-self.level/100)
+            green = 255 * (1 - self.level / 100)
             blue = 255 / self.level
 
             text = this_font.render(str(self.level), True, (red, green, blue))
             text_size = text.get_size()
             if align == "bottom":
-                screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y+self.size.y*space_bottom))
+                screen.blit(text, (self.x + self.size.x / 2 - text_size[0] / 2, self.y + self.size.y * space_bottom))
 
             elif align == "top":
-                screen.blit(text, (self.x+self.size.x/2-text_size[0]/2, self.y-self.size.y*0.6))
+                screen.blit(text, (self.x + self.size.x / 2 - text_size[0] / 2, self.y - self.size.y * 0.6))
 
-    
     def render_lifebar(self, screen, align="bottom", color=Constants.COLOR_GREEN):
         lifebar_size = Axis(self.size.x, self.size.y / 10)
 
@@ -97,8 +96,7 @@ class Ship(GameObject):
 
         elif align == "top":
             pos_y = self.y - lifebar_size.y * 2
-        
-        
+
         health_size = lifebar_size.x * (self.health / self.max_health)
         draw.rect(screen, Constants.COLOR_RED,
                   (self.x, pos_y, lifebar_size.x, lifebar_size.y))

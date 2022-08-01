@@ -1,17 +1,13 @@
 from lib.object.game.Axis import Axis
 from lib.object.game.Ultimate import Ultimate
 from lib.object.players.Player import Player
-
 from pygame import Surface, transform
 
 
 class PlayerSpeed(Player):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", level=1):
         ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate, duration=8, color=[23, 0, 0])
-
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level=level)
-
-        
         self.rotate = 0
         self.old_sprite = Surface((0, 0))
         self.old_speed = Axis(0, 0)
@@ -37,7 +33,6 @@ class PlayerSpeed(Player):
 
     def disable_ultimate(self):
         self.restore_attributes()
-
         self.rotate = 0
         self.is_invincible = False
         super().disable_ultimate()
