@@ -1,11 +1,12 @@
 from copy import deepcopy
+from math import atan2, pi
 from random import randint, uniform
 
-from pygame import Surface
-
-from lib.object.game.Axis import Axis
 from lib.object.bullets.Bullet import Bullet
+from lib.object.game.Axis import Axis
 from lib.object.structure.Ship import Ship
+from lib.utils.Constants import Constants
+from pygame import Surface, transform
 
 
 class Weapon:
@@ -109,5 +110,15 @@ class Weapon:
                     if x != 0 or y!=0:
                         bullets.append(self.create_bullet(spawn_position.x+(source_size.x/3*(y/speed)), spawn_position.y-(source_size.y/3*(x/speed)),
                                                 override_speed=Axis(x=x, y=y)))
+
+        for bullet in bullets:
+            if bullet.tag == Constants.TAG_PLAYER:
+                angle = atan2(bullet.speed.x, bullet.speed.y) * (180/pi)
+                if angle != 180:
+                    bullet.sprite = transform.rotate(bullet.sprite.copy(), angle)
+                    size = bullet.sprite.get_size()
+                    bullet.x -= (size[0] - bullet.size.x)/2
+                    bullet.y -= (size[1] - bullet.size.y)/2
+                    bullet.set_size_with_sprite()
 
         return bullets
