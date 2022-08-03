@@ -1,6 +1,6 @@
+from lib.object.game.Axis import Axis
 from lib.utils.Constants import Constants
 from .Bullet import Bullet
-from lib.object.game.Axis import Axis
 
 
 class BulletVamp(Bullet):
@@ -10,6 +10,5 @@ class BulletVamp(Bullet):
 
     def hit_callback(self, object, collision):
         super().hit_callback(object, collision)
-        if self.source_reference.health < self.source_reference.max_health:
+        if 0 < self.source_reference.health < self.source_reference.max_health:
             self.source_reference.health += self.source_reference.max_health * 0.02
-
