@@ -5,6 +5,8 @@ from pygame import image, mixer, font, USEREVENT
 class Constants:
     ROOT_PATH = path.abspath(path.join(path.dirname(__file__), "..\..", ""))
 
+    WINDOW_CAPTION = "PewPew 🚀🛸"
+
     # Colors
     BACKGROUND_COLOR = (14, 6, 21)
     COLOR_RED = (255, 50, 50)
@@ -44,7 +46,6 @@ class Constants:
     SPRITE_PLAYER_SHIP_CHARGE_GREEN = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_charge.png")
     SPRITE_PLAYER_SHIP_CHARGE_RED = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_charge_full.png")
     SPRITE_PLAYER_SHIP_BERSERK = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_berserk.png")
-    
 
     SPRITE_BULLET_BLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_blue.png")
     SPRITE_BULLET_LIGHTBLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_lightblue.png")

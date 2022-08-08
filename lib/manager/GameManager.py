@@ -15,7 +15,7 @@ class GameManager:
     def __init__(self):
         super().__init__()
         pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
-        pygame.display.set_caption("PewPew 🚀🛸")
+        pygame.display.set_caption(Constants.WINDOW_CAPTION)
         pygame.display.init()
         pygame.joystick.init()
         pygame.font.init()
@@ -63,7 +63,7 @@ class GameManager:
         self.number_manager = NumberManager()
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager(background=self.bg)
-        
+
         self.pause = PauseManager(self)
 
         self.fps = Text(x=self.resolution.x)
@@ -83,8 +83,6 @@ class GameManager:
         self.sound.play_bg_music()
         self.sound.mute()
 
-        
-
     def tick_clock(self):
         self.render_frame_time = self.clock.tick() / 10
 
@@ -95,7 +93,7 @@ class GameManager:
 
             if self.state == Constants.RUNNING:
                 self.manage_game()
-            
+
             elif self.state == Constants.PAUSE:
                 self.manage_game_over()
                 self.pause.manage_pause()
@@ -105,7 +103,6 @@ class GameManager:
 
             self.real_screen.blit(self.screen, self.screen_pos.to_list())
             pygame.display.update()
-
 
     def manage_game(self):
         self.bg.render_background(self.screen, self.resolution)
@@ -136,13 +133,11 @@ class GameManager:
         self.score.render(self.screen, align="top-left")
         self.number_manager.render(self.screen, self.render_frame_time)
 
-
     def toggle_sound(self):
         if self.sound.is_sound_paused:
             self.sound.unmute()
         else:
             self.sound.mute()
-
 
     def game_events(self):
         self.check_game_over()
@@ -196,7 +191,7 @@ class GameManager:
                 pygame.quit()
 
     def shake_screen(self, value):
-        value *= (self.resolution.x/1000)
+        value *= (self.resolution.x / 1000)
         self.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
 
     def player_input(self):
