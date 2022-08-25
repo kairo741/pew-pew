@@ -45,7 +45,7 @@ class Player(Ship):
         self.set_glow()
 
     def check_level_up(self):
-        damage_required = self.xp / (1000 * self.level)
+        damage_required = self.xp / (500 * self.level)
         if damage_required > self.level:
             if self.is_alive():
                 self.set_level(self.level + 1)
@@ -145,7 +145,7 @@ class Player(Ship):
 
     def render_hitbox(self, screen):
         shape_surf = pygame.Surface(pygame.Rect(self.get_hitbox_rect()).size, pygame.SRCALPHA)
-        pygame.draw.rect(shape_surf, (255, 40, 40, 150), shape_surf.get_rect(), border_radius=10)
+        pygame.draw.rect(shape_surf, (255, 40, 40), shape_surf.get_rect())
         screen.blit(shape_surf, self.get_hitbox_rect())
 
     def render_ult_bar(self, screen):
@@ -171,7 +171,7 @@ class Player(Ship):
                     (self.x+uniform(-5, 5), self.y+uniform(-5, 5) + self.size.y + bar_size.y * 4, bar_size.x, bar_size.y))
 
     def get_hitbox_rect(self):
-        hitbox_size = Axis(self.size.x * 0.15, self.size.x * 0.15)
+        hitbox_size = Axis(self.size.x * 0.1, self.size.x * 0.1)
         middle = self.get_middle()
         middle.x -= (hitbox_size.x / 2)
         middle.y -= hitbox_size.x / 2
