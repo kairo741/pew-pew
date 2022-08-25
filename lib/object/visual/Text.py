@@ -37,6 +37,9 @@ class Text(GameObject):
         if align == "center":
             screen.blit(text, [self.x - size[0] / 2, self.y - size[1] / 2])
 
+        elif align == "bottom-center":
+            screen.blit(text, [self.x - size[0] / 2, self.y-size[1]])
+
         elif align == "top-left":
             screen.blit(text, [self.x, self.y])
 

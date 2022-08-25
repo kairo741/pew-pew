@@ -53,6 +53,7 @@ class GameManager:
 
         self.time_stop = False
         self.game_over = False
+        self.round_started = False
         self.player_count = 4
 
         self.bg = Background()
@@ -67,6 +68,7 @@ class GameManager:
         self.pause = PauseManager(self)
 
         self.fps = Text(x=self.resolution.x)
+        self.start_text = Text(x=self.resolution.x/2, y=self.resolution.y, text="Press Enter to Start")
         self.score = Score(x=0, text="Score: 0")
 
         self.player_manager.create_players(self.player_count, self.resolution)
@@ -122,8 +124,12 @@ class GameManager:
         self.manage_enemies()
         self.manage_items()
 
-        if self.render_frame_time != 0.01:
-            self.enemy_manager.spawn_enemy_random(self.resolution, len(self.player_manager.players))
+        if self.round_started:
+            if self.render_frame_time != 0.01:
+                self.enemy_manager.spawn_enemy_random(self.resolution, len(self.player_manager.players))
+
+        else:
+            self.start_text.render(self.screen, align="bottom-center")
 
         self.render_frame_time = normal_frame_time
 
@@ -170,6 +176,9 @@ class GameManager:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.fullscreen_mode()
+
+                    elif not self.round_started:
+                        self.round_started = True
 
                 if event.key == pygame.K_F8:
                     self.toggle_sound()
@@ -336,6 +345,7 @@ class GameManager:
         self.score.reset("Score: 0")
         self.activate_time_stop(False)
         self.game_over = False
+        self.round_started = False
         self.player_manager.create_players(self.player_count, self.resolution)
 
     def fullscreen_mode(self):
