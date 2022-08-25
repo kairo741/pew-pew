@@ -30,7 +30,7 @@ class PlayerPierce(Player):
 
         self.sprite = transform.smoothscale(self.sprite_ult, self.size.to_list())
         self.weapon.shoot_delay = 25
-        self.weapon.bullet.damage *= 1.75
+        self.weapon.bullet.damage *= 1.25
 
     def disable_ultimate(self):
         self.restore_attributes()
