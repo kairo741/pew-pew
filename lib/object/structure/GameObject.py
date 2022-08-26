@@ -99,7 +99,7 @@ class GameObject:
         self.x -= self.size.x / 2
         self.y -= self.size.y / 2
 
-    def render(self, screen, show_hitbox=False):
+    def render(self, screen, show_hitbox=False, sprite=None):
         if self.glow_scale > 0:
             glow_difference = Axis((self.size.x * self.glow_scale) - self.size.x,
                                    (self.size.y * self.glow_scale) - self.size.y)
@@ -108,4 +108,7 @@ class GameObject:
         if show_hitbox:
             draw.rect(screen, (255, 255, 255), self.get_hitbox_rect(), 1)
 
-        screen.blit(self.sprite, self.to_rect())
+        if sprite is None:
+            sprite = self.sprite
+
+        screen.blit(sprite, self.to_rect())

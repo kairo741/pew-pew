@@ -1,7 +1,7 @@
 from .GameObject import GameObject
 from lib.object.game.Axis import Axis
 from lib.utils.Constants import Constants
-from pygame import Surface, draw
+from pygame import Surface, draw, time, BLEND_RGB_ADD
 
 
 class Ship(GameObject):
@@ -31,6 +31,9 @@ class Ship(GameObject):
         self.level = level
         self.crit_rate = crit_rate
         self.set_level(self.level)
+
+        self.last_damage_tick = -100
+        self.damage_taken_sprite = sprite
 
     def get_health_multiplier(self):
         return self.level ** 2 / 50
@@ -65,13 +68,21 @@ class Ship(GameObject):
 
     def set_size_with_sprite(self, set_glow=True):
         self.initial_sprite = self.sprite.copy()
-        return super().set_size_with_sprite(set_glow)
+        super().set_size_with_sprite(set_glow)
+
+        self.damage_taken_sprite = self.sprite.copy()
+
+        damage_sprite = Surface(self.sprite.get_size())
+        damage_sprite.fill((255, 25, 25))
+
+        self.damage_taken_sprite.blit(damage_sprite, (0, 0), special_flags=BLEND_RGB_ADD)
 
     def is_alive(self):
         return self.health > 0
 
     def take_damage(self, value):
         self.health -= value
+        self.last_damage_tick = time.get_ticks()
 
     def render_level(self, screen, align="bottom", space_bottom=1.6):
         if self.is_alive():
@@ -101,3 +112,9 @@ class Ship(GameObject):
         draw.rect(screen, Constants.COLOR_RED,
                   (self.x, pos_y, lifebar_size.x, lifebar_size.y))
         draw.rect(screen, color, (self.x, pos_y, health_size, lifebar_size.y))
+
+    def render(self, screen, show_hitbox=False):
+        if time.get_ticks() - self.last_damage_tick < 100:
+            super().render(screen, show_hitbox, sprite=self.damage_taken_sprite)
+        else:
+            super().render(screen, show_hitbox)
