@@ -51,8 +51,7 @@ class EnemyManager:
             new_enemy.weapon.source_reference = new_enemy
 
         new_enemy.speed = enemy_speed
-        new_enemy.health += new_enemy.health * (player_quantity - 0.5)
-        new_enemy.max_health = new_enemy.health
+        new_enemy.base_health += new_enemy.base_health * (player_quantity / 3)
 
         new_enemy.set_size_with_sprite()
         new_enemy.center()
