@@ -11,3 +11,7 @@ class Score(Text):
         self.value += value
 
         self.text = f'Score: {self.value}'
+
+    def reset(self, value=0):
+        self.value = 0
+        return super().reset(value)
