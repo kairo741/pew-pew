@@ -3,36 +3,42 @@ from lib.object.game.Ultimate import Ultimate
 from lib.object.players.Player import Player
 
 from pygame import Surface, draw, transform
+from lib.utils.Constants import Constants
+from lib.object.bullets.BulletPierce import BulletPierce
+from lib.utils.Utils import Utils
+
 
 class PlayerCharge(Player):
-    def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", ultimate=Ultimate(), level=1, sprite_mid=Surface((0, 0)), sprite_full=Surface((0, 0))):
+    def __init__(self, x=0, y=0, size=..., speed=..., sprite="", weapon="", health=100, layout="", ultimate=Ultimate(),
+                 level=1, sprite_mid=Surface((0, 0)), sprite_full=Surface((0, 0))):
         ultimate = Ultimate(enable_function=self.enable_ultimate, disable_function=self.disable_ultimate,
                             color=[20, 0, 23])
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level)
         self.sprite_mid = sprite_mid
         self.sprite_full = sprite_full
-
+        self.old_bullet = None
         self.charge_time = 0
 
     def enable_ultimate(self):
         super().enable_ultimate()
+        self.sprite = transform.smoothscale(Constants.SPRITE_PLAYER_SHIP_CHARGE_ULT, self.size.to_list())
+        self.old_bullet = self.weapon.bullet
+        self.weapon.bullet = BulletPierce(speed=Axis(0, -40),
+                                          sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 1.2), damage=7)
 
     def disable_ultimate(self):
         super().disable_ultimate()
-
+        self.weapon.bullet = self.old_bullet
 
     def get_charge(self, raw=False):
-        charge = (self.charge_time/100)
+        charge = (self.charge_time / 100)
 
         if self.is_ulted:
             return 2
-
         if raw:
             return charge
-        
         if charge > 2:
             charge = 2
-
         elif charge < 1:
             charge = 1
 
@@ -49,20 +55,19 @@ class PlayerCharge(Player):
         elif self.sprite != self.initial_sprite:
             self.sprite = transform.smoothscale(self.initial_sprite.copy(), self.size.to_list())
 
-
     def player_passive(self, render_frame_time):
-        charge_increment = (1+(1/self.weapon.shoot_delay)*100)
+        charge_increment = (1 + (1 / self.weapon.shoot_delay) * 100)
         self.charge_time += charge_increment * render_frame_time
 
-        self.check_sprite_change()
+        if not self.is_ulted:
+            self.check_sprite_change()
         return super().player_passive(render_frame_time)
-
 
     def shoot(self, bullet_manager):
         charge = self.get_charge()
         self.charge_time = 0
 
-        return super().shoot(bullet_manager, damage_multiplier=charge**6)
+        return super().shoot(bullet_manager, damage_multiplier=charge ** 6)
 
     def render_charge_shot(self, screen):
         bar_size = Axis(self.size.x, self.size.y / 10)
