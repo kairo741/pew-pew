@@ -47,7 +47,7 @@ class Ship(GameObject):
         self.level = level
         self.health = self.base_health + (self.base_health * self.get_health_multiplier())
         self.max_health = self.health
-        if self.weapon is not None and self.weapon is not "":
+        if self.weapon is not None and self.weapon != "":
             self.weapon.level = level
 
     def reset(self):

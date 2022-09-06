@@ -68,9 +68,10 @@ class EnemyManager:
                                                       player_quantity=player_quantity, is_boss=True))
                 self.boss_spawned = True
 
-            elif time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50), 2000 - (player_quantity * 150)):
+            elif time.get_ticks() - self.last_enemy > randint(800 - (player_quantity * 50),
+                                                              2000 - (player_quantity * 150)):
                 if ((self.enemy_count + 1) % 6) == 0:
-                    self.enemy_level+=1
+                    self.enemy_level += 1
                 self.append_enemy(screen_size, player_quantity)
 
         else:
@@ -79,9 +80,10 @@ class EnemyManager:
                 boss = list(filter(lambda enemy: type(enemy) is EnemyBoss, self.enemies))
                 if len(boss) > 0:
                     boss = boss[0]
-                    self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER, count=False)
+                    self.append_enemy(screen_size, player_quantity, x=boss.x, y=boss.y, preset=Presets.ENEMY_BUMPER,
+                                      count=False)
                 else:
-                    self.enemy_count+=1
+                    self.enemy_count += 1
                     self.boss_spawned = False
 
     def append_enemy(self, screen_size, player_quantity, x=None, y=None, preset=None, count=True):
@@ -134,7 +136,6 @@ class EnemyManager:
                 enemy.speed.x = -enemy.speed.x
             elif enemy.y > screen_size.y:
                 enemy.speed.y = -enemy.speed.y
-            
 
     def check_death(self, enemy, *actions):
         if enemy.health < 1:
@@ -158,7 +159,7 @@ class EnemyManager:
         if type(player) == PlayerSpeed and player.is_ulted:
             if enemy.collided_with(player):
                 enemy.take_damage((player.weapon.bullet.damage * 5) * render_frame_time)
-                player.xp+=(player.weapon.bullet.damage * 5) * render_frame_time
+                player.xp += (player.weapon.bullet.damage * 5) * render_frame_time
 
         elif enemy.collided_with(player, player.get_hitbox_rect()):
             if not player.is_invincible:
