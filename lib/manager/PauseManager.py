@@ -15,8 +15,8 @@ class PauseManager:
         self.cursor_rect = Rect(0, 0, 20, 20)
         self.game = game
         self.offset = - 100
-        self.center_width = game.resolution.x / 2
-        self.center_height = (game.resolution.y / 2) - 100
+        self.center_width = self.game.engine.resolution.x / 2
+        self.center_height = (self.game.engine.resolution.y / 2) - 100
 
         self.state = 'Sound'
         self.sound_pos = Axis(self.center_width, self.center_height)
@@ -53,7 +53,7 @@ class PauseManager:
         self.apply_change = True
 
     def copy_current_frame(self):
-        self.game_last_frame = self.game.screen.copy()
+        self.game_last_frame = self.game.engine.screen.copy()
 
     def start_pause(self):
         self.copy_current_frame()
@@ -67,12 +67,12 @@ class PauseManager:
 
         text = Text(font_size=40, text="Apply", color="Red").get_surface()
         text_size = text.get_size()
-        self.apply_button = Button(x=self.game.resolution.x/2-(text_size[0]*1.5)/2, y=self.game.resolution.y*0.8, size=Axis(text_size[0]*1.5, text_size[1]*1.5), content=text)
+        self.apply_button = Button(x=self.game.engine.resolution.x/2-(text_size[0]*1.5)/2, y=self.game.engine.resolution.y*0.8, size=Axis(text_size[0]*1.5, text_size[1]*1.5), content=text)
         self.apply_button.on_click = lambda: self.set_apply_change()
 
         for index, player in enumerate(self.game.player_manager.players):
-            x = (self.game.resolution.x/5)*(index+1)
-            y = self.game.resolution.y/1.5
+            x = (self.game.engine.resolution.x/5)*(index+1)
+            y = self.game.engine.resolution.y/1.5
 
             button = Button(x=x, y=y, size=Axis(100, 100), content=player.sprite)
             button.on_click = Utils.copy_function2(self.change_player)
@@ -84,36 +84,36 @@ class PauseManager:
         if self.apply_change:
             self.game.player_manager.players = []
             for player in self.players:
-                self.game.player_manager.create_player(self.game.resolution, Presets.PLAYER_LIST[player["index"]])
+                self.game.player_manager.create_player(self.game.engine.resolution, Presets.PLAYER_LIST[player["index"]])
 
 
     def manage_pause(self):
-        crt = CRT(self.game.resolution.x, self.game.resolution.y)
-        pause_text = Text(text="Pause", color="Red", font_size=60, x=self.game.resolution.x/2, y=self.game.resolution.y/4)
-        pause_text.render(self.game.screen, align="center")
+        crt = CRT(self.game.engine.resolution.x, self.game.engine.resolution.y)
+        pause_text = Text(text="Pause", color="Red", font_size=60, x=self.game.engine.resolution.x/2, y=self.game.engine.resolution.y/4)
+        pause_text.render(self.game.engine.screen, align="center")
         
-        self.game.screen = self.game_last_frame.copy()
+        self.game.engine.screen = self.game_last_frame.copy()
 
         self.display_pause_menu()
         self.update_center_pos()
         self.update_cursor_pos()
         self.draw_cursor()
         self.draw_buttons()
-        crt.draw(self.game.screen)
+        crt.draw(self.game.engine.screen)
 
     def draw_buttons(self):
-        self.apply_button.render(self.game.screen)
+        self.apply_button.render(self.game.engine.screen)
         self.apply_button.cursor_pos = mouse.get_pos()
         self.apply_button.cursor_clicked = self.mouse_button_state
         
         for button in self.buttons:
             button.cursor_pos = mouse.get_pos()
             button.cursor_clicked = self.mouse_button_state
-            button.render(self.game.screen)
+            button.render(self.game.engine.screen)
 
     def update_center_pos(self):
-        self.center_width = self.game.resolution.x / 2
-        self.center_height = (self.game.resolution.y / 2) - 100
+        self.center_width = self.game.engine.resolution.x / 2
+        self.center_height = (self.game.engine.resolution.y / 2) - 100
         self.sound_pos = Axis(self.center_width, self.center_height)
         self.teste_pos = Axis(self.center_width, self.center_height + 60)
         self.exit_pos = Axis(self.center_width, self.center_height + 120)
@@ -126,7 +126,7 @@ class PauseManager:
 
     def draw_text(self, txt, x, y):
         txt = Text(text=txt, x=x, y=y, font_size=40)
-        txt.render(self.game.screen)
+        txt.render(self.game.engine.screen)
 
     def draw_cursor(self):
         self.draw_text('>', self.cursor_rect.x, self.cursor_rect.y)

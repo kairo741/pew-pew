@@ -1,12 +1,14 @@
 from random import uniform
+
 import pygame
+from lib.Engine import Engine
 from lib.manager.UltimateManager import UltimateManager
 from lib.object.game.Axis import Axis
-from lib.object.visual.Background import Background
 from lib.object.structure.CustomJoy import CustomJoy
-from lib.object.visual.Text import Text
-from lib.object.visual.Score import Score
 from lib.object.structure.Sound import Sound
+from lib.object.visual.Background import Background
+from lib.object.visual.Score import Score
+from lib.object.visual.Text import Text
 from lib.utils.Constants import Constants
 from lib.utils.LayoutPresets import LayoutPresets
 
@@ -14,29 +16,7 @@ from lib.utils.LayoutPresets import LayoutPresets
 class GameManager:
     def __init__(self):
         super().__init__()
-        pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
-        pygame.display.set_caption(Constants.WINDOW_CAPTION)
-        pygame.display.init()
-        pygame.joystick.init()
-        pygame.font.init()
-        pygame.event.set_allowed([pygame.KEYDOWN, pygame.QUIT, pygame.JOYBUTTONDOWN, Constants.ULTIMATE_END])
-
-        self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
-        self.flags = self.base_flags
-
-        self.is_fullscreen = False
-
-        self.get_res = pygame.display.Info()
-        self.resolution = Axis(
-            x=int(self.get_res.current_w),
-            y=int(self.get_res.current_h * 0.925))
-        self.real_screen = pygame.display.set_mode(
-            size=self.resolution.to_list(),
-            flags=self.flags,
-            depth=24)
-
-        self.screen = self.real_screen.copy()
-        self.screen_pos = Axis(0, 0)
+        self.engine = Engine()
 
         from .BulletManager import BulletManager
         from .EnemyManager import EnemyManager
@@ -46,11 +26,6 @@ class GameManager:
         from .PlayerManager import PlayerManager
 
         self.state = Constants.RUNNING
-        self.clock = pygame.time.Clock()
-        self.render_frame_time = 0
-
-        self.joysticks = []
-
         self.time_stop = False
         self.game_over = False
         self.round_started = False
@@ -67,11 +42,11 @@ class GameManager:
 
         self.pause = PauseManager(self)
 
-        self.fps = Text(x=self.resolution.x)
-        self.start_text = Text(x=self.resolution.x/2, y=self.resolution.y, text="Press Enter to Start")
+        self.fps = Text(x=self.engine.resolution.x)
+        self.start_text = Text(x=self.engine.resolution.x/2, y=self.engine.resolution.y, text="Press Enter to Start")
         self.score = Score(x=0, text="Score: 0")
 
-        self.player_manager.create_players(self.player_count, self.resolution)
+        self.player_manager.create_players(self.player_count, self.engine.resolution)
 
         self.use_gyro = False
 
@@ -86,7 +61,7 @@ class GameManager:
         self.sound.mute()
 
     def tick_clock(self):
-        self.render_frame_time = self.clock.tick() / 10
+        self.render_frame_time = self.engine.clock.tick() / 10
 
     def start(self):
         while True:
@@ -101,16 +76,16 @@ class GameManager:
                 self.pause.manage_pause()
 
             if self.sound.is_sound_paused:
-                self.sound.render_muted_icon(self.screen, self.resolution)
+                self.sound.render_muted_icon(self.engine.screen, self.engine.resolution)
 
-            self.real_screen.blit(self.screen, self.screen_pos.to_list())
+            self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
             pygame.display.update()
 
     def manage_game(self):
-        self.bg.render_background(self.screen, self.resolution)
+        self.bg.render_background(self.engine.screen, self.engine.resolution)
 
         if not self.game_over:
-            self.player_manager.render(self.screen, self.render_frame_time)
+            self.player_manager.render(self.engine.screen, self.render_frame_time)
 
         normal_frame_time = self.render_frame_time
         if self.time_stop:
@@ -126,18 +101,18 @@ class GameManager:
 
         if self.round_started:
             if self.render_frame_time != 0.01:
-                self.enemy_manager.spawn_enemy_random(self.resolution, len(self.player_manager.players))
+                self.enemy_manager.spawn_enemy_random(self.engine.resolution, len(self.player_manager.players))
 
         else:
-            self.start_text.render(self.screen, align="bottom-center")
+            self.start_text.render(self.engine.screen, align="bottom-center")
 
         self.render_frame_time = normal_frame_time
 
-        self.fps.set_text(round(self.clock.get_fps()))
-        self.fps.render(self.screen, align="top-right")
+        self.fps.set_text(round(self.engine.clock.get_fps()))
+        self.fps.render(self.engine.screen, align="top-right")
 
-        self.score.render(self.screen, align="top-left")
-        self.number_manager.render(self.screen, self.render_frame_time)
+        self.score.render(self.engine.screen, align="top-left")
+        self.number_manager.render(self.engine.screen, self.render_frame_time)
 
     def toggle_sound(self):
         if self.sound.is_sound_paused:
@@ -153,8 +128,8 @@ class GameManager:
         if self.ultimate_manager.get_shake_enabled():
             self.shake_screen(3)
 
-        elif set(self.screen_pos.to_list()) != set((0, 0)):
-            self.screen_pos = Axis(0, 0)
+        elif set(self.engine.screen_pos.to_list()) != set((0, 0)):
+            self.engine.screen_pos = Axis(0, 0)
 
         for event in pygame.event.get():
             if self.state == Constants.PAUSE:
@@ -200,14 +175,14 @@ class GameManager:
                 pygame.quit()
 
     def shake_screen(self, value):
-        value *= (self.resolution.x / 1000)
-        self.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
+        value *= (self.engine.resolution.x / 1000)
+        self.engine.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
 
     def player_input(self):
         if self.player_manager.is_alive() and self.state == Constants.RUNNING:
             for index, player in enumerate(self.player_manager.players):
-                if len(self.joysticks) >= index + 1:
-                    joy = self.joysticks[index]
+                if len(self.engine.joysticks) >= index + 1:
+                    joy = self.engine.joysticks[index]
                     control_joy = joy
 
                     player.layout = LayoutPresets.CONTROLLER_LAYOUT
@@ -224,45 +199,45 @@ class GameManager:
                             pass
 
                     player.control_ship_joystick(control_joy, self.render_frame_time,
-                                                 limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
+                                                 limit=Axis(self.engine.resolution.x - 1, self.engine.resolution.y - 1))
                     player.control_shoot_joystick(joy, self.bullet_manager)
                     player.control_ultimate_joystick(joy,
                                                      action=lambda: self.ultimate_manager.do_ultimate(player.ultimate))
 
                 else:
                     keys = pygame.key.get_pressed()
-                    player.layout = LayoutPresets.KEYBOARD_LAYOUTS[index - len(self.joysticks)]
+                    player.layout = LayoutPresets.KEYBOARD_LAYOUTS[index - len(self.engine.joysticks)]
                     player.control_ship(keys, self.render_frame_time,
-                                        limit=Axis(self.resolution.x - 1, self.resolution.y - 1))
+                                        limit=Axis(self.engine.resolution.x - 1, self.engine.resolution.y - 1))
                     player.control_shoot(keys, self.bullet_manager)
                     player.control_ultimate(keys, action=lambda: self.ultimate_manager.do_ultimate(player.ultimate))
 
     def manage_game_over(self):
         if self.game_over:
             death_text = Text(font_size=40, text="You Died")
-            death_text.set_pos(self.resolution.x / 2, self.resolution.y / 6)
+            death_text.set_pos(self.engine.resolution.x / 2, self.engine.resolution.y / 6)
 
             continue_text = Text(font_size=40, text="Press R to try again")
-            continue_text.set_pos(self.resolution.x / 2, self.resolution.y / 3.5)
+            continue_text.set_pos(self.engine.resolution.x / 2, self.engine.resolution.y / 3.5)
 
-            death_text.render(self.screen, align="center")
-            continue_text.render(self.screen, align="center")
+            death_text.render(self.engine.screen, align="center")
+            continue_text.render(self.engine.screen, align="center")
 
     def manage_items(self):
         for item in self.item_manager.items:
             self.item_manager.move_item(item, self.render_frame_time)
-            self.item_manager.check_item(item, self.resolution)
+            self.item_manager.check_item(item, self.engine.resolution)
             for player in self.player_manager.players:
                 self.item_manager.has_collided(item, player,
                                                lambda item: self.item_manager.items.remove(item),
                                                lambda effect: item.effect(player), )
 
-            item.render(self.screen)
+            item.render(self.engine.screen)
 
     def manage_enemies(self):
         for enemy in self.enemy_manager.enemies:
             self.enemy_manager.move_enemy(enemy, self.render_frame_time)
-            self.enemy_manager.check_enemy(enemy, self.resolution)
+            self.enemy_manager.check_enemy(enemy, self.engine.resolution)
             self.bullet_manager.has_collided_any(enemy,
                                                  lambda bullet: enemy.take_damage(bullet.damage),
                                                  lambda bullet: self.score.add(173),
@@ -283,14 +258,14 @@ class GameManager:
                                                        )
 
             enemy.shoot(self.bullet_manager) if self.time_stop is False else None
-            enemy.render(self.screen)
+            enemy.render(self.engine.screen)
 
     def manage_bullets(self):
         for bullet in self.bullet_manager.bullets:
             self.bullet_manager.move_bullet(bullet, self.render_frame_time),
-            self.bullet_manager.check_bullet(bullet, self.resolution),
+            self.bullet_manager.check_bullet(bullet, self.engine.resolution),
 
-            bullet.render(self.screen)
+            bullet.render(self.engine.screen)
 
             for player in self.player_manager.players:
                 self.bullet_manager.has_collided(bullet, player,
@@ -314,11 +289,11 @@ class GameManager:
 
     def update_controller_state(self):
         joy_count = pygame.joystick.get_count()
-        if joy_count != len(self.joysticks):
-            self.joysticks = []
+        if joy_count != len(self.engine.joysticks):
+            self.engine.joysticks = []
             for index in range(0, joy_count):
-                self.joysticks.append(pygame.joystick.Joystick(index))
-                self.joysticks[index].init()
+                self.engine.joysticks.append(pygame.joystick.Joystick(index))
+                self.engine.joysticks[index].init()
 
     def reset_keys(self, key):
         if key == pygame.K_F1 or key == pygame.K_F2 or key == pygame.K_F3 or key == pygame.K_F4 or key == pygame.K_F5:
@@ -346,18 +321,18 @@ class GameManager:
         self.activate_time_stop(False)
         self.game_over = False
         self.round_started = False
-        self.player_manager.create_players(self.player_count, self.resolution)
+        self.player_manager.create_players(self.player_count, self.engine.resolution)
 
     def fullscreen_mode(self):
         if self.is_fullscreen:
-            self.resolution = Axis(x=int(self.get_res.current_w),
+            self.engine.resolution = Axis(x=int(self.get_res.current_w),
                                    y=int(self.get_res.current_h * 0.925))
             self.flags = self.base_flags
         else:
-            self.resolution = Axis(x=int(self.get_res.current_w),
+            self.engine.resolution = Axis(x=int(self.get_res.current_w),
                                    y=int(self.get_res.current_h))
             self.flags = self.base_flags | pygame.FULLSCREEN
 
-        self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
+        self.engine.screen = pygame.display.set_mode(self.engine.resolution.to_list(), self.flags)
         self.is_fullscreen = not self.is_fullscreen
         self.pause.copy_current_frame()
