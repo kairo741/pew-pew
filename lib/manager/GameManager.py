@@ -150,7 +150,7 @@ class GameManager:
 
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
-                        self.fullscreen_mode()
+                        self.engine.fullscreen_mode()
 
                     elif not self.round_started:
                         self.round_started = True
@@ -323,16 +323,6 @@ class GameManager:
         self.round_started = False
         self.player_manager.create_players(self.player_count, self.engine.resolution)
 
-    def fullscreen_mode(self):
-        if self.is_fullscreen:
-            self.engine.resolution = Axis(x=int(self.get_res.current_w),
-                                   y=int(self.get_res.current_h * 0.925))
-            self.flags = self.base_flags
-        else:
-            self.engine.resolution = Axis(x=int(self.get_res.current_w),
-                                   y=int(self.get_res.current_h))
-            self.flags = self.base_flags | pygame.FULLSCREEN
-
-        self.engine.screen = pygame.display.set_mode(self.engine.resolution.to_list(), self.flags)
-        self.is_fullscreen = not self.is_fullscreen
+    def toggle_fullscreen(self):
+        self.engine.fullscreen_mode()
         self.pause.copy_current_frame()

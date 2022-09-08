@@ -37,3 +37,18 @@ class Engine:
 
         self.joysticks = []
 
+        
+    def fullscreen_mode(self):
+        if self.is_fullscreen:
+            self.resolution = Axis(x=int(self.get_res.current_w),
+                                   y=int(self.get_res.current_h * 0.925))
+            self.flags = self.base_flags
+        else:
+            self.resolution = Axis(x=int(self.get_res.current_w),
+                                   y=int(self.get_res.current_h))
+            self.flags = self.base_flags | pygame.FULLSCREEN
+
+        self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
+        self.is_fullscreen = not self.is_fullscreen
+        
+
