@@ -13,17 +13,17 @@ from lib.utils.Constants import Constants
 from lib.utils.LayoutPresets import LayoutPresets
 
 
-class GameManager:
+class GameScreen:
     def __init__(self):
         super().__init__()
         self.engine = Engine()
 
-        from .BulletManager import BulletManager
-        from .EnemyManager import EnemyManager
-        from .ItemManager import ItemManager
-        from .NumberManager import NumberManager
-        from .PauseManager import PauseManager
-        from .PlayerManager import PlayerManager
+        from lib.manager.BulletManager import BulletManager
+        from lib.manager.EnemyManager import EnemyManager
+        from lib.manager.ItemManager import ItemManager
+        from lib.manager.NumberManager import NumberManager
+        from lib.manager.PlayerManager import PlayerManager
+        from lib.screen.PauseScreen import PauseScreen
 
         self.state = Constants.RUNNING
         self.time_stop = False
@@ -40,7 +40,7 @@ class GameManager:
         self.item_manager = ItemManager(self.number_manager)
         self.ultimate_manager = UltimateManager(background=self.bg)
 
-        self.pause = PauseManager(self)
+        self.pause = PauseScreen(self)
 
         self.fps = Text(x=self.engine.resolution.x)
         self.start_text = Text(x=self.engine.resolution.x/2, y=self.engine.resolution.y, text="Press Enter to Start")

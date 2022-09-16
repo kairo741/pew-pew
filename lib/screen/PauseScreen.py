@@ -9,7 +9,7 @@ from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
 
 
-class PauseManager:
+class PauseScreen:
 
     def __init__(self, game):
         self.cursor_rect = Rect(0, 0, 20, 20)
