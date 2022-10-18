@@ -71,9 +71,9 @@ class PlayerBerserk(Player):
         self.death_resistance_skill = True
 
 
-    def render(self, screen, render_frame_time):
+    def render(self, screen, render_frame_time, hide_hud=False):
         if self.death_resistance_skill:
             outline_size = self.outline.get_size()
             screen.blit(self.outline, (self.x-outline_size[0]/4, self.y-outline_size[1]/4))
 
-        return super().render(screen, render_frame_time)
+        return super().render(screen, render_frame_time, hide_hud=hide_hud)

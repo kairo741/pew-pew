@@ -37,7 +37,7 @@ class PlayerSpeed(Player):
         self.is_invincible = False
         super().disable_ultimate()
 
-    def render(self, screen, render_frame_time):
+    def render(self, screen, render_frame_time, hide_hud=False):
         if self.rotate != 0:
             self.sprite = transform.rotate(self.old_sprite, self.rotate)
             self.sprite = transform.scale(self.sprite, self.size.to_list())
@@ -46,4 +46,4 @@ class PlayerSpeed(Player):
             if self.rotate < -359:
                 self.rotate = 1
 
-        return super().render(screen, render_frame_time)
+        return super().render(screen, render_frame_time, hide_hud=hide_hud)

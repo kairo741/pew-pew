@@ -177,10 +177,11 @@ class Player(Ship):
         middle.y -= hitbox_size.x / 2
         return [middle.x, middle.y, hitbox_size.x + 1, hitbox_size.y]
 
-    def render(self, screen, render_frame_time):
+    def render(self, screen, render_frame_time, hide_hud=False):
         self.check_level_up()
         super().render(screen)
-        self.render_level(screen)
-        self.render_lifebar(screen, color=Constants.COLOR_GREEN if not self.is_invincible else Constants.COLOR_YELLOW)
-        self.render_ult_bar(screen)
-        self.render_hitbox(screen)
+        if not hide_hud:
+            self.render_level(screen)
+            self.render_lifebar(screen, color=Constants.COLOR_GREEN if not self.is_invincible else Constants.COLOR_YELLOW)
+            self.render_ult_bar(screen)
+            self.render_hitbox(screen)

@@ -82,6 +82,6 @@ class PlayerCharge(Player):
     def render_level(self, screen, align="bottom"):
         return super().render_level(screen, align, 1.8)
 
-    def render(self, screen, render_frame_time):
+    def render(self, screen, render_frame_time, hide_hud=False):
         self.render_charge_shot(screen)
-        return super().render(screen, render_frame_time)
+        return super().render(screen, render_frame_time, hide_hud=hide_hud)
