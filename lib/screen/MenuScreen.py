@@ -1,4 +1,6 @@
 from random import uniform
+from lib.object.game.MenuOption import MenuOption
+from lib.utils.Utils import Utils
 
 import pygame
 from lib.Engine import Engine
@@ -16,23 +18,26 @@ class MenuScreen:
         self.engine = Engine()
 
         from lib.manager.BulletManager import BulletManager
-        from lib.manager.EnemyManager import EnemyManager
         from lib.manager.PlayerManager import PlayerManager
 
         self.bg = Background()
         self.bullet_manager = BulletManager()
-        self.enemy_manager = EnemyManager()
         self.player_manager = PlayerManager(time_stop_ultimate=lambda: None,
                                             bullet_manager=self.bullet_manager)
 
-        self.fps = Text(x=self.engine.resolution.x)
-        self.start_text = Text(x=self.engine.resolution.x/2, y=self.engine.resolution.y, text="Press Enter to Start")
+        
+        self.title = Text(x=self.engine.resolution.x/2, y=0, text="PEW PEW", font_size=96)
+        title_rect = self.title.get_hitbox_rect()
+        self.subtitle = Text(x=self.engine.resolution.x/2, y=title_rect[1]+title_rect[3]*1.5, text="THE GAME", font_size=24)
 
         self.player_manager.create_players(1, self.engine.resolution)
 
         self.sound = Sound()
         self.sound.play_bg_music()
         self.sound.mute()
+        
+        self.options = [MenuOption(100, 200, sprite=Utils.scale_image(
+            Constants.SPRITE_PLAYER_SHIP_SPEED, 0.84).convert_alpha(), text=Text(text="Play", font_size=42))]
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
@@ -44,6 +49,9 @@ class MenuScreen:
 
             self.manage_game()
 
+            self.title.render(self.engine.screen, align="top-center")
+            self.subtitle.render(self.engine.screen, align="center")
+            
             self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
             pygame.display.update()
 
@@ -53,7 +61,7 @@ class MenuScreen:
 
         self.bg.manage_stars(self.render_frame_time)
         self.manage_bullets()
-        self.manage_enemies()
+        self.manage_options()
 
     def toggle_sound(self):
         if self.sound.is_sound_paused:
@@ -112,21 +120,10 @@ class MenuScreen:
                 player.control_shoot(keys, self.bullet_manager)
                 player.control_ultimate(keys, action=lambda: None)
 
-    def manage_enemies(self):
-        for enemy in self.enemy_manager.enemies:
-            self.enemy_manager.move_enemy(enemy, self.render_frame_time)
-            self.enemy_manager.check_enemy(enemy, self.engine.resolution)
-            self.bullet_manager.has_collided_any(enemy,
-                                                 lambda bullet: enemy.take_damage(bullet.damage),
-                                                 lambda bullet: self.number_manager.add_damage_number(bullet.x,
-                                                                                                      bullet.y,
-                                                                                                      bullet.damage,
-                                                                                                      bullet.is_crit))
-
-            self.enemy_manager.check_death(enemy,
-                                           lambda : None)
-
-            enemy.render(self.engine.screen)
+    def manage_options(self):
+        for option in self.options:
+            option.render(self.engine.screen)
+        
 
     def manage_bullets(self):
         for bullet in self.bullet_manager.bullets:

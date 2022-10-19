@@ -12,6 +12,12 @@ class Text(GameObject):
         self.font = font.Font(Constants.FONT_RETRO_GAMING, font_size)
         self.text = text
         self.color = color
+        
+        
+    def get_hitbox_rect(self):
+        text = self.font.render(str(self.text), True, self.color)
+        size = text.get_size()
+        return [self.x, self.y, size[0], size[1]]
 
     def set_text(self, txt):
         self.text = txt
@@ -45,3 +51,6 @@ class Text(GameObject):
 
         elif align == "top-right":
             screen.blit(text, [self.x - size[0], self.y])
+            
+        elif align == "top-center":
+            screen.blit(text, [self.x - size[0]/2, self.y + size[1]/2])
