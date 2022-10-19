@@ -1,6 +1,5 @@
 from random import uniform
-import pygame
-from pygame import Color, draw, time, mixer
+from pygame import Color, draw, time, mixer, Surface, time, Rect, SRCALPHA
 
 from lib.object.game.Ultimate import Ultimate
 from lib.utils.Constants import Constants
@@ -29,6 +28,9 @@ class Player(Ship):
         self.crit_rate = 0.1
 
         self.old_glow_scale = 0
+
+        self.recent_inputs = []
+        self.last_input_tick = 0
 
     def enable_ultimate(self):
         self.ult_tick = time.get_ticks()
@@ -59,6 +61,22 @@ class Player(Ship):
         if not self.is_alive():
             self.disable()
 
+    def record_input(self, input_code):
+        size = len(self.recent_inputs)
+
+        if size > 30:
+            self.recent_inputs.pop(0)
+
+        if time.get_ticks() - self.last_input_tick > 150:
+            self.recent_inputs.append(input_code)
+            self.last_input_tick = time.get_ticks()
+            content = "".join(self.recent_inputs)
+
+            if ("uuddlrlrba" in content):
+                self.recent_inputs = []
+                Constants.SFX_CODE.play()
+        
+
     def move(self, direction, render_frame_time, limit, multiplier=1):
         if self.is_alive():
             if direction == "r":
@@ -77,6 +95,8 @@ class Player(Ship):
                 if self.y + self.size.y < limit.y:
                     self.y += self.speed.y * multiplier * render_frame_time
 
+        self.record_input(direction)
+
     def shoot(self, bullet_manager, damage_multiplier=1, shoot_delay_multiplier=1):
         if self.is_alive():
             if time.get_ticks() - self.last_bullet > self.weapon.shoot_delay*shoot_delay_multiplier:
@@ -89,6 +109,8 @@ class Player(Ship):
                 channel.play(Constants.SFX_LASER)
                 self.last_bullet = time.get_ticks()
 
+        self.record_input("a")
+
     def ult(self, action):
         if self.is_alive():
             if self.next_ult < time.get_ticks():
@@ -97,6 +119,8 @@ class Player(Ship):
                 if ult_enabled:
                     self.last_ult = time.get_ticks()
                     self.next_ult = self.last_ult + self.ult_cooldown_sec * 1000
+
+            self.record_input("b")
 
     def control_ship(self, keys, render_frame_time, limit):
         if self.is_alive():
@@ -144,8 +168,8 @@ class Player(Ship):
             self.ult(action)
 
     def render_hitbox(self, screen):
-        shape_surf = pygame.Surface(pygame.Rect(self.get_hitbox_rect()).size, pygame.SRCALPHA)
-        pygame.draw.rect(shape_surf, (255, 40, 40), shape_surf.get_rect())
+        shape_surf = Surface(Rect(self.get_hitbox_rect()).size, SRCALPHA)
+        draw.rect(shape_surf, (255, 40, 40), shape_surf.get_rect())
         screen.blit(shape_surf, self.get_hitbox_rect())
 
     def render_ult_bar(self, screen):
