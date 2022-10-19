@@ -45,6 +45,19 @@ class PlayerManager:
             player.x = base_pos * (index + 0.5)
             player.initial_position.x = base_pos * (index + 0.5)
 
+
+    def create_menu_player(self, resolution):
+        self.players = []
+        player_list_position = randint(0, len(Presets.PLAYER_LIST) - 1)
+        self.create_player(resolution, Presets.PLAYER_LIST[player_list_position])
+
+        self.show_players_dps()
+        player = self.players[0]
+        player.x -= player.size.x/2
+        player.y = resolution.y/1.2
+        self.players[0].weapon.weapon_type="single"
+
+
     def create_players(self, quantity, resolution):
         self.players = []
         for i in range(0, quantity):

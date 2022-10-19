@@ -14,9 +14,8 @@ from lib.utils.LayoutPresets import LayoutPresets
 
 
 class GameScreen:
-    def __init__(self):
-        super().__init__()
-        self.engine = Engine()
+    def __init__(self, engine=Engine()):
+        self.engine = engine
 
         from lib.manager.BulletManager import BulletManager
         from lib.manager.EnemyManager import EnemyManager

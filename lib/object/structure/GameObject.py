@@ -7,7 +7,7 @@ from lib.utils.Constants import Constants
 
 
 class GameObject:
-    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", glow_scale=2):
+    def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", glow_scale=2, auto_set_size=False):
         self.x = x
         self.y = y
         self.size = size
@@ -16,6 +16,9 @@ class GameObject:
         self.glow = Constants.SPRITE_GLOW.convert_alpha()
         self.glow_scale = glow_scale
         self.glow_color = None
+
+        if auto_set_size:
+            self.set_size_with_sprite()
 
     def copy(self):
         copy_obj = type(self)()
@@ -99,7 +102,7 @@ class GameObject:
         self.x -= self.size.x / 2
         self.y -= self.size.y / 2
 
-    def render(self, screen, show_hitbox=False, sprite=None):
+    def render(self, screen, show_hitbox=False, sprite=None, offset=Axis.zero()):
         if self.glow_scale > 0:
             glow_difference = Axis((self.size.x * self.glow_scale) - self.size.x,
                                    (self.size.y * self.glow_scale) - self.size.y)
@@ -111,4 +114,8 @@ class GameObject:
         if sprite is None:
             sprite = self.sprite
 
-        screen.blit(sprite, self.to_rect())
+        rect = self.to_rect()
+        rect[0] -= offset.x
+        rect[1] -= offset.y
+
+        screen.blit(sprite, rect)

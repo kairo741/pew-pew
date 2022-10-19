@@ -10,12 +10,12 @@ from lib.object.visual.Background import Background
 from lib.object.visual.Text import Text
 from lib.utils.Constants import Constants
 from lib.utils.LayoutPresets import LayoutPresets
+from .GameScreen import GameScreen
 
 
 class MenuScreen:
-    def __init__(self):
-        super().__init__()
-        self.engine = Engine()
+    def __init__(self, engine=Engine()):
+        self.engine = engine
 
         from lib.manager.BulletManager import BulletManager
         from lib.manager.PlayerManager import PlayerManager
@@ -25,22 +25,32 @@ class MenuScreen:
         self.player_manager = PlayerManager(time_stop_ultimate=lambda: None,
                                             bullet_manager=self.bullet_manager)
 
-        
+
         self.title = Text(x=self.engine.resolution.x/2, y=0, text="PEW PEW", font_size=96)
         title_rect = self.title.get_hitbox_rect()
         self.subtitle = Text(x=self.engine.resolution.x/2, y=title_rect[1]+title_rect[3]*1.5, text="THE GAME", font_size=24)
 
-        self.player_manager.create_players(1, self.engine.resolution)
-
+        self.player_manager.create_menu_player(self.engine.resolution)
+        
         self.sound = Sound()
         self.sound.play_bg_music()
         self.sound.mute()
-        
-        self.options = [MenuOption(100, 200, sprite=Utils.scale_image(
-            Constants.SPRITE_PLAYER_SHIP_SPEED, 0.84).convert_alpha(), text=Text(text="Play", font_size=42))]
+
+        self.options = [
+            MenuOption(self.engine.resolution.x/2, self.engine.resolution.y/2.5, function=self.goto_game, sprite=Utils.scale_image(
+                Constants.SPRITE_MENU_METEOR, 0.2).convert_alpha(), text=Text(text="Play", font_size=42)
+            ),
+            MenuOption(self.engine.resolution.x/1.25, self.engine.resolution.y/2.5, function=pygame.quit, sprite=Utils.scale_image(
+                Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Sair", font_size=42)
+            ),
+            
+        ]
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
+
+    def goto_game(self):
+        GameScreen(engine=self.engine).start()
 
     def start(self):
         while True:
@@ -50,7 +60,7 @@ class MenuScreen:
             self.manage_game()
 
             self.title.render(self.engine.screen, align="top-center")
-            self.subtitle.render(self.engine.screen, align="center")
+            self.subtitle.render(self.engine.screen)
             
             self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
             pygame.display.update()
@@ -122,7 +132,13 @@ class MenuScreen:
 
     def manage_options(self):
         for option in self.options:
-            option.render(self.engine.screen)
+            option.render(self.engine.screen, self.render_frame_time)
+
+            for bullet in self.bullet_manager.bullets:
+                if bullet.collided_with(option):
+                    option.function()
+                    self.bullet_manager.reset()
+
         
 
     def manage_bullets(self):

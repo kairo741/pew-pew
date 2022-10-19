@@ -23,7 +23,7 @@ class Engine:
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
             x=int(self.get_res.current_w),
-            y=int(self.get_res.current_h * 0.925))
+            y=int(self.get_res.current_h))
         self.real_screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
