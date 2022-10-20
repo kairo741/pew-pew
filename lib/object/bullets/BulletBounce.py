@@ -8,7 +8,8 @@ class BulletBounce(Bullet):
     def __init__(self, x=0, y=0, size=..., speed=..., sprite="", damage=10, tag=Constants.TAG_PLAYER,
                  source_reference=None, crit_rate=0):
         super().__init__(x, y, size, speed, sprite, damage, tag, source_reference, crit_rate)
-        self.wall_bounce = 3  # TODO - balancear baseado no nível
+        self.wall_bounce = 1  # TODO - balancear baseado no nível
+        
 
     def hit_callback(self, object_hit, collision):
         super().hit_callback(object_hit, collision)
@@ -23,6 +24,8 @@ class BulletBounce(Bullet):
                 self.speed.x = horizontal_speed
             elif hit == "right":
                 self.speed.x = -horizontal_speed
+
+        self.wall_bounce = int(self.source_reference.level/3)+1
 
     def check_bullet(self, bullets, screen_size):
         if self.wall_bounce > 0:

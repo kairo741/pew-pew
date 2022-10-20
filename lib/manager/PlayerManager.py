@@ -49,7 +49,7 @@ class PlayerManager:
     def create_menu_player(self, resolution):
         self.players = []
         player_list_position = randint(0, len(Presets.PLAYER_LIST) - 1)
-        self.create_player(resolution, Presets.PLAYER_LIST[player_list_position])
+        self.create_player(resolution, Presets.PLAYER_LIST[player_list_position], 0)
 
         self.show_players_dps()
         player = self.players[0]
@@ -62,7 +62,7 @@ class PlayerManager:
         self.players = []
         for i in range(0, quantity):
             player_list_position = randint(0, len(Presets.PLAYER_LIST) - 1)
-            self.create_player(resolution, Presets.PLAYER_LIST[player_list_position])
+            self.create_player(resolution, Presets.PLAYER_LIST[player_list_position], quantity-1)
 
         self.show_players_dps()
         self.set_spawn_position(resolution)
@@ -72,11 +72,12 @@ class PlayerManager:
             print(f'\033[1mP{i + 1} DPS:\033[0m '
                   f'\033[93m\033[4m{self.players[i].weapon.calculate_dps()}\033[0m')
 
-    def create_player(self, resolution, player_preset):
+    def create_player(self, resolution, player_preset, bonus_xp_multiplier):
         this_player = player_preset.copy()
         this_player.x = resolution.x
         this_player.y = resolution.y / 2
         this_player.weapon.source_reference = this_player
+        this_player.bonus_xp_multiplier = bonus_xp_multiplier
 
         if type(this_player) == PlayerBalance:
             this_player.time_stop = self.time_stop_ultimate

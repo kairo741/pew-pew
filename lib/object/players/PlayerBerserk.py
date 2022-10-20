@@ -42,7 +42,7 @@ class PlayerBerserk(Player):
         if self.health > 1:
             self.health -= (self.health * 0.0003)*render_frame_time
 
-        if not self.death_resistance_skill:
+        if not self.death_resistance_skill and self.is_alive():
             if time.get_ticks() > self.last_skill+self.skill_cooldown:
                 self.death_resistance_skill = True
 

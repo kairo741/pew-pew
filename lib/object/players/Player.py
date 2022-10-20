@@ -18,7 +18,6 @@ class Player(Ship):
         self.next_ult = time.get_ticks() + 1000
         self.last_ult = 0
 
-
         self.is_invincible = False
         self.is_ulted = False
         self.ult_bar_hue = 0
@@ -31,6 +30,8 @@ class Player(Ship):
 
         self.recent_inputs = []
         self.last_input_tick = 0
+
+        self.bonus_xp_multiplier = 0
 
     def enable_ultimate(self):
         self.ult_tick = time.get_ticks()
@@ -51,6 +52,9 @@ class Player(Ship):
         if damage_required > self.level:
             if self.is_alive():
                 self.set_level(self.level + 1)
+
+    def add_xp(self, xp):
+        self.xp += xp * (1 + self.bonus_xp_multiplier/4)
 
     def player_passive(self, render_frame_time):
         pass
