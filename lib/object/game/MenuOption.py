@@ -9,7 +9,7 @@ from lib.utils.Utils import Utils
 
 
 class MenuOption(GameObject):
-    def __init__(self, x=0, y=0, size=..., speed=..., sprite="", glow_scale=1.6, text=None, function=lambda: None):
+    def __init__(self, x=0, y=0, size=..., speed=..., sprite="", glow_scale=2, text=None, function=lambda: None):
         super().__init__(x, y, size, speed, sprite, glow_scale, auto_set_size=True)
         self.center()
         

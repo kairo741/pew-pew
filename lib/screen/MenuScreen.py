@@ -54,16 +54,19 @@ class MenuScreen:
 
     def start(self):
         while True:
-            self.tick_clock()
-            self.game_events()
+            self.run_frame()
 
-            self.manage_game()
+    def run_frame(self):
+        self.tick_clock()
+        self.game_events()
 
-            self.title.render(self.engine.screen, align="top-center")
-            self.subtitle.render(self.engine.screen)
-            
-            self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
-            pygame.display.update()
+        self.manage_game()
+
+        self.title.render(self.engine.screen, align="top-center")
+        self.subtitle.render(self.engine.screen)
+        
+        self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
+        pygame.display.update()
 
     def manage_game(self):
         self.bg.render_background(self.engine.screen, self.engine.resolution)
@@ -89,9 +92,6 @@ class MenuScreen:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.engine.fullscreen_mode()
-
-                    elif not self.round_started:
-                        self.round_started = True
 
                 if event.key == pygame.K_F8:
                     self.toggle_sound()
@@ -136,8 +136,17 @@ class MenuScreen:
 
             for bullet in self.bullet_manager.bullets:
                 if bullet.collided_with(option):
-                    option.function()
+                    option.glow_scale *= 2
+                    option.set_glow()
+
                     self.bullet_manager.reset()
+                    self.run_frame()
+                    option.function()
+
+                    self.player_manager.players = []
+                    self.player_manager.create_menu_player(self.engine.resolution)
+                    option.glow_scale = 2
+                    option.set_glow()
 
         
 

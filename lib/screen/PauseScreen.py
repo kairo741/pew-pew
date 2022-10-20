@@ -4,6 +4,7 @@ from lib.object.visual.Button import Button
 from lib.object.visual.Crt import CRT
 from lib.object.visual.Text import Text
 from pygame import K_DOWN, K_RETURN, K_UP, KEYDOWN, MOUSEBUTTONDOWN, K_s, K_w, Rect, Surface, quit, mouse, transform
+from lib.utils.Constants import Constants
 
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
@@ -33,6 +34,8 @@ class PauseScreen:
 
         self.apply_button = None
         self.buttons = []
+
+        self.goto_menu = False
 
     def change_player(self, index, button_ref):
         self.mouse_button_state = False
@@ -121,7 +124,7 @@ class PauseScreen:
 
     def display_pause_menu(self):
         self.draw_text('Sound', self.sound_pos.x, self.sound_pos.y)
-        self.draw_text('Teste', self.teste_pos.x, self.teste_pos.y)
+        self.draw_text('Menu', self.teste_pos.x, self.teste_pos.y)
         self.draw_text('Exit', self.exit_pos.x, self.exit_pos.y)
 
     def draw_text(self, txt, x, y):
@@ -134,7 +137,7 @@ class PauseScreen:
     def update_cursor_pos(self):
         if self.state == 'Sound':
             self.cursor_rect.midtop = (self.teste_pos.x + self.offset, self.sound_pos.y)
-        elif self.state == 'Teste':
+        elif self.state == 'Menu':
             self.cursor_rect.midtop = (self.exit_pos.x + self.offset, self.teste_pos.y)
         elif self.state == 'Exit':
             self.cursor_rect.midtop = (self.sound_pos.x + self.offset, self.exit_pos.y)
@@ -143,8 +146,8 @@ class PauseScreen:
     def move_cursor(self, key):
         if key == K_DOWN or key == K_s:
             if self.state == 'Sound':
-                self.state = 'Teste'
-            elif self.state == 'Teste':
+                self.state = 'Menu'
+            elif self.state == 'Menu':
                 self.state = 'Exit'
             elif self.state == 'Exit':
                 self.state = 'Sound'
@@ -153,8 +156,8 @@ class PauseScreen:
             if self.state == 'Sound':
                 self.state = 'Exit'
             elif self.state == 'Exit':
-                self.state = 'Teste'
-            elif self.state == 'Teste':
+                self.state = 'Menu'
+            elif self.state == 'Menu':
                 self.state = 'Sound'
 
     def execute_current_action(self):
@@ -163,6 +166,9 @@ class PauseScreen:
 
         elif self.state == "Sound":
             self.game.toggle_sound()
+
+        elif self.state == "Menu":
+            self.goto_menu = True
 
     def check_pause_events(self, event):
         if event.type == MOUSEBUTTONDOWN:

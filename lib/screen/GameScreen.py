@@ -73,6 +73,8 @@ class GameScreen:
             elif self.state == Constants.PAUSE:
                 self.manage_game_over()
                 self.pause.manage_pause()
+                if self.pause.goto_menu:
+                    break
 
             if self.sound.is_sound_paused:
                 self.sound.render_muted_icon(self.engine.screen, self.engine.resolution)

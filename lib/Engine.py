@@ -15,19 +15,21 @@ class Engine:
         pygame.font.init()
         pygame.event.set_allowed([pygame.KEYDOWN, pygame.QUIT, pygame.JOYBUTTONDOWN, Constants.ULTIMATE_END])
 
-        self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL
+        self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.SCALED
         self.flags = self.base_flags
 
         self.is_fullscreen = False
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
-            x=int(self.get_res.current_w),
-            y=int(self.get_res.current_h))
+            x=int(self.get_res.current_w * 0.95),
+            y=int(self.get_res.current_h * 0.95))
         self.real_screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
-            depth=24)
+            depth=24,
+            vsync=1
+        )
 
         self.screen = self.real_screen.copy()
         self.screen_pos = Axis(0, 0)
@@ -40,8 +42,8 @@ class Engine:
         
     def fullscreen_mode(self):
         if self.is_fullscreen:
-            self.resolution = Axis(x=int(self.get_res.current_w),
-                                   y=int(self.get_res.current_h * 0.925))
+            self.resolution = Axis(x=int(self.get_res.current_w * 0.95),
+                                   y=int(self.get_res.current_h * 0.95))
             self.flags = self.base_flags
         else:
             self.resolution = Axis(x=int(self.get_res.current_w),

@@ -42,7 +42,7 @@ class PlayerSpeed(Player):
             self.sprite = transform.rotate(self.old_sprite, self.rotate)
             self.sprite = transform.scale(self.sprite, self.size.to_list())
 
-            self.rotate -= 10
+            self.rotate -= 30 * render_frame_time
             if self.rotate < -359:
                 self.rotate = 1
 
