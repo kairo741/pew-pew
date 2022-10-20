@@ -106,6 +106,7 @@ class Constants:
     SFX_TIME_STOP = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\time_stop.mp3")
     SFX_VAMPIRE_ULT = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\vampire_ult.ogg")
     SFX_CODE = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\code.ogg")
+    SFX_START = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\start.ogg")
     
 
     SFX_LASER.set_volume(VOLUME_SFX * 0.3)

@@ -35,6 +35,7 @@ class MenuScreen:
         self.sound = Sound()
         self.sound.play_bg_music()
         self.sound.mute()
+        # Constants.SFX_START.play()
 
         self.options = [
             MenuOption(self.engine.resolution.x/4.5, self.engine.resolution.y/2.5, function=lambda: None, sprite=Utils.scale_image(
