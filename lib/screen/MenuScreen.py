@@ -37,14 +37,19 @@ class MenuScreen:
         self.sound.mute()
 
         self.options = [
+            MenuOption(self.engine.resolution.x/4.5, self.engine.resolution.y/2.5, function=lambda: None, sprite=Utils.scale_image(
+                Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Credits", font_size=42)
+            ),
             MenuOption(self.engine.resolution.x/2, self.engine.resolution.y/2.5, function=self.goto_game, sprite=Utils.scale_image(
                 Constants.SPRITE_MENU_METEOR, 0.2).convert_alpha(), text=Text(text="Play", font_size=42)
             ),
             MenuOption(self.engine.resolution.x/1.25, self.engine.resolution.y/2.5, function=pygame.quit, sprite=Utils.scale_image(
-                Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Sair", font_size=42)
+                Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Exit", font_size=42)
             ),
             
         ]
+
+        self.zoom = 5
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
@@ -64,8 +69,17 @@ class MenuScreen:
 
         self.title.render(self.engine.screen, align="top-center")
         self.subtitle.render(self.engine.screen)
-        
-        self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
+
+        if self.zoom > 1:
+            zoom_screen = pygame.transform.scale(self.engine.screen, self.engine.resolution.scale_to(self.zoom).to_list())
+            self.zoom -= (5*self.render_frame_time)*0.004
+            size = zoom_screen.get_size()
+            pos = Axis((size[0] - self.engine.resolution.x)/-2, (size[1] - self.engine.resolution.y)/-1.05)
+            self.engine.real_screen.blit(zoom_screen, pos.to_list())
+        else:
+            self.zoom = 1
+            self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
+
         pygame.display.update()
 
     def manage_game(self):
