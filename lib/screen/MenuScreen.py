@@ -1,5 +1,6 @@
 from random import uniform
 from lib.object.game.MenuOption import MenuOption
+from lib.screen.SelectScreen import SelectScreen
 from lib.utils.Utils import Utils
 
 import pygame
@@ -40,7 +41,7 @@ class MenuScreen:
             MenuOption(self.engine.resolution.x/4.5, self.engine.resolution.y/2.5, function=lambda: None, sprite=Utils.scale_image(
                 Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Credits", font_size=42)
             ),
-            MenuOption(self.engine.resolution.x/2, self.engine.resolution.y/2.5, function=self.goto_game, sprite=Utils.scale_image(
+            MenuOption(self.engine.resolution.x/2, self.engine.resolution.y/2.5, function=self.goto_select, sprite=Utils.scale_image(
                 Constants.SPRITE_MENU_METEOR, 0.2).convert_alpha(), text=Text(text="Play", font_size=42)
             ),
             MenuOption(self.engine.resolution.x/1.25, self.engine.resolution.y/2.5, function=pygame.quit, sprite=Utils.scale_image(
@@ -53,8 +54,8 @@ class MenuScreen:
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
 
-    def goto_game(self):
-        GameScreen(engine=self.engine).start()
+    def goto_select(self):
+        SelectScreen(engine=self.engine).start()
 
     def run_intro(self):
         zoom = 5

@@ -14,7 +14,7 @@ from lib.utils.LayoutPresets import LayoutPresets
 
 
 class GameScreen:
-    def __init__(self, engine=Engine()):
+    def __init__(self, engine=Engine(), players_id=[0, 1, 2, 3]):
         self.engine = engine
 
         from lib.manager.BulletManager import BulletManager
@@ -28,7 +28,8 @@ class GameScreen:
         self.time_stop = False
         self.game_over = False
         self.round_started = False
-        self.player_count = 4
+        self.player_count = len(players_id)
+        self.players_id = players_id
 
         self.bg = Background()
         self.bullet_manager = BulletManager()
@@ -45,7 +46,7 @@ class GameScreen:
         self.start_text = Text(x=self.engine.resolution.x/2, y=self.engine.resolution.y, text="Press Enter to Start")
         self.score = Score(x=0, text="Score: 0")
 
-        self.player_manager.create_players(self.player_count, self.engine.resolution)
+        self.player_manager.create_players(self.players_id, self.engine.resolution)
 
         self.use_gyro = False
 
@@ -74,7 +75,7 @@ class GameScreen:
                 self.manage_game_over()
                 self.pause.manage_pause()
                 if self.pause.goto_menu:
-                    break
+                    return 1
 
             if self.sound.is_sound_paused:
                 self.sound.render_muted_icon(self.engine.screen, self.engine.resolution)
@@ -322,7 +323,7 @@ class GameScreen:
         self.activate_time_stop(False)
         self.game_over = False
         self.round_started = False
-        self.player_manager.create_players(self.player_count, self.engine.resolution)
+        self.player_manager.create_players(self.players_id, self.engine.resolution)
 
     def toggle_fullscreen(self):
         self.engine.fullscreen_mode()

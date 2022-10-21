@@ -1,4 +1,5 @@
 from random import randint
+from lib.object.players.DetailPlayer import DetailPlayer
 
 from lib.object.players.PlayerBalance import PlayerBalance
 from lib.object.players.PlayerFroggers import PlayerFroggers
@@ -13,6 +14,13 @@ class PlayerManager:
         self.time_stop_ultimate = time_stop_ultimate
         self.bullet_manager = bullet_manager
         self.players = []
+
+    def fetch_player_details(self):
+        for index, player in enumerate(Presets.PLAYER_LIST):
+            self.players.append(DetailPlayer(player, index=index))
+
+    def render_player(self, index, screen):
+        self.players[index].render(screen)
 
     def add(self, player):
         player.sprite = Utils.scale_image(player.sprite, 0.6)
@@ -57,8 +65,16 @@ class PlayerManager:
         player.y = resolution.y/1.2
         self.players[0].weapon.weapon_type="single"
 
+    
+    def create_players(self, player_ids, resolution):
+        self.players = []
+        for pid in player_ids:
+            self.create_player(resolution, Presets.PLAYER_LIST[pid], len(player_ids)-1)
 
-    def create_players(self, quantity, resolution):
+        self.show_players_dps()
+        self.set_spawn_position(resolution)
+
+    def create_random_players(self, quantity, resolution):
         self.players = []
         for i in range(0, quantity):
             player_list_position = randint(0, len(Presets.PLAYER_LIST) - 1)
