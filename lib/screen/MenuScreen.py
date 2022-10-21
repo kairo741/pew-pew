@@ -35,7 +35,6 @@ class MenuScreen:
         self.sound = Sound()
         self.sound.play_bg_music()
         self.sound.mute()
-        # Constants.SFX_START.play()
 
         self.options = [
             MenuOption(self.engine.resolution.x/4.5, self.engine.resolution.y/2.5, function=lambda: None, sprite=Utils.scale_image(
@@ -49,8 +48,7 @@ class MenuScreen:
             ),
             
         ]
-
-        self.zoom = 5
+        self.intro_frames = []
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
@@ -58,30 +56,87 @@ class MenuScreen:
     def goto_game(self):
         GameScreen(engine=self.engine).start()
 
-    def start(self):
+    def run_intro(self):
+        zoom = 5
+        last_zoom = 0
+        self.write_frame_intro(zoom)
+        self.run_frame(custom_frame=self.intro_frames[0])
+        while True:
+            self.write_frame_intro(zoom)
+            zoom -= round(0.45**zoom - (0.1**(zoom/2))*1.4, 2)
+
+            if zoom == last_zoom:
+                break
+            last_zoom = zoom
+
+            if zoom < 1:
+                break
+        
+        for index, frame in enumerate(self.intro_frames):
+            if index == int(len(self.intro_frames)*0.3):
+                Constants.SFX_START.play()
+
+            self.run_frame(custom_frame=frame)
+
+
+    def start(self, intro=True):
+        if intro:
+            self.run_intro()
+
         while True:
             self.run_frame()
 
-    def run_frame(self):
+    
+    def write_frame_intro(self, zoom):
         self.tick_clock()
-        self.game_events()
-
         self.manage_game()
 
+        self.render_title()
+
+        zoom_screen = pygame.transform.scale(self.engine.screen, self.engine.resolution.scale_to(zoom).to_list())
+        size = zoom_screen.get_size()
+        pos = [
+            -(size[0] - self.engine.resolution.x)/2, 
+            -(size[1] - self.engine.resolution.y)/1.05
+        ]
+        self.intro_frames.append([zoom_screen, pos])
+
+
+    def render_title(self):
         self.title.render(self.engine.screen, align="top-center")
         self.subtitle.render(self.engine.screen)
 
-        if self.zoom > 1:
-            zoom_screen = pygame.transform.scale(self.engine.screen, self.engine.resolution.scale_to(self.zoom).to_list())
-            self.zoom -= (5*self.render_frame_time)*0.004
-            size = zoom_screen.get_size()
-            pos = Axis((size[0] - self.engine.resolution.x)/-2, (size[1] - self.engine.resolution.y)/-1.05)
-            self.engine.real_screen.blit(zoom_screen, pos.to_list())
+    def run_frame(self, custom_frame=None):    
+        if not custom_frame:
+            self.tick_clock()
+            self.game_events()
+            self.manage_game()
+
+        self.render_title()
+
+        if custom_frame:
+            self.engine.real_screen.blit(custom_frame[0], custom_frame[1])
         else:
-            self.zoom = 1
             self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
 
         pygame.display.update()
+
+    
+    def manage_options(self):
+        for option in self.options:
+            option.render(self.engine.screen, self.render_frame_time)
+
+            for bullet in self.bullet_manager.bullets:
+                if bullet.collided_with(option):
+                    option.glow_scale *= 2
+                    option.set_glow()
+
+                    self.bullet_manager.reset()
+                    self.run_frame()
+                    option.function()
+
+                    option.glow_scale = 2
+                    option.set_glow()
 
     def manage_game(self):
         self.bg.render_background(self.engine.screen, self.engine.resolution)
@@ -144,25 +199,6 @@ class MenuScreen:
                                     limit=Axis(self.engine.resolution.x - 1, self.engine.resolution.y - 1))
                 player.control_shoot(keys, self.bullet_manager)
                 player.control_ultimate(keys, action=lambda: None)
-
-    def manage_options(self):
-        for option in self.options:
-            option.render(self.engine.screen, self.render_frame_time)
-
-            for bullet in self.bullet_manager.bullets:
-                if bullet.collided_with(option):
-                    option.glow_scale *= 2
-                    option.set_glow()
-
-                    self.bullet_manager.reset()
-                    self.run_frame()
-                    option.function()
-
-                    self.player_manager.players = []
-                    self.player_manager.create_menu_player(self.engine.resolution)
-                    option.glow_scale = 2
-                    option.set_glow()
-
         
 
     def manage_bullets(self):
@@ -178,7 +214,6 @@ class MenuScreen:
                                                  lambda bullet: self.number_manager.add_take_damage_number(bullet.x,
                                                                                                            bullet.y,
                                                                                                            bullet.damage))
-
 
 
     def update_controller_state(self):
