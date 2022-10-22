@@ -14,7 +14,7 @@ from lib.utils.LayoutPresets import LayoutPresets
 
 
 class GameScreen:
-    def __init__(self, engine=Engine(), players_id=[0, 1, 2, 3]):
+    def __init__(self, engine=Engine(), players_id=[0, 1, 2, 3], bg=Background()):
         self.engine = engine
 
         from lib.manager.BulletManager import BulletManager
@@ -31,7 +31,7 @@ class GameScreen:
         self.player_count = len(players_id)
         self.players_id = players_id
 
-        self.bg = Background()
+        self.bg = bg
         self.bullet_manager = BulletManager()
         self.enemy_manager = EnemyManager()
         self.player_manager = PlayerManager(time_stop_ultimate=self.activate_time_stop,

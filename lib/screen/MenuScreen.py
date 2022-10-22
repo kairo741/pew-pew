@@ -55,7 +55,7 @@ class MenuScreen:
         self.render_frame_time = self.engine.clock.tick() / 10
 
     def goto_select(self):
-        SelectScreen(engine=self.engine).start()
+        SelectScreen(engine=self.engine, bg=self.bg).start()
 
     def run_intro(self):
         zoom = 5
@@ -63,6 +63,7 @@ class MenuScreen:
         self.write_frame_intro(zoom)
         self.run_frame(custom_frame=self.intro_frames[0])
         while True:
+            self.engine.check_quit_event_only()
             self.write_frame_intro(zoom)
             zoom -= round(0.45**zoom - (0.1**(zoom/2))*1.4, 2)
 
@@ -74,6 +75,7 @@ class MenuScreen:
                 break
         
         for index, frame in enumerate(self.intro_frames):
+            self.engine.check_quit_event_only()
             if index == int(len(self.intro_frames)*0.3):
                 Constants.SFX_START.play()
 

@@ -10,10 +10,10 @@ class Bar:
         self.value = value
         self.max_value = max_value
         self.bar_width = bar_width
-        self.title = Text(x-self.bar_width*0.2, y=y, text=title)
+        self.title = Text(x-self.bar_width*0.2, y=y, text=title, font_size=28)
 
     def render(self, screen):
-        self.title.render(screen, align="center-right")
+        self.title.render(screen, align="right")
         color = [255, 20, 20]
         color[1] += int(235 * (1-(self.value/self.max_value)))
         

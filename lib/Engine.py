@@ -52,5 +52,12 @@ class Engine:
 
         self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
         self.is_fullscreen = not self.is_fullscreen
+
+    def check_quit_event_only(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+
         
 

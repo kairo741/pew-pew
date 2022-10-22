@@ -6,9 +6,11 @@ from lib.object.structure.Sound import Sound
 from lib.object.visual.Background import Background
 from .GameScreen import GameScreen
 
+from math import e as euler
+
 
 class SelectScreen:
-    def __init__(self, engine=Engine()):
+    def __init__(self, engine=Engine(), bg=Background()):
         self.engine = engine
 
         from lib.manager.PlayerManager import PlayerManager
@@ -17,46 +19,71 @@ class SelectScreen:
         self.current_player = 0
         self.selected_players = []
 
-        self.bg = Background()
+        self.bg = bg
         
         self.sound = Sound()
         self.sound.play_bg_music()
         self.sound.mute()
 
         self.goto_menu = False
+        self.animation_start = 0
+        self.animation = False
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
 
+    def start_animation(self):
+        self.animation = True
+        self.animation_start = pygame.time.get_ticks()
+
     def goto_game(self):
-        res = GameScreen(engine=self.engine, players_id=self.selected_players).start()
+        self.bg.to_default()
+        res = GameScreen(engine=self.engine, players_id=self.selected_players, bg=self.bg).start()
         if res:
             self.goto_menu = True
 
-
     def start(self):
         while True:
-            if self.goto_menu:
-                break
-            
             self.tick_clock()
-            self.game_events()
-
+            
             self.bg.render_background(self.engine.screen, self.engine.resolution)
             self.bg.manage_stars(self.render_frame_time)
 
-            self.render_current_player()
+            if self.animation:
+                self.engine.check_quit_event_only()
+                self.manage_animation()
+            else:
+                self.game_events()
+                self.render_current_player()
 
             for index, player_index in enumerate(self.selected_players):
                 detail = self.player_manager.players[player_index]
                 space = (index+1)*(self.engine.resolution.x/15)
-                detail.render_icon(self.engine.screen, self.engine.resolution.x/3 + space, self.engine.resolution.y*0.6)
+                y = self.engine.resolution.y*0.6
 
-            
+                if self.animation:
+                    time_diff = (pygame.time.get_ticks() - self.animation_start)
+                    calc = ((time_diff/50)**2)/400
+                    y -= calc * y
+                
+                detail.render_icon(self.engine.screen, self.engine.resolution.x/3 + space, y)
+
+            if self.goto_menu:
+                break
 
             self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
             pygame.display.update()
 
+
+    def manage_animation(self):
+        time_diff = (pygame.time.get_ticks() - self.animation_start)
+        calc = 2/(1+euler**(-time_diff/1000))
+
+        self.bg.star_render_delay = 25
+        self.bg.speed = 16
+
+        if pygame.time.get_ticks() - self.animation_start > 2000:
+            self.goto_game()
 
     def render_current_player(self):
         player = self.player_manager.get_player(self.current_player)
@@ -98,7 +125,7 @@ class SelectScreen:
 
                 if event.key == pygame.K_RETURN:
                     if len(self.selected_players) > 0:
-                        self.goto_game()
+                        self.start_animation()
 
                 if event.key == pygame.K_F8:
                     self.toggle_sound()

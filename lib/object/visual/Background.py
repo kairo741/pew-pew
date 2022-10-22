@@ -13,17 +13,21 @@ class Background(GameObject):
         self.star_sprite = Utils.scale_image(Constants.SPRITE_STAR.convert_alpha(), 0.1)
         self.star_sprite.set_alpha(90)
 
-    stars = []
-    last_star_tick = 0
-    star_render_delay = 500
-    star_spawn_position = Axis(-10, -30)
+        self.stars = []
+        self.last_star_tick = 0
+        self.star_render_delay = 500
+        self.star_spawn_position = Axis(-10, -30)
+        self.speed = 8
+
+    def to_default(self):
+        self.star_render_delay = 500
+        self.speed = 8
 
     def create_star(self):
-        return GameObject(x=randrange(0, self.size.x), y=randrange(-50, -10), speed=Axis(0, randrange(4, 15)), sprite=self.star_sprite, glow_scale=0)
+        return GameObject(x=randrange(0, self.size.x), y=randrange(-50, -10), speed=Axis(0, randrange(self.speed-4, self.speed+5)), sprite=self.star_sprite, glow_scale=0)
 
     def make_stars(self):
-        get_random_delay = randrange(
-            self.star_render_delay-200+self.star_render_delay+200)
+        get_random_delay = randrange(int(self.star_render_delay/10)+self.star_render_delay*2)
 
         if time.get_ticks() - self.last_star_tick > get_random_delay:
 
