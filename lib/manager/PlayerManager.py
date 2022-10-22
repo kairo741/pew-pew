@@ -15,12 +15,24 @@ class PlayerManager:
         self.bullet_manager = bullet_manager
         self.players = []
 
-    def fetch_player_details(self):
+    def fetch_player_details(self, resolution):
         for index, player in enumerate(Presets.PLAYER_LIST):
-            self.players.append(DetailPlayer(player, index=index))
+            details = Presets.PLAYER_DETAILS_LIST[index]
+            self.players.append(
+                DetailPlayer(
+                    player, 
+                    x=resolution.x*0.04,
+                    y=resolution.x*0.04,
+                    index=index, 
+                    resolution=resolution, 
+                    name=details["name"], 
+                    passive=details["passive"], 
+                    ultimate=details["ultimate"]
+                )
+            )
 
-    def render_player(self, index, screen):
-        self.players[index].render(screen)
+    def get_player(self, index):
+        return self.players[index]
 
     def add(self, player):
         player.sprite = Utils.scale_image(player.sprite, 0.6)

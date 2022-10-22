@@ -52,6 +52,9 @@ class Text(GameObject):
         elif align == "bottom-left":
             screen.blit(text, [self.x, self.y + size[1]/2])
 
+        elif align == "center-right":
+            screen.blit(text, [self.x-size[0], self.y + size[1]/4])
+
         elif align == "top-right":
             screen.blit(text, [self.x - size[0], self.y])
             

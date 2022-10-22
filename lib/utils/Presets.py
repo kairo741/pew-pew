@@ -189,3 +189,46 @@ class Presets:
     )
 
     PLAYER_LIST = [PLAYER_BALANCE, PLAYER_PIERCE, PLAYER_SPEED, PLAYER_FROGGERS, PLAYER_VAMPIRE, PLAYER_HEALER, PLAYER_CHARGE, PLAYER_BERSERK]
+
+    PLAYER_DETAILS_LIST = [
+        {
+            "name": "Balance",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+        {
+            "name": "Pierce",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+        {
+            "name": "Speed",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+        {
+            "name": "Froggers",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+        {
+            "name": "Vampire",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+        {
+            "name": "Healer",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+        {
+            "name": "Charge",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+        {
+            "name": "Berserk",
+            "passive": "Passive Description",
+            "ultimate": "Ultimate Description",
+        },
+    ]

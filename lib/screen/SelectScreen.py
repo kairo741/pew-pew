@@ -13,7 +13,7 @@ class SelectScreen:
 
         from lib.manager.PlayerManager import PlayerManager
         self.player_manager = PlayerManager(time_stop_ultimate=lambda: None, bullet_manager=None)
-        self.player_manager.fetch_player_details()
+        self.player_manager.fetch_player_details(self.engine.resolution)
         self.current_player = 0
         self.selected_players = []
 
@@ -45,27 +45,25 @@ class SelectScreen:
             self.bg.render_background(self.engine.screen, self.engine.resolution)
             self.bg.manage_stars(self.render_frame_time)
 
-            self.player_manager.render_player(self.current_player, self.engine.screen)
+            self.render_current_player()
 
             for index, player_index in enumerate(self.selected_players):
                 detail = self.player_manager.players[player_index]
                 space = (index+1)*(self.engine.resolution.x/15)
                 detail.render_icon(self.engine.screen, self.engine.resolution.x/3 + space, self.engine.resolution.y*0.6)
 
-            # pygame.draw.rect(self.engine.screen, (255, 255, 255), 
-            #     (
-            #         self.engine.resolution.x/3, 
-            #         self.engine.resolution.y*0.6,
-            #         4*(self.engine.resolution.x/15),
-            #         200,
-            #     ), 
-            #     width=1, 
-            #     border_radius=25,
-            # )
-
+            
 
             self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
             pygame.display.update()
+
+
+    def render_current_player(self):
+        player = self.player_manager.get_player(self.current_player)
+        player.render(self.engine.screen)
+        player.render_stats(self.engine.screen)
+
+        # player.render_description(self.engine.screen, 1000, 0)
 
 
     def toggle_sound(self):
