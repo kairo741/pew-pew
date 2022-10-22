@@ -1,12 +1,11 @@
 from random import uniform
+from threading import Thread
 import pygame
 from lib.Engine import Engine
 from lib.object.game.Axis import Axis
 from lib.object.structure.Sound import Sound
 from lib.object.visual.Background import Background
 from .GameScreen import GameScreen
-
-from math import e as euler
 
 
 class SelectScreen:
@@ -29,6 +28,8 @@ class SelectScreen:
         self.animation_start = 0
         self.animation = False
 
+        self.game_screen = None
+
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
 
@@ -36,12 +37,16 @@ class SelectScreen:
         self.animation = True
         self.animation_start = pygame.time.get_ticks()
 
+    def make_game_screen(self):
+        self.game_screen = GameScreen(engine=self.engine, players_id=self.selected_players, bg=self.bg)
+
     def goto_game(self):
         self.bg.to_default()
-        res = GameScreen(engine=self.engine, players_id=self.selected_players, bg=self.bg).start()
+
+        res = self.game_screen.start()
         if res:
             self.goto_menu = True
-
+            
     def start(self):
         while True:
             self.tick_clock()
@@ -76,9 +81,6 @@ class SelectScreen:
 
 
     def manage_animation(self):
-        time_diff = (pygame.time.get_ticks() - self.animation_start)
-        calc = 2/(1+euler**(-time_diff/1000))
-
         self.bg.star_render_delay = 25
         self.bg.speed = 16
 
@@ -125,6 +127,8 @@ class SelectScreen:
 
                 if event.key == pygame.K_RETURN:
                     if len(self.selected_players) > 0:
+                        game_thread = Thread(target=self.make_game_screen)
+                        game_thread.start()
                         self.start_animation()
 
                 if event.key == pygame.K_F8:

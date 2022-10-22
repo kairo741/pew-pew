@@ -42,7 +42,7 @@ class GameScreen:
 
         self.pause = PauseScreen(self)
 
-        self.fps = Text(x=self.engine.resolution.x)
+        self.fps = Text(x=self.engine.resolution.x, font_size=26)
         self.start_text = Text(x=self.engine.resolution.x/2, y=self.engine.resolution.y, text="Press Enter to Start")
         self.score = Score(x=0, text="Score: 0")
 
@@ -64,6 +64,21 @@ class GameScreen:
         self.render_frame_time = self.engine.clock.tick() / 10
 
     def start(self):
+        while True:
+            self.tick_clock()
+            self.engine.check_quit_event_only()
+            self.manage_game()
+            
+            self.player_manager.move_all(Axis(0, -5), self.render_frame_time)
+            self.player_manager.render(self.engine.screen, self.render_frame_time)
+
+            if self.player_manager.players[0].y < self.engine.resolution.y/1.6:
+                break
+
+            self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
+            pygame.display.update()
+
+
         while True:
             self.tick_clock()
             self.game_events()

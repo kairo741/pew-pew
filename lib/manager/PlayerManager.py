@@ -48,6 +48,11 @@ class PlayerManager:
             player.player_passive(render_frame_time)
             player.render(screen, render_frame_time, hide_hud=hide_hud)
 
+    def move_all(self, speed, render_frame_time):
+        for player in self.players:
+            player.x += speed.x*render_frame_time
+            player.y += speed.y*render_frame_time
+
     def is_alive(self):
         for player in self.players:
             if player.health > 0:
@@ -103,7 +108,7 @@ class PlayerManager:
     def create_player(self, resolution, player_preset, bonus_xp_multiplier):
         this_player = player_preset.copy()
         this_player.x = resolution.x
-        this_player.y = resolution.y / 2
+        this_player.y = resolution.y * 1.2
         this_player.weapon.source_reference = this_player
         this_player.bonus_xp_multiplier = bonus_xp_multiplier
 
