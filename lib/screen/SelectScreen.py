@@ -3,13 +3,12 @@ from threading import Thread
 import pygame
 from lib.Engine import Engine
 from lib.object.game.Axis import Axis
-from lib.object.structure.Sound import Sound
 from lib.object.visual.Background import Background
 from .GameScreen import GameScreen
 
 
 class SelectScreen:
-    def __init__(self, engine=Engine(), bg=Background()):
+    def __init__(self, engine: Engine, bg=Background()):
         self.engine = engine
 
         from lib.manager.PlayerManager import PlayerManager
@@ -19,10 +18,6 @@ class SelectScreen:
         self.selected_players = []
 
         self.bg = bg
-        
-        self.sound = Sound()
-        self.sound.play_bg_music()
-        self.sound.mute()
 
         self.goto_menu = False
         self.animation_start = 0
@@ -94,13 +89,6 @@ class SelectScreen:
 
         # player.render_description(self.engine.screen, 1000, 0)
 
-
-    def toggle_sound(self):
-        if self.sound.is_sound_paused:
-            self.sound.unmute()
-        else:
-            self.sound.mute()
-
     def game_events(self):
         for event in pygame.event.get():
 
@@ -124,6 +112,8 @@ class SelectScreen:
                     if len(self.selected_players) > 0:
                         self.selected_players.pop(len(self.selected_players)-1)
                         self.current_player = 0
+                    else:
+                        self.goto_menu = True
 
                 if event.key == pygame.K_RETURN:
                     if len(self.selected_players) > 0:
@@ -132,7 +122,7 @@ class SelectScreen:
                         self.start_animation()
 
                 if event.key == pygame.K_F8:
-                    self.toggle_sound()
+                    self.engine.toggle_sound()
 
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -147,12 +137,3 @@ class SelectScreen:
             self.current_player -= 1
             if self.current_player < 0:
                 self.current_player = len(self.player_manager.players)-1
-
-    def shake_screen(self, value):
-        value *= (self.engine.resolution.x / 1000)
-        self.engine.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
-        
-
-    def toggle_fullscreen(self):
-        self.engine.fullscreen_mode()
-        self.pause.copy_current_frame()

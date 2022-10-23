@@ -1,7 +1,9 @@
 
+from random import uniform
 import pygame
 
 from lib.object.game.Axis import Axis
+from lib.object.structure.Sound import Sound
 from lib.utils.Constants import Constants
 
 
@@ -13,7 +15,6 @@ class Engine:
         pygame.display.init()
         pygame.joystick.init()
         pygame.font.init()
-        pygame.event.set_allowed([pygame.KEYDOWN, pygame.QUIT, pygame.JOYBUTTONDOWN, Constants.ULTIMATE_END])
 
         self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.SCALED
         self.flags = self.base_flags
@@ -22,8 +23,8 @@ class Engine:
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(
-            x=int(self.get_res.current_w * 0.95),
-            y=int(self.get_res.current_h * 0.95))
+            x=int(self.get_res.current_w * 0.8),
+            y=int(self.get_res.current_h * 0.8))
         self.real_screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
@@ -39,11 +40,15 @@ class Engine:
 
         self.joysticks = []
 
+        self.sound = Sound()
+        self.sound.play_bg_music()
+        self.sound.mute()
+
         
     def fullscreen_mode(self):
         if self.is_fullscreen:
-            self.resolution = Axis(x=int(self.get_res.current_w * 0.95),
-                                   y=int(self.get_res.current_h * 0.95))
+            self.resolution = Axis(x=int(self.get_res.current_w * 0.8),
+                                   y=int(self.get_res.current_h * 0.8))
             self.flags = self.base_flags
         else:
             self.resolution = Axis(x=int(self.get_res.current_w),
@@ -58,6 +63,15 @@ class Engine:
             if event.type == pygame.QUIT:
                 pygame.quit()
 
+    def toggle_sound(self):
+        if self.sound.is_sound_paused:
+            self.sound.unmute()
+        else:
+            self.sound.mute()
 
+    
+    def shake_screen(self, value):
+        value *= (self.resolution.x / 1000)
+        self.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
         
 

@@ -4,7 +4,6 @@ from lib.object.visual.Button import Button
 from lib.object.visual.Crt import CRT
 from lib.object.visual.Text import Text
 from pygame import K_DOWN, K_RETURN, K_UP, KEYDOWN, MOUSEBUTTONDOWN, K_s, K_w, Rect, Surface, quit, mouse, transform
-from lib.utils.Constants import Constants
 
 from lib.utils.Presets import Presets
 from lib.utils.Utils import Utils
@@ -165,7 +164,7 @@ class PauseScreen:
             quit()
 
         elif self.state == "Sound":
-            self.game.toggle_sound()
+            self.game.engine.toggle_sound()
 
         elif self.state == "Menu":
             self.goto_menu = True

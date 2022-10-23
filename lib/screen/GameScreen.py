@@ -5,7 +5,6 @@ from lib.Engine import Engine
 from lib.manager.UltimateManager import UltimateManager
 from lib.object.game.Axis import Axis
 from lib.object.structure.CustomJoy import CustomJoy
-from lib.object.structure.Sound import Sound
 from lib.object.visual.Background import Background
 from lib.object.visual.Score import Score
 from lib.object.visual.Text import Text
@@ -14,7 +13,7 @@ from lib.utils.LayoutPresets import LayoutPresets
 
 
 class GameScreen:
-    def __init__(self, engine=Engine(), players_id=[0, 1, 2, 3], bg=Background()):
+    def __init__(self, engine: Engine, players_id=[0, 1, 2, 3], bg=Background()):
         self.engine = engine
 
         from lib.manager.BulletManager import BulletManager
@@ -56,10 +55,6 @@ class GameScreen:
             self.joy_hid.open(1356, 1476)
             self.joy_hid.set_nonblocking(1)
 
-        self.sound = Sound()
-        self.sound.play_bg_music()
-        self.sound.mute()
-
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
 
@@ -92,8 +87,8 @@ class GameScreen:
                 if self.pause.goto_menu:
                     return 1
 
-            if self.sound.is_sound_paused:
-                self.sound.render_muted_icon(self.engine.screen, self.engine.resolution)
+            if self.engine.sound.is_sound_paused:
+                self.engine.sound.render_muted_icon(self.engine.screen, self.engine.resolution)
 
             self.engine.real_screen.blit(self.engine.screen, self.engine.screen_pos.to_list())
             pygame.display.update()
@@ -131,11 +126,6 @@ class GameScreen:
         self.score.render(self.engine.screen, align="top-left")
         self.number_manager.render(self.engine.screen, self.render_frame_time)
 
-    def toggle_sound(self):
-        if self.sound.is_sound_paused:
-            self.sound.unmute()
-        else:
-            self.sound.mute()
 
     def game_events(self):
         self.check_game_over()
@@ -143,7 +133,7 @@ class GameScreen:
         self.update_controller_state()
 
         if self.ultimate_manager.get_shake_enabled():
-            self.shake_screen(3)
+            self.engine.shake_screen(3)
 
         elif set(self.engine.screen_pos.to_list()) != set((0, 0)):
             self.engine.screen_pos = Axis(0, 0)
@@ -173,7 +163,7 @@ class GameScreen:
                         self.round_started = True
 
                 if event.key == pygame.K_F8:
-                    self.toggle_sound()
+                    self.engine.toggle_sound()
 
                 self.reset_keys(event.key)
 
@@ -191,9 +181,6 @@ class GameScreen:
             if event.type == pygame.QUIT:
                 pygame.quit()
 
-    def shake_screen(self, value):
-        value *= (self.engine.resolution.x / 1000)
-        self.engine.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
 
     def player_input(self):
         if self.player_manager.is_alive() and self.state == Constants.RUNNING:
@@ -293,12 +280,12 @@ class GameScreen:
 
     def check_game_over(self):
         if not self.player_manager.is_alive() and self.game_over is False:
-            self.sound.sound_channel_sfx.play(Constants.SFX_DEATH)
+            self.engine.sound.sound_channel_sfx.play(Constants.SFX_DEATH)
             self.game_over = True
 
     def activate_time_stop(self, activate):
         if activate:
-            self.sound.sound_channel_sfx.play(Constants.SFX_TIME_STOP)
+            self.engine.sound.sound_channel_sfx.play(Constants.SFX_TIME_STOP)
             self.time_stop = True
 
         else:
@@ -339,7 +326,3 @@ class GameScreen:
         self.game_over = False
         self.round_started = False
         self.player_manager.create_players(self.players_id, self.engine.resolution)
-
-    def toggle_fullscreen(self):
-        self.engine.fullscreen_mode()
-        self.pause.copy_current_frame()

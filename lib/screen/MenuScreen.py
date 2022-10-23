@@ -6,16 +6,14 @@ from lib.utils.Utils import Utils
 import pygame
 from lib.Engine import Engine
 from lib.object.game.Axis import Axis
-from lib.object.structure.Sound import Sound
 from lib.object.visual.Background import Background
 from lib.object.visual.Text import Text
 from lib.utils.Constants import Constants
 from lib.utils.LayoutPresets import LayoutPresets
-from .GameScreen import GameScreen
 
 
 class MenuScreen:
-    def __init__(self, engine=Engine()):
+    def __init__(self, engine: Engine):
         self.engine = engine
 
         from lib.manager.BulletManager import BulletManager
@@ -32,30 +30,43 @@ class MenuScreen:
         self.subtitle = Text(x=self.engine.resolution.x/2, y=title_rect[1]+title_rect[3]*1.5, text="THE GAME", font_size=24)
 
         self.player_manager.create_menu_player(self.engine.resolution)
-        
-        self.sound = Sound()
-        self.sound.play_bg_music()
-        self.sound.mute()
 
-        self.options = [
-            MenuOption(self.engine.resolution.x/4.5, self.engine.resolution.y/2.5, function=lambda: None, sprite=Utils.scale_image(
+        menu_space = self.engine.resolution.x/4
+
+        self.menu_options = [
+            MenuOption(self.engine.resolution.x/2 - menu_space, self.engine.resolution.y/2.5, function=self.goto_credits, sprite=Utils.scale_image(
                 Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Credits", font_size=42)
             ),
             MenuOption(self.engine.resolution.x/2, self.engine.resolution.y/2.5, function=self.goto_select, sprite=Utils.scale_image(
                 Constants.SPRITE_MENU_METEOR, 0.2).convert_alpha(), text=Text(text="Play", font_size=42)
             ),
-            MenuOption(self.engine.resolution.x/1.25, self.engine.resolution.y/2.5, function=pygame.quit, sprite=Utils.scale_image(
+            MenuOption(self.engine.resolution.x/2 + menu_space, self.engine.resolution.y/2.5, function=pygame.quit, sprite=Utils.scale_image(
                 Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Exit", font_size=42)
-            ),
-            
+            ),   
         ]
+        self.back_option = MenuOption(self.engine.resolution.x/10, self.engine.resolution.x/10, function=self.goto_menu, sprite=Utils.scale_image(
+                Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Back", font_size=42)
+            )
+        self.credits = False
+
+        self.options = self.menu_options
+
         self.intro_frames = []
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
 
+
     def goto_select(self):
         SelectScreen(engine=self.engine, bg=self.bg).start()
+
+    def goto_menu(self):
+        self.credits = False
+        self.options = self.menu_options
+
+    def goto_credits(self):
+        self.credits = True
+        self.options = [self.back_option]
 
     def run_intro(self):
         zoom = 5
@@ -73,6 +84,8 @@ class MenuScreen:
 
             if zoom < 1:
                 break
+
+        print(f"wrote {len(self.intro_frames)} frames")
         
         for index, frame in enumerate(self.intro_frames):
             self.engine.check_quit_event_only()
@@ -110,8 +123,8 @@ class MenuScreen:
         self.subtitle.render(self.engine.screen)
 
     def run_frame(self, custom_frame=None):    
+        self.tick_clock()
         if not custom_frame:
-            self.tick_clock()
             self.game_events()
             self.manage_game()
 
@@ -149,12 +162,6 @@ class MenuScreen:
         self.manage_bullets()
         self.manage_options()
 
-    def toggle_sound(self):
-        if self.sound.is_sound_paused:
-            self.sound.unmute()
-        else:
-            self.sound.mute()
-
     def game_events(self):
         self.player_input()
         self.update_controller_state()
@@ -167,14 +174,10 @@ class MenuScreen:
                         self.engine.fullscreen_mode()
 
                 if event.key == pygame.K_F8:
-                    self.toggle_sound()
+                    self.engine.toggle_sound()
 
             if event.type == pygame.QUIT:
                 pygame.quit()
-
-    def shake_screen(self, value):
-        value *= (self.engine.resolution.x / 1000)
-        self.engine.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
 
     def player_input(self):
     
@@ -226,7 +229,3 @@ class MenuScreen:
             for index in range(0, joy_count):
                 self.engine.joysticks.append(pygame.joystick.Joystick(index))
                 self.engine.joysticks[index].init()
-
-    def toggle_fullscreen(self):
-        self.engine.fullscreen_mode()
-        self.pause.copy_current_frame()
