@@ -1,3 +1,4 @@
+from random import choice
 import pygame
 
 from lib.utils.Constants import Constants
@@ -38,8 +39,11 @@ class Sound:
         self.sound_channel_effects.unpause()
         self.is_sound_paused = False
 
-    def play_bg_music(self):
-        self.sound_channel_bgm.play(Constants.BGM_INDIGO, -1)
+    def play_random_bg_music(self):
+        self.sound_channel_bgm.play(choice(Constants.BGM_LIST), -1, fade_ms=1500)
+
+    def play_menu_music(self):
+        self.sound_channel_bgm.play(Constants.BGM_INFINITY, -1, fade_ms=1500)
 
     def render_muted_icon(self, screen, resolution):
         text = self.font.render('🔇', True, (255, 255, 255))

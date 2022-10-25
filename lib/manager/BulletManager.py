@@ -1,7 +1,9 @@
 from lib.object.bullets.BulletBounce import BulletBounce
 from lib.object.bullets.BulletHeal import BulletHeal
 from lib.object.bullets.BulletPierce import BulletPierce
+from lib.utils.Constants import Constants
 
+from pygame.mixer import Channel
 
 class BulletManager:
     def __init__(self):
@@ -12,6 +14,7 @@ class BulletManager:
         self.bullets = []
 
     def shoot(self, bullet):
+        bullet.shoot_callback()
         self.bullets.append(bullet)
 
     def manage_bullets(self, *actions):
@@ -51,6 +54,8 @@ class BulletManager:
             collision = bullet.collided_with(object, object.get_hitbox_rect())
 
             if collision:
+                channel = Channel(Constants.MIXER_CHANNEL_EFFECTS)
+                channel.play(Constants.SFX_HIT)
                 self.handle_bullet_collision(bullet, object, actions, collision)
 
         elif type(bullet) is BulletHeal:

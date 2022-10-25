@@ -3,8 +3,9 @@ from random import randint, uniform
 from lib.object.game.Axis import Axis
 from lib.object.enemies.EnemyBoss import EnemyBoss
 from lib.object.players.PlayerSpeed import PlayerSpeed
+from lib.utils.Constants import Constants
 from lib.utils.Presets import Presets
-from pygame import time
+from pygame import time, mixer
 
 
 class EnemyManager:
@@ -140,9 +141,13 @@ class EnemyManager:
     def check_death(self, enemy, *actions):
         if enemy.health < 1:
             try:
+                channel = mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
+                channel.play(Constants.SFX_EXPLOSION)
                 self.enemies.remove(enemy)
+
                 for action in actions:
                     action(enemy)
+
             except:
                 print("error removing enemy")
 

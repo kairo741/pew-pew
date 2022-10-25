@@ -59,6 +59,7 @@ class GameScreen:
         self.render_frame_time = self.engine.clock.tick() / 10
 
     def start(self):
+        self.engine.sound.play_random_bg_music()
         while True:
             self.tick_clock()
             self.engine.check_quit_event_only()
@@ -313,9 +314,9 @@ class GameScreen:
             if key == pygame.K_F4:
                 self.player_count = 4
 
-            self.reset_game()
+            self.reset_game(random=True)
 
-    def reset_game(self):
+    def reset_game(self, random=False):
         self.ultimate_manager.reset()
         self.enemy_manager.reset()
         self.bullet_manager.reset()
@@ -325,4 +326,9 @@ class GameScreen:
         self.activate_time_stop(False)
         self.game_over = False
         self.round_started = False
-        self.player_manager.create_random_players(self.player_count, self.engine.resolution)
+        if random:
+            self.player_manager.create_random_players(self.player_count, self.engine.resolution)
+        else:
+            self.player_manager.create_players(self.players_id, self.engine.resolution, ready=True)
+
+        self.engine.sound.play_random_bg_music()

@@ -44,6 +44,7 @@ class SelectScreen:
 
         res = self.game_screen.start()
         if res:
+            self.engine.sound.play_menu_music()
             self.goto_menu = True
             
     def start(self):

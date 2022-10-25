@@ -91,13 +91,16 @@ class PlayerManager:
         self.players[0].weapon.weapon_type="single"
 
     
-    def create_players(self, player_ids, resolution):
+    def create_players(self, player_ids, resolution, ready=False):
         self.players = []
         for pid in player_ids:
             self.create_player(resolution, Presets.PLAYER_LIST[pid], len(player_ids)-1)
 
         self.show_players_dps()
-        self.set_spawn_position(resolution)
+        if ready:
+            self.set_spawn_position_ready(resolution)
+        else:
+            self.set_spawn_position(resolution)
 
     def create_random_players(self, quantity, resolution):
         self.players = []

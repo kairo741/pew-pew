@@ -99,7 +99,7 @@ class MenuScreen:
         if intro:
             self.run_intro()
 
-        self.engine.sound.play_bg_music()
+        self.engine.sound.play_menu_music()
 
         while True:
             self.run_frame()

@@ -10,13 +10,21 @@ class PlayerBalance(Player):
         super().__init__(x, y, size, speed, sprite, weapon, health, layout, ultimate, level=level)
 
         self.time_stop = time_stop
+        self.bounce_times = 1
 
     def enable_ultimate(self):
         super().enable_ultimate()
         channel = Channel(Constants.MIXER_CHANNEL_EFFECTS)
         channel.play(Constants.SFX_TIME_STOP)
+
+        self.bounce_times = self.bounce_times * 10
         self.time_stop(True)
 
     def disable_ultimate(self):
+        self.bounce_times = int(self.level/5)+1
         self.time_stop(False)
         super().disable_ultimate()
+
+    def set_level(self, level):
+        super().set_level(level)
+        self.bounce_times = int(self.level/5)+1

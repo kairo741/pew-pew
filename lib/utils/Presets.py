@@ -26,10 +26,10 @@ class Presets:
     PLAYER_DEFAULT_SPEED = Axis(7, 5)
 
     PLAYER_BALANCE_WEAPON = Weapon(
-        shoot_delay=200,
+        shoot_delay=240,
         weapon_type="triple",
         bullet=BulletBounce(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RUBBER, 0.2),
-                            damage=14)
+                            damage=12)
     )
 
     PLAYER_PIERCE_WEAPON = Weapon(
@@ -72,7 +72,7 @@ class Presets:
     PLAYER_BERSERK_WEAPON = Weapon(
         shoot_delay=500,
         weapon_type="triple",
-        bullet=Bullet(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.3), damage=8)
+        bullet=Bullet(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RED, 0.3), damage=4)
     )
 
     ENEMY_DEFAULT_WEAPON = Weapon(
@@ -192,7 +192,7 @@ class Presets:
 
     PLAYER_DETAILS_LIST = [
         {
-            "name": "Balance",
+            "name": "Bouncer",
             "passive": "Passive Description",
             "ultimate": "Ultimate Description",
         },

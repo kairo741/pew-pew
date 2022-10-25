@@ -102,7 +102,8 @@ class Constants:
     # SFXs
     SFX_LASER = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\laser.ogg")
     SFX_LASER_2 = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\laser_2.ogg")
-    SFX_EXPLOSION = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\Explosion.mp3")
+    SFX_HIT = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\hit.ogg")
+    SFX_EXPLOSION = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\Explosion.ogg")
     SFX_DEATH = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\death.ogg")
 
     SFX_TIME_STOP = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\time_stop.mp3")
@@ -117,10 +118,11 @@ class Constants:
 
     SFX_LASER.set_volume(VOLUME_SFX * 0.3)
     SFX_LASER_2.set_volume(VOLUME_SFX * 0.3)
-    SFX_EXPLOSION.set_volume(VOLUME_SFX * 0.2)
+    SFX_HIT.set_volume(VOLUME_SFX * 0.8)
+    SFX_EXPLOSION.set_volume(VOLUME_SFX * 0.4)
     SFX_DEATH.set_volume(VOLUME_SFX * 0.8)
 
-    SFX_TIME_STOP.set_volume(VOLUME_SFX)
+    SFX_TIME_STOP.set_volume(VOLUME_SFX * 1.6)
     SFX_VAMPIRE_ULT.set_volume(VOLUME_SFX)
     SFX_ULT_ENABLE.set_volume(VOLUME_SFX * 0.7)
 
@@ -133,4 +135,15 @@ class Constants:
 
     # BGMs
     BGM_INDIGO = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\indigo-946.mp3")
+    BGM_INFINITY = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\password-infinity-123276.mp3")
+    BGM_POWER = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\power-sport-extreme-trailer-123405.mp3")
+    BGM_FRANTIC = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\frantic-15190.mp3")
+    BGM_EVASION = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\evasion-123274.mp3")
+
     BGM_INDIGO.set_volume(VOLUME_BGM)
+    BGM_INFINITY.set_volume(VOLUME_BGM)
+    BGM_POWER.set_volume(VOLUME_BGM * 1.2)
+    BGM_FRANTIC.set_volume(VOLUME_BGM)
+    BGM_EVASION.set_volume(VOLUME_BGM)
+
+    BGM_LIST = [BGM_INDIGO, BGM_POWER, BGM_FRANTIC, BGM_EVASION]

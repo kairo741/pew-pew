@@ -20,7 +20,8 @@ class Bullet(GameObject):
             self.damage *=1.5
             self.is_crit = True
 
-        
+    def shoot_callback(self):
+        pass
 
     def hit_callback(self, object_hit, collision):
         if isinstance(self.source_reference, Player):
