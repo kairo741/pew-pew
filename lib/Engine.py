@@ -1,4 +1,5 @@
 from random import uniform
+
 import pygame
 
 from lib.object.game.Axis import Axis
@@ -9,6 +10,7 @@ from lib.utils.Constants import Constants
 class Engine:
     def __init__(self, fullscreen=False):
         super().__init__()
+        self.resolution = None
         pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
         pygame.display.set_caption(Constants.WINDOW_CAPTION)
         pygame.display.init()
@@ -18,17 +20,9 @@ class Engine:
         self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.SCALED
         self.flags = self.base_flags
         self.get_res = pygame.display.Info()
-        if fullscreen:
-            self.flags = self.flags | pygame.FULLSCREEN
-            self.resolution = Axis(
-                x=int(self.get_res.current_w),
-                y=int(self.get_res.current_h))
-        else:
-            self.resolution = Axis(
-                x=int(self.get_res.current_w * 0.8),
-                y=int(self.get_res.current_h * 0.8))
 
         self.is_fullscreen = fullscreen
+        self.update_fullscreen_flags(self.is_fullscreen)
         self.real_screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
@@ -47,17 +41,20 @@ class Engine:
         self.sound = Sound()
 
     def fullscreen_mode(self):
-        if self.is_fullscreen:
-            self.resolution = Axis(x=int(self.get_res.current_w * 0.8),
-                                   y=int(self.get_res.current_h * 0.8))
-            self.flags = self.base_flags
-        else:
-            self.resolution = Axis(x=int(self.get_res.current_w),
-                                   y=int(self.get_res.current_h))
-            self.flags = self.base_flags | pygame.FULLSCREEN
+        self.update_fullscreen_flags(not self.is_fullscreen)
 
         self.screen = pygame.display.set_mode(self.resolution.to_list(), self.flags)
         self.is_fullscreen = not self.is_fullscreen
+
+    def update_fullscreen_flags(self, is_fullscreen):
+        if is_fullscreen:
+            self.resolution = Axis(x=int(self.get_res.current_w),
+                                   y=int(self.get_res.current_h))
+            self.flags = self.base_flags | pygame.FULLSCREEN
+        else:
+            self.resolution = Axis(x=int(self.get_res.current_w * 0.8),
+                                   y=int(self.get_res.current_h * 0.8))
+            self.flags = self.base_flags
 
     def check_quit_event_only(self):
         for event in pygame.event.get():
