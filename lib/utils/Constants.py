@@ -59,6 +59,7 @@ class Constants:
     SPRITE_BULLET_PURPLE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_purple.png")
     SPRITE_BULLET_YELLOW = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_yellow.png")
     SPRITE_BULLET_RUBBER = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_rubber.png")
+    SPRITE_BULLET_SUPER_RUBBER = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_super_rubber.png")
     SPRITE_BULLET_FROGGERS_ULT = image.load(ROOT_PATH + "\\assets\\images\\bullets\\froggers_ult_bullet.png")
     SPRITE_BAT_1 = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bat_1.png")
     SPRITE_BAT_2 = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bat_2.png")

@@ -29,7 +29,9 @@ class Presets:
         shoot_delay=240,
         weapon_type="triple",
         bullet=BulletBounce(speed=Axis(0, -15), sprite=Utils.scale_image(Constants.SPRITE_BULLET_RUBBER, 0.2),
-                            damage=12)
+            super_sprite=Utils.scale_image(Constants.SPRITE_BULLET_SUPER_RUBBER, 0.2),
+            damage=12
+        )
     )
 
     PLAYER_PIERCE_WEAPON = Weapon(
