@@ -1,4 +1,3 @@
-
 from random import uniform
 import pygame
 
@@ -17,17 +16,19 @@ class Engine:
         pygame.font.init()
 
         self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.SCALED
-        if fullscreen:
-            self.base_flags = self.base_flags | pygame.FULLSCREEN
-            
         self.flags = self.base_flags
+        self.get_res = pygame.display.Info()
+        if fullscreen:
+            self.flags = self.flags | pygame.FULLSCREEN
+            self.resolution = Axis(
+                x=int(self.get_res.current_w),
+                y=int(self.get_res.current_h))
+        else:
+            self.resolution = Axis(
+                x=int(self.get_res.current_w * 0.8),
+                y=int(self.get_res.current_h * 0.8))
 
         self.is_fullscreen = fullscreen
-
-        self.get_res = pygame.display.Info()
-        self.resolution = Axis(
-            x=int(self.get_res.current_w * 0.8),
-            y=int(self.get_res.current_h * 0.8))
         self.real_screen = pygame.display.set_mode(
             size=self.resolution.to_list(),
             flags=self.flags,
@@ -45,7 +46,6 @@ class Engine:
 
         self.sound = Sound()
 
-        
     def fullscreen_mode(self):
         if self.is_fullscreen:
             self.resolution = Axis(x=int(self.get_res.current_w * 0.8),
@@ -70,9 +70,6 @@ class Engine:
         else:
             self.sound.mute()
 
-    
     def shake_screen(self, value):
         value *= (self.resolution.x / 1000)
         self.screen_pos = Axis(uniform(-value, value), uniform(-value, value))
-        
-
