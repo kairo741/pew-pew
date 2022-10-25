@@ -44,7 +44,7 @@ class PlayerVampire(Player):
 
     def enable_ultimate(self):
         super().enable_ultimate()
-        channel = mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
+        channel = mixer.Channel(Constants.MIXER_CHANNEL_ULT)
         channel.play(Constants.SFX_VAMPIRE_ULT)
         self.sprite = transform.smoothscale(self.sprite_ult, self.size.to_list())
 

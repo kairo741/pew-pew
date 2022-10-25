@@ -8,7 +8,7 @@ from lib.utils.Constants import Constants
 
 
 class Engine:
-    def __init__(self):
+    def __init__(self, fullscreen=False):
         super().__init__()
         pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
         pygame.display.set_caption(Constants.WINDOW_CAPTION)
@@ -17,9 +17,12 @@ class Engine:
         pygame.font.init()
 
         self.base_flags = pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL | pygame.SCALED
+        if fullscreen:
+            self.base_flags = self.base_flags | pygame.FULLSCREEN
+            
         self.flags = self.base_flags
 
-        self.is_fullscreen = False
+        self.is_fullscreen = fullscreen
 
         self.get_res = pygame.display.Info()
         self.resolution = Axis(

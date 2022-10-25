@@ -14,7 +14,7 @@ class PlayerBalance(Player):
 
     def enable_ultimate(self):
         super().enable_ultimate()
-        channel = Channel(Constants.MIXER_CHANNEL_EFFECTS)
+        channel = Channel(Constants.MIXER_CHANNEL_ULT)
         channel.play(Constants.SFX_TIME_STOP)
 
         self.bounce_times = self.bounce_times * 10

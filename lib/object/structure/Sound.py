@@ -11,10 +11,12 @@ class Sound:
         self.sound_channel_bgm = pygame.mixer.Channel(Constants.MIXER_CHANNEL_BGM)
         self.sound_channel_enemy = pygame.mixer.Channel(Constants.MIXER_CHANNEL_ENEMY)
         self.sound_channel_effects = pygame.mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
+        self.sound_channel_ult = pygame.mixer.Channel(Constants.MIXER_CHANNEL_ULT)
         self.sound_channel_sfx.set_volume(Constants.VOLUME_SFX)
         self.sound_channel_bgm.set_volume(Constants.VOLUME_BGM)
         self.sound_channel_enemy.set_volume(Constants.VOLUME_SFX)
         self.sound_channel_effects.set_volume(Constants.VOLUME_EFFECTS)
+        self.sound_channel_ult.set_volume(Constants.VOLUME_EFFECTS)
         self.is_sound_paused = False
 
     def mute(self):
@@ -26,6 +28,8 @@ class Sound:
         self.sound_channel_enemy.pause()
         self.sound_channel_effects.set_volume(0)
         self.sound_channel_effects.pause()
+        self.sound_channel_ult.set_volume(0)
+        self.sound_channel_ult.pause()
         self.is_sound_paused = True
 
     def unmute(self):
@@ -37,6 +41,8 @@ class Sound:
         self.sound_channel_enemy.unpause()
         self.sound_channel_effects.set_volume(Constants.VOLUME_EFFECTS)
         self.sound_channel_effects.unpause()
+        self.sound_channel_ult.set_volume(Constants.VOLUME_EFFECTS)
+        self.sound_channel_ult.unpause()
         self.is_sound_paused = False
 
     def play_random_bg_music(self):
