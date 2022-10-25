@@ -25,7 +25,7 @@ class Constants:
     TAG_ENEMY = 1
 
     # Events
-    ULTIMATE_END = USEREVENT + 1
+    ULTIMATE_END = USEREVENT + 50
 
     # ASSETS
     # Sprites

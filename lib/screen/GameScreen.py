@@ -176,8 +176,9 @@ class GameScreen:
                     self.pause.start_pause()
                     self.state = Constants.PAUSE
 
-            if event.type == Constants.ULTIMATE_END:
-                self.ultimate_manager.disable_ultimate()
+            for ult_event_id in range(Constants.ULTIMATE_END, Constants.ULTIMATE_END+4):
+                if event.type == ult_event_id:
+                    self.ultimate_manager.disable_ultimate()
 
             if event.type == pygame.QUIT:
                 pygame.quit()
