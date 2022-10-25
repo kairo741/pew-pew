@@ -325,4 +325,4 @@ class GameScreen:
         self.activate_time_stop(False)
         self.game_over = False
         self.round_started = False
-        self.player_manager.create_players(self.players_id, self.engine.resolution)
+        self.player_manager.create_random_players(self.player_count, self.engine.resolution)

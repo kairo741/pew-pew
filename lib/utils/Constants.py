@@ -93,27 +93,44 @@ class Constants:
     VOLUME_GLOBAL = 0.5
     MIXER_CHANNEL_SFX = 1
     MIXER_CHANNEL_BGM = 2
-    MIXER_CHANNEL_ULT = 3
+    MIXER_CHANNEL_EFFECTS = 3
+    MIXER_CHANNEL_ENEMY = 4
     VOLUME_SFX = VOLUME_GLOBAL * 1
-    VOLUME_ULT = VOLUME_GLOBAL * 1
-    VOLUME_BGM = VOLUME_GLOBAL * 0.2
+    VOLUME_EFFECTS = VOLUME_GLOBAL * 1
+    VOLUME_BGM = VOLUME_GLOBAL * 0.5
 
     # SFXs
     SFX_LASER = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\laser.ogg")
     SFX_LASER_2 = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\laser_2.ogg")
     SFX_EXPLOSION = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\Explosion.mp3")
     SFX_DEATH = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\death.ogg")
+
     SFX_TIME_STOP = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\time_stop.mp3")
     SFX_VAMPIRE_ULT = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\vampire_ult.ogg")
+    SFX_ULT_ENABLE = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\ult_generic.ogg")
+
     SFX_CODE = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\code.ogg")
     SFX_START = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\start.ogg")
-    
+    SFX_WHOOSH = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\whoosh.ogg")
+    SFX_DING_MENU = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\ding_menu.ogg")
+    SFX_DING_SELECT = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\ding_select.ogg")
 
     SFX_LASER.set_volume(VOLUME_SFX * 0.3)
     SFX_LASER_2.set_volume(VOLUME_SFX * 0.3)
     SFX_EXPLOSION.set_volume(VOLUME_SFX * 0.2)
-    SFX_DEATH.set_volume(VOLUME_SFX * 0.2)
+    SFX_DEATH.set_volume(VOLUME_SFX * 0.8)
+
     SFX_TIME_STOP.set_volume(VOLUME_SFX)
+    SFX_VAMPIRE_ULT.set_volume(VOLUME_SFX)
+    SFX_ULT_ENABLE.set_volume(VOLUME_SFX * 0.7)
+
+    SFX_CODE.set_volume(VOLUME_SFX)
+    SFX_START.set_volume(VOLUME_SFX)
+    SFX_WHOOSH.set_volume(VOLUME_SFX * 0.8)
+    SFX_DING_MENU.set_volume(VOLUME_SFX)
+    SFX_DING_SELECT.set_volume(VOLUME_SFX)
+
 
     # BGMs
-    BGM_INDIGO = ROOT_PATH + "\\assets\\bgm\\indigo-946.mp3"
+    BGM_INDIGO = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\indigo-946.mp3")
+    BGM_INDIGO.set_volume(VOLUME_BGM)

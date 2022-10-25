@@ -70,6 +70,14 @@ class PlayerManager:
             player.x = base_pos * (index + 0.5)
             player.initial_position.x = base_pos * (index + 0.5)
 
+    def set_spawn_position_ready(self, resolution):
+        players_len = len(self.players)
+        base_pos = resolution.x / players_len + 1
+        for index, player in enumerate(self.players):
+            player.x = base_pos * (index + 0.5)
+            player.initial_position.x = base_pos * (index + 0.5)
+            player.y = resolution.y/1.6
+
 
     def create_menu_player(self, resolution):
         self.players = []
@@ -98,7 +106,7 @@ class PlayerManager:
             self.create_player(resolution, Presets.PLAYER_LIST[player_list_position], quantity-1)
 
         self.show_players_dps()
-        self.set_spawn_position(resolution)
+        self.set_spawn_position_ready(resolution)
 
     def show_players_dps(self):
         for i, player in enumerate(self.players):

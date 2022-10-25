@@ -1,5 +1,7 @@
 from lib.object.players.Player import Player
 from lib.object.game.Ultimate import Ultimate
+from lib.utils.Constants import Constants
+from pygame.mixer import Channel
 
 
 class PlayerBalance(Player):
@@ -11,6 +13,8 @@ class PlayerBalance(Player):
 
     def enable_ultimate(self):
         super().enable_ultimate()
+        channel = Channel(Constants.MIXER_CHANNEL_EFFECTS)
+        channel.play(Constants.SFX_TIME_STOP)
         self.time_stop(True)
 
     def disable_ultimate(self):

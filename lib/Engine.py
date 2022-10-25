@@ -41,8 +41,6 @@ class Engine:
         self.joysticks = []
 
         self.sound = Sound()
-        self.sound.play_bg_music()
-        self.sound.mute()
 
         
     def fullscreen_mode(self):

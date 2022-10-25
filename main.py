@@ -7,4 +7,4 @@ if __name__ == '__main__':
     from lib.screen.MenuScreen import MenuScreen
     
     menu = MenuScreen(engine=engine)
-    menu.start()
+    menu.start(intro=True)

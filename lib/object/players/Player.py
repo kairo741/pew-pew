@@ -1,5 +1,5 @@
 from random import uniform
-from pygame import Color, draw, time, mixer, Surface, time, Rect, SRCALPHA
+from pygame import Color, draw, time, mixer, Surface, time, Rect, SRCALPHA, mixer
 
 from lib.object.game.Ultimate import Ultimate
 from lib.utils.Constants import Constants
@@ -40,6 +40,7 @@ class Player(Ship):
         self.glow_scale = 10
         self.glow_color = self.calculate_glow_color()
         self.set_glow()
+        Constants.SFX_ULT_ENABLE.play()
 
     def disable_ultimate(self):
         self.is_ulted = False
@@ -109,7 +110,6 @@ class Player(Ship):
                     bullet_manager.shoot(generated_bullet)
 
                 channel = mixer.Channel(Constants.MIXER_CHANNEL_SFX)
-                # Constants.SFX_LASER.stop()
                 channel.play(Constants.SFX_LASER)
                 self.last_bullet = time.get_ticks()
 

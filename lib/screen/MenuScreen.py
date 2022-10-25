@@ -1,4 +1,3 @@
-from random import uniform
 from lib.object.game.MenuOption import MenuOption
 from lib.screen.SelectScreen import SelectScreen
 from lib.utils.Utils import Utils
@@ -90,7 +89,8 @@ class MenuScreen:
         for index, frame in enumerate(self.intro_frames):
             self.engine.check_quit_event_only()
             if index == int(len(self.intro_frames)*0.3):
-                Constants.SFX_START.play()
+                channel = pygame.mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
+                channel.play(Constants.SFX_START)
 
             self.run_frame(custom_frame=frame)
 
@@ -98,6 +98,8 @@ class MenuScreen:
     def start(self, intro=True):
         if intro:
             self.run_intro()
+
+        self.engine.sound.play_bg_music()
 
         while True:
             self.run_frame()

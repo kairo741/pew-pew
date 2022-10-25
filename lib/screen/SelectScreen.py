@@ -4,6 +4,7 @@ import pygame
 from lib.Engine import Engine
 from lib.object.game.Axis import Axis
 from lib.object.visual.Background import Background
+from lib.utils.Constants import Constants
 from .GameScreen import GameScreen
 
 
@@ -31,6 +32,9 @@ class SelectScreen:
     def start_animation(self):
         self.animation = True
         self.animation_start = pygame.time.get_ticks()
+
+        channel = pygame.mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
+        channel.play(Constants.SFX_WHOOSH)
 
     def make_game_screen(self):
         self.game_screen = GameScreen(engine=self.engine, players_id=self.selected_players, bg=self.bg)
@@ -89,6 +93,14 @@ class SelectScreen:
 
         # player.render_description(self.engine.screen, 1000, 0)
 
+    def play_effect(self):
+        channel = pygame.mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
+        channel.play(Constants.SFX_DING_MENU)
+
+    def play_select_effect(self):
+        channel = pygame.mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
+        channel.play(Constants.SFX_DING_SELECT)
+
     def game_events(self):
         for event in pygame.event.get():
 
@@ -98,17 +110,21 @@ class SelectScreen:
                         self.engine.fullscreen_mode()
 
                 if event.key == pygame.K_d:
+                    self.play_effect()
                     self.change_player("d")
 
                 if event.key == pygame.K_a:
+                    self.play_effect()
                     self.change_player("a")
 
                 if event.key == pygame.K_SPACE:
+                    self.play_select_effect()
                     if len(self.selected_players) < 4:
                         self.selected_players.append(self.current_player)
                         self.current_player = 0
 
                 if event.key == pygame.K_ESCAPE:
+                    self.play_effect()
                     if len(self.selected_players) > 0:
                         self.selected_players.pop(len(self.selected_players)-1)
                         self.current_player = 0
@@ -116,6 +132,7 @@ class SelectScreen:
                         self.goto_menu = True
 
                 if event.key == pygame.K_RETURN:
+                    self.play_effect()
                     if len(self.selected_players) > 0:
                         game_thread = Thread(target=self.make_game_screen)
                         game_thread.start()
