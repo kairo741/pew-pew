@@ -97,7 +97,7 @@ class Constants:
     MIXER_CHANNEL_EFFECTS = 3
     MIXER_CHANNEL_ENEMY = 4
     MIXER_CHANNEL_ULT = 5
-    VOLUME_SFX = VOLUME_GLOBAL * 1
+    VOLUME_SFX = VOLUME_GLOBAL * 0.9
     VOLUME_EFFECTS = VOLUME_GLOBAL * 1
     VOLUME_BGM = VOLUME_GLOBAL * 0.5
 
@@ -118,8 +118,8 @@ class Constants:
     SFX_DING_MENU = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\ding_menu.ogg")
     SFX_DING_SELECT = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\ding_select.ogg")
 
-    SFX_LASER.set_volume(VOLUME_SFX * 0.15)
-    SFX_LASER_2.set_volume(VOLUME_SFX * 0.2)
+    SFX_LASER.set_volume(VOLUME_SFX * 0.25)
+    SFX_LASER_2.set_volume(VOLUME_SFX * 0.15)
     SFX_HIT.set_volume(VOLUME_SFX * 0.8)
     SFX_EXPLOSION.set_volume(VOLUME_SFX * 0.4)
     SFX_DEATH.set_volume(VOLUME_SFX * 0.8)
