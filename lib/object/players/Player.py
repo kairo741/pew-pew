@@ -55,7 +55,7 @@ class Player(Ship):
                 self.set_level(self.level + 1)
 
     def add_xp(self, xp):
-        self.xp += xp * (1 + self.bonus_xp_multiplier/4)
+        self.xp += xp * self.bonus_xp_multiplier/4
 
     def player_passive(self, render_frame_time):
         pass
@@ -80,6 +80,7 @@ class Player(Ship):
             if ("uuddlrlrba" in content):
                 self.recent_inputs = []
                 Constants.SFX_CODE.play()
+                self.is_invincible = True
         
 
     def move(self, direction, render_frame_time, limit, multiplier=1):

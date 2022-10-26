@@ -19,17 +19,17 @@ class PlayerBalance(Player):
         channel = Channel(Constants.MIXER_CHANNEL_ULT)
         channel.play(Constants.SFX_TIME_STOP)
 
-        self.bounce_times = self.bounce_times * 10
+        self.bounce_times = self.bounce_times * 7
         self.time_stop(True)
         self.base_sprite = self.weapon.bullet.sprite.copy()
         self.weapon.bullet.sprite = self.weapon.bullet.super_sprite
 
     def disable_ultimate(self):
-        self.bounce_times = int(self.level/5)+1
+        self.bounce_times = int(self.level/12)+1
         self.time_stop(False)
         self.weapon.bullet.sprite = self.base_sprite.copy()
         super().disable_ultimate()
 
     def set_level(self, level):
         super().set_level(level)
-        self.bounce_times = int(self.level/5)+1
+        self.bounce_times = int(self.level/12)+1

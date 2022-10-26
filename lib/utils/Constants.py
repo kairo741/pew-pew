@@ -118,8 +118,8 @@ class Constants:
     SFX_DING_MENU = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\ding_menu.ogg")
     SFX_DING_SELECT = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\ding_select.ogg")
 
-    SFX_LASER.set_volume(VOLUME_SFX * 0.3)
-    SFX_LASER_2.set_volume(VOLUME_SFX * 0.3)
+    SFX_LASER.set_volume(VOLUME_SFX * 0.15)
+    SFX_LASER_2.set_volume(VOLUME_SFX * 0.2)
     SFX_HIT.set_volume(VOLUME_SFX * 0.8)
     SFX_EXPLOSION.set_volume(VOLUME_SFX * 0.4)
     SFX_DEATH.set_volume(VOLUME_SFX * 0.8)

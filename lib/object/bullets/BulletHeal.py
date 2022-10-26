@@ -15,11 +15,11 @@ class BulletHeal(Bullet):
             super().hit_callback(object_hit, collision)
             
         if object_hit.tag == Constants.TAG_PLAYER:
-            heal_amount = self.source_reference.health * 0.1
+            heal_amount = self.source_reference.max_health * 0.1
 
             if (object_hit.health + heal_amount) < object_hit.max_health:
                 object_hit.health += heal_amount
                 
-                self.source_reference.xp += self.damage
+                self.source_reference.xp += heal_amount * 10
             else:
                 object_hit.health = object_hit.max_health

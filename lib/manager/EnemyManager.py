@@ -163,8 +163,8 @@ class EnemyManager:
     def has_collided_player(self, enemy, player, *actions, render_frame_time=1):
         if type(player) == PlayerSpeed and player.is_ulted:
             if enemy.collided_with(player):
-                enemy.take_damage((player.weapon.bullet.damage * 5) * render_frame_time)
-                player.xp += (player.weapon.bullet.damage * 5) * render_frame_time
+                enemy.take_damage((player.weapon.bullet.damage+player.weapon.get_bonus_level_damage()) * 2 * render_frame_time)
+                player.add_xp((player.weapon.bullet.damage+player.weapon.get_bonus_level_damage()) * render_frame_time)
 
         elif enemy.collided_with(player, player.get_hitbox_rect()):
             if not player.is_invincible:
