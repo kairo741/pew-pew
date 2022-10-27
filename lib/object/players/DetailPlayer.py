@@ -2,6 +2,7 @@ from lib.object.game.Axis import Axis
 from lib.object.players.Player import Player
 from lib.object.visual.Bar import Bar
 from lib.object.visual.Text import Text
+from lib.object.visual.TextBlock import TextBlock
 from lib.utils.Utils import Utils
 
 from pygame import draw, transform
@@ -13,10 +14,12 @@ class DetailPlayer:
         self.x = x
         self.y = y
         self.resolution = resolution
+        self.total_res = self.resolution.x+self.resolution.y
 
         self.name = Text(text=name, font_size=42)
         
-        self.sprite = Utils.scale_image_raw(player.sprite, 3.5)
+        self.sprite = Utils.scale_image_raw(player.sprite, 3.5, resolution=self.resolution)
+        self.medium_sprite = Utils.scale_image_raw(player.sprite, 0.9)
         self.small_sprite = Utils.scale_image_raw(player.sprite, 0.7)
 
         sprite_size = self.sprite.get_size()
@@ -31,8 +34,9 @@ class DetailPlayer:
         self.rate = Bar(bar_x, y + bar_space*3, title="Fire Rate", value=70/player.weapon.shoot_delay, max_value=1, bar_width=self.resolution.x*0.1)
         
         self.shoot_type = player.weapon.weapon_type
-        self.passive_description = Text(text=passive, font_size=32)
-        self.ultimate_description = Text(text=ultimate, font_size=32)
+
+        self.passive_description = TextBlock(title="Passive", text=passive, font_size=self.total_res//120, x=self.resolution.x/1.6, y=self.resolution.y/8, limit=self.resolution.x)
+        self.ultimate_description = TextBlock(title="Ultimate", text=ultimate, font_size=self.total_res//120, x=self.resolution.x/1.6, y=self.resolution.y/2.5, limit=self.resolution.x)
 
 
     def render(self, screen):
@@ -48,8 +52,8 @@ class DetailPlayer:
         draw.rect(screen, (255, 255, 255), rect, width=1)
 
     def render_description(self, screen):
-        self.passive_description.render(screen, align="top-left")
-        self.ultimate_description.redner(screen, align="top-left")
+        self.passive_description.render(screen)
+        self.ultimate_description.render(screen)
 
     def render_stats(self, screen):
         self.power.render(screen)
@@ -58,7 +62,10 @@ class DetailPlayer:
         self.rate.render(screen)
 
 
-    def render_icon(self, screen, x, y):
-        screen.blit(self.small_sprite, [x, y])
+    def render_icon(self, screen, x, y, medium=False):
+        if medium:
+            screen.blit(self.medium_sprite, [x, y])
+        else:
+            screen.blit(self.small_sprite, [x, y])
 
 

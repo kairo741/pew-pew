@@ -10,6 +10,7 @@ class Text(GameObject):
         super().__init__(x, y, size, speed, sprite, glow_scale)
 
         self.font = font.Font(Constants.FONT_RETRO_GAMING, font_size)
+        self.font_size = font_size
         self.text = text
         self.color = color
         
@@ -60,5 +61,8 @@ class Text(GameObject):
             
         elif align == "top-center":
             screen.blit(text, [self.x - size[0]/2, self.y + size[1]/2])
+
+        elif align == "none":
+            screen.blit(text, [self.x, self.y])
 
         

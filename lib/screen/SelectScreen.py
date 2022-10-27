@@ -61,6 +61,7 @@ class SelectScreen:
                 self.game_events()
                 self.render_current_player()
 
+
             for index, player_index in enumerate(self.selected_players):
                 detail = self.player_manager.players[player_index]
                 space = (index+1)*(self.engine.resolution.x/15)
@@ -91,8 +92,7 @@ class SelectScreen:
         player = self.player_manager.get_player(self.current_player)
         player.render(self.engine.screen)
         player.render_stats(self.engine.screen)
-
-        # player.render_description(self.engine.screen, 1000, 0)
+        player.render_description(self.engine.screen)
 
     def play_effect(self):
         channel = pygame.mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)
