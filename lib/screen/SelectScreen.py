@@ -59,8 +59,9 @@ class SelectScreen:
                 self.manage_animation()
             else:
                 self.game_events()
-                self.render_current_player()
-
+                player = self.render_current_player()
+                player.render_icon(self.engine.screen, self.engine.resolution.x/2, self.engine.resolution.y / 1.2, medium=True)
+                self.render_close_players(player.index)
 
             for index, player_index in enumerate(self.selected_players):
                 detail = self.player_manager.players[player_index]
@@ -81,6 +82,29 @@ class SelectScreen:
             pygame.display.update()
 
 
+    def render_close_players(self, current_player_index):
+        opacity_screen = self.engine.screen.copy()
+        opacity_screen.set_alpha(80)
+
+        space = self.engine.resolution.x/10
+        if current_player_index-1 >= 0:
+            previous_player = current_player_index-1
+        else:
+            previous_player = self.player_manager.get_player_quantity()-1
+        
+        previous_player = self.player_manager.get_player(previous_player)
+        previous_player.render_icon(opacity_screen, self.engine.resolution.x/2 - space, self.engine.resolution.y / 1.2, medium=True)
+
+        if current_player_index+1 >= self.player_manager.get_player_quantity():
+            next_player = 0
+        else:
+            next_player = current_player_index+1
+        
+        next_player = self.player_manager.get_player(next_player)
+        next_player.render_icon(opacity_screen, self.engine.resolution.x/2 + space, self.engine.resolution.y / 1.2, medium=True)
+
+        self.engine.screen.blit(opacity_screen, (0, 0))
+
     def manage_animation(self):
         self.bg.star_render_delay = 25
         self.bg.speed = 16
@@ -93,6 +117,7 @@ class SelectScreen:
         player.render(self.engine.screen)
         player.render_stats(self.engine.screen)
         player.render_description(self.engine.screen)
+        return player
 
     def play_effect(self):
         channel = pygame.mixer.Channel(Constants.MIXER_CHANNEL_EFFECTS)

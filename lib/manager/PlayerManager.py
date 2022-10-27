@@ -31,6 +31,9 @@ class PlayerManager:
                 )
             )
 
+    def get_player_quantity(self):
+        return len(Presets.PLAYER_DETAILS_LIST)
+
     def get_player(self, index):
         return self.players[index]
 
