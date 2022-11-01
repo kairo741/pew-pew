@@ -24,6 +24,12 @@ class MenuScreen:
                                             bullet_manager=self.bullet_manager)
 
 
+        self.calculate_object_pos()
+        self.credits = False
+        self.intro_frames = []
+
+
+    def calculate_object_pos(self):
         self.title = Text(x=self.engine.resolution.x/2, y=0, text="PEW PEW", font_size=96)
         title_rect = self.title.get_hitbox_rect()
         self.subtitle = Text(x=self.engine.resolution.x/2, y=title_rect[1]+title_rect[3]*1.5, text="THE GAME", font_size=24)
@@ -46,11 +52,8 @@ class MenuScreen:
         self.back_option = MenuOption(self.engine.resolution.x/10, self.engine.resolution.x/10, function=self.goto_menu, sprite=Utils.scale_image(
                 Constants.SPRITE_MENU_METEOR, 0.14).convert_alpha(), text=Text(text="Back", font_size=42)
             )
-        self.credits = False
 
         self.options = self.menu_options
-
-        self.intro_frames = []
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
@@ -58,6 +61,7 @@ class MenuScreen:
 
     def goto_select(self):
         SelectScreen(engine=self.engine, bg=self.bg).start()
+        self.calculate_object_pos()
 
     def goto_menu(self):
         self.credits = False
@@ -174,6 +178,7 @@ class MenuScreen:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.engine.fullscreen_mode()
+                        self.calculate_object_pos()
 
                 if event.key == pygame.K_F8:
                     self.engine.toggle_sound()

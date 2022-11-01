@@ -84,26 +84,47 @@ class SelectScreen:
 
     def render_close_players(self, current_player_index):
         opacity_screen = self.engine.screen.copy()
-        opacity_screen.set_alpha(80)
+        opacity_screen.set_alpha(115)
 
-        space = self.engine.resolution.x/10
+        opacity_screen_far = self.engine.screen.copy()
+        opacity_screen_far.set_alpha(25)
+        space = self.engine.resolution.x/9
+
+        # get previous player
         if current_player_index-1 >= 0:
             previous_player = current_player_index-1
         else:
             previous_player = self.player_manager.get_player_quantity()-1
-        
         previous_player = self.player_manager.get_player(previous_player)
         previous_player.render_icon(opacity_screen, self.engine.resolution.x/2 - space, self.engine.resolution.y / 1.2, medium=True)
 
+        # get next player
         if current_player_index+1 >= self.player_manager.get_player_quantity():
             next_player = 0
         else:
             next_player = current_player_index+1
-        
         next_player = self.player_manager.get_player(next_player)
         next_player.render_icon(opacity_screen, self.engine.resolution.x/2 + space, self.engine.resolution.y / 1.2, medium=True)
 
+
+        if previous_player.index-1 >= 0:
+            second_previous_player = previous_player.index-1
+        else:
+            second_previous_player = self.player_manager.get_player_quantity()-1
+        second_previous_player = self.player_manager.get_player(second_previous_player)
+        second_previous_player.render_icon(opacity_screen_far, self.engine.resolution.x/2 - space*2, self.engine.resolution.y / 1.2, medium=True)
+
+    
+        if next_player.index+1 >= self.player_manager.get_player_quantity():
+            second_next_player = 0
+        else:
+            second_next_player = next_player.index+1
+        second_next_player = self.player_manager.get_player(second_next_player)
+        second_next_player.render_icon(opacity_screen_far, self.engine.resolution.x/2 + space*2, self.engine.resolution.y / 1.2, medium=True)
+
+
         self.engine.screen.blit(opacity_screen, (0, 0))
+        self.engine.screen.blit(opacity_screen_far, (0, 0))
 
     def manage_animation(self):
         self.bg.star_render_delay = 25
@@ -134,6 +155,7 @@ class SelectScreen:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.engine.fullscreen_mode()
+                        self.player_manager.fetch_player_details(self.engine.resolution)
 
                 if event.key == pygame.K_d:
                     self.play_effect()

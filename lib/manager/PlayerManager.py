@@ -16,6 +16,7 @@ class PlayerManager:
         self.players = []
 
     def fetch_player_details(self, resolution):
+        self.players = []
         for index, player in enumerate(Presets.PLAYER_LIST):
             details = Presets.PLAYER_DETAILS_LIST[index]
             self.players.append(

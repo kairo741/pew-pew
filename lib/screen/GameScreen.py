@@ -41,8 +41,7 @@ class GameScreen:
 
         self.pause = PauseScreen(self)
 
-        self.fps = Text(x=self.engine.resolution.x, font_size=26)
-        self.start_text = Text(x=self.engine.resolution.x/2, y=self.engine.resolution.y, text="Press Enter to Start")
+        self.create_sized_objects()
         self.score = Score(x=0, text="Score: 0")
 
         self.player_manager.create_players(self.players_id, self.engine.resolution)
@@ -54,6 +53,10 @@ class GameScreen:
             self.joy_hid = hid.device()
             self.joy_hid.open(1356, 1476)
             self.joy_hid.set_nonblocking(1)
+
+    def create_sized_objects(self):
+        self.fps = Text(x=self.engine.resolution.x, font_size=26)
+        self.start_text = Text(x=self.engine.resolution.x/2, y=self.engine.resolution.y, text="Press Enter to Start")
 
     def tick_clock(self):
         self.render_frame_time = self.engine.clock.tick() / 10
@@ -159,6 +162,7 @@ class GameScreen:
                 if event.key == pygame.K_RETURN:
                     if event.mod & pygame.KMOD_ALT:
                         self.engine.fullscreen_mode()
+                        self.create_sized_objects()
 
                     elif not self.round_started:
                         self.round_started = True
