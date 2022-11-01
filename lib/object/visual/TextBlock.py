@@ -28,7 +28,7 @@ class TextBlock(Text):
             if (self.x + size[0]) > self.limit:
                 text_obj = Text(text=phrase, font_size=self.font_size, x=self.x, y=self.y + line_height*len(self.text_list))
                 self.text_list.append(text_obj)
-                phrase = ""
+                phrase = f"{word} "
 
             else:
                 phrase += f"{word} "
