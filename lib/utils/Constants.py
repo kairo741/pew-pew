@@ -7,7 +7,7 @@ class Constants:
 
     WINDOW_CAPTION = "PewPew 🚀🛸"
 
-    # Colors
+    # ------- Colors -------
     BACKGROUND_COLOR = (14, 6, 21)
     COLOR_RED = (255, 50, 50)
     COLOR_GREY = (200, 200, 200)
@@ -34,8 +34,8 @@ class Constants:
     CRT_TV = image.load(ROOT_PATH + "\\assets\\images\\tv.png")
 
     SPRITE_MENU_METEOR = image.load(ROOT_PATH + "\\assets\\images\\menu\\meteor.png")
-    
 
+    # ------- Sprites Players -------
     SPRITE_PLAYER_SHIP_BALANCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship.png")
     SPRITE_PLAYER_SHIP_PIERCE = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_pierce.png")
     SPRITE_PLAYER_SHIP_PIERCE_ULT = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_pierce_ult.png")
@@ -51,6 +51,7 @@ class Constants:
     SPRITE_PLAYER_SHIP_CHARGE_ULT = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_charge_ult.png")
     SPRITE_PLAYER_SHIP_BERSERK = image.load(ROOT_PATH + "\\assets\\images\\ships\\ship_berserk.png")
 
+    # ------- Sprites Bullets -------
     SPRITE_BULLET_BLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_blue.png")
     SPRITE_BULLET_LIGHTBLUE = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_lightblue.png")
     SPRITE_BULLET_LIGHTBLUE_LONG = image.load(ROOT_PATH + "\\assets\\images\\bullets\\bullet_lightblue_long.png")
@@ -68,6 +69,7 @@ class Constants:
 
     SPRITE_PLAYER_SHIP_32x32 = image.load(ROOT_PATH + "\\assets\\images\\ship_32x32.png")
 
+    # ------- Sprites Enemies -------
     SPRITE_ENEMY_SHIP = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy.png")
     SPRITE_ENEMY_SHIP_BOMBER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_bomber.png")
     SPRITE_ENEMY_SHIP_RUNNER = image.load(ROOT_PATH + "\\assets\\images\\enemies\\ship_enemy_runner.png")
@@ -101,7 +103,7 @@ class Constants:
     VOLUME_EFFECTS = VOLUME_GLOBAL * 1
     VOLUME_BGM = VOLUME_GLOBAL * 0.5
 
-    # SFXs
+    # ------- SFXs -------
     SFX_LASER = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\laser.ogg")
     SFX_LASER_2 = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\laser_2.ogg")
     SFX_HIT = mixer.Sound(ROOT_PATH + "\\assets\\sfx\\hit.ogg")
@@ -134,8 +136,7 @@ class Constants:
     SFX_DING_MENU.set_volume(VOLUME_SFX)
     SFX_DING_SELECT.set_volume(VOLUME_SFX)
 
-
-    # BGMs
+    # ------- BGMs -------
     BGM_INDIGO = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\indigo-946.mp3")
     BGM_INFINITY = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\password-infinity-123276.mp3")
     BGM_POWER = mixer.Sound(ROOT_PATH + "\\assets\\bgm\\power-sport-extreme-trailer-123405.mp3")
