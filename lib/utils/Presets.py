@@ -222,8 +222,8 @@ class Presets:
         {
             "name": "Vampire",
             "passive": "Vampire se alimenta da alma de seus inimigos, todo dano causado é convertido em auto-cura, "
-                       "mas a escuridão traz desvantagens, todo orb de cura é purificado e ao ser coletado causa dano"
-                       " a Vampire",
+                       "mas a escuridão traz desvantagens, todo aprimoramento de cura é purificado e ao ser coletado "
+                       "causa dano a Vampire",
             "ultimate": "Ao abrir o caixão antigo uma maldição milenar é liberta evocando milhares de morcegos "
                         "espaciais da dimensão 26, e eles estão sedentos por sangue",
         },
