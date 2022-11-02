@@ -229,8 +229,12 @@ class Presets:
         },
         {
             "name": "Light",
-            "passive": "Passive Description",
-            "ultimate": "Ultimate Description",
+            "passive": "Num espaço infinito e perverso, Light vaga como uma luz na escuridão, sua munição abençoada "
+                       "cura todo aliado que entra em contato. Além disso, a benção de Light também possui auto-cura "
+                       "a todo segundo, baseando-se em sua vida atual",
+            "ultimate": "As últimas preces de Light revivem todos os aliados mortos, cura totalmente os aliados vivos "
+                        "e por fim abençoa a todos com sua fortificação divina, tornando toda a frota imortal "
+                        "por um breve período",
         },
         {
             "name": "Impact",
