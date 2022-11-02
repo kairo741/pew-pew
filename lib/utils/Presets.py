@@ -197,7 +197,7 @@ class Presets:
         {
             "name": "Bouncer",
             "passive": "A munição de Bouncer  é revestida por uma fórmula química que quica em qualquer tipo de "
-                       "matéria e até antimatéria como uma bolinha de borracha criando o caos para seus adversários",
+                       "matéria e até **antimatéria** como uma bolinha de borracha criando o caos para seus adversários",
             "ultimate": "Bouncer dilata o fluxo do tempo para si e sua frota, fazendo com que tudo a sua volta pareça "
                         "lento durante alguns segundos, além de melhorar a fórmula química que reveste sua munição",
         },
