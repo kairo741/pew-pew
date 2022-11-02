@@ -2,7 +2,7 @@ if __name__ == '__main__':
     from lib.utils.Config import Config
     from lib.Engine import Engine
     config = Config()
-    engine = Engine(config.fullscreen)
+    engine = Engine(config.fullscreen, config.volume)
 
     from lib.screen.MenuScreen import MenuScreen
     

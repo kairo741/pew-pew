@@ -8,7 +8,7 @@ from lib.utils.Constants import Constants
 
 
 class Engine:
-    def __init__(self, fullscreen=False):
+    def __init__(self, fullscreen=False, volume=...):
         super().__init__()
         self.resolution = None
         pygame.display.set_icon(Constants.SPRITE_PLAYER_SHIP_32x32)
@@ -38,7 +38,7 @@ class Engine:
 
         self.joysticks = []
 
-        self.sound = Sound()
+        self.sound = Sound(volume=volume)
 
     def fullscreen_mode(self):
         self.update_fullscreen_flags(not self.is_fullscreen)

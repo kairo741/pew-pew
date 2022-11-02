@@ -2,6 +2,7 @@ class Config:
     def __init__(self):
         self.fullscreen = 0
         self.intro = 1
+        self.volume = 10
 
         self.read_config()
 
@@ -20,14 +21,16 @@ class Config:
             elif "intro=" in line:
                 self.intro = int(line.split("=")[1])
 
+            elif "volume=" in line:
+                self.volume = int(line.split("=")[1])
+
     def create_config(self):
         file = open("config.ini", "w")
         lines = [
             "fullscreen=0",
-            "intro=1"
+            "intro=1",
+            "volume=1",
         ]
 
         for line in lines:
             file.write(f"{line}\n")
-
-        
