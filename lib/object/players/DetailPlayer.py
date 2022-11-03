@@ -9,14 +9,16 @@ from pygame import draw, transform
 
 
 class DetailPlayer:
-    def __init__(self, player: Player, x=0, y=0, index=0, resolution=Axis.zero(), name="", passive="", ultimate=""):
+    def __init__(self, player: Player, x=0, y=0, index=0, resolution=Axis.zero(), name="", passive="", ultimate="", color=(255, 255, 255)):
         self.index = index
         self.x = x
         self.y = y
         self.resolution = resolution
         self.total_res = self.resolution.x+self.resolution.y
 
-        self.name = Text(text=name, font_size=42)
+        self.color = color
+
+        self.name = Text(text=name, font_size=42, color=self.color)
         
         self.sprite = Utils.scale_image_raw(player.sprite, 3.5, resolution=self.resolution)
         self.medium_sprite = Utils.scale_image_raw(player.sprite, 0.9)
@@ -35,8 +37,8 @@ class DetailPlayer:
         
         self.shoot_type = player.weapon.weapon_type
 
-        self.passive_description = TextBlock(title="Passive", text=passive, font_size=self.total_res//120, x=self.resolution.x/1.6, y=self.resolution.y/8, limit=self.resolution.x)
-        self.ultimate_description = TextBlock(title="Ultimate", text=ultimate, font_size=self.total_res//120, x=self.resolution.x/1.6, y=self.resolution.y/2.5, limit=self.resolution.x)
+        self.passive_description = TextBlock(title="Passive", text=passive, font_size=self.total_res//120, x=self.resolution.x/1.6, y=self.resolution.y/8, limit=self.resolution.x, highlight_color=color)
+        self.ultimate_description = TextBlock(title="Ultimate", text=ultimate, font_size=self.total_res//120, x=self.resolution.x/1.6, y=self.resolution.y/2.5, limit=self.resolution.x, highlight_color=color)
 
 
     def render(self, screen):

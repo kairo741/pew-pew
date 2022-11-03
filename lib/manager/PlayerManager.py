@@ -19,6 +19,11 @@ class PlayerManager:
         self.players = []
         for index, player in enumerate(Presets.PLAYER_LIST):
             details = Presets.PLAYER_DETAILS_LIST[index]
+
+            color = details.get("color", None)
+            if color is None:
+                color = (255, 0, 0)
+                
             self.players.append(
                 DetailPlayer(
                     player, 
@@ -28,7 +33,8 @@ class PlayerManager:
                     resolution=resolution, 
                     name=details["name"], 
                     passive=details["passive"], 
-                    ultimate=details["ultimate"]
+                    ultimate=details["ultimate"],
+                    color=color,
                 )
             )
 

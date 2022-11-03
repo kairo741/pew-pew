@@ -5,7 +5,7 @@ from re import search
 
 class TextBlock(Text):
     def __init__(self, x=0, y=0, size=Axis.zero(), speed=Axis.zero(), sprite="", glow_scale=2, font_size=20, text="",
-                 color=0, limit=100, title=""):
+                 color=0, limit=100, title="", highlight_color=(255, 255, 255)):
         super().__init__(x, y, size, speed, sprite, glow_scale, font_size, text, color)
 
         self.limit = limit
@@ -14,6 +14,7 @@ class TextBlock(Text):
 
         self.text_list = []
         self.number_of_lines = 0
+        self.highlight_color = highlight_color
 
         self.calculate_text_break()
 
@@ -52,7 +53,7 @@ class TextBlock(Text):
                 last_text = self.write_line(line, line_height, x_offset)
 
                 word = word.replace("**", "")
-                written_word = self.write_line(word, line_height, x_offset + last_text.get_size()[0], color=[255, 0, 0])
+                written_word = self.write_line(word, line_height, x_offset + last_text.get_size()[0], color=self.highlight_color)
 
                 x_offset += last_text.get_size()[0] + written_word.get_size()[0]
                 line = " "

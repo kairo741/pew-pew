@@ -200,6 +200,7 @@ class Presets:
                        "matéria e até **antimatéria** como uma bolinha de borracha criando o **caos** para seus adversários",
             "ultimate": "Bouncer dilata o **fluxo** **do** **tempo** para si e sua frota, fazendo com que tudo a sua volta pareça "
                         "**lento** durante alguns segundos, além de melhorar a fórmula química que reveste sua munição",
+            "color": (30, 72, 255)
         },
         {
             "name": "Pierce",
@@ -208,42 +209,47 @@ class Presets:
             "ultimate": "Pierce **sobrecarrega** sua arma laser além do limite durante alguns segundos fazendo com que "
                         "sua cadência de tiros se torne praticamente zero, assim, se transformando no **laser** **galáctico**"
                         " **supremo**",
+            "color": (46, 251, 251)
         },
         {
             "name": "Shredder",
             "passive": "Passive Description",
-            "ultimate": "Ultimate Description",
+            "ultimate": "Ultimate **Description**",
         },
         {
             "name": "Froggers",
             "passive": "Passive Description",
-            "ultimate": "Ultimate Description",
+            "ultimate": "Ultimate **Description**",
+            "color": (2, 247, 180),
         },
         {
             "name": "Vampire",
             "passive": "Vampire se alimenta da alma de seus inimigos, todo dano causado é convertido em auto-cura, "
                        "mas a escuridão traz desvantagens, todo aprimoramento de cura é purificado e ao ser coletado "
                        "causa dano a Vampire",
-            "ultimate": "Ao abrir o caixão antigo uma maldição milenar é liberta evocando milhares de morcegos "
+            "ultimate": "Ao abrir o caixão antigo uma **maldição** milenar é liberta evocando milhares de morcegos "
                         "espaciais da dimensão 26, e eles estão sedentos por sangue",
+            "color": (172, 43, 252),
         },
         {
             "name": "Light",
             "passive": "Num espaço infinito e perverso, Light vaga como uma luz na escuridão, sua munição abençoada "
-                       "cura todo aliado que entra em contato. Além disso, a benção de Light também possui auto-cura "
+                       "**cura** todo aliado que entra em contato. Além disso, a benção de Light também possui **auto**-cura "
                        "a todo segundo, baseando-se em sua vida atual",
-            "ultimate": "As últimas preces de Light revivem todos os aliados mortos, cura totalmente os aliados vivos "
-                        "e por fim abençoa a todos com sua fortificação divina, tornando toda a frota imortal "
+            "ultimate": "As últimas preces de Light **revivem** todos os aliados mortos, cura totalmente os aliados vivos "
+                        "e por fim abençoa a todos com sua **fortificação** **divina**, tornando toda a frota imortal "
                         "por um breve período",
+            "color": (251, 213, 0),
+            
         },
         {
             "name": "Impact",
             "passive": "Passive Description",
-            "ultimate": "Ultimate Description",
+            "ultimate": "Ultimate **Description**",
         },
         {
             "name": "Berserk",
             "passive": "Passive Description",
-            "ultimate": "Ultimate Description",
+            "ultimate": "Ultimate **Description**",
         },
     ]
