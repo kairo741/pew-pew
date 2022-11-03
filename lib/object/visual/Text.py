@@ -20,6 +20,11 @@ class Text(GameObject):
         size = text.get_size()
         return [self.x, self.y, size[0], size[1]]
 
+    def get_size(self):
+        text = self.font.render(str(self.text), True, self.color)
+        return text.get_size()
+        
+
     def set_text(self, txt):
         self.text = txt
 

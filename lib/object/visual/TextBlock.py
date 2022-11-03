@@ -17,40 +17,54 @@ class TextBlock(Text):
 
         self.calculate_text_break()
 
+    
+    def write_line(self, line, line_height, offset=0, color=[255, 255, 255]) -> Text:
+        text_obj = Text(text=line, font_size=self.font_size, x=self.x + offset,
+                        y=self.y + line_height * self.number_of_lines, color=color)
+        self.text_list.append(text_obj)
+
+        return text_obj
+        
+
     def calculate_text_break(self):
-        phrase = ""
-        line_height = self.font.render(phrase, True, 0).get_size()[1] * 1.2
+        x_offset = 0
+        line = ""
+        line_height = self.font.render(line, True, 0).get_size()[1] * 1.2
         word_list = self.text.split(" ")
 
         for word in word_list:
-            next_phrase = phrase + word
-            res = self.font.render(next_phrase, True, 0)
+            next_line = line + word
+            res = self.font.render(next_line, True, 0)
             size = res.get_size()
 
-            if (self.x + size[0]) > self.limit:
-                text_obj = Text(text=phrase, font_size=self.font_size, x=self.x,
-                                y=self.y + line_height * self.number_of_lines)
-                self.text_list.append(text_obj)
-                phrase = f"{word} "
+            # check if there is space left in line
+            # if not, write current line and break to the next line  
+            if (self.x + x_offset + size[0]) > self.limit:
+                self.write_line(line, line_height, x_offset)
+                line = ""
                 self.number_of_lines += 1
-            # elif search(r"\*\*[A-zÀ-ú *]+\*\*", word):
-            #     text_obj = Text(text=phrase, font_size=self.font_size, x=self.x,
-            #                     y=self.y + line_height * self.number_of_lines)
-            #     self.text_list.append(text_obj)
-            #     phrase = ""
-            #
-            #     word = word.replace("**", "")
-            #     text_obj = Text(text=word, font_size=self.font_size,
-            #                     x=self.text_list[-1].x + (len(self.text_list[-1].text) * self.text_list[-1].font_size),
-            #                     y=self.y + line_height * self.number_of_lines, color=[255, 0, 0])
-            #     self.text_list.append(text_obj)
-            #     self.number_of_lines += 1
-            else:
-                phrase += f"{word} "
+                x_offset = 0
 
-        text_obj = Text(text=phrase, font_size=self.font_size, x=self.x, y=self.y + line_height * self.number_of_lines)
-        self.text_list.append(text_obj)
+            # check if theres a highlighted word
+            # if there is, write the current line 
+            # and set an offset for the rest of the line
+            if search(r"\*\*[A-zÀ-ú *]+\*\*", word):
+                last_text = self.write_line(line, line_height, x_offset)
 
+                word = word.replace("**", "")
+                written_word = self.write_line(word, line_height, x_offset + last_text.get_size()[0], color=[255, 0, 0])
+
+                x_offset += last_text.get_size()[0] + written_word.get_size()[0]
+                line = " "
+
+            # if theres no highlight, add the word to the line normally
+            else: 
+                line += f"{word} "
+
+        # write last line
+        if line != "":
+            self.write_line(line, line_height)
+        
     def render(self, screen):
         self.title.render(screen, align="none")
         for text in self.text_list:

@@ -196,18 +196,18 @@ class Presets:
     PLAYER_DETAILS_LIST = [
         {
             "name": "Bouncer",
-            "passive": "A munição de Bouncer  é revestida por uma fórmula química que quica em qualquer tipo de "
-                       "matéria e até **antimatéria** como uma bolinha de borracha criando o caos para seus adversários",
-            "ultimate": "Bouncer dilata o fluxo do tempo para si e sua frota, fazendo com que tudo a sua volta pareça "
-                        "lento durante alguns segundos, além de melhorar a fórmula química que reveste sua munição",
+            "passive": "A munição de Bouncer é revestida por uma fórmula química que **quica** em qualquer tipo de "
+                       "matéria e até **antimatéria** como uma bolinha de borracha criando o **caos** para seus adversários",
+            "ultimate": "Bouncer dilata o **fluxo** **do** **tempo** para si e sua frota, fazendo com que tudo a sua volta pareça "
+                        "**lento** durante alguns segundos, além de melhorar a fórmula química que reveste sua munição",
         },
         {
             "name": "Pierce",
-            "passive": "Pierce é equipada com uma arma laser ZPY-320 com capacidade energética praticamente infinita, "
-                       "que faz com que seus tiros atravessem todos os inimigos acertando-os com força total",
-            "ultimate": "Pierce sobrecarrega sua arma laser aquém do limite durante alguns segundos fazendo com que "
-                        "sua cadência de tiros se torne praticamente zero, assim, se transformando no laser galáctico"
-                        " supremo",
+            "passive": "Pierce é equipada com uma arma **laser** ZPY-320 com capacidade energética infinita, "
+                       "que faz com que seus tiros **atravessem** todos os inimigos acertando-os com força total",
+            "ultimate": "Pierce **sobrecarrega** sua arma laser além do limite durante alguns segundos fazendo com que "
+                        "sua cadência de tiros se torne praticamente zero, assim, se transformando no **laser** **galáctico**"
+                        " **supremo**",
         },
         {
             "name": "Shredder",
