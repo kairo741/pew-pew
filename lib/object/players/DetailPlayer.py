@@ -17,8 +17,9 @@ class DetailPlayer:
         self.total_res = self.resolution.x+self.resolution.y
 
         self.color = color
+        name_formatted = [x+" " if index != len(name)-1 else x for index, x in enumerate(name)]
 
-        self.name = Text(text=name, font_size=42, color=self.color)
+        self.name = Text(text="".join(name_formatted).upper(), font_size=int(resolution.y * 0.048), color=self.color)
         
         self.sprite = Utils.scale_image_raw(player.sprite, 3.5, resolution=self.resolution)
         self.medium_sprite = Utils.scale_image_raw(player.sprite, 0.9)
