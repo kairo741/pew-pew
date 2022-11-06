@@ -55,7 +55,7 @@ class Player(Ship):
                 self.set_level(self.level + 1)
 
     def add_xp(self, xp):
-        self.xp += xp * self.bonus_xp_multiplier/4
+        self.xp += xp + (xp * (self.bonus_xp_multiplier/4))
 
     def player_passive(self, render_frame_time):
         pass
