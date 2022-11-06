@@ -25,9 +25,11 @@ class Bullet(GameObject):
 
     def hit_callback(self, object_hit, collision):
         if isinstance(self.source_reference, Player):
-            if self.damage < object_hit.health:
-                self.source_reference.add_xp(self.damage)
-            else:
-                self.source_reference.add_xp(object_hit.health)
+            if self.source_reference.level - object_hit.level < 4:
 
-            self.source_reference.add_xp(object_hit.level * 10)
+                if self.damage < object_hit.health:
+                    self.source_reference.add_xp(self.damage)
+                else:
+                    self.source_reference.add_xp(object_hit.health)
+
+                self.source_reference.add_xp(object_hit.level * 10)
