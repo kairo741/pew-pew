@@ -131,12 +131,19 @@ class EnemyManager:
         else:
             if enemy.y < -enemy.size.y:
                 enemy.speed.y = -enemy.speed.y
+                enemy.y = -enemy.size.y
+
             elif enemy.x < -enemy.size.x:
                 enemy.speed.x = -enemy.speed.x
+                enemy.x = -enemy.size.x
+
             elif enemy.x > screen_size.x:
                 enemy.speed.x = -enemy.speed.x
+                enemy.x = screen_size.x
+
             elif enemy.y > screen_size.y:
                 enemy.speed.y = -enemy.speed.y
+                enemy.y = screen_size.y
 
     def check_death(self, enemy, *actions):
         if enemy.health < 1:
